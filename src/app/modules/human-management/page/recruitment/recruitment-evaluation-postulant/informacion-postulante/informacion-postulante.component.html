@@ -1,0 +1,66 @@
+<div class="content__perfil">
+    <div class="section-info">
+        <button (click)="RedirectByURL()" mat-icon-button>
+            <mat-icon>keyboard_backspace</mat-icon>
+        </button> 
+        <span>Perfil de postulante</span>
+    </div>
+    <div *ngIf="person != undefined" class="content__contenedor">
+           <div class="content__header">
+                 <div class="content__img">
+                     <img [src]="person.informationPersonal.img" alt="">
+                 </div>
+                 <div class="content__name">
+                      <span>{{person.informationPersonal.firstName}} {{person.informationPersonal.lastName}}</span>
+                      <span>{{person.carreer}}</span>
+                 </div>   
+           </div>
+           <hr style="color: rgb(161, 161, 161);">
+           <div class="content__information1">
+                 <div>Sueldo neto pretendido: {{person.sueldoPretendido}}</div>
+                 <div>{{person.informationPersonal.cellPhone}}</div>
+                 <div>{{person.informationPersonal.email}}</div>
+                 <div>{{person.informationPersonal.address}}</div>
+           </div> 
+           <hr style="color: rgb(161, 161, 161);">
+           <div class="content__information2">
+                <div class="content__detail_info">
+                    <div class="content__label">
+                       <label>Carrera: </label>
+                       <label>Locación:</label>
+                       <label>Educación:</label>
+                       <label>Estado de estudios:</label>
+                     <!--  <label>Habilidades:</label>-->
+                       <label>Idiomas:</label>
+                    </div>
+                    <div class="content__value">
+                       <span>{{person.carreer == null ? 'Sin Información' : person.carreer}}</span>
+                       <span>{{person.informationPersonal.address == null ? 'Sin Información' : person.informationPersonal.address}}</span>
+                       <span>{{person.carreer == null ? 'Sin Información' : person.carreer}}</span>
+                       <span>{{person.stateEstudy == null ? 'Sin Información' : person.stateEstudy}}</span> 
+                    <!--   <span>{{person.skills == null || person.skills.length == 0 ? 'Sin Información' : person.skills}}</span>-->
+                       <span>{{person.idiomas == null || person.idiomas.length == 0 ? 'Sin Información' : person.idiomas}}</span>
+                    </div>
+                </div>
+                <div class="content__actions">
+                    <div class="content__detail_info">
+                        <div class="content__label">
+                            <label>Habilidades:</label>
+                        </div>
+                        <div class="content__value">
+                            <span>{{person.skills == null || person.skills.length == 0 ? 'Sin Información' : person.skills}}</span>
+                        </div>
+                    </div>
+                   <span style="padding-top: 50px;">
+                       Descarga CV Grupo Fe o CV Original:
+                   </span>
+                   <div class="div-buttons">
+                    <button (click)="getCv(person.informationPersonal.id, person.idJob, person.informationPersonal.idUser)"  
+                    mat-raised-button color="primary">CV Grupo Fe</button>
+                    <button (click)="downLoad(person.informationPersonal.cvFile, person.informationPersonal.contentType, person.informationPersonal.cvName)" 
+                    mat-raised-button color="primary">CV Original</button>
+                   </div>
+               </div>
+           </div>
+    </div>
+</div>

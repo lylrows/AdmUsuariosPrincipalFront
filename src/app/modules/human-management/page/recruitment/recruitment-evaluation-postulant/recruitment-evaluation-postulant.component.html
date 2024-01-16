@@ -1,0 +1,123 @@
+<div class="content">
+    <!-- <div class="content__title">
+          <span>Estado de evaluación</span>
+    </div> -->
+    <app-information-postulant [person]="person" style="display: flex; justify-content: center;"></app-information-postulant>
+    <div class="content__steps" *ngIf="!this.responsive">
+        <mat-tab-group mat-align-tabs="center" [selectedIndex]="tabIndex">
+            <!-- <mat-tab label="Evaluación RRHH" [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1"> -->
+            <mat-tab label="Evaluación RRHH" [disabled]="perfilesJefeArea.indexOf(nid_profile) > -1 || perfilesGerenteArea.indexOf(nid_profile) > -1">
+                <app-primera-fase [person]="person" 
+                                  [notas]="notes" 
+                                  [idEvaluation]="idEvaluation" 
+                                  [evaluationProficiency]="evaluationProficiency" 
+                                  [evaluationRating]="evaluationRating" 
+                                  (updateevaluation)="changeInfoEvaluation($event)" 
+                                  (createnote)="changeNotes($event)" 
+                                  (updateproficiency)="changeProficiency($event)" 
+                                  (updaterating)="changeRating($event)"
+                                  [tabNumber]="0"></app-primera-fase>
+            </mat-tab>
+            <!-- <mat-tab label="Evaluación Cliente" [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1"> -->
+            <mat-tab label="Evaluación Cliente" [disabled]="perfilesGerenteArea.indexOf(nid_profile) > -1">
+                <app-segunda-fase [person]="person" 
+                                [notes]="notes" 
+                                [idEvaluation]="idEvaluation" 
+                                [evaluationProficiency]="evaluationProficiency" 
+                                [evaluationRating]="evaluationRating" 
+                                (updateevaluation)="changeInfoEvaluation($event)" 
+                                (createnote)="changeNotes($event)" 
+                                (updateproficiency)="changeProficiency($event)" 
+                                (updaterating)="changeRating($event)"
+                                ></app-segunda-fase>
+            </mat-tab>
+            <!-- <mat-tab label="Evaluación Gerente de Área" [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1"> -->
+            <mat-tab label="Evaluación Gerente de Área" [disabled]="perfilesJefeArea.indexOf(nid_profile) > -1">
+                <app-tercera-fase [person]="person" 
+                                [notes]="notes" 
+                                [idEvaluation]="idEvaluation" 
+                                [evaluationProficiency]="evaluationProficiency" 
+                                [evaluationRating]="evaluationRating" 
+                                (updateevaluation)="changeInfoEvaluation($event)" 
+                                (createnote)="changeNotes($event)" 
+                                (updateproficiency)="changeProficiency($event)" 
+                                (updaterating)="changeRating($event)"
+                                ></app-tercera-fase>
+            </mat-tab>
+            <mat-tab *ngIf="person != undefined && person.stateEvaluation == 'Seleccionado'" label="Documentacion Requerida">
+                <app-solicitud-documentos [person]="person" 
+                                [notas]="notes" 
+                                [idEvaluation]="idEvaluation" 
+                                [documents]="documents" 
+                                (createnote)="changeNotes($event)" 
+                                (loadfile)="changeDocuments($event)"
+                                
+                                ></app-solicitud-documentos>
+            </mat-tab>
+          </mat-tab-group>
+    </div>
+    <div class="content_buttons" *ngIf="this.responsive" style="display: flex; justify-content: center; padding-top: 20px !important;">
+        <button (click)="verEvaluacion()" mat-raised-button color="primary">Ver Evaluación</button>
+    </div>
+    <ng-template #DetailDialog>
+        <div style="width: 100%; text-align: right;">
+            <a class="close-modal" tabindex="0" role="button" (click)="close()">X</a>
+        </div>
+        <mat-dialog-content>
+            <mat-tab-group mat-align-tabs="center" [selectedIndex]="tabIndex">
+                <!-- <mat-tab label="Evaluación RRHH" [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1"> -->
+                <mat-tab label="Evaluación RRHH" [disabled]="perfilesJefeArea.indexOf(nid_profile) > -1 || perfilesGerenteArea.indexOf(nid_profile) > -1">
+                    <app-primera-fase [person]="person" 
+                                      [notas]="notes" 
+                                      [idEvaluation]="idEvaluation" 
+                                      [evaluationProficiency]="evaluationProficiency" 
+                                      [evaluationRating]="evaluationRating" 
+                                      (updateevaluation)="changeInfoEvaluation($event)" 
+                                      (createnote)="changeNotes($event)" 
+                                      (updateproficiency)="changeProficiency($event)" 
+                                      (updaterating)="changeRating($event)"
+                                      [tabNumber]="0"></app-primera-fase>
+                </mat-tab>
+                <!-- <mat-tab label="Evaluación Cliente" [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1"> -->
+                <mat-tab label="Evaluación Cliente" [disabled]="perfilesGerenteArea.indexOf(nid_profile) > -1">
+                    <app-segunda-fase [person]="person" 
+                                    [notes]="notes" 
+                                    [idEvaluation]="idEvaluation" 
+                                    [evaluationProficiency]="evaluationProficiency" 
+                                    [evaluationRating]="evaluationRating" 
+                                    (updateevaluation)="changeInfoEvaluation($event)" 
+                                    (createnote)="changeNotes($event)" 
+                                    (updateproficiency)="changeProficiency($event)" 
+                                    (updaterating)="changeRating($event)"
+                                    ></app-segunda-fase>
+                </mat-tab>
+                <!-- <mat-tab label="Evaluación Gerente de Área" [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1"> -->
+                <mat-tab label="Evaluación Gerente de Área" [disabled]="perfilesJefeArea.indexOf(nid_profile) > -1">
+                    <app-tercera-fase [person]="person" 
+                                    [notes]="notes" 
+                                    [idEvaluation]="idEvaluation" 
+                                    [evaluationProficiency]="evaluationProficiency" 
+                                    [evaluationRating]="evaluationRating" 
+                                    (updateevaluation)="changeInfoEvaluation($event)" 
+                                    (createnote)="changeNotes($event)" 
+                                    (updateproficiency)="changeProficiency($event)" 
+                                    (updaterating)="changeRating($event)"
+                                    ></app-tercera-fase>
+                </mat-tab>
+                <mat-tab *ngIf="person != undefined && person.stateEvaluation == 'Seleccionado'" label="Documentacion Requerida">
+                    <app-solicitud-documentos [person]="person" 
+                                    [notas]="notes" 
+                                    [idEvaluation]="idEvaluation" 
+                                    [documents]="documents" 
+                                    (createnote)="changeNotes($event)" 
+                                    (loadfile)="changeDocuments($event)"
+                                    
+                                    ></app-solicitud-documentos>
+                </mat-tab>
+              </mat-tab-group>
+        </mat-dialog-content>
+        <!-- <mat-dialog-actions align="end">
+            <button mat-raised-button color="primary" style="margin: auto;" matDialogClose="no">Cerrar</button>
+        </mat-dialog-actions> -->
+    </ng-template>
+ </div>

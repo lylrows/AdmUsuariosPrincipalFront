@@ -1,0 +1,1314 @@
+<div class="container container-evaluation">
+    <div class="header header_sin_subrrayado">
+        <div class="header__title ">
+            <!-- <button (click)="back()" mat-icon-button>
+                <mat-icon>keyboard_backspace</mat-icon>
+            </button> -->
+            <h1>{{ header?.period }}</h1>
+        </div>
+    </div>
+
+    <div class="detail">
+        <div class="detail__grid">
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width border-blue">
+                        <mat-label>Fecha ingreso</mat-label>
+                        <!-- <input readonly matInput [matDatepicker]="pickeruniversity" [value]="dateIngreso.value">
+                        <mat-datepicker-toggle matSuffix [for]="pickeruniversity">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker [disabled]="true" #pickeruniversity></mat-datepicker> -->
+                        <input type="text" [value]="header?.admissionDate | uppercase" readonly matInput placeholder="Fecha ingreso">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width border-blue">
+                        <mat-label>Periodo <strong class="obligatory">*</strong></mat-label>
+                        <input type="text" [value]="header?.period | uppercase" readonly matInput placeholder="Periodo">
+
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width border-blue">
+                        <mat-label>Cargo <strong class="obligatory">*</strong></mat-label>
+                        <!-- <input type="text" [value]="header?.chargeName | uppercase" readonly matInput placeholder="Cargo"> -->
+                        <input type="text" [value]="header?.scharge_company | uppercase" readonly matInput placeholder="Cargo">
+
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width border-blue">
+                        <mat-label>Evaluado <strong class="obligatory">*</strong></mat-label>
+                        <input type="text" [value]="header?.evaluatedName | uppercase" readonly matInput
+                            placeholder="Evaluado">
+
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width border-blue">
+                        <mat-label>DNI Evaluado: <strong class="obligatory">*</strong></mat-label>
+                        <input type="text" [value]="header?.evaluatedDNI | uppercase" readonly matInput
+                            placeholder="DNI Evaluado">
+
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width border-blue">
+                        <mat-label>Evaluador: <strong class="obligatory">*</strong></mat-label>
+                        <input type="text" [value]="header?.evaluatorName | uppercase" readonly matInput
+                            placeholder="Evaluador">
+
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width border-blue">
+                        <mat-label>DNI Evaluador: <strong class="obligatory">*</strong></mat-label>
+                        <input type="text" [value]="header?.evaluatorDNI | uppercase" readonly matInput
+                            placeholder="DNI Evaluador">
+
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width border-blue">
+                        <mat-label class="lbl-border-blue">Área: <strong class="obligatory">*</strong></mat-label>
+                        <input type="text" [value]="header?.areaName | uppercase" readonly matInput placeholder="Área">
+
+                    </mat-form-field>
+                </div>
+                <div fxFlex="33" class="pr-16 pt-16">
+                    
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;" *ngIf="this.responsive">
+        <button (click)="opnDialogEvaluacionDEtalle()" class="btn-primary-yellow2" mat-raised-button>Ver Detalle Evaluación</button>
+    </div>
+    <mat-tab-group class="mat-cian3" *ngIf="!this.responsive">
+        <mat-tab label="Objetivos organizacionales">
+            <mat-card class="p-0">
+                <mat-card-content class="p-0" style="width: 100%; overflow: auto">
+
+                    <table mat-table [dataSource]="objectDT" matSort class="w-100">
+
+                        <ng-container matColumnDef="clean">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:10%;"></th>
+                            <td mat-cell *matCellDef="let row;let i = index" class="has_label_on_mobile"
+                                style="width: 120px;">
+                                <button *ngIf="!isRead" matTooltip="Editar objetivo" (click)="editObjective(i)"
+                                    mat-icon-button>
+                                    <mat-icon style="color: #DD9923;">edit</mat-icon>
+                                </button>
+                                <button *ngIf="!isRead && enableDelete" matTooltip="Eliminar objetivo"
+                                    (click)="deleteObjective(i)" mat-icon-button>
+                                    <mat-icon style="color: #DD9923;">delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fechainicio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:15%;">Fecha Inicio
+                            </th>
+                            <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                                class="has_label_on_mobile" data-label="Fecha Inicio : ">
+                                <ng-container>
+                                    {{  formatDateMax(row.startDate)  }}
+                                </ng-container>
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="fechafin">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:15%;">Fecha Fin</th>
+                            <td mat-cell *matCellDef="let row let i = index" style="text-align: center"
+                                class="has_label_on_mobile" data-label="Fecha Fin : ">
+                                <ng-container>
+                                    {{  formatDateMax(row.endDate)  }}
+                                </ng-container>
+
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="object" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:20%;">Objetivos del
+                                puesto</th>
+                            <td align="justify" style="vertical-align:top" mat-cell *matCellDef="let row let i = index"
+                                style="text-align: center" class="has_label_on_mobile"
+                                data-label="Objetivos del puesto :">
+                                <ng-container>
+                                    <!-- {{ row.jobObjectives }} -->
+                                    <span style="white-space: pre-line">{{ row.jobObjectives }}</span>
+                                </ng-container>
+
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="indicador">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:20%;">Indicador</th>
+                            <td align="justify" style="vertical-align:top" mat-cell *matCellDef="let row;let i = index"
+                                style="text-align: center" class="has_label_on_mobile" data-label="Indicador : ">
+                                <ng-container>
+                                    {{ row.indicatorOrganizational }}
+                                </ng-container>
+
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="goalstring">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:10%;">Meta (texto)
+                            </th>
+                            <td mat-cell *matCellDef="let row let i = index" style="text-align: -webkit-center;"
+                                class="has_label_on_mobile" data-label="Meta (texto): ">
+                                <ng-container>
+                                    {{ row.goalString }}
+                                </ng-container>
+
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="meta">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:10%;">Meta %</th>
+                            <td mat-cell *matCellDef="let row let i = index" style="text-align: -webkit-center;"
+                                class="has_label_on_mobile" data-label="Meta : ">
+                                <ng-container>
+                                    {{ row.goal }}
+                                </ng-container>
+
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="peso">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:10%;">Peso %</th>
+                            <td mat-cell *matCellDef="let row let i = index" style="text-align: -webkit-center;"
+                                class="has_label_on_mobile" data-label="Peso % : ">
+                                <ng-container>
+                                    <mat-chip mat-sm-chip selected class="color-chip" style="max-width: 30px;">
+                                        {{ row.weight }}
+                                    </mat-chip>
+                                </ng-container>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="resultado" *ngIf="timePart>0">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Resultado</th>
+                            <td mat-cell *matCellDef="let row let i = index" style="text-align: -webkit-center;"
+                                class="has_label_on_mobile" data-label="Resultado: ">
+                                <ng-container>
+                                    <mat-chip mat-sm-chip selected class="color-chip" style="max-width: 30px;">
+                                        {{ getRound(row.progress.toString()) }}
+                                    </mat-chip>
+                                </ng-container>
+                            </td>
+                        </ng-container>
+
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell text-center" colspan="8">
+                                No se encontro Objetivos
+                            </td>
+                        </tr>
+                    </table>
+                </mat-card-content>
+            </mat-card>
+            <div *ngIf="!isRead && enableAdd" class="" style="padding-bottom:20px;">
+                <button (click)="addObjetive()" class="btn-primary-yellow2" mat-raised-button>Agregar objetivo</button>
+            </div>
+        </mat-tab>
+        <mat-tab label="Competencias organizacionales">
+
+            <table mat-table [dataSource]="competenciasDT" matSort multiTemplateDataRows class="mat-elevation-z8">
+                <ng-container matColumnDef="clean">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                    <td mat-cell *matCellDef="let row; let i = dataIndex;" class="has_label_on_mobile">
+                        <button *ngIf="!isRead" matTooltip="Editar competencia" (click)="editCompetencia(i,row)"
+                            mat-icon-button>
+                            <mat-icon style="color: #DD9923;">edit</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="competencias">
+                    <th mat-header-cell *matHeaderCellDef style="min-width: 300px;"> Competencias </th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile clsColumnaLarge titulo-comtepencia"
+                        data-label="Competencias :">
+                        {{ row.organizationalProficiency }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                    <th mat-header-cell *matHeaderCellDef aria-label="row actions">Plan de Acción</th>
+                    <td mat-cell *matCellDef="let row; let i = index" class="text-td clsColumnaLarge-2">
+                        <ng-container>
+                            <!-- {{ row.actionsToImprove }} -->
+
+                            <span style="white-space: pre-line">{{ row.actionsToImprove }}</span>
+                        </ng-container>
+
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="indicador">
+                    <th mat-header-cell *matHeaderCellDef> Indicador </th>
+                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                        class="has_label_on_mobile clsColumnaLarge text-td" data-label="Indicador : ">
+                        <ng-container>
+                            {{ row.indicatorOrganizational }}
+                        </ng-container>
+
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="fechainicio">
+                    <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
+                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                        class="has_label_on_mobile text-td" data-label="Fecha Inicio :">
+                        <ng-container>
+
+                            {{  formatDateMax(row.startDate)  }}
+                        </ng-container>
+
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="fechafin">
+                    <th mat-header-cell *matHeaderCellDef> Fecha Fin </th>
+                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                        class="has_label_on_mobile  text-td" data-label="Fecha Fin :">
+                        <ng-container>
+
+                            {{  formatDateMax(row.endDate)  }}
+                        </ng-container>
+
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="calificacion">
+                    <th mat-header-cell *matHeaderCellDef style="width: 60px;">&nbsp;</th>
+                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;width: 60px;"
+                        class="has_label_on_mobile clsColumnaLarge titulo-comtepencia">
+                        <ng-container *ngIf="timePart>0">
+                            <div *ngIf="row.qualification === row.idProficiencyLevel"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+
+                                <div [ngStyle]="{background: '#219653'}" id="circulo"></div>
+
+                            </div>
+                            <div *ngIf="row.qualification > row.idProficiencyLevel"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+
+                                <div [ngStyle]="{background: '#6366F1'}" id="circulo"></div>
+                            </div>
+                            <div *ngIf="row.qualification < row.idProficiencyLevel"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+
+                                <div [ngStyle]="{background: '#FF0000'}" id="circulo"></div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="timePart==0">
+
+                        </ng-container>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="expandir">
+                    <th mat-header-cell *matHeaderCellDef style="width: 60px;padding-right: 10px;">&nbsp;</th>
+                    <td mat-cell *matCellDef="let element" style="width: 60px;padding-right: 10px;">
+                        <button mat-icon-button aria-label="expand row" class="btnExpandir"
+                            (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                            <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                            <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+
+                        </button>
+                        <button mat-icon-button class="btnVer" (click)="openDialog(element)">
+                            <mat-icon style="color: #DD9923;">remove_red_eye</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell style="display: none;"></td>
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+                        <div class="example-element-detail"
+                            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+
+                            <div class="row" style="display: flex; padding:10px;">
+                                <div class="titulo-comtepencia-det">Descripción:</div>
+                                <div class="example-element-description text-td">
+                                    {{ element.proficiencyDescription }} 
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <!-- INICIO CON UNA COLUMNA  -->
+                            <div class="w-100">
+                                <div fxLayout="row wrap">
+                                    <div fxFlex="25">
+                                        <mat-card class="{{element.descriptionLevel1!=''?'card-center':'card-select'}}">
+                                            <mat-card-content style="height: 160px;">
+                                                <div
+                                                    class="{{element.descriptionLevel1!=''?'titulo-card':'titulo-card-select'}}">
+                                                    Nivel 1</div>
+                                                <div class="">
+                                                    <span
+                                                        *ngIf="element.descriptionLevel1==''">{{element.definitionLevel}}</span>
+                                                    <span *ngIf="element.descriptionLevel1!=''"> {{
+                                                        element.descriptionLevel1 }} </span>
+                                                </div>
+                                            </mat-card-content>
+                                            <mat-card-actions>
+                                                <mat-chip-list>
+                                                    <mat-chip
+                                                        *ngFor="let resucomp of filter(resumencompetencias1,element.idProficiency)"
+                                                        selected="true" class="icon-chip objetivosporcgroup"
+                                                        color="primary">
+                                                        {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                        ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                        resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                        ) )}}
+                                                    </mat-chip>
+                                                    <!-- <mat-chip
+                                                        *ngFor="let resucomp of filter(resumencompetencias1,element.idProficiency)"
+                                                        selected="true" class="icon-chip objetivosporcgroup"
+                                                        color="primary">
+                                                        {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                        ( resucomp.numberAction === 3 ? 'E1. Evaluación Inicial' : (
+                                                        resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3.
+                                                        Evaluación Final'
+                                                        ) )}}
+                                                    </mat-chip> -->
+                                                </mat-chip-list>
+                                            </mat-card-actions>
+                                        </mat-card>
+                                    </div>
+                                    <div fxFlex="25">
+                                        <mat-card class="{{element.descriptionLevel2!=''?'card-center':'card-select'}}">
+                                            <mat-card-content style="height: 160px;">
+                                                <div
+                                                    class="{{element.descriptionLevel2!=''?'titulo-card':'titulo-card-select'}}">
+                                                    Nivel 2</div>
+                                                <div class="">
+                                                    <span
+                                                        *ngIf="element.descriptionLevel2==''">{{element.definitionLevel}}</span>
+                                                    <span *ngIf="element.descriptionLevel2!=''"> {{
+                                                        element.descriptionLevel2 }} </span>
+                                                </div>
+                                            </mat-card-content>
+                                            <mat-card-actions>
+                                                <mat-chip-list>
+                                                    <mat-chip
+                                                        *ngFor="let resucomp of filter(resumencompetencias2,element.idProficiency)"
+                                                        selected="true" class="icon-chip objetivosporcgroup"
+                                                        color="primary">
+                                                        {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                        ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                        resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                        ) )}}
+                                                    </mat-chip>
+
+                                                </mat-chip-list>
+                                            </mat-card-actions>
+                                        </mat-card>
+                                    </div>
+                                    <div fxFlex="25">
+                                        <mat-card class="{{element.descriptionLevel3!=''?'card-center':'card-select'}}">
+                                            <mat-card-content style="height: 160px;">
+                                                <div
+                                                    class="{{element.descriptionLevel3!=''?'titulo-card':'titulo-card-select'}}">
+                                                    Nivel 3</div>
+                                                <div class="">
+                                                    <span
+                                                        *ngIf="element.descriptionLevel3==''">{{element.definitionLevel}}</span>
+                                                    <span *ngIf="element.descriptionLevel3!=''"> {{
+                                                        element.descriptionLevel3 }} </span>
+                                                </div>
+                                            </mat-card-content>
+                                            <mat-card-actions>
+                                                <mat-chip-list>
+                                                    <mat-chip
+                                                        *ngFor="let resucomp of filter(resumencompetencias3,element.idProficiency)"
+                                                        selected="true" class="icon-chip objetivosporcgroup"
+                                                        color="primary">
+                                                        {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                        ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                        resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                        ) )}}
+                                                    </mat-chip>
+
+                                                </mat-chip-list>
+                                            </mat-card-actions>
+                                        </mat-card>
+                                    </div>
+                                    <div fxFlex="25">
+                                        <mat-card class="{{element.descriptionLevel4!=''?'card-center':'card-select'}}">
+                                            <mat-card-content style="height: 160px;">
+                                                <div
+                                                    class="{{element.descriptionLevel4!=''?'titulo-card':'titulo-card-select'}}">
+                                                    Nivel 4</div>
+                                                <div class="">
+                                                    <span
+                                                        *ngIf="element.descriptionLevel4==''">{{element.definitionLevel}}</span>
+                                                    <span *ngIf="element.descriptionLevel4!=''"> {{
+                                                        element.descriptionLevel4 }} </span>
+                                                </div>
+                                            </mat-card-content>
+                                            <mat-card-actions>
+                                                <mat-chip-list>
+                                                    <mat-chip
+                                                        *ngFor="let resucomp of filter(resumencompetencias4,element.idProficiency)"
+                                                        selected="true" class="icon-chip objetivosporcgroup"
+                                                        color="primary">
+                                                        {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                        ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                        resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                        ) )}}
+                                                    </mat-chip>
+
+                                                </mat-chip-list>
+                                            </mat-card-actions>
+                                        </mat-card>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!-- FIN CON UNA COLUMNA -->
+
+
+
+                        </div>
+                    </td>
+                </ng-container>
+                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+
+
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+                <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="example-element-row"
+                    [class.example-expanded-row]="expandedElement === element"
+                    (click)="expandedElement = expandedElement === element ? null : element">
+                </tr>
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell text-center" colspan="6"> No se encontro Competencias </td>
+                </tr>
+            </table>
+
+            <br><br>
+
+            <small class="text-muted leyendapie" *ngIf="timePart>0">
+                <span id="obj_circuloprimario" class="circulo" style="background-color: #FF0000;">&nbsp;</span>Menor a
+                la
+                expectativa</small>
+            <small class="text-muted leyendapie" *ngIf="timePart>0">
+                <span id="obj_circuloprimario" class="circulo" style="background-color: #219653;">&nbsp;</span>Igual a
+                la
+                expectativa</small>
+            <small class="text-muted leyendapie" *ngIf="timePart>0">
+                <span id="obj_circuloprimario" class="circulo" style="background-color: #6366F1;">&nbsp;</span>Mayor a
+                la
+                expectativa</small>
+
+        </mat-tab>
+    </mat-tab-group>
+
+
+
+    <div *ngIf="isAceptep" class="comment">
+
+
+        <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+
+
+        </mat-radio-group>
+
+        <mat-form-field class="full-width border-blue">
+            <mat-label>Observaciones</mat-label>
+            <textarea *ngIf="hideComment" type="text" [formControl]="commentInput" matInput cols="45" rows="2"
+                placeholder="Observaciones"></textarea>
+        </mat-form-field>
+
+    </div>
+
+    <div *ngIf="numberAction === 4 && !isRead" class="footer__buttons">
+        <button 
+            (click)="printEvaluationDetail(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+            mat-raised-button>
+            <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>
+            Descargar</button>
+        <button *ngIf="numberAction === 4 && !isRead" (click)="save(false)"
+            class="dark-blue-400 dark-blue-400-fg  btn-add" mat-raised-button>Actualizar</button>
+    </div>
+
+    <div *ngIf="numberAction === 7 && !isRead" class="footer__buttons">
+        <button 
+        (click)="printEvaluationDetail(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+        mat-raised-button>
+        <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>
+        Descargar</button>
+        <button *ngIf="numberAction === 7 && !isRead" (click)="save(false)"
+            class="dark-blue-400 dark-blue-400-fg  btn-add" mat-raised-button>Actualizar</button>
+    </div>
+
+    <div *ngIf="numberAction === 11 && !isRead" class="footer__buttons">
+        <button 
+        (click)="printEvaluationDetail(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+        mat-raised-button>
+        <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>
+        Descargar</button>
+        <button *ngIf="numberAction === 11 && !isRead" (click)="save(false)"
+            class="dark-blue-400 dark-blue-400-fg  btn-add" mat-raised-button>Actualizar</button>
+    </div>
+
+
+
+    
+    <div *ngIf="(numberAction === 7 &&  isAceptep && isRead ) || ( numberAction === 7 &&  isAceptep=== false && isRead )" class="footer__buttons">
+        <button 
+        (click)="printEvaluationDetail(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+        mat-raised-button>
+        <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>
+        Descargar</button>
+        
+    </div>
+    <div *ngIf="(numberAction === 11 &&  isAceptep && isRead ) || ( numberAction === 11 &&  isAceptep=== false && isRead )" class="footer__buttons">
+        <button 
+        (click)="printEvaluationDetail(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+        mat-raised-button>
+        <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>
+        Descargar</button>
+        
+    </div>
+
+
+    <div *ngIf="isAceptep" class="footer__buttons">
+        <button (click)="aceptcomemntorno()" class="dark-blue-400 dark-blue-400-fg  btn-add"
+            mat-raised-button>Enviar</button>
+
+    </div>
+
+    <div *ngIf="numberAction === 4  && isAceptep  && isRead " class="footer__buttons">
+        <button 
+        (click)="printEvaluationDetail(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+        mat-raised-button>
+        <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>
+        Descargar</button>
+
+    </div>
+
+
+    <div *ngIf="numberAction === 4  && isAceptep === false && isRead " class="footer__buttons">
+        <button 
+        (click)="printEvaluationDetail(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+        mat-raised-button>
+        <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>
+        Descargar</button>
+
+    </div>
+    <div *ngIf="numberAction === 5  && isAceptep === false && isRead === true " class="footer__buttons">
+
+        <button 
+        (click)="printEvaluationDetail(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+        mat-raised-button>
+        <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>
+        Descargar</button>
+
+    </div>
+    
+
+    <div class="header header_sin_subrrayado" >
+        <div class="header__title" style="align-self: end !important;">
+            <div *ngIf="stringButton !==''" class="footer__buttons">
+                <button 
+                    (click)="printEvaluationDetail(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+                    mat-raised-button>
+                    <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>
+                    Descargar</button>
+
+                <button *ngIf="numberAction === 1 || numberAction === 5 || numberAction === 8 || !isRead"
+                    (click)="save(false)" class="dark-blue-400 dark-blue-400-fg  btn-add"
+                    mat-raised-button>Guardar</button>
+                <button (click)="save(true)" class="btn-primary-06" mat-raised-button
+                    *ngIf="!isRead">{{stringButton}}</button>
+            </div>
+
+        </div>
+        <hr>
+    </div>
+
+
+</div>
+<ng-template #drawer>
+    <mat-dialog-content class="mat-typography">
+        <p class="title-modal-lateral">Detalles del objetivo</p>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="100" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue">
+                    <mat-label>Objetivo <strong class="obligatory">*</strong></mat-label>
+    
+                    <textarea type="text" [(ngModel)]="selObjectFC" matInput placeholder="Objetivo"
+                        (keypress)="valideKeyCode($event)"
+                        [readonly]="(timePart != 0 && !isObjectiveNew  && isRead) ||  disableObjetiveFields"></textarea>
+                </mat-form-field>
+    
+    
+            </div>
+    
+            <div fxFlex="100" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue">
+                    <mat-label>Indicador <strong class="obligatory">*</strong></mat-label>
+                    <textarea [(ngModel)]="selIndicadorFC" type="text" matInput placeholder="Ingresar indicador"
+                        (keypress)="valideKeyCode($event)"
+                        [readonly]="(timePart != 0 && !isObjectiveNew  && isRead) ||  disableObjetiveFields">
+                                    </textarea>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue">
+                    <mat-label>Meta (texto)<strong class="obligatory">*</strong></mat-label>
+                    <input type="text" min="0" max="300" [(ngModel)]="selMetaFCText" matInput autocomplete="off"
+                        placeholder="Meta (Texto)"
+                        (keypress)="valideKeyCode($event)"
+                        [readonly]="(timePart != 0 && !isObjectiveNew  && isRead) ||  disableObjetiveFields">
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue">
+                    <mat-label>Meta <strong class="obligatory">*</strong></mat-label>
+                    <input type="number" min="0" max="15" [(ngModel)]="selMetaFC" matInput autocomplete="off"
+                        onkeypress="return /[0-9, ]/i.test(event.key)"
+                        placeholder="0" [readonly]="(timePart != 0 && !isObjectiveNew  && isRead) ||  disableObjetiveFields"
+                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                        maxlength="9">
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue">
+                    <mat-label>Peso % <strong class="obligatory">*</strong></mat-label>
+                    <input type="number" min="1" max="100" [(ngModel)]="selWeightFC" matInput [readonly]="disableWeight"
+                        onkeypress="return /[0-9, ]/i.test(event.key)"
+                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                        maxlength="3" placeholder="1">
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16" *ngIf="timePart>0">
+                <mat-form-field class="full-width border-blue">
+                    <mat-label>Resultado<strong class="obligatory">*</strong></mat-label>
+                    <input type="number" min="0" max="100" [(ngModel)]="selAvanceFC" matInput [readonly]="timePart == 0"
+                        oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                        maxlength="9" placeholder="0">
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue" appearance="fill">
+                    <mat-label>Fecha inicio</mat-label>
+                    <input readonly [min]="fechaArmadaINI" [max]="fechaArmadaFIN" matInput [matDatepicker]="pickfechaIni"
+                        [ngModel]="selFechainiFC.value" (dateChange)="onChangeFechaIni($event)">
+                    <mat-datepicker-toggle
+                        [disabled]="(timePart != 0 && !isObjectiveNew  && isRead) ||  disableObjetiveFields" matSuffix
+                        [for]="pickfechaIni">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #pickfechaIni></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue" appearance="fill">
+                    <mat-label>Fecha fin</mat-label>
+                    <input readonly [min]="fechaArmadaINI" [max]="fechaArmadaFIN" matInput [matDatepicker]="pickfechaFin"
+                        [ngModel]="selFechafinFC.value" (dateChange)="onChangeFechaFin($event)">
+                    <mat-datepicker-toggle
+                        [disabled]="(timePart != 0 && !isObjectiveNew  && isRead) ||  disableObjetiveFields" matSuffix
+                        [for]="pickfechaFin">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #pickfechaFin></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        </mat-dialog-content>
+        
+    
+        <div class="footer__buttons" style="justify-content: flex-start; padding-left: 0!important;">
+            
+            <button *ngIf="numberAction === 1 ||numberAction === 2 || numberAction === 5 || numberAction === 10 || !isRead"
+                (click)="saveObjetive()" class="btn-primary-06" mat-raised-button>{{stringAddObjetive}}</button>
+            <button (click)="closeSidebar()" class="btn-primary-cian3" mat-raised-button>Cancelar</button>
+        </div>
+</ng-template>
+
+<ng-template #drawerCompt>
+    <mat-dialog-content class="mat-typography">
+        <p class="title-modal-lateral">Detalles de la competencia: {{competencia}}</p>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="100" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue">
+                    <mat-label>Plan de acción <strong class="obligatory">*</strong></mat-label>
+                    <textarea type="text" [(ngModel)]="selnumberActionFC" matInput placeholder="Plan de acción"
+                        [readonly]="(timePart != 0 && isRead) || disableCompFields"></textarea>
+                </mat-form-field>
+            </div>
+    
+            <div fxFlex="100" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue">
+                    <mat-label>Indicador <strong class="obligatory">*</strong></mat-label>
+    
+                    <textarea [(ngModel)]="selindicatorCompeFC" type="text" matInput placeholder="Ingresar indicador"
+                        [readonly]="(timePart != 0 && isRead) || disableCompFields">
+                                    </textarea>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue">
+                    <mat-label>Calificación <strong class="obligatory">*</strong></mat-label>
+                        <mat-select [(ngModel)]="selqualificationFC" >
+                            <mat-option *ngFor="let item of listQualificationDATA" [value]="item.code"  class="not-empty-select" style="height: 24px;">
+                              {{item.name}}
+                            </mat-option>
+                          </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue" appearance="fill">
+                    <mat-label>Fecha inicio</mat-label>
+                    <input readonly matInput [min]="fechaArmadaINI" [max]="fechaArmadaFIN"
+                        [matDatepicker]="pickfechaIniCompt" [ngModel]="selfechainiCompeFC.value"
+                        (dateChange)="onChangeFechaIniCompt($event)">
+                    <mat-datepicker-toggle [disabled]="(timePart != 0 && isRead) || disableCompFields" matSuffix
+                        [for]="pickfechaIniCompt">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #pickfechaIniCompt></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width border-blue" appearance="fill">
+                    <mat-label>Fecha fin</mat-label>
+                    <input readonly matInput [min]="fechaArmadaINI" [max]="fechaArmadaFIN"
+                        [matDatepicker]="pickfechaFinCompt" [ngModel]="selfechafinCompeFC.value"
+                        (dateChange)="onChangeFechaFinCompt($event)">
+                    <mat-datepicker-toggle [disabled]="(timePart != 0 && isRead) || disableCompFields" matSuffix
+                        [for]="pickfechaFinCompt">
+                    </mat-datepicker-toggle>
+                    <mat-datepicker #pickfechaFinCompt></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        </mat-dialog-content>
+        
+        <div class="footer__buttons" style="justify-content: flex-start; padding-left: 0!important;">
+            
+            <button *ngIf="numberAction === 1 ||numberAction === 2  || numberAction === 5 || numberAction === 10 || !isRead"
+                (click)="addCompetition()" class="btn-primary-06" mat-raised-button>Guardar cambios</button>
+            <button (click)="closeSidebarCompt()" class="btn-primary-cian3" mat-raised-button>Cancelar</button>
+    
+        </div>
+</ng-template>
+
+
+<ng-template #DetalleEvaluacion>
+    <mat-dialog-content class="mat-typography">
+        <mat-tab-group class="mat-cian3" [selectedIndex]="this.selectedIndex">
+            <mat-tab label="Objetivos organizacionalesB">
+                <mat-card class="p-0">
+                    <mat-card-content class="p-0" style="width: 100%; overflow: auto">
+    
+                        <table mat-table [dataSource]="objectDT" matSort class="w-100">
+    
+                            <ng-container matColumnDef="clean">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:10%;"></th>
+                                <td mat-cell *matCellDef="let row;let i = index" class="has_label_on_mobile"
+                                    style="width: 120px;">
+                                    <button *ngIf="!isRead" matTooltip="Editar objetivo" (click)="editObjective(i)"
+                                        mat-icon-button>
+                                        <mat-icon style="color: #DD9923;">edit</mat-icon>
+                                    </button>
+                                    <button *ngIf="!isRead && enableDelete" matTooltip="Eliminar objetivo"
+                                        (click)="deleteObjective(i)" mat-icon-button>
+                                        <mat-icon style="color: #DD9923;">delete</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="fechainicio">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:15%;">Fecha Inicio
+                                </th>
+                                <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                                    class="has_label_on_mobile" data-label="Fecha Inicio : ">
+                                    <ng-container>
+                                        {{  formatDateMax(row.startDate)  }}
+                                    </ng-container>
+    
+                                </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="fechafin">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:15%;">Fecha Fin</th>
+                                <td mat-cell *matCellDef="let row let i = index" style="text-align: center"
+                                    class="has_label_on_mobile" data-label="Fecha Fin : ">
+                                    <ng-container>
+                                        {{  formatDateMax(row.endDate)  }}
+                                    </ng-container>
+    
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="object" sticky>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:20%;">Objetivos del
+                                    puesto</th>
+                                <td align="justify" style="vertical-align:top" mat-cell *matCellDef="let row let i = index"
+                                    style="text-align: center" class="has_label_on_mobile"
+                                    data-label="Objetivos del puesto :">
+                                    <ng-container>
+                                        <!-- {{ row.jobObjectives }} -->
+                                        <span style="white-space: pre-line">{{ row.jobObjectives }}</span>
+                                    </ng-container>
+    
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="indicador">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:20%;">Indicador</th>
+                                <td align="justify" style="vertical-align:top" mat-cell *matCellDef="let row;let i = index"
+                                    style="text-align: center" class="has_label_on_mobile" data-label="Indicador : ">
+                                    <ng-container>
+                                        {{ row.indicatorOrganizational }}
+                                    </ng-container>
+    
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="goalstring">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:10%;">Meta (texto)
+                                </th>
+                                <td mat-cell *matCellDef="let row let i = index" style="text-align: -webkit-center;"
+                                    class="has_label_on_mobile" data-label="Meta (texto): ">
+                                    <ng-container>
+                                        {{ row.goalString }}
+                                    </ng-container>
+    
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="meta">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:10%;">Meta %</th>
+                                <td mat-cell *matCellDef="let row let i = index" style="text-align: -webkit-center;"
+                                    class="has_label_on_mobile" data-label="Meta : ">
+                                    <ng-container>
+                                        {{ row.goal }}
+                                    </ng-container>
+    
+                                </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="peso">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width:10%;">Peso %</th>
+                                <td mat-cell *matCellDef="let row let i = index" style="text-align: -webkit-center;"
+                                    class="has_label_on_mobile" data-label="Peso % : ">
+                                    <ng-container>
+                                        <mat-chip mat-sm-chip selected class="color-chip" style="max-width: 30px;">
+                                            {{ row.weight }}
+                                        </mat-chip>
+                                    </ng-container>
+                                </td>
+                            </ng-container>
+    
+                            <ng-container matColumnDef="resultado" *ngIf="timePart>0">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Resultado</th>
+                                <td mat-cell *matCellDef="let row let i = index" style="text-align: -webkit-center;"
+                                    class="has_label_on_mobile" data-label="Resultado: ">
+                                    <ng-container>
+                                        <mat-chip mat-sm-chip selected class="color-chip" style="max-width: 30px;">
+                                            {{ getRound(row.progress.toString()) }}
+                                        </mat-chip>
+                                    </ng-container>
+                                </td>
+                            </ng-container>
+    
+    
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell text-center" colspan="8">
+                                    No se encontro Objetivos
+                                </td>
+                            </tr>
+                        </table>
+                    </mat-card-content>
+                </mat-card>
+                <div *ngIf="!isRead && enableAdd" class="" style="padding-bottom:20px;">
+                    <button (click)="addObjetive()" class="btn-primary-yellow2" mat-raised-button>Agregar objetivo</button>
+                </div>
+            </mat-tab>
+            <mat-tab label="Competencias organizacionales">
+    
+                <table mat-table [dataSource]="competenciasDT" matSort multiTemplateDataRows class="mat-elevation-z8">
+                    <ng-container matColumnDef="clean">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let row; let i = dataIndex;" class="has_label_on_mobile">
+                            <button *ngIf="!isRead" matTooltip="Editar competencia" (click)="editCompetencia(i,row)"
+                                mat-icon-button>
+                                <mat-icon style="color: #DD9923;">edit</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="competencias">
+                        <th mat-header-cell *matHeaderCellDef style="min-width: 300px;"> Competencias </th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile clsColumnaLarge titulo-comtepencia"
+                            data-label="Competencias :">
+                            {{ row.organizationalProficiency }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef aria-label="row actions">Plan de Acción</th>
+                        <td mat-cell *matCellDef="let row; let i = index" class="text-td clsColumnaLarge-2">
+                            <ng-container>
+                                <!-- {{ row.actionsToImprove }} -->
+    
+                                <span style="white-space: pre-line">{{ row.actionsToImprove }}</span>
+                            </ng-container>
+    
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="indicador">
+                        <th mat-header-cell *matHeaderCellDef> Indicador </th>
+                        <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                            class="has_label_on_mobile clsColumnaLarge text-td" data-label="Indicador : ">
+                            <ng-container>
+                                {{ row.indicatorOrganizational }}
+                            </ng-container>
+    
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fechainicio">
+                        <th mat-header-cell *matHeaderCellDef> Fecha Inicio </th>
+                        <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                            class="has_label_on_mobile text-td" data-label="Fecha Inicio :">
+                            <ng-container>
+    
+                                {{  formatDateMax(row.startDate)  }}
+                            </ng-container>
+    
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fechafin">
+                        <th mat-header-cell *matHeaderCellDef> Fecha Fin </th>
+                        <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                            class="has_label_on_mobile  text-td" data-label="Fecha Fin :">
+                            <ng-container>
+    
+                                {{  formatDateMax(row.endDate)  }}
+                            </ng-container>
+    
+                        </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="calificacion">
+                        <th mat-header-cell *matHeaderCellDef style="width: 60px;">&nbsp;</th>
+                        <td mat-cell *matCellDef="let row let i = index" style="text-align: center;width: 60px;"
+                            class="has_label_on_mobile clsColumnaLarge titulo-comtepencia">
+                            <ng-container *ngIf="timePart>0">
+                                <div *ngIf="row.qualification === row.idProficiencyLevel"
+                                    style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+    
+                                    <div [ngStyle]="{background: '#219653'}" id="circulo"></div>
+    
+                                </div>
+                                <div *ngIf="row.qualification > row.idProficiencyLevel"
+                                    style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+    
+                                    <div [ngStyle]="{background: '#6366F1'}" id="circulo"></div>
+                                </div>
+                                <div *ngIf="row.qualification < row.idProficiencyLevel"
+                                    style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+    
+                                    <div [ngStyle]="{background: '#FF0000'}" id="circulo"></div>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="timePart==0">
+    
+                            </ng-container>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="expandir">
+                        <th mat-header-cell *matHeaderCellDef style="width: 60px;padding-right: 10px;">&nbsp;</th>
+                        <td mat-cell *matCellDef="let element" style="width: 60px;padding-right: 10px;">
+                            <button mat-icon-button aria-label="expand row" class="btnExpandir"
+                                (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                                <mat-icon *ngIf="expandedElement !== element">keyboard_arrow_down</mat-icon>
+                                <mat-icon *ngIf="expandedElement === element">keyboard_arrow_up</mat-icon>
+    
+                            </button>
+                            <button mat-icon-button class="btnVer" (click)="openDialog(element)">
+                                <mat-icon style="color: #DD9923;">remove_red_eye</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="expandedDetail">
+                        <td mat-cell style="display: none;"></td>
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplayWithExpand.length">
+                            <div class="example-element-detail"
+                                [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+    
+                                <div class="row" style="display: flex; padding:10px;">
+                                    <div class="titulo-comtepencia-det">Descripción:</div>
+                                    <div class="example-element-description text-td">
+                                        {{ element.proficiencyDescription }} 
+                                    </div>
+                                </div>
+    
+                                <hr>
+    
+                                <!-- INICIO CON UNA COLUMNA  -->
+                                <div class="w-100">
+                                    <div fxLayout="row wrap">
+                                        <div fxFlex="25">
+                                            <mat-card class="{{element.descriptionLevel1!=''?'card-center':'card-select'}}">
+                                                <mat-card-content style="height: 160px;">
+                                                    <div
+                                                        class="{{element.descriptionLevel1!=''?'titulo-card':'titulo-card-select'}}">
+                                                        Nivel 1</div>
+                                                    <div class="">
+                                                        <span
+                                                            *ngIf="element.descriptionLevel1==''">{{element.definitionLevel}}</span>
+                                                        <span *ngIf="element.descriptionLevel1!=''"> {{
+                                                            element.descriptionLevel1 }} </span>
+                                                    </div>
+                                                </mat-card-content>
+                                                <mat-card-actions>
+                                                    <mat-chip-list>
+                                                        <mat-chip
+                                                            *ngFor="let resucomp of filter(resumencompetencias1,element.idProficiency)"
+                                                            selected="true" class="icon-chip objetivosporcgroup"
+                                                            color="primary">
+                                                            {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                            ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                            resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                            ) )}}
+                                                        </mat-chip>
+                                                        <!-- <mat-chip
+                                                            *ngFor="let resucomp of filter(resumencompetencias1,element.idProficiency)"
+                                                            selected="true" class="icon-chip objetivosporcgroup"
+                                                            color="primary">
+                                                            {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                            ( resucomp.numberAction === 3 ? 'E1. Evaluación Inicial' : (
+                                                            resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3.
+                                                            Evaluación Final'
+                                                            ) )}}
+                                                        </mat-chip> -->
+                                                    </mat-chip-list>
+                                                </mat-card-actions>
+                                            </mat-card>
+                                        </div>
+                                        <div fxFlex="25">
+                                            <mat-card class="{{element.descriptionLevel2!=''?'card-center':'card-select'}}">
+                                                <mat-card-content style="height: 160px;">
+                                                    <div
+                                                        class="{{element.descriptionLevel2!=''?'titulo-card':'titulo-card-select'}}">
+                                                        Nivel 2</div>
+                                                    <div class="">
+                                                        <span
+                                                            *ngIf="element.descriptionLevel2==''">{{element.definitionLevel}}</span>
+                                                        <span *ngIf="element.descriptionLevel2!=''"> {{
+                                                            element.descriptionLevel2 }} </span>
+                                                    </div>
+                                                </mat-card-content>
+                                                <mat-card-actions>
+                                                    <mat-chip-list>
+                                                        <mat-chip
+                                                            *ngFor="let resucomp of filter(resumencompetencias2,element.idProficiency)"
+                                                            selected="true" class="icon-chip objetivosporcgroup"
+                                                            color="primary">
+                                                            {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                            ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                            resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                            ) )}}
+                                                        </mat-chip>
+    
+                                                    </mat-chip-list>
+                                                </mat-card-actions>
+                                            </mat-card>
+                                        </div>
+                                        <div fxFlex="25">
+                                            <mat-card class="{{element.descriptionLevel3!=''?'card-center':'card-select'}}">
+                                                <mat-card-content style="height: 160px;">
+                                                    <div
+                                                        class="{{element.descriptionLevel3!=''?'titulo-card':'titulo-card-select'}}">
+                                                        Nivel 3</div>
+                                                    <div class="">
+                                                        <span
+                                                            *ngIf="element.descriptionLevel3==''">{{element.definitionLevel}}</span>
+                                                        <span *ngIf="element.descriptionLevel3!=''"> {{
+                                                            element.descriptionLevel3 }} </span>
+                                                    </div>
+                                                </mat-card-content>
+                                                <mat-card-actions>
+                                                    <mat-chip-list>
+                                                        <mat-chip
+                                                            *ngFor="let resucomp of filter(resumencompetencias3,element.idProficiency)"
+                                                            selected="true" class="icon-chip objetivosporcgroup"
+                                                            color="primary">
+                                                            {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                            ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                            resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                            ) )}}
+                                                        </mat-chip>
+    
+                                                    </mat-chip-list>
+                                                </mat-card-actions>
+                                            </mat-card>
+                                        </div>
+                                        <div fxFlex="25">
+                                            <mat-card class="{{element.descriptionLevel4!=''?'card-center':'card-select'}}">
+                                                <mat-card-content style="height: 160px;">
+                                                    <div
+                                                        class="{{element.descriptionLevel4!=''?'titulo-card':'titulo-card-select'}}">
+                                                        Nivel 4</div>
+                                                    <div class="">
+                                                        <span
+                                                            *ngIf="element.descriptionLevel4==''">{{element.definitionLevel}}</span>
+                                                        <span *ngIf="element.descriptionLevel4!=''"> {{
+                                                            element.descriptionLevel4 }} </span>
+                                                    </div>
+                                                </mat-card-content>
+                                                <mat-card-actions>
+                                                    <mat-chip-list>
+                                                        <mat-chip
+                                                            *ngFor="let resucomp of filter(resumencompetencias4,element.idProficiency)"
+                                                            selected="true" class="icon-chip objetivosporcgroup"
+                                                            color="primary">
+                                                            {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                            ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                            resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                            ) )}}
+                                                        </mat-chip>
+    
+                                                    </mat-chip-list>
+                                                </mat-card-actions>
+                                            </mat-card>
+                                        </div>
+    
+                                    </div>
+                                </div>
+    
+                                <!-- FIN CON UNA COLUMNA -->
+    
+    
+    
+                            </div>
+                        </td>
+                    </ng-container>
+                    <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+    
+    
+                    <tr mat-header-row *matHeaderRowDef="columnsToDisplayWithExpand"></tr>
+                    <tr mat-row *matRowDef="let element; columns: columnsToDisplayWithExpand;" class="example-element-row"
+                        [class.example-expanded-row]="expandedElement === element"
+                        (click)="expandedElement = expandedElement === element ? null : element">
+                    </tr>
+                    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="6"> No se encontro Competencias </td>
+                    </tr>
+                </table>
+    
+                <br><br>
+    
+                <small class="text-muted leyendapie" *ngIf="timePart>0">
+                    <span id="obj_circuloprimario" class="circulo" style="background-color: #FF0000;">&nbsp;</span>Menor a
+                    la
+                    expectativa</small>
+                <small class="text-muted leyendapie" *ngIf="timePart>0">
+                    <span id="obj_circuloprimario" class="circulo" style="background-color: #219653;">&nbsp;</span>Igual a
+                    la
+                    expectativa</small>
+                <small class="text-muted leyendapie" *ngIf="timePart>0">
+                    <span id="obj_circuloprimario" class="circulo" style="background-color: #6366F1;">&nbsp;</span>Mayor a
+                    la
+                    expectativa</small>
+    
+            </mat-tab>
+        </mat-tab-group>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" style="margin: auto;" matDialogClose="no">Cerrar</button>
+    </mat-dialog-actions>
+</ng-template>
+
+<ng-template #DetailDialog>
+    <h1>{{detalleDialog.organizationalProficiency}}</h1>
+    <mat-dialog-content class="mat-typography">
+      <div class="row" style="padding-left: 10px; padding-right: 10px;">
+        <strong>Descripción:</strong>
+        <p style="text-align: justify;margin-top: 10px;">{{detalleDialog.proficiencyDescription}}</p>
+        <br/>
+      </div>
+      <mat-card class="{{detalleDialog.descriptionLevel1!=''?'card-center-modal':'card-select-modal'}}">
+        <div class="{{detalleDialog.descriptionLevel1!=''?'titulo-card-modal':'titulo-card-select-modal'}}"> Nivel 1</div>
+        <p *ngIf="detalleDialog.descriptionLevel1==''">
+            {{detalleDialog.definitionLevel}}
+        </p>
+        <p *ngIf="detalleDialog.descriptionLevel1!=''">
+            {{ detalleDialog.descriptionLevel1 }}
+        </p>
+        <ng-container *ngIf="filter(resumencompetencias1,detalleDialog.idProficiency).length > 0">
+            <strong style="margin-left: 5px;">Etapas:</strong>
+            
+                <mat-card class="color-chip"
+                    *ngFor="let resucomp of filter(resumencompetencias1,detalleDialog.idProficiency)">
+                    {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                                ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                                resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                                ) )}}
+                </mat-card> 
+            
+        </ng-container>
+        
+      </mat-card>
+      <mat-card class="{{detalleDialog.descriptionLevel2!=''?'card-center-modal':'card-select-modal'}}">
+        <div class="{{detalleDialog.descriptionLevel2!=''?'titulo-card-modal':'titulo-card-select-modal'}}"> Nivel 2</div>
+        <p *ngIf="detalleDialog.descriptionLevel2==''">{{detalleDialog.definitionLevel}}</p>
+        <p *ngIf="detalleDialog.descriptionLevel2!=''"> {{detalleDialog.descriptionLevel2 }} </p>
+        
+        <ng-container *ngIf="filter(resumencompetencias2,detalleDialog.idProficiency).length > 0">
+            <strong style="margin-left: 5px;">Etapas:</strong>
+            
+                <mat-card class="color-chip"
+                    *ngFor="let resucomp of filter(resumencompetencias2,detalleDialog.idProficiency)">
+                    {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                            ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                            resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                            ) )}}
+                </mat-card>
+            
+        </ng-container>
+       
+      </mat-card>
+      <mat-card class="{{detalleDialog.descriptionLevel3!=''?'card-center-modal':'card-select-modal'}}">
+        <div class="{{detalleDialog.descriptionLevel3!=''?'titulo-card-modal':'titulo-card-select-modal'}}"> Nivel 3</div>
+        <p *ngIf="detalleDialog.descriptionLevel3==''">{{detalleDialog.definitionLevel}}</p>
+        <p *ngIf="detalleDialog.descriptionLevel3!=''"> {{ detalleDialog.descriptionLevel3 }} </p>
+        
+        <ng-container *ngIf="filter(resumencompetencias3,detalleDialog.idProficiency).length > 0">
+            <strong style="margin-left: 5px;">Etapas:</strong>
+            
+                <mat-card  class="color-chip"
+                    *ngFor="let resucomp of filter(resumencompetencias3,detalleDialog.idProficiency)">
+                    {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                            ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                            resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                            ) )}}
+                </mat-card>
+            
+        </ng-container>
+        
+      </mat-card>
+      <mat-card class="{{detalleDialog.descriptionLevel4!=''?'card-center-modal':'card-select-modal'}}">
+        <div class="{{detalleDialog.descriptionLevel4!=''?'titulo-card-modal':'titulo-card-select-modal'}}"> Nivel 4</div>
+        <p *ngIf="detalleDialog.descriptionLevel4==''">{{detalleDialog.definitionLevel}}</p>
+        <p *ngIf="detalleDialog.descriptionLevel4!=''"> {{detalleDialog.descriptionLevel4 }}</p>
+        
+        <ng-container *ngIf="filter(resumencompetencias4,detalleDialog.idProficiency).length > 0">
+            <strong style="margin-left: 5px;">Etapas:</strong>
+            
+                <mat-card class="color-chip"    
+                    *ngFor="let resucomp of filter(resumencompetencias4,detalleDialog.idProficiency)">
+                    {{ resucomp.numberAction === 1 ? 'E1. Autoevaluación' :
+                                                            ( resucomp.numberAction === 4 ? 'E1. Evaluación Inicial' : (
+                                                            resucomp.numberAction === 7 ? 'E2. Verificación' : 'E3. Evaluación Final'
+                                                            ) )}}
+                </mat-card>
+            
+        </ng-container>
+        
+      </mat-card>
+      
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-button matDialogClose="no">Cerrar</button>
+    </mat-dialog-actions>
+</ng-template>

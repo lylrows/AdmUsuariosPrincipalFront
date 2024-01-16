@@ -1,0 +1,1579 @@
+<mat-card-title>
+  <div class="card-title-text">{{title}}</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-card-content>
+  <mat-stepper [linear]="isLinear" #stepper [selectedIndex]="btnNextPrev.index">
+    <mat-step [stepControl]="formPerson" [editable]="!isedit">
+      <form [formGroup]="formPerson" style="height: 300px; overflow: auto;">
+        <ng-template matStepLabel>Datos Personales</ng-template>
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Nombre Completo
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+            <div fxFlex="50" class="pr-16 pt-16">
+              <mat-form-field class="full-width">
+                <mat-label>Primer Nombre <strong class="obligatory">*</strong></mat-label>
+                <input maxlength="20" type="text" (input)="removeSpacesPerson('sfirstname')" [readonly]="!isedit" formControlName="sfirstname" matInput placeholder="Primer Nombre">
+                <mat-error
+                  *ngIf="
+                    formPerson.controls.sfirstname.touched &&
+                    formPerson.controls.sfirstname.invalid
+                  "
+                >
+                  <span *ngIf="formPerson.controls.sfirstname.errors.required"
+                  >Primer Nombre es <strong>requerido</strong>
+                  </span>
+                  <span *ngIf="formPerson.controls.sfirstname.errors.pattern"
+                  >Solo se debe de ingresar <strong>letras</strong>
+                  </span>
+              </mat-error>
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="50" class="pr-16 pt-16">
+              <mat-form-field class="full-width">
+                <mat-label>Segundo Nombre</mat-label>
+                <input maxlength="20" type="text" (input)="removeSpacesPerson('ssecondname')" [readonly]="!isedit" formControlName="ssecondname" matInput placeholder="Segundo Nombre">
+              </mat-form-field>
+            </div>
+
+            <div fxFlex="50" class="pr-16 pt-16">
+              <mat-form-field class="full-width">
+                <mat-label>Apellido Paterno <strong class="obligatory">*</strong></mat-label>
+                <input maxlength="20" type="text" (input)="removeSpacesPerson('slastname')" [readonly]="!isedit"  formControlName="slastname" matInput placeholder="Apellido Paterno">
+                <mat-error
+                  *ngIf="
+                    formPerson.controls.slastname.touched &&
+                    formPerson.controls.slastname.invalid
+                  "
+                >
+                  <span *ngIf="formPerson.controls.slastname.errors.required"
+                  >Apellido Paterno es <strong>requerido</strong>
+                </span>
+                <span *ngIf="formPerson.controls.slastname.errors.pattern"
+                  >Solo se debe de ingresar <strong>letras</strong>
+                  </span>
+              </mat-error>
+              </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+              <mat-form-field class="full-width">
+                <mat-label>Apellido Materno <strong class="obligatory">*</strong></mat-label>
+                <input maxlength="20" type="text" (input)="removeSpacesPerson('smotherlastname')" [readonly]="!isedit" matInput formControlName="smotherlastname"  placeholder="Apellido Materno">
+                <mat-error
+                  *ngIf="
+                    formPerson.controls.smotherlastname.touched &&
+                    formPerson.controls.smotherlastname.invalid
+                  "
+                >
+                  <span *ngIf="formPerson.controls.smotherlastname.errors.required"
+                  >Apellido Materno es <strong>requerido</strong>
+                </span>
+                <span *ngIf="formPerson.controls.smotherlastname.errors.pattern"
+                  >Solo se debe de ingresar <strong>letras</strong>
+                  </span>
+              </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Identidad
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Identidad <strong class="obligatory">*</strong></mat-label>
+                  <input maxlength="20" type="text" (input)="removeSpacesPerson('sidentification')" [readonly]="!isedit" formControlName="sidentification" matInput placeholder="Identidad">
+                  <mat-error
+                    *ngIf="
+                      formPerson.controls.sidentification.touched &&
+                      formPerson.controls.sidentification.invalid
+                    "
+                  >
+                    <span *ngIf="formPerson.controls.sidentification.errors.required"
+                    >Identidad es <strong>requerido</strong>
+                  </span>
+                  <span *ngIf="formPerson.controls.sidentification.errors.pattern"
+                    >Solo se debe de ingresar <strong>numeros 0-9</strong>
+                    </span>
+                </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Pasaporte</mat-label>
+                  <input maxlength="20" (input)="removeSpacesPerson('spassport')" [readonly]="!isedit" formControlName="spassport" matInput placeholder="Pasaporte">
+                </mat-form-field>
+              </div>
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field  class="full-width">
+                  <mat-label>Fecha de Nacimiento <strong class="obligatory">*</strong></mat-label>
+                  <input formControlName="dbirthdate" readonly matInput [matDatepicker]="picker">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker [disabled]="!isedit" #picker></mat-datepicker>
+                  <mat-error
+                    *ngIf="
+                      formPerson.controls.dbirthdate.touched &&
+                      formPerson.controls.dbirthdate.invalid
+                    "
+                  >
+                    <span *ngIf="formPerson.controls.dbirthdate.errors.required"
+                    >Fecha de nacimiento es <strong>requerido</strong>
+                  </span>
+                </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Telefonos
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="add__phone" *ngIf="isedit">
+              <button mat-button color="primary" class="dark-blue-400 dark-blue-400-fg mr-4"  *ngIf="!isNewPhone" (click)="add()">Agregar Teléfono</button>
+            </div>
+            
+            <div class="input_phone" *ngIf="isedit">
+              <mat-form-field *ngIf="isNewPhone">
+                <mat-label>Teléfono <strong class="obligatory">*</strong></mat-label>
+                <input maxlength="20" [formControl]="inputPhone" type="text"  matInput placeholder="Ingresar Teléfono">
+                <mat-error
+                          *ngIf="
+                          inputPhone.touched &&
+                          inputPhone.invalid
+                          "
+                        >
+                          <span *ngIf="inputPhone.errors.required"
+                          >Teléfono es <strong>requerido</strong>
+                          </span>
+                          <span *ngIf="inputPhone.errors.pattern"
+                          >Solo se debe de ingresar <strong>Numeros</strong>
+                          </span>
+                      </mat-error>
+              </mat-form-field>
+              <div class="input_phone__button">
+                <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" *ngIf="isNewPhone" color="primary" (click)="savePhone()">Guardar</button>
+              <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" *ngIf="isNewPhone" color="watn" (click)="cancelphone()">Cancelar</button>
+              </div>
+            </div>
+
+            <div>
+              <table mat-table [dataSource]="phoneDT" matSort>
+                <ng-container matColumnDef="option" sticky>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Opción: "
+                  >
+                  <button
+                    [disabled]="!isedit"
+                    mat-button
+                    (click)="editphone(row)"
+                  >
+                    <mat-icon color="accent">touch_app</mat-icon>
+                  </button>
+                  <button
+                  [disabled]="!isedit"
+                    mat-button
+                    (click)="deletephone(row)"
+                  >
+                    <mat-icon color="accent">block</mat-icon>
+                  </button>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="phone">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Teléfono</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Teléfono : "
+                  >
+                    {{ row.phone }}
+                  </td>
+                </ng-container>
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumns; sticky: true"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+      
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell text-center" colspan="4">
+                    No se encontraron datos
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <mat-paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Direcciones
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div class="add__phone" *ngIf="isedit">
+              <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" *ngIf="!isNewAddress" (click)="addaddress()">Agregar Dirección</button>
+            </div>
+            
+            <form [formGroup]="formAddress" *ngIf="isedit && isNewAddress">
+            <div class="inptus__address">
+              <div class="inptus__address__group">
+
+              <mat-form-field >
+                <mat-label>Departamento <strong class="obligatory">*</strong></mat-label>
+                <mat-select [disabled]="!isedit" formControlName="nid_departament">
+                  <mat-option *ngFor="let item of departament" [value]="item.nid_department">{{
+                    item.sname
+                  }}</mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="formAddress.controls.nid_departament.touched &&
+                    formAddress.controls.nid_departament.invalid
+                  "
+                >
+                  <span *ngIf="formAddress.controls.nid_departament.errors.required"
+                  >Departamento es <strong>requerido</strong>
+                </span>
+              </mat-error>
+              </mat-form-field>
+
+              <mat-form-field >
+                <mat-label>Province <strong class="obligatory">*</strong></mat-label>
+                <mat-select [disabled]="!isedit || !blockProvince" formControlName="nid_province">
+                  <mat-option *ngFor="let item of province" [value]="item.nid_province">{{
+                    item.sname
+                  }}</mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="formAddress.controls.nid_province.touched &&
+                    formAddress.controls.nid_province.invalid
+                  "
+                >
+                  <span *ngIf="formAddress.controls.nid_province.errors.required"
+                  >Provincia es <strong>requerido</strong>
+                </span>
+              </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="inptus__address__group">
+
+              <mat-form-field >
+                <mat-label>Distrito <strong class="obligatory">*</strong></mat-label>
+                <mat-select [disabled]="!isedit || !blockDistrict" formControlName="nid_district">
+                  <mat-option *ngFor="let item of district" [value]="item.nid_district">{{
+                    item.sname
+                  }}</mat-option>
+                </mat-select>
+                <mat-error
+                  *ngIf="formAddress.controls.nid_district.touched &&
+                    formAddress.controls.nid_district.invalid
+                  "
+                >
+                  <span *ngIf="formAddress.controls.nid_district.errors.required"
+                  >Distrito es <strong>requerido</strong>
+                </span>
+              </mat-error>
+              </mat-form-field>
+
+              <mat-form-field>
+                <mat-label>Dirección</mat-label>
+                <input type="text"  formControlName="saddress" matInput placeholder="Ingrese Dirección">
+                <mat-error
+                  *ngIf="formAddress.controls.saddress.touched &&
+                    formAddress.controls.saddress.invalid
+                  "
+                >
+                  <span *ngIf="formAddress.controls.saddress.errors.required"
+                  >Dirección es <strong>requerido</strong>
+                </span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="inptus__address__button">
+              <button type="button" mat-raised-button class="dark-blue-400 dark-blue-400-fg" color="primary" *ngIf="isNewAddress" (click)="saveAddress()" >Guardar</button>
+              <button type="button" mat-raised-button class="dark-blue-400 dark-blue-400-fg" color="watn" *ngIf="isNewAddress" (click)="cancelAddress()">Cancelar</button>
+            </div>
+
+            </div>
+          </form>
+            <div>
+              <table mat-table [dataSource]="adressDT" matSort>
+                <ng-container matColumnDef="option" sticky>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Opción: "
+                  >
+                  <button
+                    [disabled]="!isedit"
+                    mat-button
+                    (click)="editadress(row)"
+                  >
+                    <mat-icon color="accent">touch_app</mat-icon>
+                  </button>
+                  <button
+                  [disabled]="!isedit"
+                    mat-button
+                    (click)="deleteadress(row)"
+                  >
+                    <mat-icon color="accent">block</mat-icon>
+                  </button>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="address">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Direccion</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Direccion : "
+                  >
+                    {{ row.saddress }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="distric">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Distrito</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Distrito : "
+                  >
+                    {{ row.sdistrict }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="province">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Provincia</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Provincia : "
+                  >
+                    {{ row.sprovince }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="departament">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Departamento</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Departamento : "
+                  >
+                    {{ row.sdepartament }}
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="state">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                  <td
+                    mat-cell
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Estado : "
+                  >
+                    {{ row.state ? 'Activo' : 'Inactivo' }}
+                  </td>
+                </ng-container>
+                <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsphone; sticky: true"
+                ></tr>
+                <tr
+                  mat-row
+                  *matRowDef="let row; columns: displayedColumnsphone"
+                ></tr>
+      
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell text-center" colspan="4">
+                    No se encontraron datos
+                  </td>
+                </tr>
+              </table>
+            </div>
+            <mat-paginator #paginatorphone [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Datos
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+              <div fxFlex="100" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Correo</mat-label>
+                  <input maxlength="30" type="text" (input)="removeSpacesPerson('semail')" [readonly]="!isedit" formControlName="semail" matInput placeholder="Correo">
+                </mat-form-field>
+              </div>
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Sexo <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_sex">
+                    <mat-option *ngFor="let item of sex" [value]="item.nid_mastertable">{{
+                      item.sdescription_value
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      formPerson.controls.nid_sex.touched &&
+                      formPerson.controls.nid_sex.invalid
+                    "
+                  >
+                    <span *ngIf="formPerson.controls.nid_sex.errors.required"
+                    >Sexo es <strong>requerido</strong>
+                  </span>
+                </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Tipo de Sangre</mat-label>
+                  <input maxlength="20" (input)="removeSpacesPerson('sbloodtype')" type="text" [readonly]="!isedit" formControlName="sbloodtype" matInput placeholder="Tipo de Sangre">
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Nacionalidad <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_nationality">
+                    <mat-option *ngFor="let item of nacionality" [value]="item.nid_mastertable">{{
+                      item.sdescription_value
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      formPerson.controls.nid_nationality.touched &&
+                      formPerson.controls.nid_nationality.invalid
+                    "
+                  >
+                    <span *ngIf="formPerson.controls.nid_nationality.errors.required"
+                    >Nacionalidad es <strong>requerido</strong>
+                  </span>
+                </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Estado Civil <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_civilstatus">
+                    <mat-option *ngFor="let item of civil" [value]="item.nid_mastertable">{{
+                      item.sdescription_value
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      formPerson.controls.nid_civilstatus.touched &&
+                      formPerson.controls.nid_civilstatus.invalid
+                    "
+                  >
+                    <span *ngIf="formPerson.controls.nid_civilstatus.errors.required"
+                    >Estado Civil es <strong>requerido</strong>
+                  </span>
+                </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Licencia de Conducir</mat-label>
+                  <input maxlength="20" (input)="removeSpacesPerson('sdrivinglicense')" [readonly]="!isedit" matInput formControlName="sdrivinglicense"  placeholder="Lincecia de Conducir">
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Graduacion de Universidad</mat-label>
+                  <input formControlName="duniversitygraduationdate" readonly matInput [matDatepicker]="pickeruniversity">
+                  <mat-datepicker-toggle matSuffix [for]="pickeruniversity"></mat-datepicker-toggle>
+                  <mat-datepicker [disabled]="!isedit" #pickeruniversity></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Ingreso al pais</mat-label>
+                  <input formControlName="dcountryentrydate" readonly matInput [matDatepicker]="pickercountry">
+                  <mat-datepicker-toggle matSuffix [for]="pickercountry"></mat-datepicker-toggle>
+                  <mat-datepicker [disabled]="!isedit" #pickercountry></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Personal Medico</mat-label>
+                  <input [readonly]="!isedit" (input)="removeSpacesPerson('smedicalstaff')" formControlName="smedicalstaff" matInput placeholder="Personal Medico">
+                </mat-form-field>
+              </div>
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Activo <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_active">
+                    <mat-option *ngFor="let item of active" [value]="item.nid_mastertable">{{
+                      item.sdescription_value
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                    *ngIf="
+                      formPerson.controls.nid_active.touched &&
+                      formPerson.controls.nid_active.invalid
+                    "
+                  >
+                    <span *ngIf="formPerson.controls.nid_active.errors.required"
+                    >Activo es <strong>requerido</strong>
+                  </span>
+                </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-slide-toggle [disabled]="!isedit" formControlName="bitisnotdomiciled">Es no Domiciliado</mat-slide-toggle>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+
+        <div>
+          <button class="btnrigth rigth" *ngIf="isedit" [disabled]="formPerson.invalid" mat-raised-button (click)="nextfirsh()">Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formEmployee" [editable]="!isedit">
+      <form [formGroup]="formEmployee" style="height: 300px; overflow: auto;">
+        <ng-template matStepLabel>Datos del Empleado</ng-template>
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Empresa y Cargo
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Empresa <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_company" (selectionChange)="changecompany()">
+                    <mat-option *ngFor="let item of company" [value]="item.nid_company">{{
+                      item.sdescription
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                          *ngIf="
+                          formEmployee.controls.nid_company.touched &&
+                          formEmployee.controls.nid_company.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployee.controls.nid_company.errors.required"
+                          >Empresa es <strong>requerido</strong>
+                        </span>
+                      </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Cargo <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_position">
+                    <mat-option *ngFor="let item of position" [value]="item.nid_charge">{{
+                      item.snamecharge
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                          *ngIf="
+                          formEmployee.controls.nid_position.touched &&
+                          formEmployee.controls.nid_position.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployee.controls.nid_position.errors.required"
+                          >Cargo es <strong>requerido</strong>
+                        </span>
+                      </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Area <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_area">
+                    <mat-option *ngFor="let item of area" [value]="item.nid_area">{{
+                      item.snamearea
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                          *ngIf="
+                          formEmployee.controls.nid_area.touched &&
+                          formEmployee.controls.nid_area.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployee.controls.nid_area.errors.required"
+                          >Area es <strong>requerido</strong>
+                        </span>
+                      </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Planilla y Centro de Costo
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Planilla <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_payroll">
+                    <mat-option *ngFor="let item of payroll" [value]="item.nid_payroll">{{
+                      item.scodpayroll
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                          *ngIf="
+                          formEmployee.controls.nid_payroll.touched &&
+                          formEmployee.controls.nid_payroll.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployee.controls.nid_payroll.errors.required"
+                          >Planilla es <strong>requerido</strong>
+                        </span>
+                      </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Centro de Costo <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_costcenter">
+                    <mat-option *ngFor="let item of constCenter" [value]="item.nid_costcenter">{{
+                      item.sname
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                          *ngIf="
+                          formEmployee.controls.nid_costcenter.touched &&
+                          formEmployee.controls.nid_costcenter.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployee.controls.nid_costcenter.errors.required"
+                          >Centro de Costo es <strong>requerido</strong>
+                        </span>
+                      </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Plaza</mat-label>
+                  <input [readonly]="!isedit" formControlName="plaza" matInput placeholder="Plaza">
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+
+         
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Datos
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Primera Admision</mat-label>
+                  <input formControlName="ddateoffirstadmission" readonly matInput [matDatepicker]="pickerfirstadmission">
+                  <mat-datepicker-toggle matSuffix [for]="pickerfirstadmission"></mat-datepicker-toggle>
+                  <mat-datepicker [disabled]="!isedit" #pickerfirstadmission></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Fecha de Admision <strong class="obligatory">*</strong></mat-label>
+                  <input formControlName="dadmissiondate" readonly matInput [matDatepicker]="pickeradmission">
+                  <mat-datepicker-toggle matSuffix [for]="pickeradmission"></mat-datepicker-toggle>
+                  <mat-datepicker [disabled]="!isedit" #pickeradmission></mat-datepicker>
+                  <mat-error
+                          *ngIf="
+                          formEmployee.controls.dadmissiondate.touched &&
+                          formEmployee.controls.dadmissiondate.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployee.controls.dadmissiondate.errors.required"
+                          >Fecha de Admision es <strong>requerido</strong>
+                        </span>
+                      </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Fecha de Apertura</mat-label>
+                  <input formControlName="ddeparturedate" readonly matInput [matDatepicker]="pickerarture">
+                  <mat-datepicker-toggle matSuffix [for]="pickerarture"></mat-datepicker-toggle>
+                  <mat-datepicker [disabled]="!isedit" #pickerarture></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>IT</mat-label>
+                  <input [readonly]="!isedit" formControlName="snit" matInput placeholder="It">
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Antiguedad en la Empresa</mat-label>
+                  <input formControlName="dcompanyseniority" readonly matInput [matDatepicker]="pickercompany">
+                  <mat-datepicker-toggle matSuffix [for]="pickercompany"></mat-datepicker-toggle>
+                  <mat-datepicker [disabled]="!isedit" #pickercompany></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Antiguedad en el Gobierno</mat-label>
+                  <input formControlName="dgovernmentseniority" readonly matInput [matDatepicker]="pickergovernment">
+                  <mat-datepicker-toggle matSuffix [for]="pickergovernment"></mat-datepicker-toggle>
+                  <mat-datepicker [disabled]="!isedit" #pickergovernment></mat-datepicker>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Estado del Empleado <strong class="obligatory">*</strong></mat-label>
+                  <mat-select [disabled]="!isedit" formControlName="nid_state">
+                    <mat-option *ngFor="let item of state" [value]="item.nid_mastertable">{{
+                      item.sdescription_value
+                    }}</mat-option>
+                  </mat-select>
+                  <mat-error
+                          *ngIf="
+                          formEmployee.controls.nid_state.touched &&
+                          formEmployee.controls.nid_state.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployee.controls.nid_state.errors.required"
+                          >Estado del Empleado es <strong>requerido</strong>
+                        </span>
+                      </mat-error>
+                </mat-form-field>
+              </div>
+
+            </div>
+          </mat-expansion-panel>
+
+
+        </mat-accordion>
+        <div class="group__buttons">
+          <button type="button" *ngIf="isedit" class="btnrigth" type="button" mat-raised-button (click)="prevPerson()">Atras</button>  
+          <button type="button" *ngIf="isedit" class="btnrigth" type="button" mat-raised-button [disabled]="formEmployee.invalid" (click)="nextEmployee()">Siguiente</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="formEmployeeFile" [editable]="!isedit">
+      <form [formGroup]="formEmployeeFile" style="height: 300px; overflow: auto;">
+        <ng-template matStepLabel>Ficha del Empleado</ng-template>
+        <mat-accordion class="example-headers-align" multi>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Vacaciones
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+              <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Dias de Vacaciones <strong class="obligatory">*</strong></mat-label>
+                  <input type="number" [readonly]="!isedit" formControlName="nvacationdays" matInput placeholder="Vacaciones">
+                  <mat-error
+                          *ngIf="
+                          formEmployeeFile.controls.nvacationdays.touched &&
+                          formEmployeeFile.controls.nvacationdays.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployeeFile.controls.nvacationdays.errors.required"
+                          >Dias de vacaciones es <strong>requerido</strong>
+                          </span>
+                          <span *ngIf="formEmployeeFile.controls.nvacationdays.errors.pattern"
+                          >Solo se debe de ingresar <strong>Numeros</strong>
+                          </span>
+                      </mat-error>
+                </mat-form-field>
+              </div>
+              <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                  <mat-label>Vacaciones Pendientes <strong class="obligatory">*</strong></mat-label>
+                  <input type="number" [readonly]="!isedit" formControlName="npendingvacations" matInput placeholder="Vacaciones Pendientes">
+                  <mat-error
+                          *ngIf="
+                          formEmployeeFile.controls.npendingvacations.touched &&
+                          formEmployeeFile.controls.npendingvacations.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployeeFile.controls.npendingvacations.errors.required"
+                          >Vacaciones Pendientes es <strong>requerido</strong>
+                          </span>
+                          <span *ngIf="formEmployeeFile.controls.npendingvacations.errors.pattern"
+                          >Solo se debe de ingresar <strong>Numeros</strong>
+                          </span>
+                      </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="50" class="pr-16 pt-16">
+                <mat-form-field class="full-width">
+                <mat-label>Plan seguro <strong class="obligatory">*</strong></mat-label>
+                  <input type="number" [readonly]="!isedit" formControlName="nid_safeplan" matInput placeholder="Plan Seguro">
+                  <mat-error
+                          *ngIf="
+                          formEmployeeFile.controls.nid_safeplan.touched &&
+                          formEmployeeFile.controls.nid_safeplan.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployeeFile.controls.nid_safeplan.errors.required"
+                          >Plan seguro es <strong>requerido</strong>
+                          </span>
+                          <span *ngIf="formEmployeeFile.controls.nid_safeplan.errors.pattern"
+                          >Solo se debe de ingresar <strong>Numeros</strong>
+                          </span>
+                      </mat-error>
+                  </mat-form-field>
+              </div>
+
+            </div>
+          </mat-expansion-panel>
+
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Datos
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+              
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-slide-toggle [disabled]="!isedit" formControlName="bsalarycurrency">Moneda de Salario</mat-slide-toggle>
+                <mat-error
+                          *ngIf="
+                          formEmployeeFile.controls.bsalarycurrency.touched &&
+                          formEmployeeFile.controls.bsalarycurrency.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployeeFile.controls.bsalarycurrency.errors.required"
+                          >Moneda de Salario es <strong>requerido</strong>
+                          </span>
+                      </mat-error>
+              </div>
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-slide-toggle [disabled]="!isedit" formControlName="bctscurrency">Moneda CTS</mat-slide-toggle>
+                <mat-error
+                          *ngIf="
+                          formEmployeeFile.controls.bctscurrency.touched &&
+                          formEmployeeFile.controls.bctscurrency.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployeeFile.controls.bctscurrency.errors.required"
+                          >Moneda CTS es <strong>requerido</strong>
+                          </span>
+                      </mat-error>
+              </div>
+
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-slide-toggle [disabled]="!isedit" formControlName="bitsray">RAI</mat-slide-toggle>
+                <mat-error
+                          *ngIf="
+                          formEmployeeFile.controls.bitsray.touched &&
+                          formEmployeeFile.controls.bitsray.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployeeFile.controls.bitsray.errors.required"
+                          >RAI es <strong>requerido</strong>
+                          </span>
+                      </mat-error>
+              </div>
+              
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-slide-toggle [disabled]="!isedit" formControlName="bdoesnotapplyqta">Aplica QTA</mat-slide-toggle>
+                <mat-error
+                          *ngIf="
+                          formEmployeeFile.controls.bdoesnotapplyqta.touched &&
+                          formEmployeeFile.controls.bdoesnotapplyqta.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployeeFile.controls.bdoesnotapplyqta.errors.required"
+                          >Aplica QTA <strong>requerido</strong>
+                          </span>
+                      </mat-error>
+              </div>
+              <div fxFlex="33" class="pr-16 pt-16">
+                <mat-slide-toggle [disabled]="!isedit" formControlName="bmixedafp">MIX APF</mat-slide-toggle>
+                <mat-error
+                          *ngIf="
+                          formEmployeeFile.controls.bmixedafp.touched &&
+                          formEmployeeFile.controls.bmixedafp.invalid
+                          "
+                        >
+                          <span *ngIf="formEmployeeFile.controls.bmixedafp.errors.required"
+                          >MIX APF <strong>requerido</strong>
+                          </span>
+                      </mat-error>
+              </div>
+
+            </div>
+          </mat-expansion-panel>
+
+
+        </mat-accordion>
+        <div class="group__buttons">
+          <button type="button" *ngIf="isedit" class="btnrigth" type="button" mat-raised-button matStepperPrevious>Atras</button>
+          <button type="button" *ngIf="isedit" class="btnrigth" type="button" mat-raised-button [disabled]="formEmployeeFile.invalid"  (click)="save()">Guardar</button>
+        </div>
+      </form>
+    </mat-step>
+  </mat-stepper>
+</mat-card-content>
+
+
+
+<!--<mat-card-title>
+    <div class="card-title-text">{{title}}</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+  <mat-card-content>
+          <mat-tab-group dynamicHeight [selectedIndex]="btnNextPrev.index" mat-align-tabs="center">
+            <mat-tab label="Datos Personales" [disabled]="!blockTap1">
+                <form [formGroup]="formPerson" style="height: 422px;">
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column" style="height: 360px; overflow: auto;">
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Primer Nombre <strong class="obligatory">*</strong></mat-label>
+                            <input maxlength="20" type="text" (input)="removeSpacesPerson('sfirstname')" [readonly]="!isedit" formControlName="sfirstname" matInput placeholder="Primer Nombre">
+                            <mat-error
+                              *ngIf="
+                                formPerson.controls.sfirstname.touched &&
+                                formPerson.controls.sfirstname.invalid
+                              "
+                            >
+                              <span *ngIf="formPerson.controls.sfirstname.errors.required"
+                              >Primer Nombre es <strong>requerido</strong>
+                              </span>
+                              <span *ngIf="formPerson.controls.sfirstname.errors.pattern"
+                              >Solo se debe de ingresar <strong>letras</strong>
+                              </span>
+                          </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Segundo Nombre</mat-label>
+                            <input maxlength="20" type="text" (input)="removeSpacesPerson('ssecondname')" [readonly]="!isedit" formControlName="ssecondname" matInput placeholder="Segundo Nombre">
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Apellido Paterno <strong class="obligatory">*</strong></mat-label>
+                            <input maxlength="20" type="text" (input)="removeSpacesPerson('slastname')" [readonly]="!isedit"  formControlName="slastname" matInput placeholder="Apellido Paterno">
+                            <mat-error
+                              *ngIf="
+                                formPerson.controls.slastname.touched &&
+                                formPerson.controls.slastname.invalid
+                              "
+                            >
+                              <span *ngIf="formPerson.controls.slastname.errors.required"
+                              >Apellido Paterno es <strong>requerido</strong>
+                            </span>
+                            <span *ngIf="formPerson.controls.slastname.errors.pattern"
+                              >Solo se debe de ingresar <strong>letras</strong>
+                              </span>
+                          </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Apellido Materno <strong class="obligatory">*</strong></mat-label>
+                            <input maxlength="20" type="text" (input)="removeSpacesPerson('smotherlastname')" [readonly]="!isedit" matInput formControlName="smotherlastname"  placeholder="Apellido Materno">
+                            <mat-error
+                              *ngIf="
+                                formPerson.controls.smotherlastname.touched &&
+                                formPerson.controls.smotherlastname.invalid
+                              "
+                            >
+                              <span *ngIf="formPerson.controls.smotherlastname.errors.required"
+                              >Apellido Materno es <strong>requerido</strong>
+                            </span>
+                            <span *ngIf="formPerson.controls.smotherlastname.errors.pattern"
+                              >Solo se debe de ingresar <strong>letras</strong>
+                              </span>
+                          </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Correo</mat-label>
+                            <input maxlength="30" type="text" (input)="removeSpacesPerson('semail')" [readonly]="!isedit" formControlName="semail" matInput placeholder="Correo">
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Sexo <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [disabled]="!isedit" formControlName="nid_sex">
+                              <mat-option *ngFor="let item of sex" [value]="item.nid_mastertable">{{
+                                item.sdescription_value
+                              }}</mat-option>
+                            </mat-select>
+                            <mat-error
+                              *ngIf="
+                                formPerson.controls.nid_sex.touched &&
+                                formPerson.controls.nid_sex.invalid
+                              "
+                            >
+                              <span *ngIf="formPerson.controls.nid_sex.errors.required"
+                              >Sexo es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Tipo de Sangre</mat-label>
+                            <input maxlength="20" (input)="removeSpacesPerson('sbloodtype')" type="text" [readonly]="!isedit" formControlName="sbloodtype" matInput placeholder="Tipo de Sangre">
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Identidad <strong class="obligatory">*</strong></mat-label>
+                            <input maxlength="20" type="text" (input)="removeSpacesPerson('sidentification')" [readonly]="!isedit" formControlName="sidentification" matInput placeholder="Identidad">
+                            <mat-error
+                              *ngIf="
+                                formPerson.controls.sidentification.touched &&
+                                formPerson.controls.sidentification.invalid
+                              "
+                            >
+                              <span *ngIf="formPerson.controls.sidentification.errors.required"
+                              >Identidad es <strong>requerido</strong>
+                            </span>
+                            <span *ngIf="formPerson.controls.sidentification.errors.pattern"
+                              >Solo se debe de ingresar <strong>numeros 0-9</strong>
+                              </span>
+                          </mat-error>
+                          </mat-form-field>
+                        </div>
+
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Pasaporte</mat-label>
+                            <input maxlength="20" (input)="removeSpacesPerson('spassport')" [readonly]="!isedit" formControlName="spassport" matInput placeholder="Pasaporte">
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field  class="full-width">
+                            <mat-label>Fecha de Nacimiento <strong class="obligatory">*</strong></mat-label>
+                            <input formControlName="dbirthdate" readonly matInput [matDatepicker]="picker">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker [disabled]="!isedit" #picker></mat-datepicker>
+                            <mat-error
+                              *ngIf="
+                                formPerson.controls.dbirthdate.touched &&
+                                formPerson.controls.dbirthdate.invalid
+                              "
+                            >
+                              <span *ngIf="formPerson.controls.dbirthdate.errors.required"
+                              >Fecha de nacimiento es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                          </mat-form-field>
+                        </div>
+                          
+
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Nacionalidad <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [disabled]="!isedit" formControlName="nid_nationality">
+                              <mat-option *ngFor="let item of nacionality" [value]="item.nid_mastertable">{{
+                                item.sdescription_value
+                              }}</mat-option>
+                            </mat-select>
+                            <mat-error
+                              *ngIf="
+                                formPerson.controls.nid_nationality.touched &&
+                                formPerson.controls.nid_nationality.invalid
+                              "
+                            >
+                              <span *ngIf="formPerson.controls.nid_nationality.errors.required"
+                              >Nacionalidad es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                          </mat-form-field>
+                        </div>
+
+                        <ng-container formArrayName="phones"  *ngFor="let phones of getCtrl('phones', formPerson).controls; let i = index;">
+                          <div fxFlex="33" fxFlex.lt-sm="100" class="pr-16 pt-16" [formGroupName]="i">
+                            <mat-form-field class="full-width">
+                              <mat-label>Telefono {{ i + 1 }} <strong class="obligatory">*</strong></mat-label>
+                              <input type="text" [readonly]="!isedit" formControlName="phone" matInput placeholder="Telefono">
+                               <mat-error>
+                                 <span *ngIf="phones.controls.phone.errors?.required">Telefono es <strong>requerido</strong></span>
+                                 <span *ngIf="phones.controls.phone.errors?.pattern">Solo se debe de ingresar <strong>numeros del 0 - 9</strong></span>
+                               </mat-error>
+                            </mat-form-field>
+                          </div>
+                        </ng-container>
+
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Estado Civil <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [disabled]="!isedit" formControlName="nid_civilstatus">
+                              <mat-option *ngFor="let item of civil" [value]="item.nid_mastertable">{{
+                                item.sdescription_value
+                              }}</mat-option>
+                            </mat-select>
+                            <mat-error
+                              *ngIf="
+                                formPerson.controls.nid_civilstatus.touched &&
+                                formPerson.controls.nid_civilstatus.invalid
+                              "
+                            >
+                              <span *ngIf="formPerson.controls.nid_civilstatus.errors.required"
+                              >Estado Civil es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                          </mat-form-field>
+                        </div>
+
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Licencia de Conducir</mat-label>
+                            <input maxlength="20" (input)="removeSpacesPerson('sdrivinglicense')" [readonly]="!isedit" matInput formControlName="sdrivinglicense"  placeholder="Lincecia de Conducir">
+                          </mat-form-field>
+                        </div>
+
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Fecha de Graduacion de Universidad</mat-label>
+                            <input formControlName="duniversitygraduationdate" readonly matInput [matDatepicker]="pickeruniversity">
+                            <mat-datepicker-toggle matSuffix [for]="pickeruniversity"></mat-datepicker-toggle>
+                            <mat-datepicker [disabled]="!isedit" #pickeruniversity></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Fecha de Ingreso al pais</mat-label>
+                            <input formControlName="dcountryentrydate" readonly matInput [matDatepicker]="pickercountry">
+                            <mat-datepicker-toggle matSuffix [for]="pickercountry"></mat-datepicker-toggle>
+                            <mat-datepicker [disabled]="!isedit" #pickercountry></mat-datepicker>
+                          </mat-form-field>
+                        </div>
+
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Personal Medico</mat-label>
+                            <input [readonly]="!isedit" (input)="removeSpacesPerson('smedicalstaff')" formControlName="smedicalstaff" matInput placeholder="Personal Medico">
+                          </mat-form-field>
+                        </div>
+
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-form-field class="full-width">
+                            <mat-label>Activo <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [disabled]="!isedit" formControlName="nid_active">
+                              <mat-option *ngFor="let item of active" [value]="item.nid_mastertable">{{
+                                item.sdescription_value
+                              }}</mat-option>
+                            </mat-select>
+                            <mat-error
+                              *ngIf="
+                                formPerson.controls.nid_active.touched &&
+                                formPerson.controls.nid_active.invalid
+                              "
+                            >
+                              <span *ngIf="formPerson.controls.nid_active.errors.required"
+                              >Activo es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                          </mat-form-field>
+                        </div>
+                        <div fxFlex="33" class="pr-16 pt-16">
+                          <mat-slide-toggle [disabled]="!isedit" formControlName="bitisnotdomiciled">Es no Domiciliado</mat-slide-toggle>
+                        </div>
+                    </div>
+                      <button class="btnrigth rigth" *ngIf="isedit" mat-raised-button [disabled]="formPerson.invalid" (click)="nextfirsh()">Siguiente</button>
+                </form>
+            </mat-tab>
+            <mat-tab label="Datos del Empleado" [disabled]="!blockTap2">
+              <form [formGroup]="formEmployee" style="height: 422px;">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" style="height: 360px; overflow: auto;">
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Empresa <strong class="obligatory">*</strong></mat-label>
+                      <mat-select [disabled]="!isedit" formControlName="nid_company" (selectionChange)="changecompany()">
+                        <mat-option *ngFor="let item of company" [value]="item.nid_company">{{
+                          item.sdescription
+                        }}</mat-option>
+                      </mat-select>
+                      <mat-error
+                              *ngIf="
+                              formEmployee.controls.nid_company.touched &&
+                              formEmployee.controls.nid_company.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployee.controls.nid_company.errors.required"
+                              >Empresa es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Cargo <strong class="obligatory">*</strong></mat-label>
+                      <mat-select [disabled]="!isedit" formControlName="nid_position">
+                        <mat-option *ngFor="let item of position" [value]="item.nid_charge">{{
+                          item.snamecharge
+                        }}</mat-option>
+                      </mat-select>
+                      <mat-error
+                              *ngIf="
+                              formEmployee.controls.nid_position.touched &&
+                              formEmployee.controls.nid_position.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployee.controls.nid_position.errors.required"
+                              >Cargo es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Area <strong class="obligatory">*</strong></mat-label>
+                      <mat-select [disabled]="!isedit" formControlName="nid_area">
+                        <mat-option *ngFor="let item of area" [value]="item.nid_area">{{
+                          item.snamearea
+                        }}</mat-option>
+                      </mat-select>
+                      <mat-error
+                              *ngIf="
+                              formEmployee.controls.nid_area.touched &&
+                              formEmployee.controls.nid_area.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployee.controls.nid_area.errors.required"
+                              >Area es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Plaza</mat-label>
+                      <input [readonly]="!isedit" formControlName="plaza" matInput placeholder="Plaza">
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Centro de Costo <strong class="obligatory">*</strong></mat-label>
+                      <mat-select [disabled]="!isedit" formControlName="nid_costcenter">
+                        <mat-option *ngFor="let item of constCenter" [value]="item.nid_costcenter">{{
+                          item.sname
+                        }}</mat-option>
+                      </mat-select>
+                      <mat-error
+                              *ngIf="
+                              formEmployee.controls.nid_costcenter.touched &&
+                              formEmployee.controls.nid_costcenter.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployee.controls.nid_costcenter.errors.required"
+                              >Centro de Costo es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Fecha de Primera Admision</mat-label>
+                      <input formControlName="ddateoffirstadmission" readonly matInput [matDatepicker]="pickerfirstadmission">
+                      <mat-datepicker-toggle matSuffix [for]="pickerfirstadmission"></mat-datepicker-toggle>
+                      <mat-datepicker [disabled]="!isedit" #pickerfirstadmission></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Fecha de Admision <strong class="obligatory">*</strong></mat-label>
+                      <input formControlName="dadmissiondate" readonly matInput [matDatepicker]="pickeradmission">
+                      <mat-datepicker-toggle matSuffix [for]="pickeradmission"></mat-datepicker-toggle>
+                      <mat-datepicker [disabled]="!isedit" #pickeradmission></mat-datepicker>
+                      <mat-error
+                              *ngIf="
+                              formEmployee.controls.dadmissiondate.touched &&
+                              formEmployee.controls.dadmissiondate.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployee.controls.dadmissiondate.errors.required"
+                              >Fecha de Admision es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Fecha de Apertura</mat-label>
+                      <input formControlName="ddeparturedate" readonly matInput [matDatepicker]="pickerarture">
+                      <mat-datepicker-toggle matSuffix [for]="pickerarture"></mat-datepicker-toggle>
+                      <mat-datepicker [disabled]="!isedit" #pickerarture></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Planilla <strong class="obligatory">*</strong></mat-label>
+                      <mat-select [disabled]="!isedit" formControlName="nid_payroll">
+                        <mat-option *ngFor="let item of payroll" [value]="item.nid_payroll">{{
+                          item.scodpayroll
+                        }}</mat-option>
+                      </mat-select>
+                      <mat-error
+                              *ngIf="
+                              formEmployee.controls.nid_payroll.touched &&
+                              formEmployee.controls.nid_payroll.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployee.controls.nid_payroll.errors.required"
+                              >Planilla es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>IT</mat-label>
+                      <input [readonly]="!isedit" formControlName="snit" matInput placeholder="It">
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Antiguedad en la Empresa</mat-label>
+                      <input formControlName="dcompanyseniority" readonly matInput [matDatepicker]="pickercompany">
+                      <mat-datepicker-toggle matSuffix [for]="pickercompany"></mat-datepicker-toggle>
+                      <mat-datepicker [disabled]="!isedit" #pickercompany></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Antiguedad en el Gobierno</mat-label>
+                      <input formControlName="dgovernmentseniority" readonly matInput [matDatepicker]="pickergovernment">
+                      <mat-datepicker-toggle matSuffix [for]="pickergovernment"></mat-datepicker-toggle>
+                      <mat-datepicker [disabled]="!isedit" #pickergovernment></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Estado del Empleado <strong class="obligatory">*</strong></mat-label>
+                      <mat-select [disabled]="!isedit" formControlName="nid_state">
+                        <mat-option *ngFor="let item of state" [value]="item.nid_mastertable">{{
+                          item.sdescription_value
+                        }}</mat-option>
+                      </mat-select>
+                      <mat-error
+                              *ngIf="
+                              formEmployee.controls.nid_state.touched &&
+                              formEmployee.controls.nid_state.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployee.controls.nid_state.errors.required"
+                              >Estado del Empleado es <strong>requerido</strong>
+                            </span>
+                          </mat-error>
+                    </mat-form-field>
+                  </div>
+
+                </div>
+                <div *ngIf="isedit" class="tabs__buttons">
+                  <button class="btnrigth" type="button" mat-raised-button  (click)="prevPerson()">Atras</button> 
+                  <button class="btnrigth" type="button" mat-raised-button [disabled]="formEmployee.invalid" (click)="nextEmployee()">Siguiente</button>
+                </div>
+              </form>
+            </mat-tab>
+            <mat-tab label="Ficha del Empleado" [disabled]="!blockTap3">
+              <form [formGroup]="formEmployeeFile" style="height: 422px;">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column" style="height: 360px; overflow: auto;">
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Dias de Vacaciones <strong class="obligatory">*</strong></mat-label>
+                      <input type="number" [readonly]="!isedit" formControlName="nvacationdays" matInput placeholder="Vacaciones">
+                      <mat-error
+                              *ngIf="
+                              formEmployeeFile.controls.nvacationdays.touched &&
+                              formEmployeeFile.controls.nvacationdays.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployeeFile.controls.nvacationdays.errors.required"
+                              >Dias de vacaciones es <strong>requerido</strong>
+                              </span>
+                              <span *ngIf="formEmployeeFile.controls.nvacationdays.errors.pattern"
+                              >Solo se debe de ingresar <strong>Numeros</strong>
+                              </span>
+                          </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <mat-label>Vacaciones Pendientes <strong class="obligatory">*</strong></mat-label>
+                      <input type="number" [readonly]="!isedit" formControlName="npendingvacations" matInput placeholder="Vacaciones Pendientes">
+                      <mat-error
+                              *ngIf="
+                              formEmployeeFile.controls.npendingvacations.touched &&
+                              formEmployeeFile.controls.npendingvacations.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployeeFile.controls.npendingvacations.errors.required"
+                              >Vacaciones Pendientes es <strong>requerido</strong>
+                              </span>
+                              <span *ngIf="formEmployeeFile.controls.npendingvacations.errors.pattern"
+                              >Solo se debe de ingresar <strong>Numeros</strong>
+                              </span>
+                          </mat-error>
+                    </mat-form-field>
+                  </div>
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-slide-toggle [disabled]="!isedit" formControlName="bsalarycurrency">Moneda de Salario</mat-slide-toggle>
+                    <mat-error
+                              *ngIf="
+                              formEmployeeFile.controls.bsalarycurrency.touched &&
+                              formEmployeeFile.controls.bsalarycurrency.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployeeFile.controls.bsalarycurrency.errors.required"
+                              >Moneda de Salario es <strong>requerido</strong>
+                              </span>
+                          </mat-error>
+                  </div>
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-slide-toggle [disabled]="!isedit" formControlName="bctscurrency">Moneda CTS</mat-slide-toggle>
+                    <mat-error
+                              *ngIf="
+                              formEmployeeFile.controls.bctscurrency.touched &&
+                              formEmployeeFile.controls.bctscurrency.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployeeFile.controls.bctscurrency.errors.required"
+                              >Moneda CTS es <strong>requerido</strong>
+                              </span>
+                          </mat-error>
+                  </div>
+
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-slide-toggle [disabled]="!isedit" formControlName="bitsray">RAI</mat-slide-toggle>
+                    <mat-error
+                              *ngIf="
+                              formEmployeeFile.controls.bitsray.touched &&
+                              formEmployeeFile.controls.bitsray.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployeeFile.controls.bitsray.errors.required"
+                              >RAI es <strong>requerido</strong>
+                              </span>
+                          </mat-error>
+                  </div>
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-slide-toggle [disabled]="!isedit" formControlName="nid_safeplan">Plan Seguro</mat-slide-toggle>
+                  </div>
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-slide-toggle [disabled]="!isedit" formControlName="bdoesnotapplyqta">Aplica QTA</mat-slide-toggle>
+                    <mat-error
+                              *ngIf="
+                              formEmployeeFile.controls.bdoesnotapplyqta.touched &&
+                              formEmployeeFile.controls.bdoesnotapplyqta.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployeeFile.controls.bdoesnotapplyqta.errors.required"
+                              >Aplica QTA <strong>requerido</strong>
+                              </span>
+                          </mat-error>
+                  </div>
+                  <div fxFlex="33" class="pr-16 pt-16">
+                    <mat-slide-toggle [disabled]="!isedit" formControlName="bmixedafp">MIX APF</mat-slide-toggle>
+                    <mat-error
+                              *ngIf="
+                              formEmployeeFile.controls.bmixedafp.touched &&
+                              formEmployeeFile.controls.bmixedafp.invalid
+                              "
+                            >
+                              <span *ngIf="formEmployeeFile.controls.bmixedafp.errors.required"
+                              >MIX APF <strong>requerido</strong>
+                              </span>
+                          </mat-error>
+                  </div>
+                </div>
+              </form>
+              <div *ngIf="isedit" class="tabs__buttons">
+                <button class="btnrigth" type="button" mat-raised-button (click)="prevEmployee()">Atras</button>
+                <button class="btnrigth" type="button" mat-raised-button [disabled]="formEmployeeFile.invalid" (click)="save()">Guardar</button>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+  </mat-card-content>-->
+
+<button class="btnaction rigth" (click)="cancel()" type="button" mat-raised-button>Cancelar</button>
+

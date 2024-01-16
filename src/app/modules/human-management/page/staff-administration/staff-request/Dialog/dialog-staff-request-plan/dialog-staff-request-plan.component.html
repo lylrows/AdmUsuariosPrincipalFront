@@ -1,0 +1,149 @@
+<div class="content">
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="header">
+            <h1>SOLICITUD DE {{title | uppercase}}</h1>
+        </div>
+        <hr>
+        <div class="personal">
+            <h1 class="title">1. DATOS PERSONALES: </h1>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Código del Empleado: </label>
+                    <span> {{ codeEmployee }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">DNI N*: </label>
+                    <span> {{dni }} </span>
+                </div>
+
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label>Nombres y Apellidos: </label>
+                    <span> {{fullname }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Fecha de Ingreso: </label>
+                    <span> {{ dateAdmission }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">Área: </label>
+                    <span> {{ area }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label class="size-large">Cargo: </label>
+                    <span> {{ charge }} </span>
+                </div>
+            </div>
+        </div>
+        <div class="motivo">
+            <h1 class="title">2. SOLICITADO: </h1>
+            <!-- <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Tipo de EPS: </label>
+                <mat-form-field appearance="fill" fxFlex="100">
+                    <mat-label>Tipo de EPS</mat-label>
+                    <mat-select placeholder="Seleccionar una opcion" [disabled]="isEdit" formControlName="ntypeeps">
+                        <mat-option *ngFor="let item of listtypeeps" [value]="item.nid_mastertable">
+                            {{item.sdescription_value}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="
+                    form.controls.ntypeeps.touched &&
+                    form.controls.ntypeeps.invalid">
+                        <span *ngIf="form.controls.ntypeeps.errors.required">Tipo de eps es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div> -->
+            <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Tipo de Seguros: </label>
+                <mat-form-field appearance="fill" fxFlex="100" class="selResponsive">
+                    <mat-label>Tipo de Seguros</mat-label>
+                    <mat-select placeholder="Seleccionar una opción" [disabled]="isEdit" formControlName="ntypesure">
+                        <mat-option *ngFor="let item of listType" [value]="item.nid_mastertable">{{item.sdescription_value}}</mat-option>
+                      </mat-select>
+                    <mat-error *ngIf="
+                    form.controls.ntypesure.touched &&
+                    form.controls.ntypesure.invalid
+                                          ">
+                        <span *ngIf="form.controls.ntypesure.errors.required">Tipo de seguro es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Plan: </label>
+                <mat-form-field appearance="fill" fxFlex="100" class="selResponsive">
+                    <mat-label>Plan</mat-label>
+                    <mat-select placeholder="Seleccionar Plan" [disabled]="isEdit" formControlName="nbeneficiary">
+                        
+                        <mat-option *ngFor="let item of listBeneficiarys" [value]="item.nid_mastertable">{{item.sdescription_value}}</mat-option>
+                      </mat-select>
+                    <mat-error *ngIf="
+                    form.controls.nbeneficiary.touched &&
+                    form.controls.nbeneficiary.invalid
+                                          ">
+                        <span *ngIf="form.controls.nbeneficiary.errors.required">Plan es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="adjunto">
+                <mat-label class="size-large" style="font-weight: bold;">Adjuntar PDF firmado: </mat-label>
+                <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+    
+                <div *ngIf="!isEdit" class="file-upload">
+    
+                    {{fileName || "Ningun archivo cargado"}}
+    
+                    <button type="button" *ngIf="!isEdit" style="margin-left: 5px;" mat-mini-fab type="button" class="upload-btn"
+                        (click)="fileUpload.click()">
+                        <mat-icon style="color: #000;">attach_file</mat-icon>
+                    </button>
+                </div>
+                <div class="button_download" *ngIf="isEdit" >
+                    <!-- <p>{{ nameFile }}</p> -->
+                    <button type="button" style="margin-left: 10px;" mat-mini-fab (click)="ViewAdjuntoDownload()"  class="upload-btn"
+                    >
+                        <mat-icon style="color: #000;">get_app</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <div *ngIf="!isEdit" class="motivo__button">
+                <button type="button" mat-raised-button color="primary" (click)="downloadFormato(3)" >Descargar Formato de cambio de EPS </button>
+            </div>
+        </div>
+
+        <div *ngIf="isEdit" class="motivo">
+            <h1 class="title">HISTORIAL DE SOLICITUD: </h1>
+            <app-staff-request-approver style="width: 50%;text-align: center;"></app-staff-request-approver>
+        </div>
+        <div class="motivo" *ngIf="isAceept || StatusRejected">
+            <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+            <div class="motivo__amount">
+              <label class="size-large" style="font-weight: bold;">Comentario: </label>
+              <mat-form-field class="size-input">
+                <mat-label>Comentario</mat-label>
+                <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation" [readonly]="StatusRejected"></textarea>          
+              </mat-form-field>
+            </div> 
+          </div>
+        <div class="footer">
+            <button *ngIf="!isEdit" mat-raised-button color="primary"
+                type="submit">Guardar</button>
+            <button *ngIf="isEdit && isAceept" mat-raised-button color="primary"
+                type="button" (click)="accept()">Aceptar</button>
+            <button *ngIf="isEdit && isAceept" type="button" mat-raised-button
+                style="background-color: #f44336; color: white;" (click)="reject()"> Rechazar</button>
+            <button type="button" mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+        </div>
+    </form>
+</div>

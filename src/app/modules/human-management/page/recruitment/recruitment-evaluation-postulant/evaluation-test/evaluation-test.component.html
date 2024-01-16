@@ -1,0 +1,118 @@
+<p-table #dt [value]="list" dataKey="id" editMode="row">
+
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:8rem"></th>
+            <th style="width:10rem">Postulante</th>
+            <th>Nombre de evaluación</th>
+            <th>Puntaje obtenido</th>
+            <th>Expectativa</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-evaluation let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="evaluation">
+            <!--  BUTTONS -->
+            <td *ngIf="evaluador === 'rrhh'" class="cellResponsive center-botones">
+                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
+                    (click)="onRowEditInit(evaluation)" class="editar  init-edit" title="Editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+                <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash" 
+                    (click)="onRowDeleteSave(evaluation, ri)" title="Eliminar"
+                    class="p-button-rounded p-button-text p-button-danger mr-2"></button>            
+            </td>
+            <td *ngIf="evaluador === 'cliente'" class="cellResponsive center-botones">
+                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow 
+                    (click)="onRowEditInit(evaluation)" class="editar  init-edit" title="Editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+                <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash"  
+                    (click)="onRowDeleteSave(evaluation, ri)" title="Eliminar"
+                    class="p-button-rounded p-button-text p-button-danger mr-2"></button>          
+            </td>
+            <td *ngIf="evaluador === 'jefe'" class="cellResponsive center-botones"> 
+                <button *ngIf="!editing" pButton pRipple type="button" pInitEditableRow
+                    (click)="onRowEditInit(evaluation)" class="editar  init-edit" title="Editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+                <button *ngIf="!editing" pButton pRipple type="button" icon="pi pi-trash" 
+                    (click)="onRowDeleteSave(evaluation, ri)" title="Eliminar"
+                    class="p-button-rounded p-button-text p-button-danger mr-2"></button>              
+            </td>
+            <td class="cellResponsive">
+                <span class="p-column-title" style="font-weight: bold;">Postulante</span><p>{{evaluation.fullNamePostulant}}</p>
+            </td>
+            <td style="text-align: center;" class="cellResponsive">
+                <span class="p-column-title" style="font-weight: bold;">Evaluación</span>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText placeholder="Ingrese la nombre de la evaluación"  [(ngModel)]="evaluation.test"/>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <input disabled placeholder="Ingrese la nombre de la evaluación" pInputText [(ngModel)]="evaluation.test"/>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td style="text-align: center;" class="cellResponsive">
+                <span class="p-column-title" style="font-weight: bold;">Puntaje</span>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText placeholder="Ingrese el puntaje"  [(ngModel)]="evaluation.score"/>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <input disabled pInputText placeholder="Ingrese el puntaje" [(ngModel)]="evaluation.score"/>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td style="text-align: center;" class="cellResponsive">
+                <span class="p-column-title" style="font-weight: bold;">Expectativa</span>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText placeholder="Ingrese la expectativa"  [(ngModel)]="evaluation.expectativa"/>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <input disabled pInputText placeholder="Ingrese la expectativa" [(ngModel)]="evaluation.expectativa"/>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+        </tr>
+    </ng-template>
+    <!-- <ng-template pTemplate="footer" style="display: block !important">
+        <tr style="border: 1px solid red; height: 100px;">
+            <td class="addrow" colspan="5">
+                <button (click)="addRow($event)" mat-raised-button color="primary"
+                [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1">Agregar Evaluación</button>
+            </td>
+            <td>xXXXX</td>
+        </tr>
+    </ng-template> -->
+</p-table>
+<table>
+    <tr>
+        <td class="addrow" colspan="5">
+            <button (click)="addRow()" mat-raised-button color="primary"
+            [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1">Agregar Evaluación</button>
+        </td>
+    </tr>
+</table>

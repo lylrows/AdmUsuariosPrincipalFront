@@ -1,0 +1,22 @@
+<div class="text-center  pt-16 pb-16" style="background-color: #343a67;">
+  <h6 class="m-0 text-white">Reconocimientos</h6>
+</div>
+<mat-nav-list class="notification-list" role="list">
+  <!-- Notification item -->
+  <mat-list-item style="height: 75px;" *ngFor="let n of recognitions" class="notific-item" role="listitem" routerLinkActive="open">
+    <mat-icon style="color: #DD9923;" class="notific-icon mr-16">{{n.sicon}}</mat-icon>
+    <a (click)="openModel(n)">
+      <div class="mat-list-text">
+        <h6 class="message">{{n.sfullname | titlecase}}</h6>
+        <small class="text-muted">{{n.stitle}}</small>
+        <small class="time text-muted">Hace {{n.timeAll}}</small>
+      </div>
+    </a>
+    <button style="margin-left: 5px;" (click)="hide(n)" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </mat-list-item>
+</mat-nav-list>
+<div class="text-center mt-16">
+  <small><a  (click)="clearAll($event)">{{options}}</a></small>
+</div>

@@ -1,0 +1,374 @@
+::ng-deep .sololectura button[icon="pi pi-paperclip"]{
+  display: none !important;
+}
+
+::ng-deep .sololectura button[icon="pi pi-times"]{
+  display: none !important;
+}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+  padding: 5px !important;
+  height: 60px !important;
+}
+
+.title {
+    display: flex;
+    justify-content: start;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.file-input {
+  display: none;
+}
+
+.divider {
+    display: flex;
+    gap: 15px;
+    &__left {
+        width: 80%;
+        &__group {
+            display: flex;
+            gap: 10px;
+            label {
+                width: 15%;
+                align-self: center;
+                font-weight: 600;
+                color: #4f66a8;
+                text-align: start;
+            }
+        }
+    }
+    &__right {
+        width: 15%;
+        text-align: center;
+        margin: auto;
+    }
+}
+
+.first {
+    margin-bottom: 20px;
+}
+
+.margin-expanded {
+    margin: 15px 15px 0 15px;
+}
+
+.obligatory {
+    color: red;
+  }
+
+  .mat-expanded .up {
+    border-top-color: #ff8a48;
+    border-top-width: 0.5px;
+    border-top-style: solid;
+  }
+
+  .mat-card-content {
+      height: auto;
+  }
+
+  .input_phone {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    mat-form-field {
+      width: 30%;
+    }
+    &__button {
+      display: flex;
+      gap: 10px;
+      justify-content: end;
+    }
+  }
+
+  .btnrigth {
+    margin: 18px;
+    background-color: #343a67 ;
+    color: white;
+    &:disabled {
+      cursor: no-drop;
+      background-color:  #818ff7;
+    }
+  }
+
+  .rigth {
+    float: right;
+  }
+
+  .inptus__address {
+    display: flex;
+    flex-direction: column;
+    mat-form-field {
+      width: 90%;
+    }
+    &__group {
+      display: flex;
+      gap: 10px
+    }
+    &__button {
+      display: flex;
+      gap: 10px;
+      justify-content: end;
+    }
+  }
+
+  .clsColumnaShort {
+    width: 60px;
+}
+
+.clsColumnaLarge {
+    width: 170px;
+}
+
+.clsColumnaDescripcionCompe {
+    width: 220px;
+}
+
+.clsColumnaMedium {
+    width: 110px;
+}
+
+.title {
+  display: flex;
+  gap: 20px;
+  padding-top: 10px;
+  padding-left: 10px;
+  h1 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #4f66a8;
+    }
+    h6 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #4f66a8;
+    }
+}
+
+.fab-container {
+  position: fixed;
+  top: 135px;
+  right: 100px;
+  z-index: 150;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all 0.3s ease;
+  transform-origin: 50% 30%;
+}
+
+.fab-container > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+
+.fab-container > div > button {
+  margin-top: 10px;
+  outline: none;
+}
+
+@media screen and (max-width: 960px) {
+    .divider {
+        display: flex;
+        flex-direction: column;
+        &__left {
+            width: 100%;
+            &__group {
+                display: flex;
+                flex-direction: column;
+                gap: 2px;
+                label {
+                    width: 100%;
+
+                }
+            }
+        }
+        &__right {
+            width: 100%;
+        }
+    }
+
+    .margin-expanded {
+        margin: 0;
+    }
+
+    .input_phone {
+        display: flex;
+        flex-direction: column;
+        mat-form-field {
+          width: 90%;
+        }
+      }
+}
+
+// NUEVOS DISEÑOS
+
+.img_profile {
+  border-radius: 50%;
+  height: auto;
+}
+
+.font-detail {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0em;
+  color: #111111;
+}
+
+.font-name {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 29px;
+  letter-spacing: 0em;
+  color: #4f66a8;
+}
+
+.content-center-profile {
+  display: flex;
+  align-items: center;
+}
+
+.btn-profile {
+  width: 100%;
+  max-width: 300px;
+  padding: 15px 0 !important;
+}
+
+p {
+  margin: 0px !important;
+}
+
+.toolbar-avatar > img {
+  border: 3px solid #8CACDA;
+  opacity: 70%;
+}
+
+img:not(.mat-card-image) {
+  max-width: auto;
+}
+
+.toolbar-avatar.md, .toolbar-avatar.md > img {
+  width: 80px !important;
+  height: 80px;
+}
+
+.toolbar-avatar.sm, .toolbar-avatar.sm > img {
+  width: 60px !important;
+  height: 60px;
+}
+
+h3 {
+  margin: 0px !important;
+}
+h2 {
+  margin: 0px !important;
+}
+
+.card-porc {
+  margin-left: 0rem !important;
+  // background: linear-gradient(99.2deg, #F2F2F2 -0.62%, #FFFFFF 93.26%) !important;
+  background: linear-gradient(99.2deg, #F2F2F2 -0.62%, #F2F2F2 53.26%) !important;
+  box-shadow: 0px 7.20455px 7.20455px rgba(0, 0, 0, 0.04) !important;
+  border-radius: 16.2102px !important;
+  -webkit-border-radius: 16.2102px !important;
+  -moz-border-radius: 16.2102px !important;
+  -ms-border-radius: 16.2102px !important;
+  -o-border-radius: 16.2102px !important;
+}
+
+.mat-accent {
+  background-color:  #7b8ec8 !important;
+  color: #ffffff !important;
+}
+
+.mat-warn{
+  background-color: #de9310bf !important
+}
+
+::ng-deep .mat-form-field-flex {
+  border: 0.5px solid #c0cfea !important; 
+}
+
+::ng-deep .mat-card .mat-focus-indicator .card-porc {
+  border: 1px solid red;
+}
+
+.card-porc {
+  // background: linear-gradient(99.2deg, #F2F2F2 -0.62%, #F2F2F2 53.26%) !important;
+  background: linear-gradient(99.2deg, #e7e7e7 -0.62%, #e7e7e7 53.26%) !important;
+  // background-color: black !important;
+}
+
+.buttons-profile{
+  padding: 10px; 
+  display: flex; 
+  width: 100%; 
+  justify-content: end; 
+  gap:15px;
+}
+
+@media only screen and (max-device-width: 480px) {
+  .fab-container{
+    right: 20px !important
+  }
+  .divider > div{
+    text-align: center !important;
+  }
+  .filter__buttons{ 
+    display: grid !important;
+    grid-template-columns: repeat(1, 1fr);
+    grid-gap: 8px;
+    max-height: none !important;
+  }
+  .filter__buttons > button { 
+    max-width: 100% !important;
+  }
+
+  .filter__buttons > button:last-child { 
+    margin-bottom: 12px !important;
+  }
+  .buttons-profile{
+    display: table-row;
+    button{
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+  .divObjetivos{
+    display: block !important;
+    h3{
+      font-size: 12px !important;
+    }
+    h2{
+      font-size: 13px !important;
+    }
+  }
+  .divObjetivos2{
+    display: block !important;
+  }
+  .input_phone__button{
+    margin-right: 41px;
+  }
+  .inptus__address__button{
+    margin-right: 41px;
+  }
+}
+.divObjetivos{
+  display:flex; 
+  width: 100%
+}
+
+.divObjetivos2{
+  display: flex; 
+  flex-grow: 1
+}
+
+
+.upload-btn{
+  background: #FAFAFA !important;
+}

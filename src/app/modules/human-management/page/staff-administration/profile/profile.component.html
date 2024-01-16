@@ -1,0 +1,2178 @@
+<div style="margin: 0 30px;">
+
+    <div class="fab-container">
+        <button class="btn-add" mat-mini-fab class="fab-toogler" matTooltip="Guardar Perfil" matTooltipPosition="left"
+            (click)="save()">
+            <mat-icon style="color: #000">save</mat-icon>
+        </button>
+    </div>
+
+    <!-- <div class="title">
+        <img *ngIf="employee != undefined && employee.nid_company == 1"
+            src="../../../../../../assets/images/logos/logo-campofe.svg" height="65" width="65" alt="">
+        <img *ngIf="employee != undefined && employee.nid_company == 2"
+            src="../../../../../../assets/images/logos/logo-prestafe.svg" height="65" width="65" alt="">
+        <img *ngIf="employee != undefined && employee.nid_company == 3"
+            src="../../../../../../assets/images/logos/logo-fesalud.svg" height="65" width="65" alt="">
+    </div> -->
+
+    <div class="first">
+
+        <div style="display:flex; justify-content: left; padding-top: 15px;">
+
+            <div class="flex-container" style="width: 100%">
+                <div style="display: flex; flex-grow: 1">
+                    <div class="divider" style="width: 100%">
+                        <div style="text-align:center;">
+                            <span class="toolbar-avatar md">
+                                <img class="img_profile" *ngIf="person != undefined && person.simg != null"
+                                    [src]="person.simg" alt="">
+                                <img class="img_profile" *ngIf="person != undefined && person.simg == null"
+                                    src="../../../../../../assets/images/avatars/avatar.jpg" alt="">
+                            </span>
+                        </div>
+                        <!-- style="border: 1px solid blue" -->
+                        <div class="divider__left">
+                            <p class="font-name">{{ inputFullname.value }}</p>
+                            <p class="font-detail">{{ inputArea.value }} | {{inputPuesto.value }}</p>
+                            <!-- <p class="font-detail">Anexo | Correo@gmail.com</p> -->
+                            <p class="font-detail">
+                                <img *ngIf="employee != undefined && employee.nid_company == 1"
+                                    src="../../../../../../assets/images/logos/logo-campofe.svg" height="20" width="65"
+                                    alt="">
+                                <img *ngIf="employee != undefined && employee.nid_company == 2"
+                                    src="../../../../../../assets/images/logos/logo-prestafe.svg" height="20" width="65"
+                                    alt="">
+                                <img *ngIf="employee != undefined && employee.nid_company == 3"
+                                    src="../../../../../../assets/images/logos/logo-fesalud.svg" height="20" width="65"
+                                    alt="">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <div class="content-center-profile">
+                        <div *ngIf="isNewRequest" class="flex-container buttons-profile">
+                            <button mat-raised-button color="primary" (click)="downloadCV()"
+                                style="font-weight: 800 !important;">Descarga tu CV</button>
+                            <button mat-raised-button color="primary" (click)="showRequest()"
+                                style="font-weight: 800 !important;">¡Edita tus datos!</button>
+                            <button mat-raised-button color="primary" (click)="showRequestDocument()"
+                                style="font-weight: 800 !important;">¡Solicita tus documentos!</button>
+                            <button mat-raised-button color="primary" (click)="showRequestModal()"
+                                style="font-weight: 800 !important;">Estado de tus Solicitudes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="display: flex;">
+            <mat-card class="card-porc" style="width: 50%;">
+                <mat-card-content style="display:flex; justify-content: center; cursor: pointer;" (click)="gotobell()">
+                    <div class="divider" fxFlex="100">
+                        <div>
+                            <span class="toolbar-avatar sm">
+                                <img class="img_profile" src="../../../../../../assets/images/50.png" alt="">
+                            </span>
+                        </div>
+                        <div class="divider__left" style="width: 90%">
+
+                            <div class="divObjetivos">
+                                <div class="divObjetivos2">
+                                    <div>
+                                        <h3 style="width: 100%">Objetivos organizacionales</h3>
+                                        <h2 style="width: 100%; color:#536BB2; font-weight: 900 !important;">PESO: 60 %
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div
+                                    style="display: inline-flex; flex: 0 0 auto; margin-bottom: auto; margin-top: auto;">
+                                    <!-- <img style="font-weight: bold;" src="../../../../../../assets/icons/Union.svg" alt="" > -->
+                                    <div style="margin-bottom: auto; margin-top: auto;">
+                                        <svg font-weight="bold" xmlns="http://www.w3.org/2000/svg" width="30"
+                                            height="30" viewBox="0 0 21 15" fill="bold">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M19.8536 7L12.8536 0L12.1464 0.707107L18.2929 6.85355H0.5V7.85355H18.2929L12.1464 14L12.8536 14.7071L19.8536 7.70711L20.2071 7.35355L19.8536 7Z"
+                                                fill="#536BB2" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+
+
+            <mat-card class="card-porc" style="width: 50%;">
+                <mat-card-content style="display:flex; justify-content: center; cursor: pointer;" (click)="gotobell()">
+                    <div class="divider" fxFlex="100">
+                        <div>
+                            <span class="toolbar-avatar sm">
+                                <img class="img_profile" src="../../../../../../assets/images/50.png" alt="">
+                            </span>
+                        </div>
+                        <div class="divider__left" style="width: 90%">
+                            <div class="divObjetivos">
+                                <div class="divObjetivos2">
+                                    <div>
+                                        <h3 style="width: 100%">Competencias organizacionales</h3>
+                                        <h2 style="width: 100%; color:#536BB2; font-weight: 900 !important;">PESO: 40 %
+                                        </h2>
+                                    </div>
+                                </div>
+                                <div
+                                    style="display: inline-flex; flex: 0 0 auto; margin-bottom: auto; margin-top: auto;">
+                                    <!-- <img style="font-weight: bold;" src="../../../../../../assets/icons/Union.svg" alt="" > -->
+                                    <div style="margin-bottom: auto; margin-top: auto;">
+                                        <svg font-weight="bold" xmlns="http://www.w3.org/2000/svg" width="30"
+                                            height="30" viewBox="0 0 21 15" fill="bold">
+                                            <path fill-rule="evenodd" clip-rule="evenodd"
+                                                d="M19.8536 7L12.8536 0L12.1464 0.707107L18.2929 6.85355H0.5V7.85355H18.2929L12.1464 14L12.8536 14.7071L19.8536 7.70711L20.2071 7.35355L19.8536 7Z"
+                                                fill="#536BB2" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+
+
+
+        <div class="filter__buttons"
+            style="padding: 10px; display: flex; width: 100%; justify-content: space-between; gap:15px">
+            <button mat-raised-button [color]="(idSection == 1) ? 'warn' : 'accent'" class="btn-profile"
+                (click)="selectedSection(1)">Datos Personales</button>
+            <button mat-raised-button [color]="(idSection == 2) ? 'warn' : 'accent'" class="btn-profile"
+                (click)="selectedSection(2)">Organizacionales</button>
+            <button mat-raised-button [color]="(idSection == 3) ? 'warn' : 'accent'" class="btn-profile"
+                (click)="selectedSection(3)">Estudios y Logros</button>
+            <button mat-raised-button [color]="(idSection == 4) ? 'warn' : 'accent'" class="btn-profile"
+                (click)="selectedSection(4)">Experiencias</button>
+            <button mat-raised-button [color]="(idSection == 5) ? 'warn' : 'accent'" class="btn-profile"
+                (click)="selectedSection(5)">Bienestar Social</button>
+            <button mat-raised-button [color]="(idSection == 6) ? 'warn' : 'accent'" class="btn-profile"
+                (click)="selectedSection(6)">Familia</button>
+            <button mat-raised-button [color]="(idSection == 7) ? 'warn' : 'accent'" class="btn-profile"
+                (click)="selectedSection(7)">Otro</button>
+        </div>
+
+        <div *ngIf="idSection == 1">
+            <!--             
+            <mat-tab-group>
+                <mat-tab label="Datos Personales">
+                    <span>Datos Personales</span>
+                </mat-tab>
+                <mat-tab label="Datos de Contacto">
+                    <span>Datos de Contacto</span>
+                </mat-tab>
+                <mat-tab label="Direcciones">
+                    <span>Direcciones</span>
+                </mat-tab>
+            </mat-tab-group>
+ -->
+            <mat-tab-group>
+                <form [formGroup]="formPerson">
+                    <mat-tab label="Datos Personales">
+                        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Primer Nombre <strong class="obligatory">*</strong></mat-label>
+                                    <input maxlength="20" type="text" [readonly]="!isedit"
+                                        (input)="removeSpacesPerson('sfirstname')" formControlName="sfirstname" matInput
+                                        placeholder="Primer Nombre">
+                                    <mat-error *ngIf="
+                                    formPerson.controls.sfirstname.touched &&
+                                    formPerson.controls.sfirstname.invalid
+                                ">
+                                        <span *ngIf="formPerson.controls.sfirstname.errors.required">Primer
+                                            Nombre
+                                            es <strong>requerido</strong>
+                                        </span>
+                                        <span *ngIf="formPerson.controls.sfirstname.errors.pattern">Solo se debe
+                                            de
+                                            ingresar <strong>letras</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Segundo Nombre</mat-label>
+                                    <input maxlength="20" type="text" [readonly]="!isedit"
+                                        (input)="removeSpacesPerson('ssecondname')" formControlName="ssecondname"
+                                        matInput placeholder="Segundo Nombre">
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Apellido Paterno <strong class="obligatory">*</strong>
+                                    </mat-label>
+                                    <input maxlength="20" type="text" [readonly]="!isedit"
+                                        (input)="removeSpacesPerson('slastname')" formControlName="slastname" matInput
+                                        placeholder="Apellido Paterno">
+                                    <mat-error *ngIf="
+                                formPerson.controls.slastname.touched &&
+                                formPerson.controls.slastname.invalid
+                            ">
+                                        <span *ngIf="formPerson.controls.slastname.errors.required">Apellido
+                                            Paterno
+                                            es <strong>requerido</strong>
+                                        </span>
+                                        <span *ngIf="formPerson.controls.slastname.errors.pattern">Solo se debe
+                                            de
+                                            ingresar <strong>letras</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Apellido Materno <strong class="obligatory">*</strong>
+                                    </mat-label>
+                                    <input maxlength="20" type="text" [readonly]="!isedit"
+                                        (input)="removeSpacesPerson('smotherlastname')" matInput
+                                        formControlName="smotherlastname" placeholder="Apellido Materno">
+                                    <mat-error *ngIf="
+                                formPerson.controls.smotherlastname.touched &&
+                                formPerson.controls.smotherlastname.invalid
+                            ">
+                                        <span *ngIf="formPerson.controls.smotherlastname.errors.required">Apellido
+                                            Materno es <strong>requerido</strong>
+                                        </span>
+                                        <span *ngIf="formPerson.controls.smotherlastname.errors.pattern">Solo se
+                                            debe de ingresar <strong>letras</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Identidad <strong class="obligatory">*</strong></mat-label>
+                                    <input maxlength="20" type="text" [readonly]="!isedit"
+                                        (input)="removeSpacesPerson('sidentification')"
+                                        formControlName="sidentification" matInput placeholder="Identidad">
+                                    <mat-error *ngIf="
+                                formPerson.controls.sidentification.touched &&
+                                formPerson.controls.sidentification.invalid
+                            ">
+                                        <span *ngIf="formPerson.controls.sidentification.errors.required">Identidad
+                                            es <strong>requerido</strong>
+                                        </span>
+                                        <span *ngIf="formPerson.controls.sidentification.errors.pattern">Solo se
+                                            debe de ingresar <strong>numeros 0-9</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Pasaporte</mat-label>
+                                    <input maxlength="20" (input)="removeSpacesPerson('spassport')" [readonly]="!isedit"
+                                        formControlName="spassport" matInput placeholder="Pasaporte">
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Fecha de Nacimiento <strong class="obligatory">*</strong>
+                                    </mat-label>
+                                    <input formControlName="dbirthdate" readonly matInput [readonly]="!isedit"
+                                        [matDatepicker]="picker">
+                                    <mat-datepicker-toggle matSuffix [for]="picker" [attr.disabled]="!isedit">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-error *ngIf="
+                                formPerson.controls.dbirthdate.touched &&
+                                formPerson.controls.dbirthdate.invalid
+                            ">
+                                        <span *ngIf="formPerson.controls.dbirthdate.errors.required">Fecha de
+                                            nacimiento es <strong>requerido</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Sexo <strong class="obligatory">*</strong></mat-label>
+                                    <mat-select [attr.disabled]="!isedit" formControlName="nid_sex">
+                                        <mat-option *ngFor="let item of sex" [value]="item.nid_mastertable">{{
+                                            item.sdescription_value
+                                            }}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="
+                                    formPerson.controls.nid_sex.touched &&
+                                    formPerson.controls.nid_sex.invalid
+                                ">
+                                        <span *ngIf="formPerson.controls.nid_sex.errors.required">Sexo es
+                                            <strong>requerido</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Tipo de Sangre</mat-label>
+                                    <input maxlength="20" (input)="removeSpacesPerson('sbloodtype')" type="text"
+                                        [readonly]="!isedit" formControlName="sbloodtype" matInput
+                                        placeholder="Tipo de Sangre">
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Estado Civil <strong class="obligatory">*</strong></mat-label>
+                                    <mat-select [attr.disabled]="!isedit" formControlName="nid_civilstatus">
+                                        <mat-option *ngFor="let item of civil" [value]="item.nid_mastertable">{{
+                                            item.sdescription_value
+                                            }}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="
+                                    formPerson.controls.nid_civilstatus.touched &&
+                                    formPerson.controls.nid_civilstatus.invalid
+                                ">
+                                        <span *ngIf="formPerson.controls.nid_civilstatus.errors.required">Estado
+                                            Civil es <strong>requerido</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Nacionalidad <strong class="obligatory">*</strong></mat-label>
+                                    <mat-select [attr.disabled]="!isedit" formControlName="nid_nationality">
+                                        <mat-option *ngFor="let item of nacionality" [value]="item.nid_mastertable">{{
+                                            item.sdescription_value
+                                            }}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="
+                                    formPerson.controls.nid_nationality.touched &&
+                                    formPerson.controls.nid_nationality.invalid
+                                ">
+                                        <span *ngIf="formPerson.controls.nid_nationality.errors.required">Nacionalidad
+                                            es <strong>requerido</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Ingreso al país</mat-label>
+                                    <input formControlName="dcountryentrydate" readonly matInput
+                                        [matDatepicker]="pickercountry">
+                                    <mat-datepicker-toggle matSuffix [for]="pickercountry" [attr.disabled]="!isedit">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #pickercountry></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+
+                            <div *ngIf="false" fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Personal Medico</mat-label>
+                                    <input [readonly]="!isedit" (input)="removeSpacesPerson('smedicalstaff')"
+                                        formControlName="smedicalstaff" matInput placeholder="Personal Medico">
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <form [formGroup]="formEmployee">
+                                    <mat-form-field appearance="fill" class="full-width">
+                                        <mat-label>Licencia de Conducir</mat-label>
+                                        <input maxlength="20" (input)="removeSpacesPerson('sddriverlicense')"
+                                            [readonly]="!isedit" matInput formControlName="sddriverlicense"
+                                            placeholder="Lincecia de Conducir">
+                                    </mat-form-field>
+                                </form>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <form [formGroup]="formEmployee">
+                                    <mat-form-field appearance="fill" class="full-width">
+                                        <mat-label>Licencia de Maquinaria Pesada</mat-label>
+                                        <input maxlength="20" (input)="removeSpacesPerson('sheavymachinerylicense')"
+                                            [readonly]="!isedit" matInput formControlName="sheavymachinerylicense"
+                                            placeholder="Lincecia de maquinaria pesada">
+                                    </mat-form-field>
+
+                                </form>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Activo <strong class="obligatory">*</strong></mat-label>
+                                    <mat-select [attr.disabled]="!isedit" formControlName="nid_active">
+                                        <mat-option *ngFor="let item of active" [value]="item.nid_mastertable">
+                                            {{
+                                            item.sdescription_value
+                                            }}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="
+                                    formPerson.controls.nid_active.touched &&
+                                    formPerson.controls.nid_active.invalid
+                                ">
+                                        <span *ngIf="formPerson.controls.nid_active.errors.required">Activo es
+                                            <strong>requerido</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+
+
+
+                        </div>
+
+                    </mat-tab>
+                    <mat-tab label="Datos de Contacto">
+                        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                            <div fxFlex="100" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Correo</mat-label>
+                                    <input maxlength="50" type="text" (input)="removeSpacesPerson('semail')"
+                                        formControlName="semail" matInput placeholder="Correo">
+                                    <mat-error *ngIf="
+                                    formPerson.controls.semail.touched &&
+                                    formPerson.controls.semail.invalid">
+                                        <span *ngIf="formPerson.controls.semail.errors.email">Correo debe de
+                                            tener un formato valido
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Graduación de Universidad</mat-label>
+                                    <input formControlName="duniversitygraduationdate" readonly matInput
+                                        [matDatepicker]="pickeruniversity">
+                                    <mat-datepicker-toggle matSuffix [for]="pickeruniversity">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker [attr.disabled]="!isedit" #pickeruniversity></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Contacto de Emergencia</mat-label>
+                                    <input (input)="removeSpacesPerson('semergency_contact_name')"
+                                        formControlName="semergency_contact_name" matInput
+                                        placeholder="Contacto de Emergencia">
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="33" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Número del Contacto de Emergencia</mat-label>
+                                    <input type="text" formControlName="semergency_contact_phone" matInput
+                                        placeholder="Número del contacto de Emergencia">
+                                    <mat-error *ngIf="
+                                        formPerson.controls.semergency_contact_phone.touched &&
+                                        formPerson.controls.semergency_contact_phone.invalid
+                                        ">
+                                        <span *ngIf="formPerson.controls.semergency_contact_phone.errors.minlength">
+                                            Es necesario solo ingresar 9 digitos
+                                        </span>
+                                        <span *ngIf="formPerson.controls.semergency_contact_phone.errors.maxlength">
+                                            Es necesario solo ingresar 9 digitos
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+
+
+
+                        <div class="add__phone" *ngIf="isedit">
+                            <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" *ngIf="!isNewPhone"
+                                (click)="add()">Agregar Teléfono</button>
+                        </div>
+
+                        <div class="input_phone" *ngIf="isedit">
+                            <mat-form-field appearance="fill" *ngIf="isNewPhone">
+                                <mat-label>Teléfono <strong class="obligatory">*</strong></mat-label>
+                                <input maxlength="20" [formControl]="inputPhone" type="text" matInput
+                                    placeholder="Ingresar Teléfono">
+                                <mat-error *ngIf="
+                                    inputPhone.touched &&
+                                    inputPhone.invalid
+                                    ">
+                                    <span *ngIf="inputPhone.errors.required">Teléfono es
+                                        <strong>requerido</strong>
+                                    </span>
+                                    <span *ngIf="inputPhone.errors.minlength">
+                                        Es necesario solo ingresar 9 digitos
+                                    </span>
+                                    <span *ngIf="inputPhone.errors.maxlength">
+                                        Es necesario solo ingresar 9 digitos
+                                    </span>
+                                    <span *ngIf="inputPhone.errors.pattern">Solo se debe de ingresar
+                                        <strong>Numeros</strong>
+                                    </span>
+                                </mat-error>
+                            </mat-form-field>
+                            <div class="input_phone__button">
+                                <button mat-raised-button color="primary" class="dark-blue-400 dark-blue-400-fg"
+                                    *ngIf="isNewPhone" (click)="savePhone()">Guardar</button>
+                                <button mat-raised-button color="warn" class="dark-blue-400 dark-blue-400-fg"
+                                    *ngIf="isNewPhone" (click)="cancelphone()">Cancelar</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <table mat-table [dataSource]="phoneDT" matSort class="w-100">
+                                <ng-container matColumnDef="option" sticky>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Opción: ">
+                                        <button [attr.disabled]="!isedit" mat-button (click)="editphone(row)">
+                                            <mat-icon color="accent">touch_app</mat-icon>
+                                        </button>
+                                        <button *ngIf="row.nstate === true" [attr.disabled]="!isedit" mat-button
+                                            (click)="deletephone(row)">
+                                            <mat-icon color="accent">block</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="phone">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Teléfono</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Teléfono : ">
+                                        {{ row.phone }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="state">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Estado : ">
+                                        {{ row.nstate === true ? 'Activo' : 'Inactivo' }}
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell text-center" colspan="8">
+                                        No se encontraron datos
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+                    </mat-tab>
+                </form>
+                <mat-tab label="Direcciones">
+
+                    <div class="add__phone" *ngIf="isedit">
+                        <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" *ngIf="!isNewAddress"
+                            (click)="addaddress()" style="margin-top: 5px;margin-bottom: 5px;">Agregar
+                            Dirección</button>
+                    </div>
+
+                    <form [formGroup]="formAddress" *ngIf="isedit && isNewAddress">
+
+                        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                            <div fxFlex="50" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Departamento <strong class="obligatory">*</strong>
+                                    </mat-label>
+                                    <mat-select [attr.disabled]="!isedit" formControlName="nid_departament">
+                                        <mat-option *ngFor="let item of departament" [value]="item.nid_department">
+                                            {{
+                                            item.sname
+                                            }}</mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="formAddress.controls.nid_departament.touched && formAddress.controls.nid_departament.invalid">
+                                        <span *ngIf="formAddress.controls.nid_departament.errors.required">Departamento
+                                            es <strong>requerido</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="50" class="pr-16 pt-16">
+                                <mat-form-field appearance="fill" class="w-100">
+                                    <mat-label>Provincia <strong class="obligatory">*</strong></mat-label>
+                                    <mat-select [attr.disabled]="!isedit || !blockProvince"
+                                        formControlName="nid_province">
+                                        <mat-option *ngFor="let item of province" [value]="item.nid_province">{{
+                                            item.sname
+                                            }}</mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="formAddress.controls.nid_province.touched && formAddress.controls.nid_province.invalid">
+                                        <span *ngIf="formAddress.controls.nid_province.errors.required">Provincia
+                                            es <strong>requerido</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div fxFlex="50" class="pr-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Distrito <strong class="obligatory">*</strong></mat-label>
+                                    <mat-select [attr.disabled]="!isedit || !blockDistrict"
+                                        formControlName="nid_district">
+                                        <mat-option *ngFor="let item of district" [value]="item.nid_district">{{
+                                            item.sname
+                                            }}</mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="formAddress.controls.nid_district.touched && formAddress.controls.nid_district.invalid">
+                                        <span *ngIf="formAddress.controls.nid_district.errors.required">Distrito
+                                            es <strong>requerido</strong>
+                                        </span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="50" class="pr-16">
+                                <mat-form-field appearance="fill" class="full-width">
+                                    <mat-label>Dirección</mat-label>
+                                    <input type="text" formControlName="saddress" matInput
+                                        placeholder="Ingrese Dirección">
+                                    <mat-error
+                                        *ngIf="formAddress.controls.saddress.touched && formAddress.controls.saddress.invalid">
+                                        <span *ngIf="formAddress.controls.saddress.errors.required">Dirección es
+                                            <strong>requerido</strong>
+                                        </span>
+                                        <!-- <span *ngIf="formAddress.controls.saddress.invalid">Dirección es <strong>inválido</strong>
+                                        </span> -->
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+
+                        <div class="inptus__address__button" style="margin-bottom: 10px;">
+                            <button type="button" mat-raised-button color="primary"
+                                class="dark-blue-400 dark-blue-400-fg" *ngIf="isNewAddress"
+                                (click)="saveAddress()">Guardar </button>
+                            <button type="button" mat-raised-button color="warn"
+                                class="dark-blue-100 dark-blue-100-fg ml-4" *ngIf="isNewAddress"
+                                (click)="cancelAddress()">Cancelar</button>
+                        </div>
+
+
+                    </form>
+                    <div>
+                        <table mat-table [dataSource]="adressDT" matSort class="w-100">
+                            <ng-container matColumnDef="option" sticky>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Opción: ">
+                                    <button [attr.disabled]="!isedit" mat-button (click)="editadress(row)">
+                                        <mat-icon color="accent">touch_app</mat-icon>
+                                    </button>
+                                    <button *ngIf="row.state === true" [attr.disabled]="!isedit" mat-button
+                                        (click)="deleteadress(row)">
+                                        <mat-icon color="accent">block</mat-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="address">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Dirección</th>
+                                <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                    data-label="Dirección : ">
+                                    {{ row.saddress }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="distric">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Distrito</th>
+                                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Distrito : ">
+                                    {{ row.sdistrict }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="province">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Provincia</th>
+                                <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                    data-label="Provincia : ">
+                                    {{ row.sprovince }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="departament">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Departamento</th>
+                                <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                    data-label="Departamento : ">
+                                    {{ row.sdepartament }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="state">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+                                    {{ row.state ? 'Activo' : 'Inactivo' }}
+                                </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumnsphone; sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumnsphone"></tr>
+
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell text-center" colspan="6">
+                                    No se encontraron datos
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <mat-paginator #paginatoraddress [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+
+                </mat-tab>
+            </mat-tab-group>
+            Gestión CMS Areas
+        </div>
+        <div *ngIf="idSection == 2">
+
+            <form [formGroup]="formEmployee">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Empresa <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="nid_company"
+                                (selectionChange)="changecompany()">
+                                <mat-option *ngFor="let item of company" [value]="item.nid_company">{{
+                                    item.sdescription
+                                    }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="
+                                  formEmployee.controls.nid_company.touched &&
+                                  formEmployee.controls.nid_company.invalid
+                                  ">
+                                <span *ngIf="formEmployee.controls.nid_company.errors.required">Empresa es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+
+
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Gerencia <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit && disabledGerencia" formControlName="idGerencia"
+                                (selectionChange)="changeGerencia()">
+                                <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="
+                                  formEmployee.controls.nid_area.touched &&
+                                  formEmployee.controls.nid_area.invalid
+                                  ">
+                                <span *ngIf="formEmployee.controls.nid_area.errors.required">Área es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Área <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit && disabledArea" formControlName="idArea"
+                                (selectionChange)="changeArea()">
+                                <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="
+                                  formEmployee.controls.nid_area.touched &&
+                                  formEmployee.controls.nid_area.invalid
+                                  ">
+                                <span *ngIf="formEmployee.controls.nid_area.errors.required">Área es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>SubÁrea <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit && disabledSubArea" formControlName="idSubArea"
+                                (selectionChange)="changeSubArea()">
+                                <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="
+                                  formEmployee.controls.nid_area.touched &&
+                                  formEmployee.controls.nid_area.invalid
+                                  ">
+                                <span *ngIf="formEmployee.controls.nid_area.errors.required">Área es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Cargo <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="nid_position"
+                                (selectionChange)="changeCargo($event)">
+                                <mat-option *ngFor="let item of position" [value]="item.nid_charge">{{
+                                    item.snamecharge
+                                    }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="
+                                  formEmployee.controls.nid_position.touched &&
+                                  formEmployee.controls.nid_position.invalid
+                                  ">
+                                <span *ngIf="formEmployee.controls.nid_position.errors.required">Cargo es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Sede</mat-label>
+                            <mat-select formControlName="scodsede">
+                                <mat-option *ngFor="let item of sede" [value]="item.code">
+                                    {{
+                                    item.description
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+                    <div [fxFlex]="flexnum" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Jefe </mat-label>
+                            <!-- <input type="text" formControlName="snameboss" [readonly]="!isedit" matInput
+                                placeholder="Jefe"> -->
+                            <input type="text" formControlName="sname_boss_real" readonly matInput
+                                [value]="employee.sname_boss_real" placeholder="Jefe">
+                        </mat-form-field>
+
+                    </div>
+                    <div fxFlex="7" class="pr-16 pt-16" *ngIf="isedit">
+                        <button mat-raised-button [color]="warn" (click)="openDialogAssignBoss()"
+                            title="Asignar un nuevo Jefe" [attr.disabled]="!isedit">
+                            <md-icon class="material-icons">search</md-icon>
+
+                        </button>
+
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Fecha de Ingreso <strong class="obligatory">*</strong></mat-label>
+                            <input formControlName="dadmissiondate" matInput [matDatepicker]="pickerregister"
+                                readonly />
+                            <mat-datepicker-toggle matSuffix [for]="pickerregister"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerregister></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Anexo <strong class="obligatory">*</strong></mat-label>
+                            <input type="text" formControlName="sannexed" [readonly]="!isedit" matInput
+                                placeholder="Anexo">
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Correo Corporativo <strong class="obligatory">*</strong></mat-label>
+                            <input type="text" formControlName="scorporatemail" [readonly]="!isedit" matInput
+                                placeholder="Correo Corporativo">
+                            <mat-error *ngIf="formEmployee.controls.scorporatemail.touched &&
+                                formEmployee.controls.scorporatemail.invalid">
+                                <span *ngIf="formEmployee.controls.scorporatemail.errors.email">Correo debe de
+                                    tener un formato valido
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Centro de Costo<strong class="obligatory">*</strong></mat-label>
+                            <input type="text" formControlName="scentercost" [readonly]="true" matInput
+                                placeholder="Centro de Costo">
+
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        &nbsp;
+                    </div>
+                    <br>
+                    <div fxFlex="40" class="pr-16 pt-16" style="margin-bottom: 10px;">
+                        <mat-label style="font-weight: bold;">Firma del Empleado</mat-label>
+                        <hr style="width: 100%;">
+                        <input type="file" class="file-input" accept="image/png, image/gif, image/jpeg"
+                            (change)="onFileSelectedFirma($event)" #fileUploadFirma>
+
+                        <!-- <div class="file-upload" *ngIf="isedit" style="margin: 20px 0px"> -->
+                        <div class="file-upload" style="margin: 20px 0px">
+
+                            {{fileName || "Ningun archivo cargado"}}
+
+                            <button style="margin-left: 5px;" mat-mini-fab class="upload-btn"
+                                (click)="fileUploadFirma.click()">
+                                <mat-icon style="color: #000;">attach_file</mat-icon>
+                            </button>
+                        </div>
+                        <div *ngIf="previewFirma">
+                            <img [src]="previewFirma" alt="">
+                        </div>
+                        <div style="display: flex;">
+                            <p>{{ nameFileFirma }}</p>
+                            <button *ngIf="haveFirma" style="margin-left: 5px;" mat-mini-fab
+                                (click)="ViewAdjuntoFirma()" class="upload-btn">
+                                <mat-icon style="color: #000;">get_app</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div fxFlex="60">
+
+                    </div>
+                    <br><br>
+
+                </div>
+
+
+            </form>
+
+        </div>
+        <div *ngIf="idSection == 3">
+
+            <div class="add__phone" *ngIf="isedit">
+                <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" style="margin: 20px 0px"
+                    *ngIf="!isNewStuden" (click)="addstuden()">Agregar Estudios</button>
+            </div>
+
+            <form [formGroup]="formStuden" *ngIf="isedit && isNewStuden">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Carrera/Especialidad<strong class="obligatory">*</strong></mat-label>
+                            <input type="text" formControlName="scarreer" matInput
+                                placeholder="Ingrese la Carrera/Especialidad">
+                            <mat-error *ngIf="formStuden.controls.scarreer.touched && formStuden.controls.scarreer.invalid">
+                                <span *ngIf="formStuden.controls.scarreer.errors.required">Carrera/Especialidad es requerido </span>
+                                <span *ngIf="formStuden.controls.scarreer.errors.pattern">Carrera/Especialidad es inválido </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Tipo de Nivel <strong class="obligatory">*</strong>
+                            </mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="nid_instruction">
+                                <mat-option *ngFor="let item of instruccion" [value]="item.nid_mastertable">{{
+                                    item.sdescription_value
+                                    }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formStuden.controls.nid_instruction.touched &&
+                            formStuden.controls.nid_instruction.invalid">
+                                <span *ngIf="formStuden.controls.nid_instruction.errors.required">Nivel
+                                    es <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Centro de Estudio</mat-label>
+                            <input type="text" formControlName="sstudy_center" matInput
+                                placeholder="Ingrese Centro de Estudio">
+                            <mat-error *ngIf="formStuden.controls.sstudy_center.touched &&
+                            formStuden.controls.sstudy_center.invalid">
+                            <span *ngIf="formStuden.controls.sstudy_center.errors.required">Centro de
+                                Estudio es <strong>requerido</strong>
+                            </span>
+                            <span *ngIf="formStuden.controls.sstudy_center.errors.pattern">Centro de
+                                Estudio es <strong>inválido</strong>
+                            </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Departamento <strong class="obligatory">*</strong>
+                            </mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="nid_departament">
+                                <mat-option *ngFor="let item of departament" [value]="item.nid_department">{{
+                                    item.sname
+                                    }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formStuden.controls.nid_departament.touched &&
+                            formStuden.controls.nid_departament.invalid
+                  ">
+                                <span *ngIf="formStuden.controls.nid_departament.errors.required">Departamento
+                                    es <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Provincia <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit || !blockProvince" formControlName="nid_province">
+                                <mat-option *ngFor="let item of province" [value]="item.nid_province">{{
+                                    item.sname
+                                    }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formStuden.controls.nid_province.touched &&
+                            formStuden.controls.nid_province.invalid
+                  ">
+                                <span *ngIf="formStuden.controls.nid_province.errors.required">Provincia
+                                    es <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Distrito <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit || !blockDistrict" formControlName="nid_district">
+                                <mat-option *ngFor="let item of district" [value]="item.nid_district">{{
+                                    item.sname
+                                    }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formStuden.controls.nid_district.touched &&
+                            formStuden.controls.nid_district.invalid
+                  ">
+                                <span *ngIf="formStuden.controls.nid_district.errors.required">Distrito
+                                    es <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Situación Actual</mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="scurrent_cycle">
+                                <mat-option *ngFor="let item of lstStateStudy" [value]="item.nid_mastertable">{{
+                                    item.sdescription_value
+                                    }}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="formStuden.controls.scurrent_cycle.touched &&
+                            formStuden.controls.scurrent_cycle.invalid">
+                                <span *ngIf="formStuden.controls.scurrent_cycle.errors.required">Trancurso
+                                    Actual
+                                    es <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Fecha Inicio</mat-label>
+                            <input formControlName="dateStart" matInput [matDatepicker]="pickerscurrent" readonly />
+                            <mat-datepicker-toggle matSuffix [for]="pickerscurrent"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerscurrent></mat-datepicker>
+                            <mat-error *ngIf="formStuden.controls.dateStart.touched &&
+                            formStuden.controls.dateStart.invalid">
+                                <span *ngIf="formStuden.controls.dateStart.errors.required">Fecha inicio
+                                    es <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="w-100">
+                            <mat-label>Fecha Fin</mat-label>
+                            <input formControlName="dateEnd" matInput [matDatepicker]="pickerscurrentend" readonly />
+                            <mat-datepicker-toggle matSuffix [for]="pickerscurrentend"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerscurrentend></mat-datepicker>
+                            <mat-error *ngIf="formStuden.controls.dateEnd.touched &&
+                            formStuden.controls.dateEnd.invalid">
+                                <span *ngIf="formStuden.controls.dateEnd.errors.required">Fecha Fin
+                                    es <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+                <div class="inptus__address__button" *ngIf="isNewStuden" style="margin-bottom: 20px;">
+                    <button type="button" color="primary" mat-raised-button class="dark-blue-400 dark-blue-400-fg"
+                        (click)="saveStuden()">Guardar</button>
+                    <button type="button" mat-raised-button color="warn" class="dark-blue-400 dark-blue-400-fg"
+                        (click)="cancelStuden()">Cancelar</button>
+                </div>
+
+
+            </form>
+            <div>
+                <table mat-table [dataSource]="studenDT" matSort class="w-100">
+                    <ng-container matColumnDef="option" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Opción: ">
+                            <button [attr.disabled]="!isedit" mat-button (click)="editStuden(row)">
+                                <mat-icon color="accent">touch_app</mat-icon>
+                            </button>
+                            <button *ngIf="row.bactive === true" [attr.disabled]="!isedit" mat-button
+                                (click)="deleteStuden(row)">
+                                <mat-icon color="accent">block</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="instruccion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nivel Académico</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nivel Académico : ">
+                            {{ row.sdescription_value }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="scarreer">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Carrera</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Carrera : ">
+                            {{ row.scarreer }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sstudy_center">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Centro de Estudio</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                            data-label="Centro de Estudio : ">
+                            {{ row.sstudy_center }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="scurrent_cycle">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Situación Actual</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                            data-label="Situación Situación  Actual : ">
+                            {{ row.scurrent_cycle }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="dateStart">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Inicio</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha Inicio : ">
+                            {{ row.dateStart | date:'dd/MM/YYYY' }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="dateEnd">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Fin</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha Fin : ">
+                            {{ row.dateEnd | date:'dd/MM/YYYY' }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="state">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+                            {{ row.nstate }}
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnstudent; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnstudent"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="8">
+                            No se encontraron datos
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator #paginatorstudent [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+        </div>
+        <div *ngIf="idSection == 4">
+            <div class="add__phone" *ngIf="isedit">
+                <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" style="margin-top: 20px"
+                    *ngIf="!isNewJob" (click)="addjob()">Agregar Trabajo</button>
+            </div>
+
+            <div class="inptus__address" *ngIf="isedit">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" *ngIf="isNewJob">
+                            <mat-label>Nombre <strong class="obligatory">*</strong></mat-label>
+                            <input [formControl]="inputNameJob" type="text" matInput placeholder="Ingresar Nombre">
+                            <mat-error *ngIf="
+                        inputNameJob.touched &&
+                        inputNameJob.invalid
+                          ">
+                                <span *ngIf="inputNameJob.errors.required">Nombre es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" *ngIf="isNewJob">
+                            <mat-label>Tiempo <strong class="obligatory">*</strong></mat-label>
+                            <input [formControl]="inputTimeJob" type="text" matInput placeholder="Ingresar Tiempo">
+                            <mat-error *ngIf="
+                        inputTimeJob.touched &&
+                        inputTimeJob.invalid
+                          ">
+                                <span *ngIf="inputTimeJob.errors.required">Tiempo es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" *ngIf="isNewJob">
+                            <mat-label>Puesto <strong class="obligatory">*</strong></mat-label>
+
+                            <input [formControl]="inputPositionJob" type="text" matInput placeholder="Ingresar Puesto">
+                            <mat-error *ngIf="
+                        inputPositionJob.touched &&
+                        inputPositionJob.invalid
+                          ">
+                                <span *ngIf="inputPositionJob.errors.required">Puesto es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" *ngIf="isNewJob">
+                            <mat-label>Funciones <strong class="obligatory">*</strong></mat-label>
+                            <input [formControl]="inputFunctionJob" type="text" matInput
+                                placeholder="Ingresar Funciones">
+                            <mat-error *ngIf="
+                        inputFunctionJob.touched &&
+                        inputFunctionJob.invalid
+                          ">
+                                <span *ngIf="inputFunctionJob.errors.required">Funciones es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="inptus__address__button" style="margin-bottom: 20px;" *ngIf="isNewJob">
+                    <button mat-raised-button color="primary" class="dark-blue-400 dark-blue-400-fg"
+                        (click)="saveJob()">Guardar</button>
+                    <button mat-raised-button color="warn" class="dark-blue-400 dark-blue-400-fg"
+                        (click)="cancelJob()">Cancelar</button>
+                </div>
+            </div>
+
+            <div>
+                <table mat-table [dataSource]="jobDT" matSort class="w-100">
+                    <ng-container matColumnDef="option" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Opción: ">
+                            <button [attr.disabled]="!isedit" mat-button (click)="editjob(row)">
+                                <mat-icon color="accent">touch_app</mat-icon>
+                            </button>
+                            <button *ngIf="row.state === 'Activo'" [attr.disabled]="!isedit" mat-button
+                                (click)="deletejob(row)">
+                                <mat-icon color="accent">block</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="namejob">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre : ">
+                            {{ row.namejob }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="timejob">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tiempo</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tiempo : ">
+                            {{ row.timejob }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="positionjob">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Posición</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Posición : ">
+                            {{ row.positionjob }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="function">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Funciones</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Funciones : ">
+                            {{ row.sfunction }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="state">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+                            {{ row.state }}
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnjob; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnjob"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="6">
+                            No se encontraron datos
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator #paginatorjob [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+        </div>
+        <div *ngIf="idSection == 5">
+            <!-- Bienestar Social -->
+            <form [formGroup]="formEmployee">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Plan de EPS <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="su_planeps">
+                                <mat-option *ngFor="let item of eps" [value]="item.code">{{
+                                    item.description
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Plan de Fesalud <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="su_plansegpri">
+                                <mat-option *ngFor="let item of fsalud" [value]="item.code">{{
+                                    item.description
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+
+
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Plan de Practicante <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="su_entsegpract">
+                                <mat-option value="1">SI</mat-option>
+                                <mat-option value="0">NO</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>AFP <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="safp_code">
+                                <mat-option *ngFor="let item of afp" [value]="item.code">{{
+                                    item.description
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+
+
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>SCTR <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="su_sctrsalud">
+                                <mat-option value="1">SI</mat-option>
+                                <mat-option value="0">NO</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <!-- <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Vida Ley</mat-label>
+                            <input [readonly]="!isedit" formControlName="slifelaw" matInput
+                                placeholder="Vida Ley">
+                        </mat-form-field> -->
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Vida Ley <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="su_entsegvida">
+                                <mat-option *ngFor="let item of vidaleylist" [value]="item.code">{{
+                                    item.description
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div fxFlex="33" class="pr-16 pt-16" style="margin-bottom: 10px;">
+                        <mat-label style="font-weight: bold;">Carnet de vacunacion covid</mat-label>
+                        <hr style="width: 100%;">
+                        <input *ngIf="!haveCarnet" type="file" class="file-input" (change)="onFileSelected($event)"
+                            #fileUpload>
+
+                        <div *ngIf="!haveCarnet" class="file-upload">
+
+                            {{fileName || "Ningun archivo cargado"}}
+
+                            <button style="margin-left: 5px;" mat-mini-fab class="upload-btn"
+                                (click)="fileUpload.click()">
+                                <mat-icon style="color: #000;">attach_file</mat-icon>
+                            </button>
+                        </div>
+                        <div *ngIf="haveCarnet" style="display: flex;">
+                            <p>{{ nameFileCarnet }}</p>
+                            <button style="margin-left: 5px;" mat-mini-fab (click)="ViewAdjunto()" class="upload-btn">
+                                <mat-icon style="color: #000;">get_app</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </form>
+
+        </div>
+        <div *ngIf="idSection == 6">
+            <!-- Familia -->
+            <!-- <form [formGroup]="formEmployee">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Apellido Paterno Esposa/Conviviente</mat-label>
+                            <input [readonly]="!isedit" formControlName="slastname_partner" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Apellido Materno Esposa/Conviviente</mat-label>
+                            <input [readonly]="!isedit" formControlName="smotherlastname_partner" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Nombres Esposa/Conviviente</mat-label>
+                            <input [readonly]="!isedit" formControlName="snamewife_partner" matInput>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Año de Compromiso</mat-label>
+                            <input formControlName="ddateofmarriage" readonly matInput
+                                [matDatepicker]="pickercompromiso">
+                            <mat-datepicker-toggle matSuffix [for]="pickercompromiso" [attr.disabled]="!isedit">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #pickercompromiso></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </form> -->
+
+            <div class="add__phone" style="padding: 10px 0;" *ngIf="isedit">
+                <button mat-raised-button color="primary" *ngIf="!isNewSon" (click)="addson()">Agregar Hijos</button>
+            </div>
+
+            <div class="inptus__address" *ngIf="isedit">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="25" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" *ngIf="isNewSon" class="w-100">
+                            <mat-label>Nombre <strong class="obligatory">*</strong></mat-label>
+                            <input [formControl]="inputNameSon" type="text" matInput placeholder="Ingresar Nombre">
+                            <mat-error *ngIf="
+                        inputNameSon.touched &&
+                        inputNameSon.invalid
+                          ">
+                                <span *ngIf="inputNameSon.errors.required">Nombre es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="25" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" *ngIf="isNewSon" class="w-100">
+                            <mat-label>Apellido Paterno <strong class="obligatory">*</strong></mat-label>
+                            <input [formControl]="inputLastnameSon" type="text" matInput
+                                placeholder="Ingresar Apellido Paterno">
+                            <mat-error *ngIf="
+                        inputLastnameSon.touched &&
+                        inputLastnameSon.invalid
+                          ">
+                                <span *ngIf="inputLastnameSon.errors.required">Apellido paterno es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="25" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" *ngIf="isNewSon" class="w-100">
+                            <mat-label>Apellido Materno <strong class="obligatory">*</strong></mat-label>
+                            <input [formControl]="inputLastmotherSon" type="text" matInput
+                                placeholder="Ingresar Apellido Materno">
+                            <mat-error *ngIf="
+                        inputLastmotherSon.touched &&
+                        inputLastmotherSon.invalid
+                          ">
+                                <span *ngIf="inputLastmotherSon.errors.required">Apellido materno es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="25" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" *ngIf="isNewSon" class="w-100">
+                            <mat-label>Fecha de Nacimiento <strong class="obligatory">*</strong></mat-label>
+                            <input [formControl]="inputDateSon" matInput [matDatepicker]="picker" readonly>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                            <mat-error *ngIf="
+                        inputDateSon.touched &&
+                        inputDateSon.invalid
+                          ">
+                                <span *ngIf="inputDateSon.errors.required">Tiempo es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="inptus__address__button" style="padding: 10px 0;" *ngIf="isNewSon">
+                    <button mat-raised-button color="primary" (click)="saveSon()">{{textSaveSon}}</button>
+                    <button mat-raised-button color="warn" (click)="cancelSon()">Cancelar</button>
+                </div>
+            </div>
+
+            <div>
+                <table mat-table [dataSource]="sonDT" matSort class="w-100">
+                    <ng-container matColumnDef="option" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Opción: ">
+                            <button [attr.disabled]="!isedit" mat-button (click)="editSon(row)">
+                                <mat-icon color="accent">touch_app</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="sfamilytypedescription">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Parentesco</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Parentesco : ">
+                            {{ row.sfamilytypedescription }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombres</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre : ">
+                            {{ row.sfullname }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="lastname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido Paterno</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Apellido Paterno : ">
+                            {{ row.slastname }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="smotherslastname">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido Materno</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Apellido Materno : ">
+                            {{ row.smotherslastname }}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ddateofbirth">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de nacimiento</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                            data-label="Fecha de nacimiento : ">
+                            {{ row.ddateofbirth | date:'dd/MM/YYYY' }}
+                        </td>
+                    </ng-container>
+
+
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnson; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnson"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="6">
+                            No se encontraron datos
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator #paginatorson [pageSizeOptions]="[5, 10, 20]" pageSize="10" style="display: none;">
+            </mat-paginator>
+
+        </div>
+
+        <div *ngIf="idSection == 7">
+            <mat-tab-group>
+                <mat-tab label="Solicitudes administrativas">
+                    <mat-card class="p-0">
+                        <mat-card-content class="p-0">
+                            <table mat-table [dataSource]="itemsSA" matSort class="w-100">
+                                <ng-container matColumnDef="requestNumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Nro. Sol.
+                                    </th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Número de la Solicitud : ">
+                                        {{ row.id }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="typeStaffRequest">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Tipo de
+                                        Solicitud</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Nombre de Tipo de Solicitud : ">
+                                        {{ row.typeStaffRequest }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="dateIssue">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Fecha
+                                    </th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Fechal : ">
+                                        {{ row.dateIssue | date: 'dd/MM/yyyy' }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="charge">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Cargo
+                                    </th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Cargo : ">
+                                        {{ row.charge | titlecase }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="area">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Área</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Area : ">
+                                        {{ row.area | titlecase }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="company">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Empresa
+                                    </th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Empresa : ">
+                                        {{ row.company | titlecase }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="stateName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Estado
+                                    </th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Estado : ">
+                                        {{ row.stateName | titlecase }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="scomment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Motivo</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Motivo : ">
+                                        {{ row.scomment }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="download" sticky>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Pdf</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Descargar: ">
+                                        <button type="button" style="margin-left: 10px;" mat-mini-fab
+                                            (click)="downloadPdf(row.nid_request)" class="upload-btn"
+                                            matTooltip="Descargar ">
+                                            <mat-icon style="color: black;">get_app</mat-icon> </button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsSA; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsSA"
+                                    [ngClass]="{ 'make-gris': !row.state }"></tr>
+
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell text-center" colspan="9">
+                                        No se encontró Resultados
+                                    </td>
+                                </tr>
+                            </table>
+                            <div style="display: flex;justify-content: center;align-items: center;">
+                                <mat-paginator #paginatorSA [length]="staffRequestFilterSA.pagination.totalItems"
+                                    [pageIndex]="currentPageSA" [pageSize]="pageSizeSA"
+                                    [pageSizeOptions]="pageSizeOptionsSA" (page)="pageChangedSA($event)"
+                                    aria-label="Select page">
+                                </mat-paginator>
+                            </div>
+
+                        </mat-card-content>
+                    </mat-card>
+                </mat-tab>
+                <mat-tab label="Solicitudes de documentos y de cambio de datos">
+                    <mat-card class="p-0">
+                        <mat-card-content class="p-0">
+                            <table mat-table [dataSource]="listSD" class="w-100">
+                                <ng-container matColumnDef="fecha">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Fecha de Solicitud</th>
+                                    <td style="text-align: center;" mat-cell *matCellDef="let row"
+                                        class="has_label_on_mobile" data-label="Fecha de Solicitud : ">
+                                        {{ row.dregister | date:'dd/MM/YYYY' }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="styperequest">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Solicitud</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile opcion"
+                                        data-label="Tipo de Solicitud : ">
+                                        {{ row.styperequest }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="accion">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Acción</th>
+                                    <td style="text-align: center;" mat-cell *matCellDef="let row"
+                                        class="has_label_on_mobile" data-label="Acción : ">
+                                        {{ row.stypeaction}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="section">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Sección</th>
+                                    <td style="text-align: center;" mat-cell *matCellDef="let row"
+                                        class="has_label_on_mobile" data-label="Sección : ">
+                                        {{ row.ssection}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="sapprover">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Aprobador/Rechazado Por</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Aprobador : ">
+                                        {{ row.sapprover }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="scomment">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Motivo de rechazo</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Motivo de rechazo : ">
+                                        {{ row.scomment }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="sstate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Estado : ">
+                                        <div class="tooltip">
+                                            <img *ngIf="row.nstate === 2"
+                                                src="../../../../../../assets/images/aprobado.png" width="32px" alt="">
+                                            <img *ngIf="row.nstate === 3"
+                                                src="../../../../../../assets/images/rechazado.png" width="32px" alt="">
+                                            <img *ngIf="row.nstate === 1"
+                                                src="../../../../../../assets/images/interrogacion.png" width="32px"
+                                                alt="">
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="download" sticky>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="text-center">Pdf</th>
+                                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                        data-label="Descargar: ">
+                                        <button type="button" style="margin-left: 10px;" mat-mini-fab
+                                            (click)="downloadFile(row.nid_request)" class="upload-btn"
+                                            matTooltip="Descargar documento">
+                                            <mat-icon style="color: black;">get_app</mat-icon>
+                                        </button>
+
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsSD; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsSD"></tr>
+
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell text-center" colspan="8">
+                                        No se encontraron datos
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <mat-paginator #paginatorSD [length]="requestFilterSD.pagination.totalItems"
+                                [pageIndex]="currentPageSD" [pageSize]="pageSizeSD"
+                                [pageSizeOptions]="pageSizeOptionsSD" (page)="pageChangedSD($event)"
+                                aria-label="Select page">
+                            </mat-paginator>
+
+
+
+                        </mat-card-content>
+                    </mat-card>
+                </mat-tab>
+                <mat-tab label="Documentos de Ingreso">
+                    <mat-catd class="p-0">
+                        <mat-card-content class="p-0">
+                            <div style="max-height: 500px; overflow-y: scroll; margin-top:10px;">
+                                <p-table mat-table [value]="listDocumentos" dataKey="id" editMode="row"
+                                    responsiveLayout="scroll">
+                                    <ng-template pTemplate="header">
+                                        <tr style="font-family: Nunito;font-size: 14px;">
+                                            <th
+                                                style="text-align:left; background: #8CACDA !important; color: #F9F9F9 !important;">
+                                                Nombre de Documento</th>
+                                            <!-- <th style="text-align:center; background: #8CACDA !important; color: #F9F9F9 !important;">Descargar Plantilla</th> -->
+                                            <th
+                                                style="text-align:center; background: #8CACDA !important; color: #F9F9F9 !important;">
+                                                Descargar Documento</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template pTemplate="body" let-item let-index="rowIndex">
+                                        <tr style="font-family: Nunito;font-size: 14px;">
+                                            <td class="td-information-aditional" [innerHTML]="item.document"></td>
+                                            <!-- <td class="td-information-aditional" style="text-align: center;">
+                                                <button *ngIf="item.indicadorPlantilla"type="button" (click)="descargarPlantilla(item)" pButton pRipple icon="pi pi-file-o"
+                                                    class="p-button-rounded p-button-text p-button-info plantilla" title="Descargar Plantilla"></button>
+                                            </td> -->
+                                            <td class="td-information-aditional" style="text-align: center;">
+                                                <app-documento-adjunto class="sololectura" *ngIf="item.indicadorFile"
+                                                    [path_file]="item.pathFile" [name_file]="item.nombreFile"
+                                                    [type_file]="item.idMaster"
+                                                    [disabled_row]="isDisabledRow(item)"></app-documento-adjunto>
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </mat-card-content>
+                    </mat-catd>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="idSection == 9">
+
+            <mat-tab-group>
+                <mat-tab label="Objetivos organizacionales">
+
+                    <mat-card class="p-0">
+                        <mat-card-content class="p-0">
+
+                            <table mat-table [dataSource]="objectDT" matSort class="w-100">
+
+                                <ng-container matColumnDef="object" sticky>
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Objetivos del puesto</th>
+                                    <td align="justify" style="vertical-align:top" mat-cell
+                                        *matCellDef="let row let i = index" style="text-align: center"
+                                        class="has_label_on_mobile" data-label="Objetivos del puesto :">
+                                        {{ row.jobObjectives }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="indicador">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="clsColumnaShort">Indicador</th>
+                                    <td align="justify" style="vertical-align:top" mat-cell
+                                        *matCellDef="let row;let i = index" style="text-align: center"
+                                        class="has_label_on_mobile clsColumnaShort" data-label="Indicador : ">
+                                        {{ row.indicatorOrganizational }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="meta">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="clsColumnaShort">Meta</th>
+                                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                                        class="has_label_on_mobile clsColumnaShort" data-label="Meta : ">
+                                        {{ row.goal }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="peso">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="clsColumnaShort">Peso %</th>
+                                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                                        class="has_label_on_mobile clsColumnaShort" data-label="Peso % : ">
+                                        {{ row.weight }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="fechainicio">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Fecha Inicio </th>
+                                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                                        class="has_label_on_mobile" data-label="Fecha Inicio : ">
+                                        {{ row.startDate | date:'dd/MM/YYYY' }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="fechafin">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Fecha Fin</th>
+                                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center"
+                                        class="has_label_on_mobile" data-label="Fecha Fin : ">
+                                        {{ row.endDate | date:'dd/MM/YYYY' }}
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsobject; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsobject"></tr>
+
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell text-center" colspan="6">
+                                        No se encontro Objetivos
+                                    </td>
+                                </tr>
+                            </table>
+                        </mat-card-content>
+                    </mat-card>
+
+                </mat-tab>
+                <mat-tab label="Competencias organizacionales">
+
+
+                    <mat-card class="p-0">
+                        <mat-card-content class="p-0">
+
+                            <table mat-table [dataSource]="competenciasDT" matSort class="w-100">
+                                <ng-container matColumnDef="competencias" sticky>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="clsColumnaLarge">
+                                        Competencias</th>
+                                    <td mat-cell *matCellDef="let row" style="font-weight: 600;text-align: center;"
+                                        class="has_label_on_mobile clsColumnaLarge" data-label="Competencias :">
+                                        {{ row.organizationalProficiency }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="descripcion">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="clsColumnaDescripcionCompe">Descripción</th>
+                                    <td align="justify" style="vertical-align:top" style="padding-left: 5px;" mat-cell
+                                        *matCellDef="let row" class="has_label_on_mobile clsColumnaDescripcionCompe"
+                                        data-label="Descripción : ">
+                                        {{ row.proficiencyDescription }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="nivel">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="clsColumnaShort">Nivel</th>
+                                    <td mat-cell *matCellDef="let row" style="text-align: center;"
+                                        class="has_label_on_mobile clsColumnaShort" data-label="Nivel : ">
+                                        {{ row.idProficiencyLevel }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="definicion_nivel">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="clsColumnaDescripcionCompe">Definición Nivel</th>
+                                    <td style="text-align: center;" align="justify" style="vertical-align:top" mat-cell
+                                        *matCellDef="let row" class="has_label_on_mobile clsColumnaDescripcionCompe"
+                                        data-label="Definición  Nivel : ">
+                                        {{ row.definitionLevel }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="calificacion">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="clsColumnaShort" style="text-align: center;">Calificación </th>
+                                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                                        class="has_label_on_mobile clsColumnaShort" data-label="Calificación : ">
+                                        {{ row.qualification }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="acciones">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="">Acciones o Mejoras</th>
+                                    <td align="justify" style="vertical-align:top" mat-cell
+                                        *matCellDef="let row let i = index" style="text-align: center;"
+                                        class="has_label_on_mobile " data-label="Acciones o Mejoras : ">
+                                        {{ row.actionsToImprove }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="indicador">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header
+                                        class="clsColumnaMedium">Indicador</th>
+                                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                                        class="has_label_on_mobile clsColumnaMedium" data-label="Indicador : ">
+                                        {{ row.indicatorOrganizational }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="fechainicio">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Fecha Inicio</th>
+                                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                                        class="has_label_on_mobile" data-label="Fecha Inicio : ">
+                                        {{ row.startDate | date:'dd/MM/YYYY'}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="fechafin">
+                                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        Fecha Fin</th>
+                                    <td mat-cell *matCellDef="let row let i = index" style="text-align: center;"
+                                        class="has_label_on_mobile" data-label="Fecha Fin : ">
+                                        {{ row.endDate | date:'dd/MM/YYYY' }}
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsCompetencias; sticky: true"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsCompetencias"></tr>
+
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell text-center" colspan="9">
+                                        No se encontro Competencias
+                                    </td>
+                                </tr>
+                            </table>
+                        </mat-card-content>
+                    </mat-card>
+
+                </mat-tab>
+
+            </mat-tab-group>
+
+
+        </div>
+
+
+
+
+        <div *ngIf="idSection == 10">
+            <!-- Administrativos -->
+            <form [formGroup]="formEmployeeFile">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>AFP <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="safp_code">
+                                <mat-option *ngFor="let item of afp" [value]="item.nid_mastertable">{{
+                                    item.sdescription_value
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>SCTR <strong class="obligatory">*</strong></mat-label>
+                            <mat-select [attr.disabled]="!isedit" formControlName="nid_sctrpensionentity">
+                                <mat-option *ngFor="let item of sctr" [value]="item.nid_mastertable">{{
+                                    item.sdescription_value
+                                    }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="33" class="pr-16 pt-16">
+                        <mat-form-field appearance="fill" class="full-width">
+                            <mat-label>Vida Ley</mat-label>
+                            <input [readonly]="!isedit" formControlName="slifelaw" matInput placeholder="Vida Ley">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+
+            <div class="add__phone" *ngIf="isedit">
+                <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" *ngIf="!isNewJob"
+                    (click)="addjob()">Agregar Trabajo</button>
+            </div>
+
+            <div class="inptus__address" *ngIf="isedit">
+                <div class="inptus__address__group">
+                    <mat-form-field appearance="fill" *ngIf="isNewJob">
+                        <mat-label>Nombre <strong class="obligatory">*</strong></mat-label>
+                        <input [formControl]="inputNameJob" type="text" matInput placeholder="Ingresar Nombre">
+                        <mat-error *ngIf="
+                        inputNameJob.touched &&
+                        inputNameJob.invalid
+                          ">
+                            <span *ngIf="inputNameJob.errors.required">Nombre es
+                                <strong>requerido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" *ngIf="isNewJob">
+                        <mat-label>Tiempo <strong class="obligatory">*</strong></mat-label>
+                        <input [formControl]="inputTimeJob" type="text" matInput placeholder="Ingresar Tiempo">
+                        <mat-error *ngIf="
+                        inputTimeJob.touched &&
+                        inputTimeJob.invalid
+                          ">
+                            <span *ngIf="inputTimeJob.errors.required">Tiempo es
+                                <strong>requerido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="inptus__address__group">
+                    <mat-form-field appearance="fill" *ngIf="isNewJob">
+                        <mat-label>Puesto <strong class="obligatory">*</strong></mat-label>
+
+                        <input [formControl]="inputPositionJob" type="text" matInput placeholder="Ingresar Puesto">
+                        <mat-error *ngIf="
+                        inputPositionJob.touched &&
+                        inputPositionJob.invalid
+                          ">
+                            <span *ngIf="inputPositionJob.errors.required">Puesto es
+                                <strong>requerido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill" *ngIf="isNewJob">
+                        <mat-label>Funciones <strong class="obligatory">*</strong></mat-label>
+                        <input [formControl]="inputFunctionJob" type="text" matInput placeholder="Ingresar Funciones">
+                        <mat-error *ngIf="
+                        inputFunctionJob.touched &&
+                        inputFunctionJob.invalid
+                          ">
+                            <span *ngIf="inputFunctionJob.errors.required">Funciones es
+                                <strong>requerido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+
+                <div class="inptus__address__button">
+                    <button mat-raised-button color="primary" class="dark-blue-400 dark-blue-400-fg" *ngIf="isNewJob"
+                        (click)="saveJob()">Guardar</button>
+                    <button mat-raised-button color="warn" class="dark-blue-400 dark-blue-400-fg" *ngIf="isNewJob"
+                        (click)="cancelJob()">Cancelar</button>
+                </div>
+            </div>
+
+            <div>
+                <table mat-table [dataSource]="jobDT" matSort class="w-100">
+                    <ng-container matColumnDef="option" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Opción: ">
+                            <button [attr.disabled]="!isedit" mat-button (click)="editjob(row)">
+                                <mat-icon color="accent">touch_app</mat-icon>
+                            </button>
+                            <button *ngIf="row.state === 'Activo'" [attr.disabled]="!isedit" mat-button
+                                (click)="deletejob(row)">
+                                <mat-icon color="accent">block</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="namejob">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre : ">
+                            {{ row.namejob }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="timejob">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tiempo</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tiempo : ">
+                            {{ row.timejob }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="positionjob">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Posición</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Posición : ">
+                            {{ row.positionjob }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="function">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Funciones</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Funciones : ">
+                            {{ row.sfunction }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="state">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+                            {{ row.state }}
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnjob; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnjob"></tr>
+
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="6">
+                            No se encontraron datos
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <mat-paginator #paginatorjob [pageSizeOptions]="[5, 10, 20]"></mat-paginator>
+
+        </div>
+
+    </div>
+</div>

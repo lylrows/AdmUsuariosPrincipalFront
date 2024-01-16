@@ -1,0 +1,73 @@
+.inptus__address {
+    display: flex;
+    flex-direction: column;
+    mat-form-field {
+      width: 90%;
+    }
+    &__group {
+      display: flex;
+      gap: 10px
+    }
+    &__button {
+      display: flex; 
+      gap: 10px;
+      justify-content: end;
+      margin-bottom: 10px;
+    }
+  }
+
+  .footer {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    button {
+        background-color: #4f66a8;
+        color: #ffffff;
+    }
+}
+
+.header {
+    padding: 10px;
+    text-align: center;
+    h1 {
+        color: #4f66a8;
+    }   
+}
+
+
+.file-input {
+  display: none;
+}
+
+
+
+
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+@media (max-width: 960px) {
+  .flex-container {
+    flex-direction: column;
+  }
+
+  .inptus__address {
+    display: flex;
+    flex-direction: column;
+    mat-form-field {
+      width: 100%;
+    }
+    &__group {
+      display: flex;
+      gap: 10px
+    }
+    &__button {
+      display: flex; 
+      gap: 10px;
+      justify-content: end;
+      margin-bottom: 10px;
+    }
+  }
+}

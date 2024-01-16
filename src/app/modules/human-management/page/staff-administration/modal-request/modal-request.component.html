@@ -1,0 +1,22 @@
+<div class="container">
+    <div class="header">
+        <h1><strong>Ingreso de Nueva Solicitud</strong></h1>
+        <hr style="width: 100%;">
+    </div>
+
+    <div class="combos">
+        <mat-form-field appearance="fill" style="width: 100%;">
+            <mat-label>Sección</mat-label>
+            <mat-select (selectionChange)="changeSeccion($event)" >
+                <mat-option *ngFor="let item of seccions"
+                    [value]="item.code">{{
+                    item.name
+                    }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div class="footer">
+        <button mat-raised-button color="primary" (click)="cancel()" >Cancelar</button>
+    </div>
+</div>

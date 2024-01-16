@@ -1,0 +1,96 @@
+.content_jobs {
+    display: flex;
+    max-width: 96%;
+    width: 100%;
+    margin-top: 3%;
+    flex-direction: column;
+}
+
+
+.content_job {
+    width: 100%;
+    padding: 40px;
+    cursor: pointer;
+    transition: all ease 0.5s;
+}
+
+/*.content_job:hover {
+    padding:50px;
+}*/
+
+.section_info_job {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 50px;
+}
+
+.content_detail_first {
+    flex-basis: 700px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.content_detail_second {
+    flex-basis: 200px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    margin-bottom: auto;
+    background: #f6f9ff;
+    box-shadow: 0 0 15px #0000001a;
+    border-radius: 12px;    
+}
+
+.title-job {
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.company-date {
+    margin-top: 8px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.detail-job {
+    margin-top: 10px;
+    font-size: 15px;
+    text-align: justify;
+}
+
+.job-date{
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.job-location {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.job-modality {
+    font-size: 14px;
+    margin-top: 10px;
+}
+
+.primeralista {
+    display: inline-block;
+    padding: 0px;
+    li {
+        list-style-type: none;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 150%;
+        letter-spacing: 0.005em;
+        color: #3f3f3f;
+        margin-top: 15px;
+        .pi {
+            color: #ffad06;
+        }
+    }
+}

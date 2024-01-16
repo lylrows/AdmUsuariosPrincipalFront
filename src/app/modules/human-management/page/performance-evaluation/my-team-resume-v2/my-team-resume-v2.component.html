@@ -1,0 +1,542 @@
+<mat-card class="p-0">
+    <mat-card-title class="">
+        <div class="card-title-text">Mi Equipo Resumen</div>
+        <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+
+        <div fxLayout="row wrap">
+            <br>
+            <br>
+            <!-- <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16 pt-8">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Campañas</mat-label>
+                    <mat-select (selectionChange)="changeCampania()" [formControl]="campanaFC" multiple>
+                        <mat-option *ngFor="let item of listcampaign" [value]="item.nid_campaign">{{item.snamecampaign}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16 pt-8">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Campañas</mat-label>
+                    <mat-select [formControl]="campanasMultiCtrl" placeholder="Campaña" [multiple]="true"
+                        #multiSelectCampana>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="campanasMultiFilterCtrl" placeholderLabel="Campaña">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let website of filteredCampanasMulti | async" [value]="website">
+                            {{website.snamecampaign | titlecase}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16 pt-8">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Empresa</mat-label>
+                    <mat-select (selectionChange)="changeEmpresa()" [formControl]="bussineFC"
+                        [disabled]="disabledEmpresa">
+                        <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Gerencia</mat-label>
+                    <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC"
+                        (selectionChange)="changeGerencia()">
+                        <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Área</mat-label>
+                    <mat-select [attr.disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()"
+                        multiple>
+                        <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>SubÁrea</mat-label>
+                    <mat-select [attr.disabled]="disabledSubArea" [formControl]="subAreaFC" multiple
+                        (selectionChange)="changeSubArea()">
+                        <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Cargo</mat-label>
+                    <mat-select [formControl]="websiteMultiCtrl" placeholder="Cargo" [multiple]="true" #multiSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="websiteMultiFilterCtrl" placeholderLabel="Cargo">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let website of filteredWebsitesMulti | async" [value]="website">
+                            {{website.snamecharge}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <!-- <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Etapa</mat-label>
+                    <mat-select [formControl]="etapaFC" multiple>
+                        <mat-option value="3">Inicio</mat-option>
+                        <mat-option value="7">Verificación</mat-option>
+                        <mat-option value="11">Evaluación</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+            <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16">
+                <div class="filter__buttons">
+                    <button mat-raised-button color="warn" style="background: #536BB2 !important;"
+                        (click)="ShowCompetencias()">Mostrar</button>
+
+                    <button mat-raised-button color="warn" (click)="resetFilter()">Limpiar</button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-16" *ngIf="!responsive">
+            <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+                <mat-tab label="Avances">
+                    <div fxLayout="row wrap">
+                       
+
+                        <!-- INICIO DE TABLE COMPETENCIAS  -->
+                        <div fxFlex="100">
+
+                        </div>
+                        <table id="idtable-competences" mat-table [dataSource]="objectDT" class="w-100" matSort
+                            multiTemplateDataRows>
+                            <!-- <div fxLayout="row wrap">-->
+                            <ng-container matColumnDef="rowNum">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="min-width:10%;text-align:left;"></th>
+                                <td mat-cell *matCellDef="let row;let i = index" class="has_label_on_mobile"
+                                    style="width: 10px;text-align:left;">
+                                    <!-- <button matTooltip="Ver Gráfico" (click)="verGraficoIndividual(row)" mat-icon-button>
+                                            <mat-icon style="color: #DD9923;">remove_red_eye</mat-icon>
+                                        </button> -->
+                                    <ng-container>
+                                        {{ row.rowNum }}
+                                    </ng-container>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="semployeename">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                    <!-- <a href="javascript:void(0)" (click)="toggleTableRows()">
+                                    <span style="color: #536BB2;text-decoration: underline;font-weight: bold;">
+                                    {{isTableExpanded ? 'Minimizar Todo' : 'Expandir Todo'}}
+                                    </span>
+                                </a> -->
+                                </th>
+                                <td mat-cell *matCellDef="let row" class="cell__Competencia">
+                                    <span style="display: flex;" class="pt-16">
+                                        &nbsp;&nbsp;
+                                        <a href="javascript:void()" (click)="verGrafico(row)">
+                                            <p>
+                                                <span style="color: #536BB2;font-weight: bold;">
+                                                    {{row.semployeename}}
+                                                </span>&nbsp;&nbsp; <span>
+                                                    <img
+                                                        src="./assets/icons/proficiency/{{row.isExpanded ? 'Minimized' : 'Expanded'}}.svg">
+                                                </span>
+                                            </p>
+                                            <!-- &nbsp;&nbsp; -->
+                                            <!-- <a href="javascript:void()" (click)="row.isExpanded = !row.isExpanded" style="margin-top: 16px;" > -->
+
+
+                                        </a>
+                                    </span>
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                    descriptionCompetence
+                                </p> -->
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="campaign">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Campaña
+                                </th>
+                                <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel">
+                                    <label class="lbl_Compentencia" style="font-weight: bold;">Campaña :</label>
+                                    {{ row.campaign | titlecase  }}
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                    descriptionLevel1
+                                </p> -->
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="inicio">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Inicio
+                                </th>
+                                <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel">
+                                    <a class="lbl_Compentencia" style="font-weight: bold;">Inicio :</a>
+                                    <ng-container>
+                                        <mat-icon *ngIf="row.nnumberaction<4" style="color: #ef0d0d;">cancel</mat-icon>
+                                        <mat-icon *ngIf="row.nnumberaction>=4 "
+                                            style="color: green;">check_circle</mat-icon>
+                                    </ng-container>
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                    descriptionLevel2
+                                </p> -->
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="verificacion">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">
+                                    Verificación</th>
+                                <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel">
+                                    <label class="lbl_Compentencia" style="font-weight: bold;">Verificación :</label>
+                                    <ng-container>
+                                        <mat-icon *ngIf="row.nnumberaction<7" style="color: #ef0d0d;">cancel</mat-icon>
+                                        <mat-icon *ngIf="row.nnumberaction>=7 "
+                                            style="color: green;">check_circle</mat-icon>
+                                    </ng-container>
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                    descriptionLevel3
+                                </p> -->
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="evaluacion">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">
+                                    Evaluación</th>
+                                <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel">
+                                    <label class="lbl_Compentencia" style="font-weight: bold;">Evaluación :</label>
+                                    <ng-container>
+                                        <mat-icon *ngIf="row.nnumberaction<11" style="color: #ef0d0d;">cancel</mat-icon>
+                                        <mat-icon *ngIf="row.nnumberaction>=11"
+                                            style="color: green;">check_circle</mat-icon>
+                                    </ng-container>
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                    descriptionLevel4
+                                </p> -->
+                                    <!-- <div class="lbl_Compentencia w-100" *ngIf="row.isExpanded">
+                                    <div fxLayout="row wrap">
+                                        <br>
+                                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                                            <div style="height: 360px;">
+                                                <div echarts [options]="_chartOptionIndividual" id="echartcompcontainer" [autoResize]="true"
+                                                    style="height:414px">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>    
+                                </div> -->
+                                </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="competence-element-row"
+                                [class.student-expanded-row]="row.isExpanded"></tr>
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell text-center" colspan="6">
+                                    No se encontro Competencias
+                                </td>
+                            </tr>
+                            <!-- Extra row to show detail content column -->
+                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="competence-detail-row">
+                            </tr>
+                            <!-- Template for details row -->
+                            <ng-container matColumnDef="expandedDetail">
+                                <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+                                    <div class="row competence-element-detail"
+                                        [@detailExpand]="row.isExpanded ? 'expanded' : 'collapsed'">
+
+                                        <div class="w-100">
+                                            <div fxLayout="row wrap">
+                                                <!-- {{row.semployeename}} -->
+                                                <br>
+                                                <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                                                    <div *ngIf="!NOT_ASSIGNED_COMPETENCIES" style="height: 360px;">
+                                                        <div echarts [options]="_chartOptionIndividual"
+                                                            id="echartcompcontainer" [autoResize]="true"
+                                                            style="height:414px">
+                                                        </div>
+                                                    </div>
+                                                    <h3 *ngIf="NOT_ASSIGNED_COMPETENCIES" class="text-center"
+                                                        style="color: red;">
+                                                        No tiene asignado competencias para el Cargo
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                        </table>
+                        <!-- FIN DE TABLE COMPETENCIAS -->
+                    </div>
+                </mat-tab>
+                <mat-tab label="Resultado">
+                    <div fxLayout="row wrap">
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                            <div style="width: 100%;height: 717px;overflow: scroll;">
+                                <div echarts [options]="_chartOptionObj_V2" id="echartobjcontainer" style="height:700px"
+                                    [autoResize]="true">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                            <div style="width: 1595px;height: 1200px;overflow: scroll;">
+                                <div echarts [options]="_chartOptionIndividual" id="echartindividualcontainer" [autoResize]="true"
+                                    style="height:1200px">
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+
+        </div>
+    </mat-card-content>
+
+
+
+</mat-card>
+
+
+<ng-template #DetailDialog>
+    <h1>Mi equipo resumen</h1>
+    <mat-dialog-content class="mat-typography">
+        <div class="mt-16">
+            <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+                <mat-tab label="Avances">
+                    <div fxLayout="row wrap">
+                        <table id="idtable-competences" mat-table [dataSource]="objectDT" class="w-100" matSort
+                            multiTemplateDataRows>
+                            <!-- <div fxLayout="row wrap">-->
+                            <ng-container matColumnDef="rowNum">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    style="min-width:1%;text-align:right;"></th>
+                                <td mat-cell *matCellDef="let row;let i = index">
+                                    <!-- <span class="spn-border">{{ row.rowNum }} </span> -->
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="semployeename">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                </th>
+                                <td mat-cell *matCellDef="let row" class="cell__Competencia">
+                                    <span style="display: flex;">
+                                        <span class="spn-border">{{ row.rowNum }} </span>
+                                        &nbsp;&nbsp;
+                                        <a href="javascript:void()" (click)="verGrafico(row)">
+                                            <p>
+                                                <span style="color: #536BB2;font-weight: bold;">
+                                                    {{row.semployeename}}
+                                                </span>&nbsp;&nbsp;
+                                                <span class="spn-vermas-mobile">
+                                                    <!-- <img src="./assets/icons/proficiency/{{row.isExpanded ? 'collapse' : 'expand'}}.png"> -->
+                                                    {{row.isExpanded ? 'Minimizar' : 'Ver más'}}
+                                                </span>
+                                            </p>
+                                            <!-- &nbsp;&nbsp; -->
+                                            <!-- <a href="javascript:void()" (click)="row.isExpanded = !row.isExpanded" style="margin-top: 16px;" > -->
+                                        </a>
+                                    </span>
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                descriptionCompetence
+                            </p> -->
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="campaign">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Campaña
+                                </th>
+                                <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel"
+                                    style="margin-top: -10px;">
+                                    <label class="lbl_Compentencia" style="font-weight: bold;">Campaña :</label>
+                                    {{ row.campaign | titlecase }}
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                descriptionLevel1
+                            </p> -->
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="inicio">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Inicio
+                                </th>
+                                <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel"
+                                    style="margin-top: -10px;">
+                                    <a class="lbl_Compentencia" style="font-weight: bold;">Inicio :</a>
+                                    <ng-container>
+                                        <mat-icon *ngIf="row.nnumberaction<4" style="color: #ef0d0d;">cancel</mat-icon>
+                                        <mat-icon *ngIf="row.nnumberaction>=4 "
+                                            style="color: green;">check_circle</mat-icon>
+                                    </ng-container>
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                descriptionLevel2
+                            </p> -->
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="verificacion">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">
+                                    Verificación</th>
+                                <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel"
+                                    style="margin-top: -10px;">
+                                    <label class="lbl_Compentencia" style="font-weight: bold;">Verificación :</label>
+                                    <ng-container>
+                                        <mat-icon *ngIf="row.nnumberaction<7" style="color: #ef0d0d;">cancel</mat-icon>
+                                        <mat-icon *ngIf="row.nnumberaction>=7 "
+                                            style="color: green;">check_circle</mat-icon>
+                                    </ng-container>
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                descriptionLevel3
+                            </p> -->
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="evaluacion">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">
+                                    Evaluación</th>
+                                <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel"
+                                    style="margin-top: -10px;">
+                                    <label class="lbl_Compentencia" style="font-weight: bold;">Evaluación :</label>
+                                    <ng-container>
+                                        <mat-icon *ngIf="row.nnumberaction<11" style="color: #ef0d0d;">cancel</mat-icon>
+                                        <mat-icon *ngIf="row.nnumberaction>=11"
+                                            style="color: green;">check_circle</mat-icon>
+                                    </ng-container>
+                                    <!-- <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                                descriptionLevel4
+                            </p> -->
+                                    <!-- <div class="lbl_Compentencia w-100" *ngIf="row.isExpanded">
+                                <div fxLayout="row wrap">
+                                    <br>
+                                    <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                                        <div style="height: 360px;">
+                                            <div echarts [options]="_chartOptionIndividual" id="echartcompcontainer" [autoResize]="true"
+                                                style="height:414px">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>    
+                            </div> -->
+                                </td>
+                            </ng-container>
+
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="competence-element-row"
+                                [class.student-expanded-row]="row.isExpanded"></tr>
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell text-center" colspan="6">
+                                    No se encontro Competencias
+                                </td>
+                            </tr>
+                            <!-- Extra row to show detail content column -->
+                            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="competence-detail-row">
+                            </tr>
+                            <!-- Template for details row -->
+                            <ng-container matColumnDef="expandedDetail">
+                                <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+                                    <div class="row " [@detailExpand]="row.isExpanded ? 'expanded' : 'collapsed'">
+
+                                        <div class="w-100">
+                                            <div fxLayout="row wrap">
+                                                <!-- {{row.semployeename}} -->
+                                                <br>
+                                                <div fxFlex="100" fxFlex.gt-xs="100" class="pt-8">
+                                                    <div *ngIf="!NOT_ASSIGNED_COMPETENCIES"
+                                                        class="content-spider-mobile">
+                                                        <div echarts [options]="_chartOptionIndividual"
+                                                            id="echartcompcontainer" class="spider-mobile">
+                                                        </div>
+                                                    </div>
+                                                    <h3 *ngIf="NOT_ASSIGNED_COMPETENCIES" class="text-center"
+                                                        style="color: red;">
+                                                        No tiene asignado competencias para el Cargo
+                                                    </h3>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                        </table>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Resultados">
+                    <div fxLayout="row wrap">
+                        <!-- <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                            <div style="width: 1595px;height: 717px;overflow: scroll;">
+                                <div echarts [options]="_chartOptionComp" id="echartcompcontainer" [autoResize]="true"
+                                    style="height:700px">
+                                </div>
+                            </div>
+                        </div> -->
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pt-8 text-center">
+                            <div style="width: 100%;height:515px;display: inline-block;overflow: scroll;">
+                                <div echarts [options]="_chartOptionObj_V2" id="echartobjcontainer"
+                                    style="width: 900px;height:500px;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" matDialogClose="no">Cerrar</button>
+    </mat-dialog-actions>
+</ng-template>
+
+
+<!-- <ng-template #DetailDialog>
+    <h1>Mi equipo resumen</h1>
+    <mat-dialog-content class="mat-typography">
+        <div class="mt-16">
+            <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+                <mat-tab label="Objetivos">
+                    <div fxLayout="row wrap">
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                            <p>(*) El Filtro Campaña no aplica para el gráfico de Objetivos</p>
+                        </div>
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                            <div style="width: 800px;height: 717px;overflow: scroll;">
+                                <div echarts [options]="_chartOptionObj" id="echartobjcontainer" style="height:700px"
+                                    [autoResize]="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Competencias">
+                    <div fxLayout="row wrap">
+
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+
+                            <div style="width: 1595px;height: 717px;overflow: scroll;">
+                                <div echarts [options]="_chartOptionComp" id="echartcompcontainer" [autoResize]="true"
+                                    style="height:700px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" matDialogClose="no">Cerrar</button>
+    </mat-dialog-actions>
+</ng-template> -->

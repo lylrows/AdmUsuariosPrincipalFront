@@ -1,0 +1,34 @@
+export class Job {
+    id_Job: number;
+    title: string;
+    noticeDetails: string;
+    requirements: string;
+    benefits: string;
+    salary: number;
+    location: string;
+    tags: string;
+    id_Area: number;
+    id_JobLevel: number;
+    id_JobType: number;
+    id_WorkType: number;
+    id_Company: number;
+    idDepartment: number;
+    idProvince: number;
+    idDistrict: number;
+    vacancies: number;
+    includeKeywords: number;
+    isSuitableForDisabled: boolean;
+    idSex: number;
+    minimumAge: number;
+    maximumAge: number;
+    workExperience: string;
+    minimumSalary: number;
+    maximumSalary: number;
+    showSalaryInNotice: boolean;
+    isPostedBumeran: boolean;
+    isPostedComputrabajo: boolean;
+    idEducationLevel: number;
+    idEducationLevelSituation: number;
+    jobIdiomList: any[];
+    idRequest: number;
+}

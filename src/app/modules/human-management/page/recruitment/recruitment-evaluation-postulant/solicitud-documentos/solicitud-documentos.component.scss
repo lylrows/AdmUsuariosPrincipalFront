@@ -1,0 +1,104 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content__files {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3%;
+
+  width: 100%;
+}
+
+.file_input {
+  background: #dfdfdf;
+  width: 100%;
+  padding: 30px;
+  cursor: pointer;
+}
+
+.adjunto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.adjunto span {
+  font-size: 15px;
+}
+
+.acciones-file {
+  margin-top: 10px;
+  display: flex;
+}
+
+.content_comentarios {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3%;
+
+  width: 100%;
+}
+
+.content__notas {
+  display: flex;
+  flex-direction: column;
+  margin-top: 3%;
+  width: 100%;
+}
+
+.content-messages {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  padding: 5px;
+  font-size: 13px;
+}
+
+.message {
+  display: flex;
+}
+
+.item_user {
+  flex: 300px;
+  font-weight: bold;
+}
+
+.item_message {
+  flex: 300px;
+}
+
+.item_date {
+  flex: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.content_buttons {
+  display: flex;
+  gap: 10px;
+  justify-content:center;
+  margin-top: 3%;
+  margin-bottom: 4%;
+}
+
+.font-message {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  font-family: Nunito !important;
+  color: #343a40 !important;
+  margin-bottom: 0px !important;
+}
+
+  th {
+    background: #f1f1f1 !important;
+    font-size: 14px;
+    text-align: center !important;
+}
+
+td {
+  font-size: 12px;
+  padding: 0rem 1rem 0rem 1rem !important;
+}

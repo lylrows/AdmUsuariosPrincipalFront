@@ -1,0 +1,38 @@
+<p style="text-align: right;">
+    <a  (click)="onNoClick()">X</a>
+</p>
+<p>
+    <span style="font-size: 20px;color: #536BB2;font-weight: 600;">
+        {{data.titlemessage}} 
+    </span>
+    <br><br>
+    <span style="font-size: 18px;color: #536BB2;">
+        {{data.bodymessage}} 
+    </span>
+    
+
+
+</p>
+
+<mat-form-field *ngIf="data.brequirecomment" class="example-full-width" style="width:100%">
+    <mat-label>Indicar la observación</mat-label>
+    <textarea matInput placeholder=""   [(ngModel)]='data.textComment'></textarea>
+    
+  </mat-form-field>
+
+<div fxLayout="row wrap" class="pt-16" >
+    <div fxFlex="100" style="text-align: left;"
+            >
+        <button mat-raised-button color="primary" 
+              style="margin: 0 3px;" [mat-dialog-close]="data">
+              {{data.textButton}}
+        </button>
+        <button mat-raised-button color="primary" (click)="onNoClick()"
+                style="background: #8CACDA !important;margin: 0 3px;">
+          Cancelar
+        </button>
+
+      </div>
+
+</div>
+

@@ -1,0 +1,274 @@
+<div class="filter">
+  <div class="filter__inputs">
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre :</mat-label>
+      <input
+      matInput
+      autocomplete="off"
+      [(ngModel)]="campaignFilter.snamecampaign"
+      placeholder="Escribir nombre">
+    </mat-form-field>
+    <mat-form-field style="width: 8%"  appearance="fill">
+      <mat-label>Año</mat-label>
+      <input
+        value=2022
+        autocomplete="off"
+        placeholder="Escribir año"
+        matInput
+        [(ngModel)]="campaignFilter.nyear"
+        type="number"
+        minlength="4" 
+        maxlength="4"
+      />
+    </mat-form-field>
+    <mat-form-field  appearance="fill">
+      <mat-label>Mes</mat-label>
+      <mat-select [(ngModel)]="campaignFilter.nmonth">
+        <mat-option *ngFor="let item of listmonth" [value]="item.code">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field  appearance="fill">
+      <mat-label>Estado</mat-label>
+      <mat-select [(ngModel)]="campaignFilter.nstatus">
+        <mat-option *ngFor="let item of liststatus" [value]="item.code">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="filter__buttons">
+    <button mat-raised-button color="primary" (click)="load()">Buscar</button>
+    <button mat-raised-button color="warn" (click)="resetFilter()" >Limpiar</button>
+    <button mat-raised-button color="accent" (click)="addcampaign()">Agregar Campaña</button>
+  </div>
+</div>
+ 
+<mat-card class="p-0">
+  <mat-card-content class="p-0">
+    <table mat-table [dataSource]="list" matSort class="w-100">
+      <ng-container matColumnDef="option" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+        <td
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile"
+          data-label="Opción: "
+        >
+          <button
+            mat-icon-button
+            [matMenuTriggerFor]="menu"
+            matTooltip="Desplegar"
+            matTooltipPosition="right"
+            mat-stroked-button
+            color="accent"
+          >
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="after">
+            <button *ngIf="!row.isEvaluationGenerated" (click)="editCampaign(row)" mat-menu-item>
+              <mat-icon color="accent">edit</mat-icon>
+              <span>Editar Campaña</span>
+            </button>
+            <button *ngIf="!row.isEvaluationGenerated" (click)="asignEmployee(row)" mat-menu-item>
+              <mat-icon color="accent">group_add</mat-icon>
+              <span>Asignar Empleados</span>
+            </button>
+
+            <button *ngIf="row.isEvaluationGenerated" (click)="viewevalutions(row)" mat-menu-item>
+              <mat-icon color="accent">remove_red_eye</mat-icon>
+              <span>Ver Evaluaciones</span>
+            </button>
+
+            <button *ngIf="row.isEvaluationGenerated && row.completedt0 && !row.isResetT0" (click)="reiniciarT0(row)" mat-menu-item>
+              <mat-icon color="accent">play_arrow</mat-icon>
+              <span>Iniciar Etapa: Verificación</span>
+            </button>
+
+            <button *ngIf="row.isEvaluationGenerated && row.completedt0 && row.completedt1 && !row.isResetT1" (click)="ResetT1(row)" mat-menu-item>
+              <mat-icon color="accent">play_arrow</mat-icon>
+              <span>Iniciar Etapa: Evaluación</span>
+            </button>
+
+            <button (click)="generate(row)" *ngIf="!row.isEvaluationGenerated" mat-menu-item>
+              <mat-icon color="accent">play_arrow</mat-icon>
+              <span>Iniciar Campaña</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="year">
+        <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>Año</th>
+        <td style="text-align: center;"
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile"
+          data-label="Año : "
+        >
+          {{ row.year }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="month">
+        <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>Mes</th>
+        <td style="text-align: center;"
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile"
+          data-label="Mes : "
+        >
+          {{ row.monthName }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+        <td
+        style="text-align: center;"
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile"
+          data-label="Nombre : "
+        >
+          {{ row.nameCampaign | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="cantemployee">
+        <th style="text-align: center;" class="clsColumnaMedium" mat-header-cell *matHeaderCellDef mat-sort-header>
+          Cantidad de empleados
+        </th>
+        <td style="text-align: center;"
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile clsColumnaMedium"
+          data-label="Cantidad de empleados : "
+        >
+          {{ row.cantidadColaboradores }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="t0">
+        <th style="text-align: center;" class="columnstatic" mat-header-cell *matHeaderCellDef mat-sort-header>
+          Inicio
+        </th>
+        <td
+          style="text-align: center;"
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile"
+          data-label="Inicio : "
+          class="columnstatic"
+        >
+          {{ row.porcentaje0 }} %
+          <section class="example-section" style="width: 100%;text-align: center; align-self: center;padding-left: 4px;">
+            <mat-progress-bar
+                class="audio-progress-bar0"
+                mode="buffet"
+                [value]="row.porcentaje0">
+            </mat-progress-bar>
+          </section>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="t1">
+        <th style="text-align: center;" class="columnstatic" mat-header-cell *matHeaderCellDef mat-sort-header>
+          Verificación
+        </th>
+        <td style="text-align: center;"
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile"
+          data-label="Verificación : "
+          class="columnstatic"
+        >
+        {{ row.porcentaje1 }} %
+        <section class="example-section" style="width: 100%;text-align: center; align-self: center;padding-left: 4px;">
+          <mat-progress-bar 
+              class="audio-progress-bar2"
+              mode="buffet"
+              [value]="row.porcentaje1">
+          </mat-progress-bar>
+        </section> 
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="t2">
+        <th style="text-align: center;" class="columnstatic" mat-header-cell *matHeaderCellDef mat-sort-header>
+          Evaluación
+        </th>
+        <td style="text-align: center;"
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile"
+          data-label="Evaluación : "
+          class="columnstatic"
+        >
+        {{ row.porcentaje2 }} %
+        <section class="example-section" style="width: 100%;text-align: center; align-self: center;padding-left: 4px;">
+          <mat-progress-bar
+              class="audio-progress-bar3"
+              mode="determinate"
+              [value]="row.porcentaje2">
+          </mat-progress-bar>
+        </section>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="createdate">
+        <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>
+          Fecha de creación
+        </th>
+        <td style="text-align: center;"
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile"
+          data-label="Fecha de creación : "
+        >
+          {{ row.startDate }} 
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="state">
+        <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+        <td style="text-align: center;"
+          mat-cell
+          *matCellDef="let row"
+          class="has_label_on_mobile"
+          data-label="Estado : "
+        >
+          {{ row.statusName | titlecase }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [ngClass]="{ 'make-gris': !row.state }"
+      ></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell text-center" colspan="10">
+          No se encontro Empleados
+        </td>
+      </tr>
+    </table>
+
+  <div style="display: flex;
+  justify-content: center;
+  align-items: center;">
+    
+    <!-- <span>Regresar</span> -->
+    <mat-paginator
+    style-paginator
+    showFirstLastButtons
+    [showTotalPages]="3"
+    (changedPageNumber)="changedPageNumber($event)"
+    #paginator
+    [pageIndex]="currentPage"
+    [length]="campaignFilter.pagination.totalItems"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="changedPageSize($event)">
+    </mat-paginator>
+    <!-- <span style="padding-left: 15px;">Avanzar</span> -->
+    <!-- [length]="documentFilter.pagination.totalItems" -->
+  </div>
+ 
+
+  
+  </mat-card-content>
+  
+
+</mat-card>
+
+

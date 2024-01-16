@@ -1,0 +1,46 @@
+.mat-column-company,.mat-column-option,.mat-column-id,.mat-column-category,.mat-column-description,.mat-column-document,.mat-column-active,.mat-column-nameFile {
+    width: 100%;
+}
+
+@media (min-width: 961px) {
+    
+    .mat-column-option{
+        width: 10%;
+    }
+    .mat-column-id{
+        width: 10%;
+    }
+    .mat-column-company {
+        width: 10%;
+    }
+    .mat-column-category{
+        width: 15%;
+    }
+    .mat-column-subcategory{
+        width: 10%;
+    }
+    .mat-column-description{
+        width: 15%;
+    }
+    .mat-column-document,.mat-column-active{
+        width: 10%;
+    }
+    .mat-column-nameFile{
+        width: 20%;
+    }
+}
+
+.mat-column-document, .mat-column-active {
+    text-align: center;
+}
+
+@media only screen and (max-device-width: 480px) {
+    .mat-table .mat-cell:first-child {
+      padding: 0px 4px 0 16px !important;
+      text-align: right !important;
+    }
+
+    .filter{
+        overflow-y: auto !important;
+    }
+  }

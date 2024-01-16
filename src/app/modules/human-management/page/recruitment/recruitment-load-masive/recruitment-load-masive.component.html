@@ -1,0 +1,79 @@
+<mat-card-title style="text-align: center">
+    <div class="title-modal">{{ title }}</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+  <mat-card-content>
+      <div class="content__header">
+        <mat-radio-group [(ngModel)]="isBumeran" aria-label="Select an option">
+            <mat-radio-button [value]="true">Desde Bumeran</mat-radio-button>
+            <mat-radio-button [value]="false">Desde Computrabajo</mat-radio-button>
+          </mat-radio-group>    
+      </div>
+      <div class="content__file">
+          <div class="file_input">
+            <input type="file" hidden #file2 (change)="changeFile($event)">
+                <div (click)="file2.click()" *ngIf="archivo == null" class="adjunto">
+                    <span>Adjuntar documento</span>
+                    <mat-icon>attach_file</mat-icon>
+                </div>
+                <div *ngIf="archivo != null" class="adjunto">
+                    <span>{{filename}}</span>
+                    <div class="acciones-file">
+                        <a (click)="deleteFile()">
+                            <mat-icon>delete</mat-icon>
+                        </a>
+                    </div>
+
+                </div>
+          </div>
+          <div class="button_load">
+            <button mat-raised-button (click)="this.loadMasive()"
+            class="dark-blue-400 dark-blue-400-fg">Cargar Masivamente</button>
+          </div>
+      </div>
+      <div class="content__postulants">
+          <h3>Postulantes Cargados</h3>
+          <table mat-table [dataSource]="dtPostulants" class="w-100 mat-elevation-z8">
+            <ng-container matColumnDef="postulant">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombres y Apellidos</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombres y Apellidos : ">
+                    {{ row.postulant }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Correo : ">
+                    {{ row.email }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="dateAppliant">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Fecha de postulación
+                </th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha de postulación : ">
+                    {{ row.dateAppliant | date:'dd/MM/YYYY' }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="applicationSource">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Fuente de postulación
+                </th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fuente de postulación : ">
+                    {{ row.applicationSource }}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr style="cursor: pointer" mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell text-center" colspan="4">
+                    No se encontro postulantes
+                </td>
+            </tr>
+        </table>
+      </div>
+  </mat-card-content>
+  <mat-card-footer style="margin-top: 3%; display:flex; justify-content:center">
+    <button mat-raised-button (click)="close()"
+    class="dark-blue-400 dark-blue-400-fg">Cerrar</button>
+  </mat-card-footer>

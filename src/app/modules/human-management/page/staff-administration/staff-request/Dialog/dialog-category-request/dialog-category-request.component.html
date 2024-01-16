@@ -1,0 +1,22 @@
+<div class="content">
+    <div class="header">
+        <h1>Categoría de Solicitudes</h1>
+        <hr style="width: 100%;">
+    </div>
+
+    <div class="list">
+        <div *ngFor="let item of categories" class="list_group">
+            <img (click)="showrequest(item.nid_category_request)"
+                [src]="item.simage" alt="">
+            <h2>{{ item.sname }}</h2>
+        </div>
+    </div>
+
+    <div style="display: flex; justify-content: center;margin-top: 20px;">
+        <!-- <button mat-button class="dark-blue-100 dark-blue-100-fg ml-4" type="button"
+    (click)="dialogRef.close(false)">Cancel</button> -->
+        <button mat-raised-button color="primary"
+        (click)="dialogRef.close(false)">Cancelar</button>
+    </div>
+    
+</div>

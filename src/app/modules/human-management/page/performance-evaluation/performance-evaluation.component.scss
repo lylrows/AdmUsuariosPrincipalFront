@@ -1,0 +1,198 @@
+.filters {
+  display: flex;
+  gap: 20px;
+}
+
+.buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-add {
+  background-color: #cddcea !important;
+  color: #343a67 !important;
+  font-weight: 500 !important;
+}
+
+.columnstatic {
+  width: 110px;
+}
+
+
+.mat-progress-bar {
+  height: 10px;
+  border-radius: 10px;
+}
+
+.audio-progress-bar {
+  &.mat-progress-bar {
+    height: 20px;
+    border-radius: 15px;
+  }
+
+  .mat-progress-bar-fill::after {
+    background-color: green;
+    border-radius: 15px !important;
+  }
+
+  .mat-progress-bar-buffer {
+    background-color: #90a4ae;
+    border: 1px solid green;
+  }
+
+  .mat-progress-bar-element {
+    border-radius: 15px !important;
+  }
+
+  /* remove animation and the dots*/ 
+  .mat-progress-bar-background {
+    animation: none;
+    background-color: #eceff1;
+    fill: #eceff1;
+  }
+}
+
+// Progress nuev
+.audio-progress-bar0 {
+  &.mat-progress-bar {
+    height: 20px;
+    border-radius: 15px;
+  }
+
+  .mat-progress-bar-fill::after {
+    background-color: green;
+    border-radius: 15px !important;
+  }
+
+  .mat-progress-bar-buffer {
+    background-color: #eceff1;
+    border: 1px solid green;
+  }
+
+  .mat-progress-bar-element {
+    border-radius: 15px !important;
+  }
+
+  /* remove animation and the dots*/ 
+  .mat-progress-bar-background {
+    animation: none;
+    background-color: #eceff1;
+    fill: #eceff1;
+  }
+}
+
+.audio-progress-bar2 {
+  &.mat-progress-bar {
+    height: 20px;
+    border-radius: 15px;
+  }
+
+  .mat-progress-bar-fill::after {
+    background-color: orange;
+    border-radius: 15px !important;
+  }
+
+  .mat-progress-bar-element {
+    border-radius: 15px !important;
+  }
+
+  .mat-progress-bar-buffer {
+    background-color: #eceff1;
+    border: 1px solid orange;
+  }
+
+  /* remove animation and the dots*/ 
+  .mat-progress-bar-background {
+    animation: none;
+    background-color: #eceff1;
+    fill: #eceff1;
+  }
+}
+
+.audio-progress-bar3 {
+  &.mat-progress-bar {
+    height: 20px;
+    border-radius: 15px;
+  }
+
+  .mat-progress-bar-fill::after {
+    background-color: red;
+    border-radius: 15px !important;
+  }
+ 
+
+  .mat-progress-bar-buffer {
+    background-color: #eceff1;
+    border: 1px solid red;
+  }
+
+  .mat-progress-bar-element {
+    border-radius: 15px !important;
+  }
+
+  /* remove animation and the dots*/ 
+  .mat-progress-bar-background {
+    animation: none;
+    background-color: #eceff1;
+    
+    fill: #eceff1;
+  }
+}
+
+.clsColumnaMedium {
+  width: 130px;
+}
+
+@media screen and (max-width: 960px) {
+  .columnstatic {
+    width: 100%;
+  }
+}
+
+
+@media screen and (max-width: 960px) and (min-width: 577px) {
+  .filters {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    .mat-form-field {
+      width: 90% !important;
+    }
+  }
+
+  
+.clsColumnaMedium {
+  width: 100%;
+}
+}
+
+@media screen and (max-width: 576px) {
+  .filters {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    .mat-form-field {
+      width: 100% !important;
+    }
+  }
+  .clsColumnaMedium {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .filter__buttons {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+    max-height: none !important;
+  }
+}
+
+@media screen and (max-width: 388px) {
+  .mat-paginator-container {
+    justify-content: center !important;
+    margin-top: 10px;
+  }
+}
+

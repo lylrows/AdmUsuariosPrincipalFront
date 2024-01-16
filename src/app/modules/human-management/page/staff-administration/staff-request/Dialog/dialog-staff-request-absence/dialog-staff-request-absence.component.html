@@ -1,0 +1,199 @@
+<div class="content">
+  <form [formGroup]="itemForm" (ngSubmit)="submit(fileInput.files)">
+    <div class="header">
+      <h1>SOLICITUD DE {{data.title | uppercase}}</h1>
+    </div>
+    <hr>
+
+    <div class="personal">
+      <h1 class="title">1. DATOS PERSONALES: </h1>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Código del Empleado: </label>
+          <span> {{ codeEmployee }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">DNI N*: </label>
+          <span> {{dni }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label>Nombres y Apellidos: </label>
+          <span> {{ fullname }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Fecha de Ingreso: </label>
+          <span> {{ dateAdmission }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">Área: </label>
+          <span> {{ area }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label class="size-large">Cargo: </label>
+          <span> {{charge }} </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">2. DATOS DE LA SOLICITUD: </h1>
+
+      <div *ngIf="idTypeStaffRequest === 6" class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Tipo de Ausencia: </label>
+        <mat-form-field class="size-input" appearance="fill" fxFlex="100">
+          <mat-label>Tipo de Ausencia</mat-label>
+          <mat-select [formControl]="itemForm.controls['idTypeAbsence']">
+            <mat-option *ngFor="let item of lstTypeAbsence" [value]="item.id">{{item.description}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="
+          itemForm.controls.idTypeAbsence.touched &&
+          itemForm.controls.idTypeAbsence.invalid
+                                ">
+            <span *ngIf="itemForm.controls.idTypeAbsence.errors.required">El tipo de ausencia es
+              <strong>requerido</strong>
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Sustento: </label>
+        <mat-form-field class="size-input" appearance="fill" fxFlex="100">
+          <mat-label>Sustento</mat-label>
+          <input matInput name="Suport" maxlength="250" [formControl]="itemForm.controls['support']"
+            placeholder="Sustento">
+          <mat-error *ngIf="
+            itemForm.controls.support.touched &&
+            itemForm.controls.support.invalid
+                                        ">
+            <span *ngIf="itemForm.controls.support.errors.required">Sustento es
+              <strong>requerido</strong>
+            </span>
+            <span *ngIf="itemForm.controls.support.errors.pattern">Solo se debe
+              de
+              ingresar <strong>letras</strong>
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Fecha del Permiso: </label>
+        <mat-form-field class="size-input" appearance="fill" fxFlex="100">
+          <mat-label>Fecha del Permiso</mat-label>
+          <input matInput readonly [matDatepicker]="pickerPermitDate" maxlength="10" name="DateAbsence"
+          [min]="minDate" [max]="maxDate"
+            [formControl]="itemForm.controls['dateAbsence']" placeholder="Fecha del Permiso">
+            <!-- (dateChange)="validDate()"  -->
+
+          <mat-datepicker-toggle matSuffix [for]="pickerPermitDate"></mat-datepicker-toggle>
+          <mat-datepicker #pickerPermitDate></mat-datepicker>
+          <mat-error *ngIf="
+          itemForm.controls.dateAbsence.touched &&
+          itemForm.controls.dateAbsence.invalid
+                                ">
+            <span *ngIf="itemForm.controls.dateAbsence.errors.required">La fecha del permiso es
+              <strong>requerido</strong>
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Hora de inicio: </label>
+        <div class="time-picker-component" style="width: 100%;">
+          <mat-form-field appearance="fill" fxFlex="100">
+            <mat-label>Hora de inicio</mat-label>
+            <input matInput type="time" placeholder="HH:MM" id="startTime" name="startTime"
+            [formControl]="itemForm.controls['startTime']" style="width: 125px !important;">
+            <mat-select
+            [formControl]="itemForm.controls['startTypeTime']">
+                  <mat-option value="AM">AM</mat-option>
+                  <mat-option value="PM">PM</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- <mat-error *ngIf="itemForm.controls.startTime.touched && itemForm.controls.startTime.invalid">
+            <span *ngIf="itemForm.controls.startTime.errors.required">La hora de inicio es
+              <strong>requerido</strong>
+            </span>
+          </mat-error> -->
+        </div>
+
+        <!-- <mat-form-field class="size-input" appearance="fill" fxFlex="100">
+          <mat-label>Hora de inicio</mat-label>
+          <input matInput type="time" name="startTime" [formControl]="itemForm.controls['startTime']"
+            placeholder="Hora de Inicio">
+          <mat-error *ngIf="
+            itemForm.controls.startTime.touched &&
+            itemForm.controls.startTime.invalid">
+            <span *ngIf="itemForm.controls.startTime.errors.required">La hora de inicio es
+              <strong>requerido</strong>
+            </span>
+          </mat-error>
+        </mat-form-field> -->
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Hora Fin: </label>
+        <div class="time-picker-component" style="width: 100%;">
+          <mat-form-field appearance="fill" fxFlex="100">
+            <mat-label>Hora fin</mat-label>
+            <input matInput type="time" placeholder="HH:MM" id="endTime" name="endTime"
+            [formControl]="itemForm.controls['endTime']" style="width: 125px !important;">
+            <mat-select
+            [formControl]="itemForm.controls['endTypeTime']">
+                  <mat-option value="AM">AM</mat-option>
+                  <mat-option value="PM">PM</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <!-- <mat-form-field class="size-input" appearance="fill" fxFlex="100">
+          <mat-label>Hora Fin</mat-label>
+          <input matInput type="time" name="endTime" [formControl]="itemForm.controls['endTime']" (change)="validTime()"
+            placeholder="Hora Fin">
+          <mat-error *ngIf="
+            itemForm.controls.endTime.touched &&
+            itemForm.controls.endTime.invalid
+                                  ">
+            <span *ngIf="itemForm.controls.endTime.errors.required">La hora fin es
+              <strong>requerido</strong>
+            </span>
+          </mat-error>
+        </mat-form-field> -->
+      </div>
+
+      <div class="adjunto">
+        <mat-label class="size-large" style="font-weight: bold;align-self: center;">Adjuntar Archivo:</mat-label>
+        <input type="file" class="file-input" (change)="onFileChanged($event)" #fileInput>
+
+        <div class="file-upload">
+
+          {{fileName || "Ningun archivo cargado"}}
+
+          <button type="button" style="margin-left: 5px;" mat-mini-fab type="button" class="upload-btn"
+            (click)="fileInput.click()">
+            <mat-icon style="color: #536BB2;">attach_file</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button mat-raised-button color="primary" type="submit">Guardar</button>
+      <span fxFlex></span>
+      <button mat-raised-button color="warn" type="button"
+        (click)="dialogRef.close(false)">Cancelar</button>
+    </div>
+
+
+  </form>
+</div>
+
+
+ 

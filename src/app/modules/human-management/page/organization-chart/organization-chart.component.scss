@@ -1,0 +1,263 @@
+:host ::ng-deep .p-organizationchart {
+  display: flex;
+  width: 100%;
+  overflow: auto;
+  transition: 0.5s all ease;
+
+  .p-organizationchart-table > tbody > tr > td {
+    padding: 8px;
+  }
+
+  .p-organizationchart-node-content {
+    border-radius: 20px;
+    border: 1px solid #dee2e6 !important;
+  }
+
+  .p-person {
+    padding: 0;
+    border: 0 none;
+  }
+
+  .node-header,
+  .node-content {
+    padding: 0.5em 0.7rem;
+    font-size: 0.875rem;
+  }
+
+  .node-header {
+    background-color: #495ebb;
+    color: #ffffff;
+    border: none;
+    border-radius: 23px 23px 0px 1px;
+  }
+
+  .node-content {
+    text-align: center;
+    border: none;
+  }
+
+  .node-content img {
+    border-radius: 10%;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+
+  .department-cfo {
+    background-color: #4f66a8;
+    color: #ffffff;
+    width: 250px !important;
+    height: 300px !important;
+  }
+
+  .department-coo {
+    background-color: #575656;
+    color: #ffffff;
+    width: 250px !important;
+    height: 300px !important;
+  }
+
+  .department-cto {
+    background-color: #9ab3df;
+    color: #ffffff;
+    width: 250px !important;
+    height: 300px !important;
+  }
+
+  .department-4 {
+    background-color: #ffffff;
+    color: #000000;
+    width: 250px !important;
+    height: 300px !important;
+  }
+
+  .department-5 {
+    background-color: #ffcc6d;
+    color: #000000;
+    width: 250px !important;
+    height: 300px !important;
+  }
+
+  .p-organizationchart-line-top {
+    border-top: 5px solid #4f66a8 !important;
+    border-color: #4f66a8 !important;
+  }
+  
+  .p-organizationchart-line-left {
+    border-right: 2px solid #4f66a8 !important;
+    border-color: #4f66a8 !important;
+  }
+  
+  .p-organizationchart-line-down {
+    background: #4f66a8 !important;
+    border-right: 2px solid #4f66a8 !important;
+  }
+  
+  .p-organizationchart-line-down {
+    height: 0px !important;
+  }
+}
+
+::ng-deep #tree [data-l-id] path{
+  stroke: #039BE5 !important;
+}
+
+::ng-deep [data-n-id] rect {
+  fill: #4f66a8 !important;
+}
+::ng-deep [data-n-id] circle {
+  stroke: #039BE5 !important
+}
+::ng-deep #tree path{
+  stroke: #039BE5 !important;
+}
+
+// Se puede borrar el comentado
+// ::ng-deep #tree > svg > g:nth-child(13) > path{
+//   stroke: #039BE5 !important;
+// }
+// ::ng-deep #tree > svg > g:nth-child(14) > path{
+//   stroke: #039BE5 !important;
+// }
+// ::ng-deep #tree > svg > g:nth-child(15) > path{
+//   stroke: #039BE5 !important;
+// }
+
+// ::ng-deep #tree > svg > g:nth-child(5) > circle{
+//   stroke: #039BE5 !important;
+// }
+// ::ng-deep #tree > svg > g:nth-child(6) > circle{
+//   stroke: #039BE5 !important;
+// }
+// ::ng-deep #tree > svg > g:nth-child(7) > circle{
+//   stroke: #039BE5 !important;
+// }
+
+
+
+//*[@id="tree"]/svg/g[14]/path
+.zoom {
+  transform: scale(0.5);
+}
+
+.text-tittle {
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.text-detail {
+  font-size: 12px;
+  text-align: left !important;
+  margin-top: 7px;
+}
+
+.divider {
+  margin-bottom: 15px;
+  margin-top: 15px;
+}
+
+.selected {
+  background: #cddcea;
+  border-radius: 15px;
+}
+
+.logos{
+  height: 50px;
+  width: 100px;
+  padding-left: 10px;
+  padding-right: 10px;
+  vertical-align: middle;
+}
+
+@media (max-width: 576px) {
+  .margin-bottom {
+    margin-bottom: 20px;
+  }
+  .padding-icons {
+    padding: 10px;
+  }
+}
+
+@media (min-width: 961px) {
+  .margin-bottom {
+    margin-bottom: 0px;
+  }
+  .padding-icons {
+    padding: 0px;
+  }
+}
+
+.btn-zoom {
+  width: 109px !important;
+}
+
+
+
+
+
+.p-scrollpanel {
+  p {
+      padding: .5rem;
+      line-height: 1.5;
+      margin: 0;
+  }
+
+  &.custombar1 {
+      .p-scrollpanel-wrapper {
+          border-right: 9px solid var(--layer-1);
+      }
+
+      .p-scrollpanel-bar {
+          background-color: red !important;
+          opacity: 1;
+          transition: background-color .2s;
+
+          &:hover {
+              background-color: #007ad9;
+          }
+      }
+  }
+
+  &.custombar2 {
+      .p-scrollpanel-wrapper {
+          border-right: 9px solid var(--layer-1);
+          border-bottom: 9px solid var(--layer-1);
+      }
+
+      .p-scrollpanel-bar {
+          background-color: var(--layer-2);
+          border-radius: 0;
+          opacity: 1;
+          transition: background-color .2s;
+      }
+  }
+}    
+
+@media only screen and (max-device-width: 480px) {
+
+  .mat-focus-indicator{
+      line-height: 15px !important;
+      padding: 15px 25px !important;
+      margin-left: 0px !important;
+      width: 100% !important;
+  }
+}
+
+rect {
+  fill: #4f66a8 !important;
+}
+
+
+.btn-add{
+  background-color: #343a67 !important;
+  color: white !important;
+  font-weight: 400 !important;
+  cursor: pointer;
+  padding-left: 10px;
+  border: none !important;
+  padding-right: 10px;
+  border-radius: 10px !important;
+  height: 50px;
+  font-size: 12px;
+  width: 100px !important;
+}

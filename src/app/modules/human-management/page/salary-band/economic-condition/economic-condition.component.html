@@ -1,0 +1,467 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+    <hr />
+
+    <div class="first">
+        <mat-accordion class="w-100" multi>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Filtros de Búsqueda </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div style="margin-left:15px ;">
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Año</mat-label>
+                                <input autocomplete="off" placeholder="Escribir año" matInput type="number"
+                                    minlength="4" maxlength="4" [(ngModel)]="Filter.Period" />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Mes</mat-label>
+                                <mat-select [(ngModel)]="Filter.Month">
+                                    <mat-option *ngFor="let item of listmonth" [value]="item.code">{{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Empresa</mat-label>
+                                <mat-select (selectionChange)="changeEmpresa()" [(ngModel)]="bussineFC">
+                                    <mat-option *ngFor="let item of empresas" [value]="item.nid_company">
+                                        {{item.sdescription}}
+                                    </mat-option>
+
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Gerencia</mat-label>
+                                <mat-select [disabled]="disabledGerencia" [(ngModel)]="gerenciaFC"
+                                    (selectionChange)="changeGerencia()">
+                                    <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea
+                                        | uppercase }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Área (CC)</mat-label>
+                                <mat-select [disabled]="disabledArea" [(ngModel)]="areaCCFC">
+                                    <mat-option *ngFor="let item of areascc" [value]="item.code">{{item.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Nombre Cargo</mat-label>
+                                <input matInput maxlength="70" (keypress)="lettersOnly($event)"
+                                    [(ngModel)]="Filter.ChargeName" name="Nombre Cargo" placeholder="Nombre Cargo"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-left: 16px;" class="pr-16">
+                    <div class="filter__buttons">
+                        <button (click)="getList()" mat-raised-button color="primary">
+                            Buscar
+                        </button>
+
+                        <button (click)="printXls()" mat-raised-button color="warn">
+                            Exportar
+                        </button>
+
+                        <button mat-raised-button color="warn" (click)="resetFilter()">Limpiar</button>
+
+                        <button (click)="save()" title="Guardar" mat-raised-button color="primary">
+                            Guardar
+                        </button>
+                    </div>
+                    <a id="afile" name="afile" style="display: none;"></a>
+
+                </div>
+            </mat-expansion-panel>
+            <mat-accordion class="w-100" multi *ngIf="!this.responsive">
+                <mat-expansion-panel expanded>
+                    <mat-expansion-panel-header style="background-color: #FBE5D6;" fxLayoutAlign="center">
+                        <mat-panel-title>
+                            <p
+                                style="text-align: center; width: 100%;margin-top: 15px !important;font-weight: 700;font-size: 20px">
+                                {{titletab}}
+                            </p>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <!-- <div class="buttons">
+                        
+                    </div>
+                    <br>
+                    <br> -->
+
+                    <div style="overflow-x: auto;overflow-y: scroll;height: 700px;">
+                        <table id="tblLista">
+                            <thead>
+                                <tr>
+                                    <th class="headergris sticky-col first-col" rowspan="2" style="width: 80px; z-index: 10;">CÓDIGO
+                                    </th>
+                                    <th class="headergris sticky-col second-col" rowspan="2" style="width: 350px; z-index: 10;">
+                                        COLABORADOR</th>
+                                    <th class="headergris" rowspan="2" style="width: 300px;">CARGO</th>
+                                    <th class="headergris" rowspan="2" style="width: 250px;">ÁREA</th>
+                                    <th class="headergris" rowspan="2" style="width: 170px;">CONDICION</th>
+                                    <th class="headergris" rowspan="2" style="width: 120px;">FECHA DE INGRESO</th>
+                                    <th class="columnaenblanco" rowspan="2"></th>
+                                    <th class="headerceleste" colspan="8">AL CIERRE DEL AÑO {{previousPeriod}}</th>
+                                    <th class="columnaenblanco" rowspan="2"></th>
+                                    <th class="headeramarillo" rowspan="2">VARIAC. <br> INGRESO <br> MES</th>
+                                    <th class="columnaenblanco" rowspan="2"></th>
+                                    <th class="headerverdeclaro" colspan="11">AÑO {{currentPeriod}}</th>
+                                    <th class="columnaenblanco" rowspan="2"></th>
+                                    <th class="headeramarillo" rowspan="2">VARIAC. <br> COSTO <br> ANUAL</th>
+                                </tr>
+                                <tr class="row1">
+
+                                    <th class="headerceleste" style="width:100px">BÁSICO MES</th>
+                                    <th class="headerceleste" style="width:100px">OTROS FIJOS MES</th>
+                                    <th class="headerceleste" style="width:100px">VARIABLE MES</th>
+                                    <th class="headerceleste" style="width:100px">PASI </th>
+                                    <th class="headerceleste" style="width:100px">OTROS NO <br> REMUNER.</th>
+                                    <th class="headerceleste" style="width:100px">INGRESO MES</th>
+                                    <th class="headerceleste" style="width:100px">BONO ANUAL</th>
+                                    <th class="headerceleste" style="width:100px">COSTO ANUAL</th>
+
+
+
+                                    <th class="headerverdeclaro">PRESUPUESTADO</th>
+                                    <th class="headerverdeclaro">BÁSICO MES</th>
+                                    <th class="headerveroscuro">INCREMENTO <br> BÁSICO</th>
+                                    <th class="headerverdeclaro">OTROS FIJOS <br> MES</th>
+                                    <th class="headerverdeclaro">VARIABLE <br> MES</th>
+                                    <th class="headerverdeclaro">PASI </th>
+                                    <th class="headerveroscuro">INCREMENTO <br> PASI</th>
+                                    <th class="headerverdeclaro">OTROS NO <br> REMUNER.</th>
+                                    <th class="headerverdeclaro">INGRESO MES</th>
+                                    <th class="headerverdeclaro">BONO ANUAL</th>
+                                    <th class="headerverdeclaro">COSTO ANUAL</th>
+
+                                </tr>
+
+
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listdata" class="mat-row" (click)="selectedRow(item)">
+                                    <td class="sticky-col first-col"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.codEmployee}}</td>
+                                    <td class="sticky-col second-col"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.colaborator}}</td>
+                                    <td class=""
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.position}}</td>
+                                    <td class=""
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.areaName}}</td>
+                                    <td class=""
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.condition}} </td>
+                                    <td class="columndate"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.admissionDate}}</td>
+                                    <td class=""
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"></td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.prevBasicMonth | number : '1.2-2'}}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.prevOtherFixedMonth | number : '1.2-2'}}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.prevVariableMonth | number : '1.2-2'}}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.prevPassive | number : '1.2-2'}}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.prevOtherUnpaid | number : '1.2-2'}}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.prevMonthlyIncome | number : '1.2-2'}}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.prevAnnualBonus | number : '1.2-2'}}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.prevAnnualCost | number : '1.2-2'}}</td>
+                                    <td class=""
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"></td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.variationMontlyIncome | number : '1.1-1' }} %
+                                    </td>
+                                    <td class=""
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"></td>
+                                    <td class=""
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        {{item.idEconomicCondition > 0 ? "SI" : "NO" }}</td>
+
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                        item.basicMonth | number : '1.2-2' }}</td>
+                                    <td class=""
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        <input type="text" style="width: 60px;margin-left: 24px;"
+                                            [(ngModel)]="item.increase" [ngClass]="{incremento: item.increase > 0,
+                                            decremento: item.increase <= 0}" (blur)="onCalculate(item,1)" maxlength="5"
+                                            onkeypress="return /[0-9, ]/i.test(event.key)">
+
+                                    </td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                        item.otherFixedMonth | number : '1.2-2' }}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                        item.variableMonth | number : '1.2-2' }}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                        item.passive | number : '1.2-2' }}</td>
+                                    <td class=""
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        <input type="text" style="width: 60px;margin-left: 24px;"
+                                            [(ngModel)]="item.increasePassive" [ngClass]="{incremento: item.increasePassive > 0,
+                                            decremento: item.increasePassive <= 0}" (blur)="onCalculate(item,2)"
+                                            maxlength="5" onkeypress="return /[0-9, ]/i.test(event.key)">
+                                    </td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                        item.otherUnpaid | number : '1.2-2'}}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"> {{
+                                        item.monthlyIncome | number : '1.2-2' }}</td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                        item.annualBonus | number : '1.2-2' }}</td>
+
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                        item.annualCost | number : '1.2-2' }}</td>
+                                    <td class="columnaenblanco"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"></td>
+                                    <td class="colmnamount"
+                                        [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        <div style="float:left" [ngClass]="getVariationclass(item.variationAnnualCost)">
+                                            &nbsp;</div> {{ item.variationAnnualCost | number : '1.1-1' }} %
+                                    </td>
+                                </tr>
+                                <tr *ngIf="listdata.length === 0">
+                                    <td colspan="35">No se encontraron registros </td>
+                                </tr>
+
+                            </tbody>
+                        </table>    
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <ng-template #DetailDialog>
+                <mat-dialog-content>
+                    <mat-accordion class="w-100" multi>
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header style="background-color: #FBE5D6;" fxLayoutAlign="center">
+                                <mat-panel-title>
+                                    <p
+                                        style="text-align: center; width: 100%;margin-top: 15px !important;font-weight: 700;font-size: 20px">
+                                        {{titletab}}
+                                    </p>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+        
+                            <!-- <div class="buttons">
+                                
+                            </div>
+                            <br>
+                            <br> -->
+        
+                            <div style="overflow-x: auto;overflow-y: scroll;height: 700px;">
+                                <table id="tblLista-res">
+                                    <thead>
+                                        <tr>
+                                            <th class="headergris sticky-col first-col-res" rowspan="2" style="width: 80px; z-index: 10;">CÓDIGO
+                                            </th>
+                                            <th class="headergris sticky-col second-col-res" rowspan="2" style="width: 100px; z-index: 10;">
+                                                COLABORADOR</th>
+                                            <th class="headergris" rowspan="2" style="width: 300px;">CARGO</th>
+                                            <th class="headergris" rowspan="2" style="width: 250px;">ÁREA</th>
+                                            <th class="headergris" rowspan="2" style="width: 170px;">CONDICION</th>
+                                            <th class="headergris" rowspan="2" style="width: 120px;">FECHA DE INGRESO</th>
+                                            <th class="columnaenblanco" rowspan="2"></th>
+                                            <th class="headerceleste" colspan="8">AL CIERRE DEL AÑO {{previousPeriod}}</th>
+                                            <th class="columnaenblanco" rowspan="2"></th>
+                                            <th class="headeramarillo" rowspan="2">VARIAC. <br> INGRESO <br> MES</th>
+                                            <th class="columnaenblanco" rowspan="2"></th>
+                                            <th class="headerverdeclaro" colspan="11">AÑO {{currentPeriod}}</th>
+                                            <th class="columnaenblanco" rowspan="2"></th>
+                                            <th class="headeramarillo" rowspan="2">VARIAC. <br> COSTO <br> ANUAL</th>
+                                        </tr>
+                                        <tr class="row1">
+        
+                                            <th class="headerceleste" style="width:100px">BÁSICO MES</th>
+                                            <th class="headerceleste" style="width:100px">OTROS FIJOS MES</th>
+                                            <th class="headerceleste" style="width:100px">VARIABLE MES</th>
+                                            <th class="headerceleste" style="width:100px">PASI </th>
+                                            <th class="headerceleste" style="width:100px">OTROS NO <br> REMUNER.</th>
+                                            <th class="headerceleste" style="width:100px">INGRESO MES</th>
+                                            <th class="headerceleste" style="width:100px">BONO ANUAL</th>
+                                            <th class="headerceleste" style="width:100px">COSTO ANUAL</th>
+        
+        
+        
+                                            <th class="headerverdeclaro">PRESUPUESTADO</th>
+                                            <th class="headerverdeclaro">BÁSICO MES</th>
+                                            <th class="headerveroscuro">INCREMENTO <br> BÁSICO</th>
+                                            <th class="headerverdeclaro">OTROS FIJOS <br> MES</th>
+                                            <th class="headerverdeclaro">VARIABLE <br> MES</th>
+                                            <th class="headerverdeclaro">PASI </th>
+                                            <th class="headerveroscuro">INCREMENTO <br> PASI</th>
+                                            <th class="headerverdeclaro">OTROS NO <br> REMUNER.</th>
+                                            <th class="headerverdeclaro">INGRESO MES</th>
+                                            <th class="headerverdeclaro">BONO ANUAL</th>
+                                            <th class="headerverdeclaro">COSTO ANUAL</th>
+        
+                                        </tr>
+        
+        
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of listdata" class="mat-row" (click)="selectedRow(item)">
+                                            <td class="sticky-col first-col-res"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.codEmployee}}</td>
+                                            <td class="sticky-col second-col-res"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.colaborator}}</td>
+                                            <td class=""
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.position}}</td>
+                                            <td class=""
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.areaName}}</td>
+                                            <td class=""
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.condition}} </td>
+                                            <td class="columndate"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.admissionDate}}</td>
+                                            <td class=""
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"></td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.prevBasicMonth | number : '1.2-2'}}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.prevOtherFixedMonth | number : '1.2-2'}}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.prevVariableMonth | number : '1.2-2'}}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.prevPassive | number : '1.2-2'}}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.prevOtherUnpaid | number : '1.2-2'}}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.prevMonthlyIncome | number : '1.2-2'}}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.prevAnnualBonus | number : '1.2-2'}}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.prevAnnualCost | number : '1.2-2'}}</td>
+                                            <td class=""
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"></td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.variationMontlyIncome | number : '1.1-1' }} %
+                                            </td>
+                                            <td class=""
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"></td>
+                                            <td class=""
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                {{item.idEconomicCondition > 0 ? "SI" : "NO" }}</td>
+        
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                                item.basicMonth | number : '1.2-2' }}</td>
+                                            <td class=""
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                <input type="text" style="width: 60px;margin-left: 24px;"
+                                                    [(ngModel)]="item.increase" [ngClass]="{incremento: item.increase > 0,
+                                                    decremento: item.increase <= 0}" (blur)="onCalculate(item,1)" maxlength="5"
+                                                    onkeypress="return /[0-9, ]/i.test(event.key)">        
+                                            </td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                                item.otherFixedMonth | number : '1.2-2' }}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                                item.variableMonth | number : '1.2-2' }}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                                item.passive | number : '1.2-2' }}</td>
+                                            <td class=""
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                <input type="text" style="width: 60px;margin-left: 24px;"
+                                                    [(ngModel)]="item.increasePassive" [ngClass]="{incremento: item.increasePassive > 0,
+                                                    decremento: item.increasePassive <= 0}" (blur)="onCalculate(item,2)"
+                                                    maxlength="5" onkeypress="return /[0-9, ]/i.test(event.key)">
+                                            </td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                                item.otherUnpaid | number : '1.2-2'}}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"> {{
+                                                item.monthlyIncome | number : '1.2-2' }}</td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                                item.annualBonus | number : '1.2-2' }}</td>
+        
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{
+                                                item.annualCost | number : '1.2-2' }}</td>
+                                            <td class="columnaenblanco"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}"></td>
+                                            <td class="colmnamount"
+                                                [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                <div style="float:left" [ngClass]="getVariationclass(item.variationAnnualCost)">
+                                                    &nbsp;</div> {{ item.variationAnnualCost | number : '1.1-1' }} %
+                                            </td>
+                                        </tr>
+                                        <tr *ngIf="listdata.length === 0">
+                                            <td colspan="35">No se encontraron registros </td>
+                                        </tr>
+        
+                                    </tbody>
+                                </table>    
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </mat-dialog-content>
+                <mat-dialog-actions align="end">
+                    <button mat-raised-button color="primary" style="margin: auto;" matDialogClose="no">Cerrar</button>
+                </mat-dialog-actions>
+            </ng-template>
+
+        </mat-accordion>
+    </div>
+</div>
+<a id="afile" name="afile" style="display: none;"></a>

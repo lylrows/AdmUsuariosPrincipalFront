@@ -1,0 +1,494 @@
+<mat-card-title style="text-align: center">
+  <div class="title-modal"></div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-card-content>
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+
+    <div style="padding:3rem 2rem;" fxLayout="row wrap" fxLayout.lt-sm="column">
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Puesto:</mat-label>
+      </div>
+      <div fxFlex="80" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput maxlength="100" name="title" [formControl]="itemForm.controls['title']" placeholder="Título">
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['title'].hasError('required') && itemForm.controls['title'].touched"
+          class="form-error-msg"> El Título es obligatorio </small>
+      </div>
+
+      <div fxFlex="100" class="pr-16 pt-16 pb-16">
+        <mat-divider></mat-divider>
+      </div>
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Detalle del Aviso:</mat-label>
+      </div>
+      <div fxFlex="80" style="margin-top: 10px;border-style: ridge;" class="pr-16">
+        <mat-card-content class="p-0">
+          <quill-editor [modules]="editorOptions" theme="snow" [formControl]="itemForm.controls['noticeDetails']"></quill-editor>
+        </mat-card-content>
+      </div>
+
+      <div fxFlex="100" class="pr-16 pt-16 pb-16">
+        <mat-divider></mat-divider>
+      </div>
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Requisitos:</mat-label>
+      </div>
+      <div fxFlex="80" style="margin-top: 10px;border-style: ridge;" class="pr-16">
+        <mat-card-content class="p-0">
+          <quill-editor theme="snow" [modules]="editorOptions" [formControl]="itemForm.controls['requirements']"></quill-editor>
+        </mat-card-content>
+      </div>
+
+      <div fxFlex="100" class="pr-16 pt-16 pb-16">
+        <mat-divider></mat-divider>
+      </div>
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Beneficios:</mat-label>
+      </div>
+      <div fxFlex="80" style="margin-top: 10px;border-style: ridge;" class="pr-16">
+        <mat-card-content class="p-0">
+          <quill-editor theme="snow" [modules]="editorOptions" [formControl]="itemForm.controls['benefits']"></quill-editor>
+        </mat-card-content>
+      </div>
+
+      <div fxFlex="100" class="pr-16 pt-16 pb-16">
+        <mat-divider></mat-divider>
+      </div>
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Discapacidad:</mat-label>
+      </div>
+      <div fxFlex="80" class="pt-16 pr-16">
+        <mat-slide-toggle [formControl]="itemForm.controls['isSuitableForDisabled']">
+          <p>Este trabajo es apto para personas <br class="show-responsive">con discapacidad</p>
+        </mat-slide-toggle>
+      </div>
+
+      <!-- <div fxFlex="100" class="pr-16">
+              <mat-form-field class="full-width">
+                <input matInput maxlength="100" name="tags" [formControl]="itemForm.controls['tags']"
+                  placeholder="Etiquetas">
+              </mat-form-field>
+              <small *ngIf="itemForm.controls['tags'].hasError('required') && itemForm.controls['tags'].touched"
+                class="form-error-msg"> La Etiqueta es obligatorio </small>
+            </div> -->
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Empresa y Área:</mat-label>
+      </div>
+      <div fxFlex="40" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Empresa</mat-label>
+          <mat-select disabled [formControl]="itemForm.controls['id_Company']">
+            <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['id_Company'].hasError('required') && itemForm.controls['id_Company'].touched"
+          class="form-error-msg">La empresa es obligatorio </small>
+      </div>
+      <div fxFlex="40" class="pr-16"> 
+        <mat-form-field class="full-width">
+          <mat-label>Area</mat-label>
+          <mat-select disabled [formControl]="itemForm.controls['id_Area']">
+            <mat-option *ngFor="let item of lstAreas" [value]="item.id">{{item.nameArea}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['id_Area'].hasError('required') && itemForm.controls['id_Area'].touched"
+          class="form-error-msg">El Area es obligatorio </small>
+      </div>
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Tipo de Contratación:</mat-label>
+      </div>
+      <div fxFlex="25" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Tipo de Contratación</mat-label>
+          <mat-select [formControl]="itemForm.controls['id_JobType']">
+            <mat-option *ngFor="let item of lstJobType" [value]="item.id">{{item.descriptionValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['id_JobType'].hasError('required') && itemForm.controls['id_JobType'].touched"
+          class="form-error-msg">El Tipo de Contratación es obligatorio </small>
+      </div>
+
+      <div fxFlex="25" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Nivel Laboral</mat-label>
+          <mat-select [formControl]="itemForm.controls['id_JobLevel']">
+            <mat-option *ngFor="let item of lstJoblevel" [value]="item.id">{{item.descriptionValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['id_JobLevel'].hasError('required') && itemForm.controls['id_JobLevel'].touched"
+          class="form-error-msg">El Nivel Laboral es obligatorio </small>
+      </div>
+
+      <div fxFlex="30" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Modalidad</mat-label>
+          <mat-select [formControl]="itemForm.controls['id_WorkType']"> 
+            <mat-option *ngFor="let item of lstWorkType" [value]="item.id">{{item.descriptionValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['id_WorkType'].hasError('required') && itemForm.controls['id_WorkType'].touched"
+          class="form-error-msg">La Modalidad es obligatorio </small>
+      </div>
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Dirección:</mat-label>
+      </div>
+
+      <div fxFlex="25" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Departamento</mat-label>
+          <mat-select [formControl]="itemForm.controls['idDepartment']" (selectionChange)="changeProvince($event)">
+            <mat-option *ngFor="let item of lstDepartament" [value]="item.nid_department">{{item.sname}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small
+          *ngIf="itemForm.controls['idDepartment'].hasError('required') && itemForm.controls['idDepartment'].touched"
+          class="form-error-msg">El Departamento es obligatorio </small>
+      </div>
+
+      <div fxFlex="25" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Provincia</mat-label>
+          <mat-select [formControl]="itemForm.controls['idProvince']" (selectionChange)="changeDistrict($event)">
+            <mat-option *ngFor="let item of lstProvince" [value]="item.nid_province">{{item.sname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['idProvince'].hasError('required') && itemForm.controls['idProvince'].touched"
+          class="form-error-msg">La Provincia es obligatorio </small>
+      </div>
+
+      <div fxFlex="30" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Distrito</mat-label>
+          <mat-select [formControl]="itemForm.controls['idDistrict']">
+            <mat-option *ngFor="let item of lstDistrict" [value]="item.nid_district">{{item.sname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['idDistrict'].hasError('required') && itemForm.controls['idDistrict'].touched"
+          class="form-error-msg">El Distrito es obligatorio </small>
+      </div>
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">&nbsp;</mat-label>
+      </div>
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field class="full-width">
+          <input maxlength="250" matInput name="Dirección" [formControl]="itemForm.controls['location']"
+            placeholder="Dirección">
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['location'].hasError('required') && itemForm.controls['location'].touched"
+          class="form-error-msg">La Dirección es obligatorio </small>
+      </div>
+
+      <div fxFlex="30" class="pr-16">
+        <!-- <mat-form-field class="full-width">
+          <input type="number" (keypress)="valideKey($event)" matInput name="Vacantes"
+            [formControl]="itemForm.controls['vacancies']" placeholder="Vacantes">
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['vacancies'].hasError('required') && itemForm.controls['vacancies'].touched"
+          class="form-error-msg"> La Vacante es obligatorio </small> -->
+      </div>
+
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Detalles del Aviso:</mat-label>
+      </div>
+      <div fxFlex="25" class="pr-16">
+        <mat-form-field class="full-width">
+          <input type="text" matInput name="Fecha de finalización del aviso"
+            [formControl]="itemForm.controls['finishDate']" placeholder="Fecha de finalización del aviso"
+            [matDatepicker]="picker">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['finishDate'].hasError('required') && itemForm.controls['finishDate'].touched"
+          class="form-error-msg"> La fecha de fin es obligatorio </small>
+      </div>
+      <div fxFlex="25" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Sexo</mat-label>
+          <mat-select [formControl]="itemForm.controls['idSex']">
+            <mat-option *ngFor="let item of lstGender" [value]="item.id">{{item.descriptionValue}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['idSex'].hasError('required') && itemForm.controls['idSex'].touched"
+          class="form-error-msg">El Sexo es obligatorio </small>
+      </div>
+      <div fxFlex="30" class="pt-16 pr-16">
+        <mat-slide-toggle [formControl]="itemForm.controls['showSalaryInNotice']">
+          Mostrar en el Aviso
+        </mat-slide-toggle>
+      </div>
+      <div fxFlex="20" class="pr-16 pt-16">
+      </div>
+      <div fxFlex="80" class="pr-16 pt-16">
+        <div *ngIf="type != 2" fxFlex="20" class="pr-16 divedad">
+        <mat-form-field class="full-width">
+          <input matInput (keypress)="valideKey($event)" type="number" name="Edad Mínima"
+            [formControl]="itemForm.controls['minimumAge']" placeholder="Edad Mínima">
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['minimumAge'].hasError('required') && itemForm.controls['minimumAge'].touched"
+          class="form-error-msg">La Edad Mínima es obligatorio </small>
+      </div>
+      <div *ngIf="type != 2" fxFlex="20" class="pr-16 divedad">
+        <mat-form-field class="full-width">
+          <input matInput (keypress)="valideKey($event)" type="number" name="Edad Máxima"
+            [formControl]="itemForm.controls['maximumAge']" placeholder="Edad Máxima">
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['maximumAge'].hasError('required') && itemForm.controls['maximumAge'].touched"
+          class="form-error-msg">La Edad Máxima es obligatorio </small>
+      </div>
+      </div>
+      <div fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Educación:</mat-label>
+      </div>
+      <div fxFlex="20" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Grado Académico</mat-label>
+          <!-- <mat-select [formControl]="itemForm.controls['idiomLevelSelected']" (selectionChange)="changeSelect($event)"> -->
+          <mat-select [formControl]="itemForm.controls['gradoSelected']" (selectionChange)="changeSelect($event)">
+            <mat-option [value]="'pre'">PreGrado</mat-option>
+            <mat-option [value]="'post'">PostGrado</mat-option>
+            <!-- <mat-option [value]="'Básico'">Básico</mat-option>
+            <mat-option [value]="'Intermedio'">Intermedio</mat-option>
+            <mat-option [value]="'Avanzado'">Avanzado</mat-option>
+            <mat-option [value]="'Nativo'">Nativo</mat-option> -->
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="20" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput maxlength="100" name="Carrera" [formControl]="itemForm.controls['workCarrera']"
+            placeholder="Carrera">
+        </mat-form-field>
+        <!-- <small
+          *ngIf="itemForm.controls['workCarrera'].hasError('required') && itemForm.controls['workCarrera'].touched"
+          class="form-error-msg">La Carrera estudiada es obligatorio </small>  -->
+      </div>
+      <div fxFlex="20" class="pr-16">
+         <mat-form-field class="full-width">
+          <mat-label>Nivel Educativo</mat-label>
+          <mat-select [formControl]="itemForm.controls['lstEducationGrado']">
+            <mat-option *ngFor="let item of lstEducationGradoAcademico" [value]="item.id">{{item.descriptionValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="20" class="pr-16">
+        <div fxFlex="100" class="mt-0">
+          <button type="button" mat-raised-button (click)="addGrado()" color="primary" class="btnAdd">Agregar Grado</button>
+        </div>
+      </div>
+      <div fxFlex="20" class="pr-16 pt-16"></div>
+      <div fxFlex="70" class="pr-16">
+        <table mat-table
+                [dataSource]="GradosDT"
+                class="mat-elevation-z8 table" style="width: 100%; max-width: 600px;background-color: #EFEFEF;"
+                >
+                <ng-container matColumnDef="grado" sticky>
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Grado</th>
+                  <td
+                      mat-cell
+                      *matCellDef="let row"
+                      matTooltip="{{row.stextGrado}}"
+                      class="has_label_on_mobile"
+                      data-label="Grado. : "
+                  >
+                  {{row.stextGrado}}
+                  </td>
+                  </ng-container>
+                <ng-container matColumnDef="carrera" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Carrera</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    matTooltip="{{row.scareer}}"
+                    class="has_label_on_mobile"
+                    data-label="Carrera. : "
+                >
+                {{row.scareer}}
+                </td>
+                </ng-container>
+                <ng-container matColumnDef="nivel">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nivel</th>
+                <td
+                    mat-cell
+                    matTooltip="{{row.sgrade}}"
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Nivel : "
+                >
+                    {{ row.sgrade }}
+                </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Acción</th>
+                  <td mat-cell 
+                      *matCellDef="let row"
+                      class="has_label_on_mobile"
+                      data-label="Acciones : ">
+                      <button mat-button class="btn-principal" (click)="EliminarGrado(row.id, row.scareer)"><mat-icon >delete</mat-icon></button>
+                  </td>
+              </ng-container>
+
+                <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumnsGrado; sticky: true"
+                    ></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsGrado"></tr>
+  
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="9">
+                        No se encontraron Grados Academicos
+                        </td>
+                    </tr>
+        </table>
+        <br>
+      </div>
+      <!-- lstEducationLevelSituation -->
+      <!-- lstEducationLevel -->
+      <!-- LINEA DE IDIOMAS INICIO -->
+      <div *ngIf="type != 2" fxFlex="20" class="pr-16 pt-16">
+        <mat-label style="font-weight: 600;">Idioma:</mat-label>
+      </div>
+      <div *ngIf="type != 2" fxFlex="20" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Idioma</mat-label>
+          <mat-select [formControl]="itemForm.controls['idiomSelected']">
+            <mat-option *ngFor="let item of lstIdiom" [value]="item.descriptionValue">
+                {{item.descriptionValue}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="type != 2" fxFlex="20" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Nivel</mat-label>
+          <mat-select [formControl]="itemForm.controls['idiomLevelSelected']">
+            <mat-option [value]="'Básico'">Básico</mat-option>
+            <mat-option [value]="'Intermedio'">Intermedio</mat-option>
+            <mat-option [value]="'Avanzado'">Avanzado</mat-option>
+            <mat-option [value]="'Nativo'">Nativo</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div *ngIf="type != 2" fxFlex="40" class="pr-16">
+        <div fxFlex="100" class="mt-0">
+          <button type="button" mat-raised-button (click)="addIdiom()" color="primary" class="btnAdd">
+            Agregar Idioma</button>
+        </div>
+      </div>
+      <div fxFlex="20" class="pr-16 pt-16 divIdiomas"></div>
+      <div *ngIf="type != 2" fxFlex="70" class="pr-16">
+        <table mat-table
+                [dataSource]="LanguagesDT"
+                class="mat-elevation-z8 table tblIdiomas"
+                >
+                <ng-container matColumnDef="idioma" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Idioma</th>
+                <td
+                    mat-cell
+                    *matCellDef="let row"
+                    matTooltip="{{row.slanguage}}"
+                    class="has_label_on_mobile"
+                    data-label="Idioma. : "
+                >
+                {{row.slanguage}}
+                </td>
+                </ng-container>
+                <ng-container matColumnDef="nivel">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nivel</th>
+                <td
+                    mat-cell
+                    matTooltip="{{row.snivel}}"
+                    *matCellDef="let row"
+                    class="has_label_on_mobile"
+                    data-label="Nivel : "
+                >
+                    {{ row.snivel }}
+                </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Acción</th>
+                  <td mat-cell 
+                      *matCellDef="let row"
+                      class="has_label_on_mobile"
+                      data-label="Acciones : ">
+                      <button mat-button class="btn-principal" (click)="EliminarIdioma(row.slanguage)"><mat-icon >delete</mat-icon></button>
+                  </td>
+              </ng-container>
+
+                <tr
+                        mat-header-row
+                        *matHeaderRowDef="displayedColumnsLanguages; sticky: true"
+                    ></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsLanguages"></tr>
+  
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="9">
+                        No se encontraron idiomas
+                        </td>
+                    </tr>
+        </table>
+        <br>
+      </div>
+      <!-- LINEA DE IDIOMAS FINAL -->
+      <div *ngIf="type != 2" fxFlex="20" class="pr-16 pt-16"> 
+        <mat-label style="font-weight: 600;">Palabras Clave:</mat-label>
+      </div>
+      <div *ngIf="type != 2" fxFlex="30" class="pr-16 mt">
+        <mat-form-field class="full-width">
+          <mat-label>Palabras claves</mat-label>
+          <input matInput type="text" name="Salario Mínimo" [formControl]="itemForm.controls['includeKeywords']"
+            placeholder="Palabra clave">
+        </mat-form-field>
+      </div>
+      <div *ngIf="type != 2" fxFlex="20" class="pr-16">
+        <div fxFlex="100" class="mt-0">
+          <button type="button" mat-raised-button (click)="addKeyword()" color="primary" class="btnAdd">
+            Agregar Palabra Clave</button>
+        </div>
+      </div>
+      <div fxFlex="20" class="pr-16 pt-16"></div>
+      <div fxFlex="20" class="pr-16 pt-16"></div>
+      <div *ngIf="type != 2" fxFlex="50" class="pr-16 mt divClave">
+        <table #tablekeyword mat-table [dataSource]="lstkeyword" class="mat-elevation-z8 table tblClave">
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Eliminar</th>
+            <td mat-cell *matCellDef="let i = index">
+              <button type="button" mat-icon-button class="removeCart" (click)="deleteKeyword(i)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="keyWord">
+            <th mat-header-cell *matHeaderCellDef>Palabra clave</th>
+            <td mat-cell *matCellDef="let element"> {{ element.keyWord }} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsKeywork"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsKeywork;"></tr>
+
+        </table>
+      </div>
+
+      <div fxFlex="50" class="pr-16 mt">
+      </div>
+      <div fxFlex="100" class="pr-16 pt-16" style="display: flex; justify-content: center;">
+        <div class="group-buttons" style="margin-top: 25px;">
+          <button mat-raised-button color="primary">Publicar</button>
+          <button mat-raised-button color="warn" (click)="getDetailPath(idRequest)">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</mat-card-content>

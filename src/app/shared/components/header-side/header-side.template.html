@@ -1,0 +1,91 @@
+<mat-toolbar class="header-heigth topbar mat-bg-card" fxFlex="100" style="height: 65px !important;">
+  <!-- Sidenav toggle button -->
+  <button *ngIf="layoutConf.sidebarStyle !== 'compact'" mat-icon-button id="sidenavToggle" (click)="toggleSidenav()"
+    matTooltip="Toggle Hide/Open">
+    <mat-icon style="color: #fff;">menu</mat-icon>
+    <!-- <mat-icon *ngIf="!flecha" style="color: #fff;">menu</mat-icon> -->
+    <!-- <img *ngIf="flecha" src="assets/images/vector-left.svg" alt="" class="logo-grupo-fe app-logo"> -->
+  </button>
+
+  <span fxFlex></span>
+
+
+  <!-- Top left user menu -->
+
+  <div class="container description-user" fxFlex="100">
+    <div class="divRadius divRadius-top">
+
+      <div class="row justify-content-end">
+        <!-- fxFlex="10"  fxFlex.lg="10" fxFlex.md="15" fxFlex.sm="15" fxFlex.xs="15"  -->
+        <div class="border-0 border-danger" >
+      
+          <p class="title-user d-md-block">
+            <button mat-icon-button matTooltip="Bandeja" (click)="showbandeja()" [style.overflow]="'visible'"
+              class="alert-user topbar-button-right">
+              <!-- <mat-icon>notifications</mat-icon> -->
+              <img src="assets/images/svg-icons/campana.svg" alt="" class="logo-grupo-fe app-logo">
+              <span class="notification-number mat-bg-warn">{{ unviewed_count | async}}</span>
+            </button>
+            <button mat-icon-button matTooltip="Reconocimientos" (click)="toggleNotific()" [style.overflow]="'visible'"
+              class="alert-user topbar-button-right">
+              <!-- <mat-icon>star</mat-icon> -->
+              <img src="assets/images/svg-icons/estrella.svg" alt="" class="logo-grupo-fe app-logo">
+              <span class="notification-number mat-bg-warn">{{count}}</span>
+            </button>
+          </p>
+        </div>
+        <!-- fxFlex="5" fxFlex.lg="5" fxFlex.md="5" fxFlex.sm="10" fxFlex.xs="15"  -->
+        <div class="border-0 border-danger"  >
+          <div class="card-image-user">
+            <button mat-icon-button class="button-image-user topbar-button-right img-button">
+              <img [src]="urlPhotoUser" class="image-user img-fluid" alt="" style="height: 50px !important;"/>
+            </button>
+          </div>
+        </div>
+        <!-- fxFlex="15" fxFlex.lg="15" fxFlex.md="17" fxFlex.sm="25" fxFlex.xs="30"  -->
+        <div class="border-0 border-danger" >
+          <p class="title-user d-md-block"> 
+            <!-- <span style="font-size: 14px;">Bienvenido</span> -->
+            <span class="title-user-welcome">Bienvenido</span>
+            <!-- <span class="name-user" style="font-size: 16px;font-weight: bold;"><br>{{displayNameUser}}</span> -->
+            <span class="title-name-user"><br>{{displayNameUser}}</span>
+          </p>
+        </div>
+        <!-- fxFlex="5" fxFlex.lg="5" fxFlex.md="5" fxFlex.sm="5" fxFlex.xs="5"  -->
+        <div class="border-0 border-danger">
+          <div class="card-image-user">
+            <button mat-icon-button [matMenuTriggerFor]="accountMenu" class="button-image-user topbar-button-right img-button">
+              <!-- <img [src]="urlPhotoUser" class="image-user img-fluid" alt=">" /> -->
+              <img src="assets/images/svg-icons/flecha-bottom.svg" style="width: 20px !important; height: 20px !important;">
+            </button>
+            <mat-menu #accountMenu="matMenu">
+              <button mat-menu-item (click)="showprofile()">
+                <mat-icon>account_box</mat-icon>
+                <span>Perfil</span>
+              </button>
+              <!-- <button mat-menu-item [routerLink]="['/profile/settings']">
+                <mat-icon>settings</mat-icon>
+                <span>Configuración</span>
+              </button> -->
+              <button mat-menu-item (click)="sendrecognition()">
+                <mat-icon>stars</mat-icon>
+                <span>Dar Reconocimiento</span>
+              </button>
+              <button mat-menu-item (click)="changePassword()">
+                <mat-icon>lock</mat-icon>
+                <span>Cambiar Contraseña</span>
+              </button>
+              <button mat-menu-item (click)="jwtAuth.signout()">
+                <mat-icon>exit_to_app</mat-icon>
+                <span>Cerrar Sesión</span>
+              </button>
+            </mat-menu>
+          </div>
+        </div>
+
+        <div fxFlex="3" fxFlex.md="5" fxFlex.sm="7" fxFlex.xs="1" class="border-0 border-danger"></div>
+      </div>
+    </div>
+  </div>
+
+</mat-toolbar>

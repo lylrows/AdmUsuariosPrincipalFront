@@ -1,0 +1,322 @@
+<div class="content">
+    <h2 class="title">Reporte de Descanso médico o subsidial</h2>
+    <hr style="width: 100%;">
+
+    <div class="filter" style="margin-top: 15px;">
+        <div class="filter__inputs">
+            <mat-form-field class="full-width">
+                <mat-label>Tipo de Solicitud</mat-label>
+                <mat-select [formControl]="ntype">
+                    <mat-option *ngFor="let item of typerequest" [value]="item.nid_mastertable">
+                        {{item.sdescription_value}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [formControl]="ddateinit" [matDatepicker]="pickerStartVacation" name="InitialIssueDate"
+                    placeholder="Fecha Inicial">
+                <mat-datepicker-toggle matSuffix [for]="pickerStartVacation"></mat-datepicker-toggle>
+                <mat-datepicker #pickerStartVacation></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field>
+                <input matInput [formControl]="ddateend" [matDatepicker]="pickerfinalIssueDate" name="finalIssueDate"
+                    placeholder="Fecha fin">
+                <mat-datepicker-toggle matSuffix [for]="pickerfinalIssueDate"></mat-datepicker-toggle>
+                <mat-datepicker #pickerfinalIssueDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-label>Etapas </mat-label>
+                <mat-select [formControl]="netapa">
+                    <mat-option *ngFor="let item of listEtapa" [value]="item.code">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field class="full-width">
+                <mat-label>Estado </mat-label>
+                <mat-select [formControl]="nstate">
+                    <mat-option *ngFor="let item of listReport" [value]="item.code">
+                        {{item.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="filter__buttons">
+            <button type="button" mat-raised-button class="mb-8 dark-blue-400 dark-blue-400-fg"
+                (click)="filter()">Buscar</button>
+            <button type="button" (click)="resetFilter()" class="mb-8" mat-raised-button
+                style="background-color: #fdb930">
+                Limpiar
+            </button>
+        </div>
+
+
+        <mat-accordion class="w-100" multi>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;">Reporte
+                            de Montos</h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="report">
+                    <div class="report__group">
+                        <h2>Monto Generado</h2>
+                        <div class="report__group-data">
+                            S/ {{ amount_generated | number : '1.2-2' }}
+                        </div>
+                    </div>
+                    <div class="report__group">
+                        <h2>Monto Cobrado</h2>
+                        <div class="report__group-data">
+                            S/ {{ amount_charged   | number : '1.2-2'}}
+                        </div>
+                    </div>
+                    <div class="report__group">
+                        <h2>Monto Perdido</h2>
+                        <div class="report__group-data">
+                            S/ {{ amount_perdido  | number : '1.2-2' }}
+                        </div>
+                    </div>
+                    <div class="report__group">
+                        <h2>Monto en Tramite</h2>
+                        <div class="report__group-data">
+                            S/ {{ amount_loading   | number : '1.2-2'}}
+                        </div>
+                    </div>
+                </div>
+
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;">Reporte
+                            Graficos</h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <!-- <div class="graficos">
+                    <div class="graficos__group">
+                        <h2>Solicitudes por Estado</h2>
+                        <mat-card class="p-0">
+                            <mat-card-content>
+                                <canvas baseChart [data]="doughnutChartData" [type]="doughnutChartType">
+                                </canvas>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+
+                    <div class="graficos__group">
+                        <h2>Solicitudes por Etapas</h2>
+                        <mat-card class="p-0">
+                            <mat-card-content>
+                                <canvas baseChart [data]="doughnutChartEtapasData" [type]="doughnutChartType">
+                                </canvas>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div> -->
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-card class="w-100">
+                            <mat-card-title style="text-align: center;color: #4F66A8;"><h2>Solicitudes por Estado</h2></mat-card-title>
+                            <mat-card-content>
+                                <div echarts [options]="_chartOptionStatus">
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div fxFlex="50" class="pr-16 pt-16">
+                        <mat-card class="w-100">
+                            <mat-card-title style="text-align: center;color: #4F66A8;"><h2>Solicitudes por Etapas</h2></mat-card-title>
+                            <mat-card-content>
+                                <div echarts [options]="_chartOptionEtapas">
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+            
+                  </div>            
+
+            </mat-expansion-panel>
+
+
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;">Reporte
+                            General</h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div>
+
+                    <button (click)="export()" style="margin-bottom: 15px;" mat-button color="primary" class="btn-exportar">Exportar a Excel</button>
+
+                    <table  mat-table  [dataSource]="documentDT" matSort class="w-100 mat-elevation-z8">
+                        <ng-container matColumnDef="type" sticky>
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo</th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo. : ">
+                                {{ row.stype }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="sdni">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">
+                                DNI
+                            </th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="DNI: ">
+                                {{ row.sdni }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="collabator">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Empleado
+                            </th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;"
+                                data-label="Empleado : ">
+                                {{ row.sfullname | titlecase }}
+                            </td>
+                        </ng-container>
+                        <!-- <ng-container matColumnDef="dregister">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Registro</th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                                data-label="Fecha Registro : ">
+                                {{ row.dregisterdm | date:'dd/MM/yyyy' }}
+                            </td>
+                        </ng-container> -->
+                        <ng-container matColumnDef="typedm">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                style="text-align: center;width: 130px;">
+                                Tipo de Descanso
+                            </th>
+                            <td mat-cell *matCellDef="let row" style="text-align: center;width: 130px;"
+                                class="has_label_on_mobile" data-label="Tipo de descanso : ">
+                                {{ row.stypedm | titlecase }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="origindm">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen Descanso</th>
+                            <td mat-cell *matCellDef="let row" style="text-align: center;" class="has_label_on_mobile"
+                                data-label="Origen Descanso : ">
+                                {{ row.soriginmedical | titlecase }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="dateinit">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Fecha inicio
+                            </th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha inicio : ">
+                                {{ row.ddateinitdm | date:'dd/MM/yyyy' }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="dateend">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                Fecha fin
+                            </th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha fin: ">
+                                {{ row.ddateenddm | date:'dd/MM/yyyy' }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="sareaname">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">
+                                Area
+                            </th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Area: ">
+                                {{ row.sareaname }}
+                            </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="sdatedocument">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">
+                                Fecha Aprobación
+                            </th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha Aprobación: " style="text-align: center;">
+                                {{ row.sdatedocument  }}
+                            </td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="etapa">
+                            <th mat-header-cell style="text-align: center;" *matHeaderCellDef mat-sort-header>
+                                Etapas
+                            </th>
+                            <td mat-cell *matCellDef="let row" style="text-align: center;" class="has_label_on_mobile"
+                                data-label="Etapas : ">
+                                <div *ngIf="row.nstate === 1 || row.nstate === 2 || row.nstate === 4">
+                                    Etapa 1: Evaluación
+                                </div>
+                                <div *ngIf="row.nstate === 3">
+                                    -
+                                </div>
+                                <div *ngIf="row.nstate === 5">
+                                    Etapa 2: Registro VIVA
+                                </div>
+                                <div *ngIf="row.nstate === 6">
+                                    Etapa 3: Evaluación VIVA
+                                </div>
+                                <div *ngIf="row.nstate === 7">
+                                    Etapa 4: Recupero VIVA
+                                </div>
+                                <div *ngIf="row.nstate === 8">
+                                    -
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="state">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Estado
+                            </th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+                                <div *ngIf="row.nstate === 2 || row.nstate === 5 || row.nstate === 6 || row.nstate === 7 || row.nstate === 8"
+                                    class="acept">
+                                    {{ row.sstate }}
+                                </div>
+                                <div *ngIf="row.nstate === 1 || row.nstate === 4" class="pendiente">
+                                    <div> {{ row.sstate }}</div>
+                                </div>
+                                <div *ngIf="row.nstate === 3" class="reject">
+                                    <div> {{ row.sstate }}</div>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="view">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Ver Solicitud</th>
+                            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;"
+                                data-label="Ver Solicitud : ">
+                                <a class="solicitud-class" (click)="getDetailPath(row.nid_medical)">
+                                    <mat-icon color="accent">visibility</mat-icon>
+                                </a>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell text-center" colspan="13">
+                                No se encontró registros
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <mat-paginator #paginatordocument aria-label="Select page" [pageSizeOptions]="[10, 15, 20]">
+                </mat-paginator>
+
+            </mat-expansion-panel>
+
+        </mat-accordion>
+
+    </div>
+    <a id="afile" name="afile" style="display: none;"></a>
+   <br>
+   <br>
+   <br>
+   

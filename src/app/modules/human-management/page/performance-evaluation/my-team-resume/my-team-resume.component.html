@@ -1,0 +1,187 @@
+<mat-card class="p-0">
+    <mat-card-title class="">
+        <div class="card-title-text">Mi Equipo Resumen</div>
+        <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+
+        <div fxLayout="row wrap">
+            <br>
+            <br>
+            <!-- <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16 pt-8">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Campañas</mat-label>
+                    <mat-select (selectionChange)="changeCampania()" [formControl]="campanaFC" multiple>
+                        <mat-option *ngFor="let item of listcampaign" [value]="item.nid_campaign">{{item.snamecampaign}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16 pt-8">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Campañas</mat-label>
+                    <mat-select [formControl]="campanasMultiCtrl" placeholder="Campaña" [multiple]="true" #multiSelectCampana>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="campanasMultiFilterCtrl" placeholderLabel="Campaña">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let website of filteredCampanasMulti | async" [value]="website">
+                            {{website.snamecampaign | titlecase}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16 pt-8">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Empresa</mat-label>
+                    <mat-select (selectionChange)="changeEmpresa()" [formControl]="bussineFC"
+                        [disabled]="disabledEmpresa">
+                        <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Gerencia</mat-label>
+                    <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC"
+                        (selectionChange)="changeGerencia()">
+                        <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Área</mat-label>
+                    <mat-select [attr.disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()"
+                        multiple>
+                        <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>SubÁrea</mat-label>
+                    <mat-select [attr.disabled]="disabledSubArea" [formControl]="subAreaFC" multiple
+                        (selectionChange)="changeSubArea()">
+                        <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-select [formControl]="websiteMultiCtrl" placeholder="Cargo" [multiple]="true" #multiSelect>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="websiteMultiFilterCtrl" placeholderLabel="Cargo">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let website of filteredWebsitesMulti | async" [value]="website">
+                            {{website.snamecharge}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" fxFlex.md="100" fxFlex.sm="100" fxFlex.xs="100" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Etapa</mat-label>
+                    <mat-select [formControl]="etapaFC" multiple>
+                        <mat-option value="3">Inicio</mat-option>
+                        <mat-option value="7">Verificación</mat-option>
+                        <mat-option value="11">Evaluación</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16">
+                <div class="filter__buttons">
+                    <button mat-raised-button color="primary" (click)="ShowCompetencias()">Mostrar</button>
+
+                    <button mat-raised-button color="warn" (click)="resetFilter()">Limpiar</button>
+                </div>
+            </div>
+        </div>
+        <div class="mt-16" *ngIf="!responsive">
+            <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+                <mat-tab label="Objetivos">
+                    <div fxLayout="row wrap">
+                        <!-- <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                            <p>(*) El Filtro Campaña no aplica para el gráfico de Objetivos</p>
+                        </div> -->
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                            <div style="width: 1595px;height: 717px;overflow: scroll;">
+                                <div echarts [options]="_chartOptionObj" id="echartobjcontainer" style="height:700px"
+                                    [autoResize]="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Competencias">
+                    <div fxLayout="row wrap">
+
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+
+                            <div style="width: 1595px;height: 1200px;overflow: scroll;">
+                                <div echarts [options]="_chartOptionComp" id="echartcompcontainer" [autoResize]="true"
+                                    style="height:1200px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+
+        </div>
+    </mat-card-content>
+
+
+
+</mat-card>
+
+<ng-template #DetailDialog>
+    <h1>Mi equipo resumen</h1>
+    <mat-dialog-content class="mat-typography">
+        <div class="mt-16">
+            <mat-tab-group (selectedTabChange)="selectedTabValue($event)">
+                <mat-tab label="Objetivos">
+                    <div fxLayout="row wrap">
+                        <!-- <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                            <p>(*) El Filtro Campaña no aplica para el gráfico de Objetivos</p>
+                        </div> -->
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+                            <div style="width: 800px;height: 717px;overflow: scroll;">
+                                <div echarts [options]="_chartOptionObj" id="echartobjcontainer" style="height:700px"
+                                    [autoResize]="true">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+                <mat-tab label="Competencias">
+                    <div fxLayout="row wrap">
+
+                        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-16 pt-8">
+
+                            <div style="width: 1595px;height: 717px;overflow: scroll;">
+                                <div echarts [options]="_chartOptionComp" id="echartcompcontainer" [autoResize]="true"
+                                    style="height:700px">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-tab>
+
+            </mat-tab-group>
+
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" matDialogClose="no">Cerrar</button>
+    </mat-dialog-actions>
+</ng-template>

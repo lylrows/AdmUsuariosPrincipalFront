@@ -1,0 +1,97 @@
+.addrow {
+    text-align: center !important;
+    background: #0c385b !important;
+    cursor: pointer;
+    color: #ffffff !important;
+}
+
+.mat-header-cell-x {
+    background-color: #8CACDA !important;
+    color: #F9F9F9 !important;
+    font-size: 14px;
+    font-weight: normal !important;
+    font-family: Nunito;
+}
+
+td {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.editar {
+  width: 30px;
+  height: 35px;
+  padding: 0px 0px 13px 0px !important;
+}
+    
+.editar svg {
+  width: 23px;
+  height: 23px;
+}
+.class-disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.required-document::before{
+  content: '';
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;
+  border-radius: 30px;
+  border: 1px solid #FB4747;
+  // background-color: transparent;
+  position: absolute;
+  top: -30px;
+  left: -1px;
+  box-shadow: 0 3px 8px #FB4747;
+}
+
+app-documento-adjunto {
+  position: relative;
+}
+
+.input1{
+  font-family: Nunito;
+  font-size: 14px; 
+  width: 150px !important;
+}
+
+.input2{
+  font-family: Nunito;
+  font-size: 14px; 
+  width: 130px !important;
+}
+
+.input3{
+  font-family: Nunito;
+  font-size: 14px; 
+  width: 125px !important;
+}
+
+.input4{
+  font-family: Nunito;
+  font-size: 14px;
+  width: 100px !important;
+}
+
+
+@media screen and (max-width:480px) {
+  .input1{
+    width: 100% !important;
+  }
+  .input2{
+    width:100% !important;
+  }
+  .input3{
+    width: 100% !important;
+  }
+  p-celleditor{
+   width: 100% !important; 
+  }
+  .input4{
+    width: 100% !important;
+  }
+}

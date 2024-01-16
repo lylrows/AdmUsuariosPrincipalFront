@@ -1,0 +1,99 @@
+<mat-card-title class="">
+  <div class="card-title-text">{{data.title}}</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-card-content class="height-auto">
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="100" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput maxlength="100" name="PrimerNombre" [formControl]="itemForm.controls['name']"
+            placeholder="Nombre del Tipo de Solicitud">
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['name'].hasError('required') && itemForm.controls['name'].touched"
+          class="form-error-msg"> El Nombre del Tipo de Solicitud es obligatorio
+        </small>
+        <small *ngIf="itemForm.controls['name'].hasError('pattern') && itemForm.controls['name'].touched"
+          class="form-error-msg"> Solo se debe de ingresar <strong>letras, números y (“>” “<” “$” “.” “/” ) </strong>
+        </small>
+
+      </div>
+
+      <div fxFlex="100" class="pr-16">
+        <mat-form-field class="full-width">
+          <mat-label>Categoria</mat-label>
+          <mat-select formControlName="CategoryId">
+            <mat-option *ngFor="let item of categories" [value]="item.nid_category_request">{{item.sname}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['CategoryId'].hasError('required') && itemForm.controls['CategoryId'].touched"
+          class="form-error-msg"> La categoria es obligatorio </small>
+      </div>
+
+      <div fxFlex="100" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput maxlength="300" name="Descripción" [formControl]="itemForm.controls['description']"
+            placeholder="Descripción">
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['description'].hasError('pattern') && itemForm.controls['description'].touched"
+          class="form-error-msg"> Solo se debe de ingresar <strong>letras, números y (“>” “<” “$” “.” “/” ) </strong>
+        </small>
+      </div>
+      <div fxFlex="100" class="pt-16 pr-16">
+        <mat-slide-toggle [formControl]="itemForm.controls['active']">Activo</mat-slide-toggle>
+      </div>
+      <div fxFlex="100" class="pr-16">
+        <div fxFlex="100" class="mt-16">
+          <button type="button" mat-raised-button (click)="addApprover({},true)"
+            class="dark-blue-400 dark-blue-400-fg mr-4">
+            Agregar Aprobación</button>
+        </div>
+      </div>
+
+      <div fxFlex="100" class="full-width">
+        <table mat-table [dataSource]="listApprover" class="mat-elevation-z8 table w-100">
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Eliminar</th>
+            <td mat-cell *matCellDef="let i = index">
+              <button type="button" mat-icon-button class="removeCart" (click)="deleteApprover(i)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="edit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Editar</th>
+            <td mat-cell *matCellDef="let i = index">
+              <button type="button" mat-icon-button class="editCart" (click)="editeApprover(i)">
+                <mat-icon>edit</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="profile">
+            <th mat-header-cell *matHeaderCellDef>Pefil</th>
+            <td mat-cell *matCellDef="let element"> {{ element.profile }} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div fxFlex="100" class="filter__buttons mt-16">
+        <button mat-raised-button color="primary" class="dark-blue-400 dark-blue-400-fg mr-4"
+          [disabled]="itemForm.invalid">Guardar</button>
+        <span fxFlex></span>
+        <button mat-button color="warn" class="dark-blue-100 dark-blue-100-fg ml-4" type="button"
+          (click)="dialogRef.close(false)">Cancelar</button>
+      </div>
+    </div>
+  </form>
+</mat-card-content>

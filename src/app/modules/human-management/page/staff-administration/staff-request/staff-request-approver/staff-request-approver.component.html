@@ -1,0 +1,56 @@
+<table mat-table [dataSource]="dataSource" matSort class="w-100">
+    <ng-container matColumnDef="approver">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">N° Aprobador</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Aprobador N*: ">
+            {{ row.level }}
+        </td>
+    </ng-container>s
+    <ng-container matColumnDef="company">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Empresa</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Empresa : ">
+            {{ row.company | titlecase }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="area">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Area</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Area : ">
+            {{ row.area | titlecase }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="charge">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Cargo</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Cargo : ">
+            {{ row.charge | titlecase }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="fullName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Completo</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="NombreCompleto : ">
+            {{ row.fullName | titlecase }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="reviewDateString">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Fecha de Revisión</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="FechaRevision : ">
+            {{ row.reviewDateString | titlecase }}
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="stateName">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Estado</th>
+    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Estado : ">
+        <div class="tooltip">
+            <img *ngIf="row.state === 3" src="../../../../../../../assets/images/aprobado.png" width="32px" alt=""> 
+            <img *ngIf="row.state === 4" src="../../../../../../../assets/images/rechazado.png" width="32px" alt=""> 
+        </div>
+    </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ 'make-gris': !row.state }">
+    </tr>
+
+    <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell text-center" colspan="7">
+            No se encontró Resultados 
+    </td>
+    </tr>
+</table>

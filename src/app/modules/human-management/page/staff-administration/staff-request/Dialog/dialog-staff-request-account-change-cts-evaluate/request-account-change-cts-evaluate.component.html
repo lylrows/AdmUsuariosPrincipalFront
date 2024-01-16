@@ -1,0 +1,248 @@
+
+<div class="content">
+  <form [formGroup]="itemForm">
+    <div class="header">
+      <h1>SOLICITUD DE {{data.title | uppercase}}</h1>
+    </div>
+    <hr>
+
+    <div class="personal">
+      <h1 class="title">1. DATOS PERSONALES: </h1>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Código del Empleado: </label>
+          <span> {{ codeEmployee }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">DNI N*: </label>
+          <span> {{dni }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label>Nombres y Apellidos: </label>
+          <span> {{ fullname }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Fecha de Ingreso: </label>
+          <span> {{ dateAdmission }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">Área: </label>
+          <span> {{ area }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label class="size-large">Cargo: </label>
+          <span> {{charge }} </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">2. DATOS DE LA SOLICITUD: </h1>
+
+      <!-- <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Banco Actual: </label>
+        <mat-form-field class="size-input">
+          <input matInput name="LastName" [formControl]="itemForm.controls['bankingEntityCurrent']"
+          placeholder="Banco Actual" readonly>
+
+         
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Nro Cuenta: </label>
+        <mat-form-field class="size-input">
+          <input matInput name="AccountNumberCts" [formControl]="itemForm.controls['accountNumberCts']"
+          placeholder="Nro Cuenta" readonly>
+          
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Moneda Actual: </label>
+        <mat-form-field class="size-input">
+          <input matInput name="LastName" [formControl]="itemForm.controls['currencyAccountCurrent']"
+          placeholder="Moneda Actual" readonly>
+         
+        </mat-form-field>
+      </div> -->
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Banco CTS Origen: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Banco CTS Origen</mat-label>
+          <mat-select [disabled]="true" [formControl]="itemForm.controls['bankingEntityChange']">
+            <mat-option *ngFor="let item of lstTypeBanking" [value]="item.code" >{{item.description}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="
+          itemForm.controls.bankingEntityChange.touched &&
+          itemForm.controls.bankingEntityChange.invalid
+                                ">
+            <small
+              *ngIf="itemForm.controls['bankingEntityChange'].hasError('required') && itemForm.controls['bankingEntityChange'].touched"
+              class="form-error-msg">El banco es obligatorio </small>
+          </mat-error>
+
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Cuenta CTS Origen: </label>
+        <mat-form-field class="size-input">
+          <input [readonly]="true" matInput maxlength="30" name="accountNewNumberCts" [formControl]="itemForm.controls['accountNewNumberCts']"
+            placeholder="Cuenta CTS Origen">
+          <mat-error *ngIf="
+            itemForm.controls.accountNewNumberCts.touched &&
+            itemForm.controls.accountNewNumberCts.invalid
+                                  ">
+            <span *ngIf="itemForm.controls.accountNewNumberCts.errors.required">Número de cuenta es
+              <strong>requerido</strong>
+            </span>
+            <span *ngIf="itemForm.controls.accountNewNumberCts.errors.pattern">Número de cuenta solo es permitido
+              <strong>número</strong>
+            </span>
+            <span
+              *ngIf="itemForm.controls.accountNewNumberCts.errors.minlength && !itemForm.controls.accountNewNumberCts.errors.pattern">Minimo
+              son 10 <strong>número</strong>
+            </span>
+            <span
+              *ngIf="itemForm.controls.accountNewNumberCts.errors.maxlength && !itemForm.controls.accountNewNumberCts.errors.pattern">Maximo
+              son 18 <strong>número</strong>
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Moneda CTS Origen: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Moneda CTS Origen</mat-label>
+          <mat-select [disabled]="true" [formControl]="itemForm.controls['idCurrencyAccountChange']">
+            <mat-option *ngFor="let item of lstTypeCurrency" [value]="item.sshort_value">{{item.sdescription_value}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="
+          itemForm.controls.idCurrencyAccountChange.touched &&
+          itemForm.controls.idCurrencyAccountChange.invalid
+                                ">
+            <small
+              *ngIf="itemForm.controls['idCurrencyAccountChange'].hasError('required') && itemForm.controls['idCurrencyAccountChange'].touched"
+              class="form-error-msg">La moneda es obligatorio </small>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <hr>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Moneda CTS Destino: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Moneda CTS Destino</mat-label>
+          <mat-select [formControl]="itemForm.controls['DestinCurrencyCts']">
+            <mat-option *ngFor="let item of lstTypeDestinCurrencyCTS" [value]="item.sshort_value">{{item.sdescription_value}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="
+          itemForm.controls.DestinCurrencyCts.touched &&
+          itemForm.controls.DestinCurrencyCts.invalid
+                                ">
+            <small
+              *ngIf="itemForm.controls['DestinCurrencyCts'].hasError('required') && itemForm.controls['DestinCurrencyCts'].touched"
+              class="form-error-msg">La moneda es obligatorio </small>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Banco CTS Destino: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Banco CTS Destino</mat-label>
+          <mat-select [formControl]="itemForm.controls['BankingDestinCts']">
+            <mat-option *ngFor="let item of lstTypeBankingDestin" [value]="item.code">{{item.description}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="
+          itemForm.controls.BankingDestinCts.touched &&
+          itemForm.controls.BankingDestinCts.invalid
+                                ">
+            <small
+              *ngIf="itemForm.controls['BankingDestinCts'].hasError('required') && itemForm.controls['BankingDestinCts'].touched"
+              class="form-error-msg">El banco es obligatorio </small>
+          </mat-error>
+
+        </mat-form-field>
+      </div>
+
+      <!-- <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Banco Destino: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Banco Destino</mat-label>
+          <mat-select disabled [formControl]="itemForm.controls['bankingEntityChange']">
+            <mat-option *ngFor="let item of lstTypeBanking" [value]="item.code">{{item.description}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Nro Cuenta: </label>
+        <mat-form-field class="size-input">
+          <input matInput maxlength="30" name="accountNewNumberCts" [formControl]="itemForm.controls['accountNewNumberCts']"
+            placeholder="Nro Cuenta" readonly>
+        </mat-form-field>
+      </div> -->
+      <!-- <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Nro Cuenta Interbancaria: </label>
+        <mat-form-field class="size-input">
+          <input matInput maxlength="30" name="accountCCINewNumberCts" [formControl]="itemForm.controls['accountCCINewNumberCts']"
+            placeholder="Nro Cuenta Interbancaria" readonly>
+        </mat-form-field>
+      </div> -->
+      <!-- <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Moneda: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Moneda</mat-label>
+          <mat-select disabled [formControl]="itemForm.controls['idCurrencyAccountChange']">
+            <mat-option *ngFor="let item of lstTypeCurrency" [value]="item.sshort_value">{{item.sdescription_value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div> -->
+      <div class="adjunto">
+        <mat-label class="size-large" style="font-weight: bold;align-self: center;">Adjuntar Archivo:</mat-label>
+        <div class="button_download">
+          <!-- <p>{{ nameFile }}</p> -->
+          <button style="margin-left: 5px;" mat-mini-fab (click)="ViewAdjunto()" class="upload-btn">
+            <mat-icon style="color: #536BB2;">get_app</mat-icon>
+          </button>
+        </div>
+      </div>
+
+
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">HISTORIAL DE SOLICITUD: </h1>
+      <app-staff-request-approver style="width: 50%;text-align: center;"></app-staff-request-approver>
+    </div>
+    
+    <div class="motivo">
+      <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+      <div class="motivo__amount"> 
+        <label class="size-large" style="font-weight: bold;">Comentario: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Comentario</mat-label>
+          <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation" [readonly]="StatusRejected"></textarea>          
+        </mat-form-field>
+      </div> 
+    </div>
+    <div class="footer">
+      <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+        color="primary" type="button" (click)="approveRequest()">
+        Aprobar</button>
+      <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+        style="background-color: #f44336; color: white;" type="button" (click)="rejectRequest()">
+        Rechazar</button>
+      <button mat-raised-button color="primary" type="button"
+        (click)="dialogRef.close(false)">Cancelar</button>
+    </div>
+
+
+  </form>
+</div>
+

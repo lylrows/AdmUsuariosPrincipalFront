@@ -1,0 +1,53 @@
+<div class="content__perfil" style="margin: 0px auto;">
+    <div class="section-info">
+        <button (click)="RedirectByURL()" mat-icon-button>
+            <mat-icon>keyboard_backspace</mat-icon>
+        </button> 
+        <span>Perfil de postulante</span>
+    </div>
+    <div *ngIf="person != undefined" class="content__contenedor">
+           <div class="content__header">
+                 <div class="content__img"> 
+                     <img [src]="person.informationPersonal.simg" alt="">
+                 </div>
+                 <div class="content__name">
+                      <span>{{person.informationPersonal.sfirstname}} {{person.informationPersonal.slastname}}</span>
+                      <span>{{person.carreer}}</span>
+                 </div>   
+           </div> 
+           <hr style="color: rgb(161, 161, 161);">
+           <div class="content__information1">
+                 <div>Sueldo neto pretendido: {{person.sueldoPretendido}}</div>
+                 <div>{{person.informationPersonal.sphonenumber}}</div>
+                 <div>{{person.informationPersonal.semail}}</div>
+                 <div>{{person.informationPersonal.saddress}}</div>
+           </div> 
+           <hr style="color: rgb(161, 161, 161);">
+           <div class="content__information2">
+                <div class="content__detail_info">
+                    <div class="content__label">
+                       <label>Nacionalidad: </label>
+                       <label>Locación:</label>
+                       <label>Fecha de nacimiento:</label>
+                       <label>Cargo actual:</label>
+                       <label>Área actual:</label>
+                    </div>
+                    <div class="content__value">
+                       <span>{{person.informationPersonal.snationality}}</span>
+                       <span>{{person.informationPersonal.saddress == '' || person.informationPersonal.saddress == null ? 'Sin dirección' : person.informationPersonal.saddress}}</span>
+                       <span>{{person.informationPersonal.dbirthdate | date:'dd/MM/YYYY'}}</span>
+                       <span>{{person.actualPosition}}</span>
+                       <span>{{person.actualArea}}</span>
+                    </div>
+                </div>
+                <div class="content__actions">
+                   <span>
+                       Descarga CV Adjunto:
+                   </span>
+                   <div class="div-buttons">
+                    <button (click)="downLoad(person.informationPersonal.cvFile, person.informationPersonal.contentType, person.informationPersonal.cvName)" mat-raised-button color="primary">Descargar cv</button>
+                   </div>
+               </div>
+           </div>
+    </div>
+</div>

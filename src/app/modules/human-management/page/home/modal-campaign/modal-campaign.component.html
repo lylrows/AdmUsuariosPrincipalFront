@@ -1,0 +1,52 @@
+<div class="content">
+    <div class="header">
+        <h1>LISTA DE CAMPAÑAS POR COMPLETAR</h1>
+        <hr style="width: 100%;">
+    </div>
+
+    <div *ngIf="campaing.length>0" class="text">
+        <p>Tienes las siguientes campañas pendientes por completar.</p>
+    </div>
+
+    <div *ngIf="campaing.length>0" class="list">
+        <div  *ngFor="let item of campaing" class="list-group">
+            <h1>{{ item.snamecampaign }}</h1>
+            <button (click)="detail(item.nid_evaluation)" mat-icon-button >
+                <mat-icon color="accent">touch_app</mat-icon>
+              </button>
+        </div>
+        
+    </div>
+    <div *ngIf="campaing.length==0" class="text">
+        <p>No se encontraron campañas pendientes por revisar</p>
+    </div>
+</div>
+<hr style="width: 100%;border: 2px solid #536BB2;"color= #536BB2>
+<div class="content">
+    <div class="header" style="margin-top: 22px;">
+        <h1>LISTA DE CAMPAÑAS POR REVISAR</h1>
+        <hr style="width: 100%;">
+    </div>
+
+    <div *ngIf="evaluation.length>0" class="text">
+        <p>Tienes las siguientes campañas pendientes por revisar.</p>
+    </div>
+
+    <div *ngIf="evaluation.length>0" class="list">
+        <div  *ngFor="let item of evaluation" class="list-group">
+            <h1>{{ item.campaign }}</h1>
+            <button (click)="detailEvaluations()" mat-icon-button >
+                <mat-icon color="accent">touch_app</mat-icon>
+              </button>
+        </div>
+        
+        
+    </div>
+    <div *ngIf="evaluation.length==0" class="text">
+        <p>No se encontraron campañas pendientes por revisar</p>
+    </div>
+
+    <div class="buttons">
+        <button type="button" style="background-color: #cddcea;color:#343a67" mat-raised-button (click)="cancel()">Cancelar</button>
+    </div>
+</div>

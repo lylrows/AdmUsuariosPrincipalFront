@@ -1,0 +1,381 @@
+<div class="content" style="width:100%; max-width: 100%; margin: 0;">
+  <div class="content__title max-width-div-panel">
+         <img style="width: 10%; margin-bottom: 3%" src="../../../../../../assets/images/logo_grupofe.svg" alt="">
+  </div>
+  <form #fichaForm="ngForm" style="width: 100% !important">
+  <mat-accordion multi>
+    <mat-expansion-panel [expanded]="this.expandedSectionFicha" class="max-width-div-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title style="color: #fff !important;"> Ficha de datos personales </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+          <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+            <mat-label>Primer Nombre</mat-label>
+            <input matInput [(ngModel)]="person.firstName" name="firstName" #firstName="ngModel" required>
+            <mat-error  [hidden]="firstName.valid || firstName.pristine">
+              <span >Campo es <strong>requerido</strong>
+              </span> 
+            </mat-error> 
+         </mat-form-field>
+         <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+           <mat-label>Segundo Nombre</mat-label>
+           <input matInput [(ngModel)]="person.secondName"  name="secondName" >
+         </mat-form-field> 
+         <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+           <mat-label>Apellido Paterno</mat-label>
+           <input matInput [(ngModel)]="person.lastName"  #lastName="ngModel" required name="lastName">
+           <mat-error  [hidden]="lastName.valid || lastName.pristine">
+             <span >Campo es <strong>requerido</strong>
+             </span> 
+           </mat-error>
+          </mat-form-field>           
+      </div>
+      <div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+          <mat-form-field appearance="fill" class="form-input example-full-width ape_materno">
+            <mat-label>Apellido Materno</mat-label>
+            <input matInput [(ngModel)]="person.motherLastName" #motherLastName="ngModel" required name="motherLastName">
+            <mat-error  [hidden]="motherLastName.valid || motherLastName.pristine">
+              <span >Campo es <strong>requerido</strong>
+              </span> 
+            </mat-error>
+          </mat-form-field> 
+          <mat-form-field appearance="fill" class="form-input example-full-width domicilio">
+            <mat-label>Domicilio</mat-label>
+            <input matInput [(ngModel)]="person.address"  #address="ngModel" required name="address">
+            <mat-error  [hidden]="address.valid || address.pristine">
+              <span >Campo es <strong>requerido</strong>
+              </span> 
+            </mat-error>
+          </mat-form-field>     
+          <div style="margin:0 0 18px 0;">
+            <div class="tooltipmobile">{{tooltip_DocumentoReciboServicio}}</div>
+            <app-documento-adjunto [path_file]="this.path_DocumentoReciboServicio" [name_file]="this.filename_DocumentoReciboServicio" [type_file]="tipoFile_DocumentoReciboServicio" 
+            (updateDocument)="CargarDocumento($event)" class="required-document" [class.required-document]="this.showRequiredFileDomicio" [name_toolTip]="tooltip_DocumentoReciboServicio" ></app-documento-adjunto>   
+          </div>       
+      </div>
+      <div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Celular</mat-label>
+          <input matInput (keypress)="valideKey($event)" [(ngModel)]="person.cellPhone" name="cellPhone" required maxlength="9">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Teléfono</mat-label>
+          <input matInput (keypress)="valideKey($event)" [(ngModel)]="person.anotherPhone" name="anotherPhone" maxlength="11">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Email</mat-label>
+          <input matInput [(ngModel)]="person.email" name="email" required>
+        </mat-form-field>
+      </div>
+      <div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Nacionalidad</mat-label>
+          <mat-select [(ngModel)]="person.idNationality" name="idNationality">
+            <mat-option *ngFor="let item of nacionality" [value]="item.nid_mastertable">{{
+              item.sdescription_value
+              }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input matInput [(ngModel)]="dateBirth" required name="dateBirth" [matDatepicker]="pickerBirth" readonly>
+          <mat-datepicker-toggle matSuffix [for]="pickerBirth"></mat-datepicker-toggle>
+          <mat-datepicker #pickerBirth></mat-datepicker>
+          <!-- <mat-error  [hidden]="birthDate.valid || birthDate.pristine">
+            <span >Campo es <strong>requerido</strong>
+            </span> 
+          </mat-error> -->
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Lugar de nacimiento</mat-label>
+          <input matInput [(ngModel)]="infoextra.placeOfBirth" name="placeOfBirth">
+        </mat-form-field>        
+      </div>      
+      <div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Tipo de Documento</mat-label>
+          <mat-select name="documenttype" required (selectionChange)="OnChangeDocumentType()" [(ngModel)]="infoextra.idDocumentType">              
+            <mat-option *ngFor="let item of lstTipoDocumento" [value]="item.id">{{
+              item.descriptionValue
+              }}</mat-option>
+          </mat-select>
+        </mat-form-field>  
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Nro de documento</mat-label>
+          <input matInput (keypress)="valideKey($event)" [(ngModel)]="person.documentNumber" #documentNumber="ngModel" required   name="documentNumber" [maxlength]="maxlenghDoc">
+          <mat-error  [hidden]="documentNumber.valid || documentNumber.pristine">
+            <span >Campo es <strong>requerido</strong>
+            </span> 
+          </mat-error>          
+        </mat-form-field>
+        <div *ngIf="isDNI" style="margin:0 0 18px 0;">
+          <div class="tooltipmobile">{{tooltip_DocumentoCopiaDNI}}</div>
+          <app-documento-adjunto [path_file]="this.path_DocumentoCopiaDNI" [name_file]="this.filename_DocumentoCopiaDNI" [type_file]="tipoFile_DocumentoCopiaDNI" [name_toolTip]="tooltip_DocumentoCopiaDNI"
+          (updateDocument)="CargarDocumento($event)" [class.required-document]="this.showRequiredFileDNI"></app-documento-adjunto>
+        </div>   
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Fecha de ingreso al Pais</mat-label>
+          <input matInput [(ngModel)]="dateIncomeCountry" name="dateIncomeCountry" [matDatepicker]="pickerIncome" readonly>
+          <mat-datepicker-toggle matSuffix [for]="pickerIncome" [disabled]="this.isDNI"></mat-datepicker-toggle>
+          <mat-datepicker #pickerIncome [disabled]="this.isDNI"></mat-datepicker>
+        </mat-form-field>
+        <!-- <div class="form-input-radio example-full-width">
+          <mat-label>Desea que su cuenta de haberes se aperture en el BCP?</mat-label>
+            <mat-radio-group style="margin-top: 2%;" [(ngModel)]="infoextra.createBcp" aria-label="Select an option" name="createBcp">
+              <mat-radio-button [value]="true">Si</mat-radio-button>
+              <mat-radio-button [value]="false">No</mat-radio-button>
+            </mat-radio-group>
+        </div> -->
+          <!-- <mat-form-field appearance="fill" class="form-input example-full-width">
+            <mat-label>En caso de ser negativa su respuesta, ¿en qué banco desea que se le aperture?</mat-label>
+            <input matInput [(ngModel)]="infoextra.bankOpen" name="bankOpen">
+          </mat-form-field>    -->
+      </div>
+      <div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Estado Civil</mat-label>
+          <mat-select [(ngModel)]="person.idCivilStatus" name="idCivilStatus" required (selectionChange)="ChangeCivilStatus()">
+            <mat-option *ngFor="let item of civil" [value]="item.nid_mastertable">{{
+              item.sdescription_value
+              }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="isCasado" style="margin:0 0 18px 0;">
+          <div class="tooltipmobile">{{tooltip_DocumentoCasado}}</div>
+          <app-documento-adjunto [path_file]="this.path_DocumentoCasado" [name_file]="this.filename_DocumentoCasado" [type_file]="tipoFile_DocumentoCasado" [name_toolTip]="tooltip_DocumentoCasado"
+          (updateDocument)="CargarDocumento($event)" [class.required-document]="this.showRequiredFileMarried"></app-documento-adjunto>
+        </div> 
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Empresa a la que postula</mat-label>
+          <mat-select [(ngModel)]="infoextra.company" name="company" disabled>
+            <mat-option value="4">Grupo Fe</mat-option>
+            <mat-option value="1">Campo Fe</mat-option>
+            <mat-option value="3">Fe Salud</mat-option>
+            <mat-option value="2">Presta Fe</mat-option>
+            <mat-option value="ACH">ACH</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>N° Ruc</mat-label>
+          <input matInput disabled (keypress)="valideKey($event)" maxlength="11" [(ngModel)]="infoextra.rucNumber" name="rucNumber">
+        </mat-form-field>
+      </div>
+      <div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label class="twolines">¿En qué banco desea que se le deposite sus haberes? (BCP, Scotiabank, IBK, BBVA)</mat-label>
+          <input class="twolines" required matInput [(ngModel)]="infoextra.bankHaberes" name="bankHaberes" title="En caso, se solicite una entidad diferente a las mencionadas, el trámite deberá ser responsabilidad del Postulante.">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label class="twolines">¿En qué banco desea que se le deposite su CTS? (BCP, Scotiabank, IBK, BBVA)</mat-label>
+          <input class="twolines" required matInput [(ngModel)]="infoextra.bankAfp" name="bankAfp" title=" En caso, se solicite una entidad diferente a las mencionadas, el trámite deberá ser responsabilidad del Postulante.">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>AFP a la que pertenece</mat-label>
+          <input required matInput [(ngModel)]="infoextra.afp" name="afp">
+        </mat-form-field>        
+      </div>
+      <div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div style="flex: 1; margin-top: 0px;" class="content__div">
+          <div class="form-input-radio example-full-width" style="flex: 1; width:80% !important;">
+            <mat-label>¿Tienes movilidad propia?</mat-label>
+            <div style="display: flex; gap: 20px; margin-top: 2%;">
+              <mat-checkbox class="example-margin" (change)="checkMovilidad($event, 1)" [checked]="hasMovility" name="movilidad_si">Si</mat-checkbox>
+              <mat-checkbox class="example-margin" (change)="checkMovilidad($event, 2)" [checked]="!hasMovility" name="movilidad_no">No</mat-checkbox>
+            </div>
+          </div> 
+          <mat-form-field appearance="fill" class="form-input example-full-width" style="flex: 1; width:20% !important;">
+            <mat-label>Categoria de brevete</mat-label>
+            <mat-select [(ngModel)]="infoextra.categoryBrevete" name="categoryBrevete">
+              <mat-option value="AI">(AI)</mat-option>
+              <mat-option value="AII">(AII)</mat-option>
+              <mat-option value="AIII">(AIII)</mat-option>
+            </mat-select>
+          </mat-form-field> 
+        </div>
+        <div style="flex: 1; margin-top: 0px;" class="content__div">
+          <div class="form-input-radio example-full-width" style="flex: 1">
+            <mat-label>¿Tienes alguna discapacidad?</mat-label>
+            <div style="display: flex; gap: 20px; margin-top: 2%;">
+              <mat-checkbox class="example-margin" [checked]="hasDisability" (change)="checkDiscapacidad($event, 1)" name="discapacidad_si">Si</mat-checkbox>
+              <mat-checkbox class="example-margin" [checked]="!hasDisability" (change)="checkDiscapacidad($event, 2)" name="discapacidad_no">No</mat-checkbox>
+            </div>
+          </div>
+          <div *ngIf="hasDisability" style="margin:0 0 18px 0;">
+            <div class="tooltipmobile">{{tooltip_DocumentoDiscapacidad}}</div>
+            <app-documento-adjunto [path_file]="this.path_DocumentoDiscapacidad" [name_file]="this.filename_DocumentoDiscapacidad" [type_file]="tipoFile_DocumentoDiscapacidad" [name_toolTip]="tooltip_DocumentoDiscapacidad"
+            (updateDocument)="CargarDocumento($event)" [class.required-document]="this.showRequiredFileDisability"></app-documento-adjunto>
+          </div> 
+          <!-- <mat-form-field appearance="fill" class="form-input example-full-width" style="flex: 1">
+            <mat-label>Documento adjunto:</mat-label>
+            <input matInput (keypress)="valideKey($event)" [(ngModel)]="person.documentNumber" #documentNumber="ngModel" required   name="documentNumber">         
+          </mat-form-field>  -->
+        </div>
+        <div style="flex: 1; margin-top: 0px;" class="content__div">
+          <mat-form-field appearance="fill" class="form-input example-full-width" style="flex: 1">
+            <mat-label>Tipo de Sangre</mat-label>
+            <mat-select [(ngModel)]="infoextra.typeSangre" name="typeSangre" required>              
+              <mat-option value="A+">A+</mat-option>
+              <mat-option value="A">A</mat-option>
+              <mat-option value="B+">B+</mat-option>
+              <mat-option value="B-">B-</mat-option>
+              <mat-option value="AB+">AB+</mat-option>
+              <mat-option value="AB-">AB-</mat-option>
+              <mat-option value="O+">O+</mat-option>
+              <mat-option value="O-">O-</mat-option>
+            </mat-select>
+          </mat-form-field>     
+        </div>
+      </div>
+      <div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Nombre Completo de Contacto</mat-label>
+          <input matInput [(ngModel)]="infoextra.nombreContacto" name="nombreContacto" required>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>N° Referencia de Contacto</mat-label>
+          <input matInput [(ngModel)]="infoextra.nroReferenciaContacto" maxlength="9" name="nroReferenciaContacto" required onkeypress="return /[0-9, ]/i.test(event.key)">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+          <mat-label>Parentesco de Contacto</mat-label>
+          <input matInput [(ngModel)]="infoextra.parentescoContacto" name="parentescoContacto" required>
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="this.expandedSectionDatosFamiliares" class="max-width-div-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title style="color: #fff !important;"> Datos familiares </mat-panel-title>
+      </mat-expansion-panel-header>  
+      <app-information-family [idPostulant]="idPerson" [idEvaluation]="idEvaluation" [infofamily]="lstinfo.informationFamilyDtos" 
+      (afterchangerow)="updatelistfamily($event)">
+      </app-information-family>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="this.expandedSectionFormacionAcademica" class="max-width-div-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title style="color: #fff !important;"> Formación académica </mat-panel-title>
+      </mat-expansion-panel-header>  
+      <app-information-education [idPostulant]="idPerson" [idEvaluation]="idEvaluation" [infoeducation]="lstinfo.informationEducationDtos"
+      (afterchangerow)="updatelisteducation($event)"></app-information-education>
+    </mat-expansion-panel>
+    <mat-expansion-panel class="max-width-div-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title style="color: #fff !important;"> Otros conocimientos </mat-panel-title>
+      </mat-expansion-panel-header>  
+      <app-information-skills [idPostulant]="idPerson" [infoskills]="lstinfo.informationComputerSkillsDtos"
+      [infolang]="lstinfo.informationLangDtos" (afterchangerowlang)="updatelistlang($event)"
+      (afterchangerowwork)="updatelistskills($event)"></app-information-skills>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="this.expandedSectionExperienciaLaboral" class="max-width-div-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title style="color: #fff !important;"> Experiencia laboral (empiece por la última experiencia) </mat-panel-title>
+      </mat-expansion-panel-header>  
+      <app-information-experience [idPostulant]="idPerson" [idEvaluation]="idEvaluation" [infoWork]="lstinfo.informationWorkDtos" (afterchangerow)="updatelistwork($event)">
+      </app-information-experience>     
+    </mat-expansion-panel> 
+    <mat-expansion-panel class="max-width-div-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title style="color: #fff !important;"> Información adicional </mat-panel-title>
+      </mat-expansion-panel-header> 
+      <div class="content_form-adicional">
+        <mat-form-field appearance="fill" class="form-input-adicional example-full-width">
+          <mat-label class="twolines">¿Ha solicitado anteriormente empleo en alguna de las empresas del Grupo Fe? ¿Cuándo?
+          </mat-label>
+          <input class="twolines" matInput [(ngModel)]="infoadicional.question1" name="question1">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input-adicional example-full-width">
+          <mat-label class="threelines">¿Ha tenido anteriormente alguna entrevista en el Grupo Fe? ( Nombre el puesto al que postuló, año y
+            de la persona que lo entrevistó?</mat-label>
+          <input class="threelines" matInput [(ngModel)]="infoadicional.question2" name="question2">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input-adicional example-full-width">
+          <mat-label class="threelines">¿Algún familiar suyo trabaja en el Grupo Fe? (Especifique el nombre de la empresa y el cargo
+            que ocupa)</mat-label>
+          <input class="threelines" matInput [(ngModel)]="infoadicional.question3" name="question3">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input-adicional example-full-width">
+          <mat-label class="threelines">¿Algún familiar suyo trabaja en las empresas del mismo rubro de las del Grupo Fe? (Especifique
+            el nombre de la empresa y el cargo que ocupa)</mat-label>
+          <input class="threelines" matInput [(ngModel)]="infoadicional.question4" name="question4">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="form-input-adicional example-full-width">
+          <mat-label class="twolines">Indique el medio por el cual conoció las oportunidades de empleo del Grupo Fe</mat-label>
+          <input class="twolines" matInput [(ngModel)]="infoadicional.question5" name="question5">
+        </mat-form-field>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel [expanded]="this.expandedSectionDocumentosAdicionales" class="max-width-div-panel">
+      <mat-expansion-panel-header>
+        <mat-panel-title style="color: #fff !important;">Documentos Requeridos</mat-panel-title>
+      </mat-expansion-panel-header><p></p> 
+      <div style="height: 500px; overflow-y: scroll;">
+        <p-table  mat-table [value]="listDocumentosAdicionales" dataKey="id" editMode="row" responsiveLayout="scroll">
+          <ng-template pTemplate="header">                
+            <tr style="font-family: Nunito;font-size: 14px;">
+              <th class="mat-header-cell-x"  style="text-align:center;">Acción</th>
+                <th class="mat-header-cell-x"  style="text-align:center;">Nombre de Documento</th>
+                <th class="mat-header-cell-x"  style="text-align:center;">Descargar Documento</th>
+                <th class="mat-header-cell-x"  style="text-align:center;">Aceptar Documento</th>
+                <th class="mat-header-cell-x"  style="text-align:center;">Adjuntar Aceptación</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item let-index="rowIndex">
+            <tr style="font-family: Nunito;font-size: 14px;">
+              <td class="td-information-aditional" style="text-align: center;">
+                <mat-icon *ngIf="responsive && validateShowErrorFile(item)" style="color: #EF4444; margin-right: 15px !important;">error</mat-icon>
+                <button pButton pRipple type="button" *ngIf="isDisabledRow(item)" style="cursor: pointer"
+                    (click)="onEditAditionalDocument(item, index)" class="p-button-text editar init-edit">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>
+                </button>    
+                <button *ngIf="!isDisabledRow(item)" (click)="onSaveAditionalDocument(item, index)"  pButton pRipple type="button"  icon="pi pi-check" style="cursor: pointer"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="!isDisabledRow(item)" (click)="onCancelAditionalDocument(index)" pButton pRipple type="button" icon="pi pi-times" style="cursor: pointer"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+              </td>
+              <td class="td-information-aditional" > {{item.document}} </td>
+              <td class="td-information-aditional" style="text-align: center;">
+                <button *ngIf="item.indicadorPlantilla"type="button" (click)="descargarPlantilla(item)" pButton pRipple icon="pi pi-file-o"
+                      class="p-button-rounded p-button-text p-button-info plantilla" title="Descargar Plantilla"></button>
+              </td>
+              <td class="td-information-aditional" style="text-align: center;">
+                  <mat-checkbox [disabled]="isDisabledRow(item)" (change)="checkDocumentoAdicional($event, item)" *ngIf="item.indicadorCheck" [checked]="item.checked"></mat-checkbox>
+              </td>
+              <td class="td-information-aditional" style="text-align: center;" [class.class-disabled]="isDisabledRow(item)">       
+                <app-documento-adjunto *ngIf="item.indicadorFile" [path_file]="item.pathFile" [name_file]="item.nombreFile" [type_file]="item.idMaster" 
+                (updateDocument)="CargarDocumentoAdicional($event)" [class.required-document]="validateShowErrorFile(item)"></app-documento-adjunto>
+                <!-- <app-documento-adjunto *ngIf="item.indicadorFile && isDisabledRow(item)" [path_file]="item.pathFile" [name_file]="item.nombreFile" [type_file]="item.idMaster" 
+                (updateDocument)="CargarDocumentoAdicional($event)" class="class-disabled"></app-documento-adjunto> -->
+              </td>
+            </tr>
+        </ng-template>
+        </p-table> 
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+  <div class="content__information_aditional max-width-div-panel" style="margin-top: 20px !important;">
+    <div style="text-align: justify;">Declaro expresamente conocer que el presente documento y todas las pruebas, exámenes
+      y verificaciones constituyen parte de la etapa de selección y que en la posible contratación estaré supeditado a
+      una evaluación final y
+      global, de acuerdo a las necesidades y exigencias que el puesto requiera, y solo existirá un vinculo laboral y
+      goce de beneficios a partir de la firma de un contrato escrito y firmado por ambas partes, tal como lo faculta el
+      art. 4 del
+      DS 003-97-TR / tuo del D. LEG. 728.</div>
+    <div style="margin-top: 20px;">
+      <mat-checkbox class="example-margin" name="disclaimer" [value]="infoextra.disclaimer" [(ngModel)]="infoextra.disclaimer" style="width: 100% !important; height: auto;">
+        Asimismo, declaro bajo juramento que todos los datos aquí consignados son veridicos.</mat-checkbox>        
+    </div>
+    <div style="margin-top: 20px; display: flex; justify-content: left;" *ngIf="responsive && errorAdjunto" >
+      <mat-icon style="color: #EF4444; margin-right: 15px !important;">error</mat-icon>
+      <p>Documentos Obligatorios</p>
+    </div>
+  </div>
+
+  
+  <div class="content__buttons max-width-div-panel" *ngIf="!this.infoextra.sent">
+    <!-- <button mat-raised-button type="submit"  color="warn" [disabled]="!fichaForm.form.valid" style="cursor: pointer">Enviar</button> -->
+    <button mat-raised-button type="submit"  color="warn" style="cursor: pointer" (click)="submit(true)">Enviar</button>
+    &nbsp;&nbsp;&nbsp;
+    <button mat-raised-button color="primary" style="cursor: pointer" (click)="submit(false)">Guardar</button>
+    <!-- <button type="submit" class="btn btn-success" [disabled]="!fichaForm.form.valid">Submit</button> -->
+  </div>
+</form>
+</div>
+

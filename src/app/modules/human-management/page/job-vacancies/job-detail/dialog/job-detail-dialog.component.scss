@@ -1,0 +1,22 @@
+
+.file_input {
+    background: #dfdfdf;
+    width: 100%;
+    padding: 30px;
+    cursor: pointer;
+  }
+  
+  .adjunto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .adjunto span {
+    font-size: 15px;
+  }
+  
+  .acciones-file {
+    margin-top: 10px;
+    display: flex;
+  }

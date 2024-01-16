@@ -1,0 +1,44 @@
+<div class="content">
+    <div class="job-details-header">
+        <span style="margin: auto;text-transform: uppercase;letter-spacing: 0.05em; font-family: Roboto; padding: 0 10px;">{{ textoHeader }}</span>
+    </div>
+    <div class="content__wrapper" *ngIf="job != undefined">
+        <mat-card class="content__detail_job_1">
+            <div class="col-lg-12 col-md-12 col-sm-12 mb-3 text-center">                
+                <img src="{{job.scompanyimageurl}}"  height="70px" alt="Empresa" class="imgcompanyjob">
+             </div> 
+            <div class="content__title">
+                {{job.stitle}}
+            </div>
+            <h2 style="margin-top: 2%;">Detalle del aviso:</h2>
+            <div class="content__detail" [innerHTML]="job.snoticedetails">
+            </div>
+            <h2 style="margin-top: 2%;">Requisitos</h2>
+            <div class="content__required" [innerHTML]="job.srequirements">
+            </div>
+            <h2 style="margin-top: 2%;">Beneficios</h2>
+            <div class="content_beneficits" [innerHTML]="job.sbenefits">
+            </div>
+        </mat-card>
+        <div class="content__detail_job_2">
+             <mat-card class="content__card">
+                    <h3 class="publish-job">
+                        Publicado el {{job.screationdate}}
+                    </h3>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12">
+                            <ul class="primeralista">
+                               <li><i class="pi pi-clock"></i>&nbsp;&nbsp;Full time</li>
+                               <li><i class="pi pi-home"></i>&nbsp;&nbsp;{{job.slocation}}</li>
+                               <li><i class="pi pi-map-marker"></i>&nbsp;&nbsp;{{job.smodality}}</li>
+                           </ul>
+                       </div> 
+                    </div>
+                    <div class="content__button">
+                       <button *ngIf="!isPostulant" (click)="postular()" mat-raised-button class="dark-blue-400 dark-blue-400-fg">Postular a la vacante</button>
+                       <button *ngIf="isPostulant" mat-raised-button class="dark-blue-400 dark-blue-400-fg">Postulado</button>
+                    </div>
+             </mat-card>
+        </div>
+    </div>
+</div>

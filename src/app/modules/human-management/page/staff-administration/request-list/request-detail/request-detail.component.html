@@ -1,0 +1,477 @@
+<mat-dialog-content class="mat-typography">
+    <div class="header">
+        <h1>Detalle de la Solicitud</h1>
+        <hr style="width: 100%;">
+    </div>
+    
+    <ng-container *ngIf="type === 12">      <!-- MODIFICACION DE DATOS -->
+
+        <div class="cabecera">
+            <div class="cabecera__left">
+                <div class="cabecera__left__group">
+                    <strong>Colaborador: </strong>
+                    <label>{{ collaborator }}</label>
+                </div>
+                <div class="cabecera__left__group">
+                    <strong>Área: </strong>
+                    <label>{{ inputArea }}</label>
+                </div>
+                <div class="cabecera__left__group">
+                    <strong>Puesto: </strong>
+                    <label>{{ inputPuesto }}</label>
+                </div>
+                <div class="cabecera__left__group">
+                    <strong>Jefe Inmediato: </strong>
+                    <label>{{ inputJefe }}</label>
+                </div>
+            </div>
+            <div class="cabecera__rigth">
+                <img [src]="detail.simg" alt="">
+            </div>
+        </div>
+        <hr style="width: 100%;">
+
+        <ng-container *ngIf="ntypeseccion === 1">   <!-- DIRECCION -->
+            <ng-container *ngIf="showDataAntiguua; else showaddrersactual">
+                <div class="data_junta">
+                    <div class="data_junta__left">
+                        <div class="data_junta__left-group">
+                            <strong>Dirección Anterior: </strong>
+                            <label>{{ addressAntiguo?.saddress }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Distrito Anterior: </strong>
+                            <label>{{ addressAntiguo?.sdistrict }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Provincia Anterior: </strong>
+                            <label>{{ addressAntiguo?.sprovince }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Departamento Anterior: </strong>
+                            <label>{{ addressAntiguo?.sdepartament }}</label>
+                        </div>
+                    </div>
+                    <div class="data_junta__img">
+                        <img src="../../../../../../../assets/images/flechas_cambios.png" width="50px" alt="">
+                    </div>
+                    <div class="data_junta__rigth">
+                        <div class="data_junta__rigth-group">
+                            <strong>Dirección: </strong>
+                            <label>{{ detail?.saddress }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Distrito: </strong>
+                            <label>{{ detail?.sdistrict }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Provincia: </strong>
+                            <label>{{ detail?.sprovince }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Departamento: </strong>
+                            <label>{{ detail?.sdepartment }}</label>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #showaddrersactual>
+                <div class="together">
+                    <strong>Dirección: </strong>
+                    <label>{{ detail?.saddress }}</label>
+                </div>
+                <div class="together">
+                    <strong>Distrito: </strong>
+                    <label>{{ detail?.sdistrict }}</label>
+                </div>
+                <div class="together">
+                    <strong>Provincia: </strong>
+                    <label>{{ detail?.sprovince }}</label>
+                </div>
+                <div class="together">
+                    <strong>Departamento: </strong>
+                    <label>{{ detail?.sdepartment }}</label>
+                </div>
+            </ng-template>
+
+        </ng-container>
+
+        <ng-container *ngIf="ntypeseccion === 2">   <!-- TELEFONO -->
+            <ng-container *ngIf="showDataAntiguua; else showphoneactual">
+                <div class="data_junta">
+                    <div class="data_junta__left">
+                        <div class="data_junta__left-group">
+                            <strong>Teléfono Anterior: </strong>
+                            <label>{{ person.sphonenumber  }}</label>
+                        </div>
+                    </div>
+                    <div class="data_junta__img">
+                        <img src="../../../../../../../assets/images/flechas_cambios.png" width="50px" alt="">
+                    </div>
+                    <div class="data_junta__rigth">
+                        <div class="data_junta__rigth-group">
+                            <strong>Teléfono: </strong>
+                            <label>{{ detail?.phone }}</label>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #showphoneactual>
+                <div class="together">
+                    <strong>Teléfono: </strong>
+                    <label>{{ detail?.phone }}</label>
+                </div>
+            </ng-template>
+
+            
+        </ng-container>
+
+        <ng-container *ngIf="ntypeseccion === 3">   <!-- ESTADO CIVIL -->
+            <ng-container *ngIf="showDataAntiguua; else showphoneactual">
+                <div class="data_junta">
+                    <div class="data_junta__left">
+                        <div class="data_junta__left-group">
+                            <strong>Estado Civil Anterior: </strong>
+                            <label>{{ statecivilAntiguo  }}</label>
+                        </div>
+                    </div>
+                    <div class="data_junta__img">
+                        <img src="../../../../../../../assets/images/flechas_cambios.png" width="50px" alt="">
+                    </div>
+                    <div class="data_junta__rigth">
+                        <div class="data_junta__rigth-group">
+                            <strong>Estado Civil: </strong>
+                            <label>{{ civilname }}</label>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #showphoneactual>
+                <div class="together">
+                    <strong>Estado Civil: </strong>
+                    <label>{{ civilname }}</label>
+                </div>
+            </ng-template>
+           
+        </ng-container>
+
+        <ng-container *ngIf="ntypeseccion === 4">   <!-- LICENCIA -->
+            <ng-container *ngIf="showDataAntiguua; else showlicenceactual">
+                <div class="data_junta">
+                    <div class="data_junta__left">
+                        <div class="data_junta__left-group">
+                            <strong>Maquinaria Pesada Anterior: </strong>
+                            <label>{{ licenciaMaquinariaAntigua  }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Licencia Conducir Anterior: </strong>
+                            <label>{{ licenciaConducirAntigua  }}</label>
+                        </div>
+                    </div>
+                    <div class="data_junta__img">
+                        <img src="../../../../../../../assets/images/flechas_cambios.png" width="50px" alt="">
+                    </div>
+                    <div class="data_junta__rigth">
+                        <div class="data_junta__rigth-group">
+                            <strong> Maquinaria Pesada: </strong>
+                            <label>{{ detail?.sheavymachinerylicense }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Licencia de Conducir: </strong>
+                            <label>{{ detail?.sddriverlicense }}</label>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #showlicenceactual>
+                <div class="together">
+                    <strong>Licencia de Maquinaria Pesada: </strong>
+                    <label>{{ detail?.sheavymachinerylicense }}</label>
+                </div>
+                <div class="together">
+                    <strong>Licencia de Conducir: </strong>
+                    <label>{{ detail?.sddriverlicense }}</label>
+                </div>
+            </ng-template>
+            
+        </ng-container>
+
+        <ng-container *ngIf="ntypeseccion === 5">   <!-- ESTUDIO -->
+            <ng-container *ngIf="showDataAntiguua; else showestudioactual">
+                <div class="data_junta">
+                    <div class="data_junta__left">
+                        <div class="data_junta__left-group">
+                            <strong>Centro de Estudio Anterior: </strong>
+                            <label>{{ centrostudioAntiguo }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Estado Anterior : </strong>
+                            <label>{{ estadooAntiguo }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Fecha Inicio Anterior : </strong>
+                            <label>{{fechaInicioAntiguo | date:'dd/MM/YYYY' }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Fecha Fin Antiguo : </strong>
+                            <label>{{ fechaFinAntiguo | date:'dd/MM/YYYY' }}</label>
+                        </div>
+                    </div>
+                    <div class="data_junta__img">
+                        <img src="../../../../../../../assets/images/flechas_cambios.png" width="50px" alt="">
+                    </div>
+                    <div class="data_junta__rigth">
+                        <div class="data_junta__rigth-group">
+                            <strong>Centro de Estudio: </strong>
+                            <label>{{ detail?.sstudy_center }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Estado : </strong>
+                            <label>{{ detail?.scurrent_cycle }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Fecha Inicio : </strong>
+                            <label>{{ detail?.dateStart | date:'dd/MM/YYYY' }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Fecha Fin : </strong>
+                            <label>{{ detail?.dateEnd | date:'dd/MM/YYYY' }}</label>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-template #showestudioactual>
+                <div class="together">
+                    <strong>Centro de Estudio: </strong>
+                    <label>{{ detail?.sstudy_center }}</label>
+                </div>
+                <div class="together">
+                    <strong>Carrera: </strong>
+                    <label>{{ detail?.scarreer }}</label>
+                </div>
+                <div class="together">
+                    <strong>Estado : </strong>
+                    <label>{{ detail?.scurrent_cycle }}</label>
+                </div>
+                <div class="together">
+                    <strong>Fecha Inicio : </strong>
+                    <label>{{ detail?.dateStart | date:'dd/MM/YYYY' }}</label>
+                </div>
+                <div class="together">
+                    <strong>Fecha Fin : </strong>
+                    <label>{{ detail?.dateEnd | date:'dd/MM/YYYY' }}</label>
+                </div>
+            </ng-template>
+           
+        </ng-container>
+        
+        <ng-container *ngIf="ntypeseccion === 6">   <!-- ESPOSA/CONVIVIENTE -->
+            <ng-template>
+                <div class="together">
+                    <strong>Esposa/Conviviente : </strong>
+                    <label>{{ detail?.snamewife_partner }}</label>
+                </div>
+                <div class="together">
+                    <strong>Fecha : </strong>
+                    <label>{{ detail?.ddateofmarriage | date:'dd/MM/YYYY' }}</label>
+                </div>
+            </ng-template>
+
+            <ng-container *ngIf="showDataAntiguua; else showesposaactual">
+                <div class="data_junta">
+                    <div class="data_junta__left">
+                        <div class="data_junta__left-group">
+                            <strong>Esposa/Conviviente Anterior : </strong>
+                            <label>{{  esposaAntigua }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Fecha Anterior  : </strong>
+                            <label>{{ esposaFechaAntigua | date:'dd/MM/YYYY' }}</label>
+                        </div>
+                    </div>
+                    <div class="data_junta__img">
+                        <img src="../../../../../../../assets/images/flechas_cambios.png" width="50px" alt="">
+                    </div>
+                    <div class="data_junta__rigth">
+                        <div class="data_junta__rigth-group">
+                            <strong>Esposa/Conviviente : </strong>
+                            <label>{{ esposaActual }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Fecha : </strong>
+                            <label>{{ detail?.dregister | date:'dd/MM/YYYY' }}</label>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #showesposaactual>
+                <div class="together">
+                    <strong>Esposa/Conviviente : </strong>
+                    <label>{{ detail?.snamewife_partner }}</label>
+                </div>
+                <div class="together">
+                    <strong>Fecha : </strong>
+                    <label>{{ detail?.ddateofmarriage | date:'dd/MM/YYYY' }}</label>
+                </div>
+            </ng-template>
+        </ng-container>
+
+        <ng-container *ngIf="ntypeseccion === 7">   <!-- HIJOS -->
+            <ng-container *ngIf="showDataAntiguua; else showhijosactual">
+                <div class="data_junta">
+                    <div class="data_junta__left">
+                        <div class="data_junta__left-group">
+                            <strong>Nombre del Hijo Anterior : </strong>
+                            <label>{{ nombrerHijoAngitua }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Apellido Paterno Anterior : </strong>
+                            <label>{{ appaternoAntgua }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Apellido Materno Anterior : </strong>
+                            <label>{{ apmaternoAntigua }}</label>
+                        </div>
+                        <div class="data_junta__left-group">
+                            <strong>Fecha de Nacimiento Anterior : </strong>
+                            <label>{{ fechasonAntgua | date:'dd/MM/YYYY' }}</label>
+                        </div>
+                    </div>
+                    <div class="data_junta__img">
+                        <img src="../../../../../../../assets/images/flechas_cambios.png" width="50px" alt="">
+                    </div>
+                    <div class="data_junta__rigth">
+                        <div class="data_junta__rigth-group">
+                            <strong>Nombre del Hijo : </strong>
+                            <label>{{ detail?.sfullname }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Apellido Paterno : </strong>
+                            <label>{{ detail?.slastname }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Apellido Materno : </strong>
+                            <label>{{ detail?.smotherslastname }}</label>
+                        </div>
+                        <div class="data_junta__rigth-group">
+                            <strong>Fecha de Nacimiento : </strong>
+                            <label>{{ detail?.ddateofbirth | date:'dd/MM/YYYY' }}</label>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-template #showhijosactual>
+                <div class="together">
+                    <strong>Nombre del Hijo : </strong>
+                    <label>{{ detail?.sfullname }}</label>
+                </div>
+                <div class="together">
+                    <strong>Apellido Paterno del Hijo : </strong>
+                    <label>{{ detail?.slastname }}</label>
+                </div>
+                <div class="together">
+                    <strong>Apellido Materno del Hijo : </strong>
+                    <label>{{ detail?.smotherslastname }}</label>
+                </div>
+                <div class="together">
+                    <strong>Fecha de Nacimiento : </strong>
+                    <label>{{ detail?.ddateofbirth | date:'dd/MM/YYYY' }}</label>
+                </div>
+            </ng-template>
+
+            
+            
+        </ng-container>
+
+        <div style="display: flex; justify-content: center;width: 100%; margin-top: 10px;" *ngIf="ntypeseccion !== 2">
+            <button type="button" mat-raised-button (click)="ViewAdjunto()"  style="background-color: #cddcea;color:#343a67;" > Ver Adjunto</button>
+        </div>
+
+       
+    </ng-container>
+
+    <ng-container *ngIf="type === 13">      <!-- SOLICITUD DE DOCUMENTOS -->
+        <div class="cabecera">
+            <div class="cabecera__left">
+                <div class="cabecera__left__group">
+                    <strong>Colaborador: </strong>
+                    <label>{{ collaborator }}</label>
+                </div>
+                <div class="cabecera__left__group">
+                    <strong>Área: </strong>
+                    <label>{{ inputArea }}</label>
+                </div>
+                <div class="cabecera__left__group">
+                    <strong>Puesto: </strong>
+                    <label>{{ inputPuesto }}</label>
+                </div>
+                <div class="cabecera__left__group">
+                    <strong>Jefe Inmediato: </strong>
+                    <label>{{ inputJefe }}</label>
+                </div>
+            </div>
+            <div class="cabecera__rigth">
+                <img src="http://10.10.101.11:8042/Imagenes\l30sjxkr.otg.jpg" alt="">
+            </div>
+        </div>
+        <hr style="width: 100%;">
+
+        <ng-container *ngIf="ntypeseccion === 8">      <!-- BOLETA DE PAGO -->
+            <div class="descripcion">
+                <p>Boleta de Pago</p>
+            </div>
+            <div class="data-global">
+                <div class="data-fecha">
+                    <span>Año: </span>
+                    <label>{{ yearData }}</label>
+                </div>
+                <div class="data-fecha">
+                    <span>Mes: </span>
+                    <label>{{ nameMonth }}</label>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="ntypeseccion === 9">      <!-- CERTIFICADO DE 5TA -->
+            <div class="descripcion">
+                <p>Certificado de 5ta Categoria</p>
+            </div>
+            <div class="data-global">
+                <div class="data-fecha">
+                    <span>Año: </span>
+                    <label>{{ yearData }}</label>
+                </div>
+                <div class="data-fecha">
+                    <span>Mes: </span>
+                    <label>{{ nameMonth }}</label>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="ntypeseccion === 10">      <!-- CERTIFICADO DE TRABAJO -->
+            <div class="descripcion">
+                <p>Certificado de Trabajo</p>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="ntypeseccion === 11">      <!-- CERTIFICADO CTS -->
+            <div class="descripcion">
+                <p>Certificado de CTS</p>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="ntypeseccion === 12">      <!-- CERTIFICADO DE UTILIDADES -->
+            <div class="descripcion">
+                <p>Certificado de Utilidades</p>
+            </div>
+        </ng-container>
+
+    </ng-container>
+
+    <div class="footer">
+        <button type="button" mat-raised-button (click)="cancel()">Cancelar</button>
+        <button type="button" mat-raised-button (click)="AcceptRequest()"  style="background-color: #cddcea;color:#343a67;" *ngIf="state === 1 && isaccept"> Aprobar</button>
+        <button type="button" mat-raised-button (click)="RejectRequest()" style="background-color: #f44336; color: white;" *ngIf="state === 1 && isaccept"> Rechazar</button>
+    </div>
+</mat-dialog-content>

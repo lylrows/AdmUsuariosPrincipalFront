@@ -1,0 +1,188 @@
+<div class="filter">
+  <div class="filter__inputs">
+    <mat-form-field appearance="fill">
+      <mat-label>Tipo de Solicitud</mat-label>
+      <mat-select [(ngModel)]="staffRequestFilter.idTypeStaffRequest">
+        <mat-option *ngFor="let item of lstTypeStaffRequest" [value]="item.id">{{item.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha Inicial</mat-label>
+      <input matInput [(ngModel)]="staffRequestFilter.initialIssueDate" [matDatepicker]="pickerStartVacation"
+        name="InitialIssueDate" placeholder="Fecha Inicial">
+      <mat-datepicker-toggle matSuffix [for]="pickerStartVacation"></mat-datepicker-toggle>
+      <mat-datepicker #pickerStartVacation></mat-datepicker> 
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Fecha Final</mat-label>
+      <input matInput [(ngModel)]="staffRequestFilter.finalIssueDate" [matDatepicker]="pickerfinalIssueDate"
+        name="finalIssueDate" placeholder="Fecha Inicial">
+      <mat-datepicker-toggle matSuffix [for]="pickerfinalIssueDate"></mat-datepicker-toggle>
+      <mat-datepicker #pickerfinalIssueDate></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Empresa</mat-label>
+      <mat-select (selectionChange)="changecompany()" [(ngModel)]="staffRequestFilter.idCompany">
+        <mat-option *ngFor="let item of companies" [value]="item.nid_company">{{ item.sdescription }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Área</mat-label>
+      <mat-select [(ngModel)]="staffRequestFilter.idArea">
+        <mat-option value=0>-- TODOS --</mat-option>
+        <mat-option *ngFor="let item of areas" [value]="item.id">{{item.nameArea}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Estado Solicitud</mat-label>
+      <mat-select [(ngModel)]="staffRequestFilter.idStatus">
+        <mat-option *ngFor="let item of listStatus" [value]="item.id">{{item.description}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Evaluación Solicitud</mat-label>
+      <mat-select [(ngModel)]="staffRequestFilter.idStatusApprove">
+        <mat-option [value]="2">Todos</mat-option>
+        <mat-option [value]="1">Por Evaluar</mat-option>
+        <mat-option [value]="0">Visualización</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="filter__buttons">
+    <button mat-raised-button color="primary" (click)="Filtrar()">Buscar</button>
+    <button mat-raised-button color="warn" (click)="openPopUp({}, true)">Generar Solicitud</button>
+    <button mat-raised-button color="accent" (click)="exportar()">Exportar</button>
+  </div>
+</div>
+<mat-card class="p-0" >
+  <mat-card-content class="p-0">
+    <table mat-table [dataSource]="items" matSort class="w-100">
+      <ng-container matColumnDef="option" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Opción: ">
+          <button mat-icon-button [matMenuTriggerFor]="menu" matTooltipPosition="right" mat-stroked-button
+            color="accent">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="after">
+            <button *ngIf="row.sstate != 1" mat-menu-item (click)="openReadJustView(row)">
+              <mat-icon color="accent">touch_app</mat-icon>
+              <span>Ver Solicitud</span>
+            </button>
+          </mat-menu>
+          <!-- <button mat-icon-button *ngIf="row.sstate != 1" matTooltip="Editar" (click)="openReadJustView(row)"
+            style="border: 0px;background-color: transparent;">
+            <mat-icon color="accent">edit</mat-icon>
+          </button> -->
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="requestNumber">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Nro. Sol.</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Número de la Solicitud : ">
+          {{ row.id }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="typeStaffRequest">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Tipo de Solicitud</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="padding-right: 10px !important;" data-label="Nombre de Tipo de Solicitud : ">
+          {{ row.typeStaffRequest }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="fullNameEmployee">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Nombre Completo</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="NombreCompleto : ">
+          {{ row.fullNameEmployee | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="dateIssue">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Fecha</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="padding-right: 10px !important;" data-label="Fecha : ">
+          {{ row.dateIssue | date: 'dd/MM/yyyy' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="charge">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Cargo</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="padding-right: 10px !important;" data-label="Cargo : ">
+          {{ row.charge | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="area">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Área</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Area : ">
+          {{ row.area | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="company">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Empresa</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center; padding-right: 10px !important;" data-label="Empresa : ">
+          {{ row.company | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="stateName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Estado</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center; padding-right: 10px !important;" data-label="Estado : ">
+          {{ row.stateName | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="download" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Pdf</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center; padding-right: 5px !important;" data-label="Descargar: ">
+          <button *ngIf="row.state == 2 || row.state == 3" mat-menu-item (click)="downloadPdf(row)" style="padding: 0px !important" title="Descargar">
+            <!-- <span>Descargar</span> -->
+            <mat-icon style="color: #536BB2; margin: 0px !important">archive</mat-icon>  
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="approver" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center" style="padding: 0px !important">Evaluar</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="padding-right: 5px !important;" data-label="Aprobar: ">
+          <button *ngIf="row.evaluate" mat-menu-item (click)="openApproval(row)">
+            <mat-icon color="accent">touch_app</mat-icon>
+            <span>Evaluar</span>
+          </button>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="deleted" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center" style="padding: 0px !important"></th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="padding-right: 5px !important;" data-label="Eliminar: ">
+          <button *ngIf="row.deleted" mat-menu-item (click)="openDelete(row)">
+            <mat-icon color="accent">delete</mat-icon>
+            <span>Eliminar</span>
+          </button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ 'make-gris': !row.state }">
+      </tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell text-center" colspan="12">
+          No se encontró Resultados
+        </td>
+      </tr>
+    </table>
+    <!-- <mat-paginator #paginator [length]="staffRequestFilter.pagination.totalItems" [pageIndex]="currentPage" [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
+      </mat-paginator> -->
+
+
+    <div style="display: flex;
+      justify-content: center;
+      align-items: center;">
+
+      <!-- <span>Regresar</span> -->
+      <mat-paginator style-paginator showFirstLastButtons [showTotalPages]="3"
+        (changedPageNumber)="changedPageNumber($event)" #paginator [pageIndex]="currentPage"
+        [length]="staffRequestFilter.pagination.totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="changedPageSize($event)">
+      </mat-paginator>
+      <!-- <span style="padding-left: 15px;">Avanzar</span> -->
+    </div>
+
+
+  </mat-card-content>
+</mat-card>
+<a id="afile" name="afile" style="display: none;"></a>

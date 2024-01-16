@@ -1,0 +1,35 @@
+<mat-card-title class="">
+  <div class="card-title-text">{{data.title}}</div>
+    <mat-divider></mat-divider>
+</mat-card-title>
+<mat-dialog-content>
+  <mat-card-content> 
+    <form [formGroup]="itemForm" (ngSubmit)="submit()">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100">
+          <mat-form-field class="full-width" appearance="fill">
+              <input
+              matInput
+              name="Descripción"
+              placeholder="Descripción"
+              [formControl]="itemForm.controls['description']"
+              maxlength="50"
+              required>
+             <mat-error *ngIf="itemForm.controls['description'].invalid">{{getErrorMessage()}}</mat-error>
+          </mat-form-field>
+        </div>
+        <!-- <div fxFlex="100" class="mt-16">
+          <button mat-button color="primary" style="width: 50%;" class="dark-blue-400 dark-blue-400-fg mr-4" [disabled]="itemForm.invalid">Guardar</button>
+          <span fxFlex></span>
+          <button mat-button color="danger" style="width: 50%;" class="dark-blue-100 dark-blue-100-fg ml-4" type="button" (click)="dialogRef.close(false)">Cancelar</button>
+        </div> -->
+
+
+        <div class="filter__buttons">
+          <button mat-raised-button color="primary" [disabled]="itemForm.invalid">Guardar</button>
+          <button mat-raised-button color="accent" (click)="dialogRef.close(false)">Cancelar</button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-dialog-content>

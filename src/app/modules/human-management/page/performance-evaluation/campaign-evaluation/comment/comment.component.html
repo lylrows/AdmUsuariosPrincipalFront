@@ -1,0 +1,22 @@
+<div class="content">
+    <div class="header">
+        <h1>Comentario:</h1>
+        <hr style="width: 100%;">
+    </div>
+
+    <div class="comentario">
+        <mat-form-field style="width: 100%;">
+            <textarea [formControl]="commentFC" type="text" matInput placeholder="Ingresar comentario"></textarea>
+            <mat-error *ngIf="commentFC.touched && commentFC.invalid">
+                <span *ngIf="commentFC.errors.required">Comentario es <strong>obligatorio</strong></span>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="buttons">
+        
+        <button (click)="save()" mat-raised-button class="dark-blue-400 dark-blue-400-fg">
+            Aceptar</button>
+            <button mat-button (click)="close()" class="dark-blue-100 dark-blue-100-fg">Cancelar</button>
+    </div>
+</div>

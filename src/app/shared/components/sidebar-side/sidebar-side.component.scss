@@ -1,0 +1,25 @@
+@import '../../../../assets/styles/scss/variables';
+
+.header-heigth{
+    background-color: $base-color;
+    height: 80px;
+    margin-top: 20px;
+}
+
+.sidebar-panel .navigation-hold{
+    margin-top: 70px;
+}
+
+.sidebar-hold {
+    margin-top: 50px;
+}
+
+.logo-grupo-fe{
+    height: 90%;
+    width: 100%;
+    margin: 0;
+}
+
+#scroll-area{
+    background-color: $base-color !important;
+}

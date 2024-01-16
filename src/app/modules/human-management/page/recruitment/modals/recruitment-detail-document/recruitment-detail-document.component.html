@@ -1,0 +1,18 @@
+
+<mat-card-title class="">
+    <h1 matDialogTitle>{{data.title}}</h1>
+    <mat-divider></mat-divider>
+</mat-card-title>
+<mat-card-content>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            
+            <div class="form-group" style="height: 500px;">
+                <iframe id="inlineFrameExample" name="inlineFrameExample" width="930px" height="500px" frameborder="0" marginwidth="0" marginheight="0"
+                scrolling="no" style="border:none !important; border-width:1px; margin-bottom:5px; max-width: 100%;"
+                allowfullscreen src="assets\html\detalle-competencias.html"></iframe>
+            </div>
+            <div fxFlex="100" style="display: flex; justify-content:center;gap: 15px; margin-top: 2%;">
+                <button type="button" (click)="dialogRef.close()" mat-button color="warn">Cerrar</button>
+            </div>
+        </div>
+  </mat-card-content>

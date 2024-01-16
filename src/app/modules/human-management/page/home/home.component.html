@@ -1,0 +1,102 @@
+
+
+<div class="section-slider-images">
+  
+  <mat-carousel
+    timings="250ms ease-in"
+    [autoplay]="true"
+    interval="5000"
+    color="accent"
+    maxWidth="auto"
+    maintainAspectRatio="true"
+    proportion="40"
+    slideHeight="100%"
+    slides="5"
+    [loop]="true"
+    [hideArrows]="hidearrows"
+    [hideIndicators]="false"
+    [useKeyboard]="true"
+    [useMouseWheel]="false"
+    orientation="ltr"
+  >
+  <!--<mat-carousel-slide
+      #matCarouselSlide
+      *ngFor="let slide of slides; let i = index"
+      [image]="slide.filenamefolder + slide.filename"
+      overlayColor="#00000000"
+      [hideOverlay]="false"
+    >
+  </mat-carousel-slide>-->
+    <mat-carousel-slide
+      #matCarouselSlide
+      *ngFor="let slide of slides; let i = index"
+      
+      
+      overlayColor="#00000000"
+      [hideOverlay]="false"
+    >
+    
+    <video  *ngIf="!slide.isImage" [id]="slide.id" class="video_slide img-responsive center-block" controls style="width:100%;height:100%;">
+      <source [src]="slide.filenamefolder + slide.filename" type="video/mp4">
+    </video>
+    
+      <img  (click)="loadUrlSlider(slide.urlImage)" *ngIf="slide.isImage" class="img-table" [src]="slide.filenamefolder + slide.filename" style="width:100%;height:100%; cursor:pointer;">
+    
+  </mat-carousel-slide>
+  </mat-carousel>
+</div>
+
+<div class="section-dowloands">
+  <div fxLayout="row wrap" [@animate]="{value:'*',params:{delay:'600ms',scale:'.9'}}" style="justify-content: center;">
+      <div fxFlex="100" fxFlex.gt-sm="25" fxFlex.sm="50" *ngFor="let category of categories; let i = index" class="lstCategory">
+        <mat-card class="rounded-circle card-list-category" fxLayout="row wrap" fxLayoutAlign="start center" (click)="viewCompany(category.idType,category.descriptionValue)" style="text-align: center;">
+          <mat-icon  role="img" class="view-desktop mat-icon notranslate mb-16 material-icons mat-icon-no-color avatar-md rounded-circle" aria-hidden="true" data-mat-icon-type="font" style="font-size: 32px; margin-right:15px !important; margin-bottom: 0!important; height: 32px;
+          width: 32px;">
+            <svg class="" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+              <rect width="32" height="32" fill="url(#pattern0)"/>
+              <defs>
+              <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+              <use xlink:href="#image0_10_122" transform="scale(0.03125)"/>
+              </pattern>
+              <image id="image0_10_122" width="32" height="32" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACJUlEQVRYhcWXMUscURSFvx0rYXY3oGl2QESsNmARCRgbC5t0/gH/hT9DrCVgI9ikTSGBmCJg0iXCQuKCIWIRK4skLlqeNPexl0l25s1u3LlwYN+de865b3Zm3nsNSUTGPPAC2ACeAkvAI7v2E/gOfAbeA2+AmyhVSWV4IulA1ePAuIX6Zea7OdF3knYkbUhalNQ2LFpux2p87I7TwJKknhN5KalbNhuHrnFC9EwzqoEVSQMjfpW0VsE4jzXTkGmulDWQSbo3wmtJyQTmAYlpybSzogYurPD4PxjncWza30Y1sGcFlw9gHnBpHnv5BhY0jNiHbUbSF8NMJKfrfBZ8A0eWPKwwm5YTa1XgHRrnSBINSU3gt32XMuA68svoeS3gNpLXAX4EXgJs2eBDBfNJ4tq8ALYSYNMGr6ZgHiJ4bSbAqg0+TbGB4LWaAMs2uJpiA8FrOQFmbfCrgLAPnABphHhqtfsFNcFrFvcqpQWvzrnVnLu6tuO2LZe62n6BXhqISLqz31kBYT7XRMh7nXyjjwv0Mqu7Q8Nld73kA+Jn91HSnKQbw5zl8ndpFNattpfgnsiS/3YAPAP6wHPgDJDhzHJ9qxmUaA3fPEnb1s1pSdf/uhM++hEzDzg1zjaSmk6kM2YTMbc9oON4zUkWo1TSW0knFcz/WoxCcpzleByMXI5RzRuSgGlsyS58Pl9U+6YU1bwtD6j1YOJR29HM40EPpw2p3uP5Hy0YgPj2aob/AAAAAElFTkSuQmCC"/>
+              </defs>
+              </svg>
+              
+          </mat-icon>
+          <mat-icon  role="img" class="view-mobil mat-icon notranslate mb-16 material-icons mat-icon-no-color avatar-md rounded-circle" aria-hidden="true" 
+          data-mat-icon-type="font" style="font-size: 22px; margin-right:0px !important; margin-bottom: 0!important; height: 22px; width: 32px;">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+            <rect width="22" height="22" fill="url(#pattern00)"/>
+            <defs>
+            <pattern id="pattern00" patternContentUnits="objectBoundingBox" width="1" height="1">
+            <use xlink:href="#image0_10_122" transform="scale(0.03125)"/>
+            </pattern>
+            <image id="image0_10_1220" width="32" height="32" 
+            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACJUlEQVRYhcWXMUscURSFvx0rYXY3oGl2QESsNmARCRgbC5t0/gH/hT9DrCVgI9ikTSGBmCJg0iXCQuKCIWIRK4skLlqeNPexl0l25s1u3LlwYN+de865b3Zm3nsNSUTGPPAC2ACeAkvAI7v2E/gOfAbeA2+AmyhVSWV4IulA1ePAuIX6Zea7OdF3knYkbUhalNQ2LFpux2p87I7TwJKknhN5KalbNhuHrnFC9EwzqoEVSQMjfpW0VsE4jzXTkGmulDWQSbo3wmtJyQTmAYlpybSzogYurPD4PxjncWza30Y1sGcFlw9gHnBpHnv5BhY0jNiHbUbSF8NMJKfrfBZ8A0eWPKwwm5YTa1XgHRrnSBINSU3gt32XMuA68svoeS3gNpLXAX4EXgJs2eBDBfNJ4tq8ALYSYNMGr6ZgHiJ4bSbAqg0+TbGB4LWaAMs2uJpiA8FrOQFmbfCrgLAPnABphHhqtfsFNcFrFvcqpQWvzrnVnLu6tuO2LZe62n6BXhqISLqz31kBYT7XRMh7nXyjjwv0Mqu7Q8Nld73kA+Jn91HSnKQbw5zl8ndpFNattpfgnsiS/3YAPAP6wHPgDJDhzHJ9qxmUaA3fPEnb1s1pSdf/uhM++hEzDzg1zjaSmk6kM2YTMbc9oON4zUkWo1TSW0knFcz/WoxCcpzleByMXI5RzRuSgGlsyS58Pl9U+6YU1bwtD6j1YOJR29HM40EPpw2p3uP5Hy0YgPj2aob/AAAAAElFTkSuQmCC"/>
+            </defs>
+            </svg>
+          </mat-icon>
+          <div>
+            <p class="text-18 text-muted line-height-1 color-write" >{{category.descriptionValue}}</p>
+          </div>
+        </mat-card>
+      </div>
+  </div>
+</div>
+
+<div class="section-organization">
+<div class="row" class="div-organization" >
+<div fxLayout="row" class="datos-mision fx_layout">
+  <div fxFlex="33" fxFlex.gt-sm="33" fxFlex.sm="50" *ngFor="let organization of organizations; let i = index" style="text-align: center; display:flex;" class="divDatos">
+    <div class="row margin-box" style="margin-top:24px; margin-bottom:24px;">
+      <img [src]="organization.filenamefolder + organization.filename" style="width:30px; height:30px;">
+      <div><h2>{{organization.title}}</h2></div>
+      <div class="html-editor" [innerHTML]="organization.description | safeHtml"></div>
+      <div class="row linea-responsive" style="border: 1px solid black; height: 1px; width: 90%; margin:24px; margin-top: 50px !important;" *ngIf="i!=(organizations.length - 1)">
+      </div>
+    </div>
+      <div fxLayout="row wrap" class="linea-desktop fx-layout" *ngIf="i!=(organizations.length - 1)">
+  </div>
+</div>
+</div>
+</div> 

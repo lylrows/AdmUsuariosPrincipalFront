@@ -1,0 +1,80 @@
+// General
+$transitionDuration: 300ms !default;
+$gutter: 1rem !default;
+$transitionTiming: cubic-bezier(.35,0,.25,1);
+$sidebarTrnTime: .3s;
+
+// Widths
+$sidebar-width: 15rem !default;
+$compact-sidebar-width: 64px !default;
+$compact-big-sidebar-width: 150px !default;
+
+$sidebar-navigation-icon-size: 20px;
+
+// Typography
+$font-family-base: Nunito !default;
+$font-size-base: .875rem !default;
+$font-weight-base: 400 !default;
+$font-weight-medium: 500 !default;
+$font-weight-bold: 600 !default;
+
+$font-size-h1: 24px !default;
+$font-size-h2: 20px !default;
+$font-size-h3: 16px !default;
+$font-size-h4: 15px !default;
+$font-size-h5: 14px !default;
+$font-size-h6: 13px !default;
+$font-size-h7: 12px !default;
+$font-size-h8: 10px !default;
+
+$headings-margin-bottom: (1rem * 0.5) !default;
+$headings-font-family:   inherit !default;
+$headings-font-weight:   500 !default;
+$headings-line-height:   1.1 !default;
+$headings-color:         inherit !default;
+
+
+// Colors
+$body-color: #304156;
+
+
+$base-color: #1F2D40;
+$font-white: #E9EEF2;
+$menu-activo-color: #121926;
+$wall-white: #fdfdfd;
+$text-black: #121926;
+$box-shadow-rgba: rgba(0, 0, 0, 0.25);
+
+
+// Buttons
+$primary-color: #F25C05;//#536BB2
+$secondary-color: #233861;
+$text-secondary-color: #F9F9F9;
+$tertiary-color: #FAFAFA;
+$border-tertiary-color: #25344a;
+
+// Chips
+$primary-chip-bg-color: #EBF9F1;
+$primary-chip-text-color: #1F9254;
+$warn-chip-bg-color: #FBE7E8;
+$warn-chip-text-color: #A30D11;
+
+
+// Tables
+$header-cell-bg-color: #1F2D40;
+$header-cell-text-color: #F9F9F9;
+$row-odd-bg-color: #EEF4F8;
+$row-odd-text-color: #E9EEF2;
+$row-even-bg-color: #c9d0da;
+$row-even-text-color: #E9EEF2;
+
+// Icons
+$icon-color-yellow: #304156;
+$icon-rgb: invert(9%) sepia(22%) saturate(1034%) hue-rotate(180deg) brightness(95%) contrast(98%);
+
+
+
+// Shadow
+$shadow-primary: 0 8px 12px rgba(47, 60, 74, 0.04), 0 2px 6px rgba(47, 60, 74, 0.08);
+
+

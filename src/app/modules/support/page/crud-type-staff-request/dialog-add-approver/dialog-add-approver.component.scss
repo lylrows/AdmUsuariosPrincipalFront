@@ -1,0 +1,11 @@
+@media only screen and (max-device-width: 480px) {
+    .mat-dialog-title {
+        font: 400 24px/3px "Nunito" !important;
+    }
+    .filter__buttons{ 
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+        max-height: none !important;
+    }
+}

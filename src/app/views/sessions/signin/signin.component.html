@@ -1,0 +1,69 @@
+<div class="page-wrap h-full white" >
+  <div class="session-form-hold">
+    <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
+    <mat-card style="border-radius: 30px;">
+      <mat-card-content>
+        <div class="text-center pt-8 pb-16">
+          <img width="186px" src="assets/images/logo_grupofe.svg" alt="">
+          <!-- <p class="text-muted m-0">Grupo Fe</p> -->
+        </div>
+        <div class="credentials text-center pt-8 pb-16">
+          <div class="logos-company">
+            <div fxFlex="33">
+              <img class="img-company img-fluid" src="assets/images/GrupoFe/logocampofe_min.svg" alt="">
+            </div>
+            <div fxFlex="33">
+              <img class="img-company img-fluid" src="assets/images/GrupoFe/logoprestafe_min.svg" alt="">
+            </div>
+            <div fxFlex="33">
+              <img class="img-company img-fluid" src="assets/images/GrupoFe/logofesalud_min.svg" alt="">
+            </div>
+          </div>
+          <hr>
+          <!-- <p class="text-muted m-0">Grupo Fe</p> -->
+
+        </div>
+        <p *ngIf="errorMsg" class="text-center"><small class="text-red" [innerHtml]="errorMsg"></small></p>
+
+        <form [formGroup]="signinForm" (ngSubmit)="signin()">
+          <div class="credentials">
+            <mat-form-field class="full-width">
+              <input matInput name="username" [formControl]="signinForm.controls['username']" placeholder="Usuario"
+                value="">
+            </mat-form-field>
+            <small
+              *ngIf="signinForm.controls['username'].hasError('required') && signinForm.controls['username'].touched"
+              class="form-error-msg"> Usuario es obligatorio </small>
+          </div>
+
+          <div class="credentials">
+            <mat-form-field class="full-width">
+              <input type="password" name="password" matInput [formControl]="signinForm.controls['password']"
+                placeholder="Contraseña" value="">
+            </mat-form-field>
+            <small
+              *ngIf="signinForm.controls['password'].hasError('required') && signinForm.controls['password'].touched"
+              class="form-error-msg"> Contraseña es obligatorio </small>
+          </div>
+
+          <!-- <div class="pb-16">
+            <mat-checkbox
+              name="rememberMe"
+              [formControl]="signinForm.controls['rememberMe']"
+              class="pb-16">Recordar este equipo</mat-checkbox>
+          </div> -->
+          <div class="text-center" style="color: #707EAE;">
+            <!-- <span fxFlex></span> -->
+            <span> Recuperar contraseña <a [routerLink]="'/sessions/forgot-password'"
+                class="mat-primary text-center full-width" style="font-weight: bold;">aquí</a> </span>
+            <!-- <a [routerLink]="'/sessions/signup'" class="mat-primary text-center full-width">Crear nueva cuenta</a> -->
+          </div>
+          <div class="text-center mt-16 mb-16">
+            <button mat-raised-button class="mat-primary full-width mb-16" [disabled]="signinForm.invalid"
+              class="btn-login">INGRESAR</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

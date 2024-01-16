@@ -1,0 +1,66 @@
+.buttons {
+  margin: 8px;
+  display: flex;
+  justify-content: end;
+  margin-bottom: 15px;
+  gap: 8px;
+}
+
+.btn-add {
+  background-color: #cddcea !important;
+  color: #343a67 !important;
+  font-weight: 500 !important;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+  &__title {
+    display: flex;
+    gap: 5px;
+    align-items: flex-end;
+  }
+  &__group {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+    &__label {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+    }
+  }
+}
+
+.form-filter {
+  display: flex;
+  gap: 20px;
+}
+
+.showfor {
+  // margin-left: 20px;
+  // width: 20%;
+}
+
+@media screen and (max-width: 960px) {
+  .showfor {
+    width: 100%;
+    margin-left: 0px;
+  }
+
+  .form-filter {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .header {
+    &__group {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}

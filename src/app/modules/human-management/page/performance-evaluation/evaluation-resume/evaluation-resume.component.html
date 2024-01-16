@@ -1,0 +1,191 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+    <hr />
+
+    <div class="first">
+        <mat-accordion class="w-100" multi>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> <b>Información de la Campaña </b></mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <form>
+                    <div class="inputs">
+                        <mat-form-field>
+                            <mat-label>Evaluado</mat-label>
+                            <input [(ngModel)]="header.evaluatedName" name="evaluatedName" type="text" matInput readonly
+                                placeholder="Evaluado" maxlength="100" />
+
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>DNI Evaluado</mat-label>
+                            <input [(ngModel)]="header.evaluatedDNI" name="evaluatedDNI" type="text" matInput readonly
+                                placeholder="DNI Evaluado" maxlength="100" />
+
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Evaluador</mat-label>
+                            <input [(ngModel)]="header.evaluatorName" name="evaluatorName" type="text" matInput readonly
+                                placeholder="Evaluador" maxlength="100" />
+
+                        </mat-form-field>
+                    </div>
+                    <div class="inputs">
+                        <mat-form-field>
+                            <mat-label>DNI Evaluador</mat-label>
+                            <input [(ngModel)]="header.evaluatorDNI" name="evaluatorDNI" type="text" matInput readonly
+                                placeholder="DNI Evaluador" maxlength="100" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Cargo</mat-label>
+                            <input [(ngModel)]="header.chargeName" name="chargeName" type="text" matInput readonly
+                                placeholder="Cargo" maxlength="100" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Area</mat-label>
+                            <input [(ngModel)]="header.areaName" name="areaName" type="text" matInput placeholder="Area" readonly
+                                maxlength="100" />
+                        </mat-form-field>
+                    </div>
+                    <div class="inputs">
+                        <mat-form-field>
+                            <mat-label>Periodo</mat-label>
+                            <input [(ngModel)]="header.period" name="period" type="text" matInput placeholder="Periodo" readonly
+                                maxlength="100" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Fecha Ingreso</mat-label>
+                            <input [(ngModel)]="header.admissionDate" name="admissionDate" type="text" matInput readonly
+                                placeholder="Fecha Ingreso" maxlength="100" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Cargo</mat-label>
+                            <input [(ngModel)]="header.chargeName" name="chargeName1" type="text" matInput readonly
+                                placeholder="Cargo" maxlength="100" />
+                        </mat-form-field>
+                    </div>
+
+
+                </form>
+            </mat-expansion-panel>
+
+            <div class="content">
+                <div fxLayout="row wrap" fxLayoutGap="16px grid" style="justify-content: center;">
+                    
+                    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" (click)="showdetail(3)" class="cardResumen" >
+                        <mat-card [ngClass]="{ 'mat-elevation-z4 card-inicio': resaltado == 'Inicio', 'mat-elevation-z4 card-general': resaltado != 'Inicio' }"
+                            >
+                            <mat-card-header>
+                                <mat-card-title style="width: 100%;">
+                                    <img src="./assets/icons/ocurrencia.png" style="height: 45px;
+                                    border: 0px solid;
+                                    width: 45px;">
+                                    <br> 
+                                    Inicio 
+                                </mat-card-title>
+                            </mat-card-header>
+                            
+                            <mat-card-content>
+                                <p >
+                                    <i class="pi pi-calendar" style="font-size: 2rem; color: white;margin-bottom: 12px;"></i>
+                                    <span class="titleRealizado" *ngIf="statusInicio == 1">{{ dateTextInicio }}</span> 
+                                    <br>
+                                    <span class="titlePendiente" *ngIf="statusInicio == 0"> {{dateTextInicio}}</span>
+                                  </p>
+                                  <p *ngIf="statusInicio == 1">
+                                    <mat-icon style="color: #5c7092;position: absolute;">check_circle_outline</mat-icon>
+                                    <span class="textRealizado">Realizado </span>
+                                    
+                                  </p> 
+                            </mat-card-content>
+                            <mat-card-actions >
+                                <p *ngIf="bIsEvaluated==true">!Tu evaluación inicia aquí!</p>
+                                <p *ngIf="bIsEvaluator==true || bIsManager==true && bIsEvaluated==false" >Inicia el Plan de Desarrollo de tu equipo</p>
+                                
+
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" (click)="showdetail(7)" class="cardResumen">
+                        <mat-card [ngClass]="{ 'mat-elevation-z4 card-inicio': resaltado == 'Revision', 'mat-elevation-z4 card-general': resaltado != 'Revision' }">
+                            <mat-card-header>
+                                <mat-card-title>
+                                    <img src="./assets/icons/lupa.png" style="height: 45px;
+                                    border: 0px solid;
+                                    width: 45px;">
+                                    <br>
+                                    Seguimiento
+                                </mat-card-title>
+                            </mat-card-header>
+                            
+                            <mat-card-content>
+                                <p >
+                                    <i class="pi pi-calendar" style="font-size: 2rem; color: white;margin-bottom: 12px;"></i>
+                                    <span class="titleRealizado" *ngIf="statusRevision == 1">{{ dateTextRevision }}</span> 
+                                    <br>
+                                    <span class="titlePendiente" *ngIf="statusRevision == 0"> {{dateTextRevision}}</span>
+                                </p>
+                                <p *ngIf="statusRevision == 1">
+                                    <mat-icon style="color: #5c7092;position: absolute;">check_circle_outline</mat-icon>
+                                    <span class="textRealizado">Realizado </span>
+                                    
+                                  </p> 
+                            </mat-card-content>
+                            <mat-card-actions>
+                                
+                                <p *ngIf="bIsEvaluated==true">¿Cómo vamos?<br> Veamos tus avances</p>
+                                <p *ngIf="bIsEvaluator==true || bIsManager==true && bIsEvaluated==false">Veamos los avances de tu equipo</p>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                    <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" (click)="showdetail(11)" class="cardResumen">
+                        <mat-card [ngClass]="{ 'mat-elevation-z4 card-inicio': resaltado == 'Cierre', 'mat-elevation-z4 card-general': resaltado != 'Cierre' }">
+                            <mat-card-header>
+                                <mat-card-title>
+                                    <mat-icon color="primary" class="icontitle">show_chart</mat-icon><br>
+                                    Cierre</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <p >
+                                    <i class="pi pi-calendar" style="font-size: 2rem; color: white;margin-bottom: 12px;"></i>
+                                    <span class="titleRealizado" *ngIf="statusCierre == 1">{{ dateTextCierre }}</span> 
+                                    <br>
+                                    <span class="titlePendiente" *ngIf="statusCierre == 0"> {{dateTextCierre}}</span>
+                                </p>
+                                  <p *ngIf="statusCierre == 1">
+                                    <mat-icon style="color: #5c7092;position: absolute;">check_circle_outline</mat-icon>
+                                    <span class="textRealizado">Realizado </span>
+                                    
+                                  </p> 
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <p *ngIf="bIsEvaluated==true">¿Qué logramos este año?</p>
+                                <p *ngIf="bIsEvaluator==true || bIsManager==true && bIsEvaluated==false">Nuestros logros</p>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                    <!-- <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngIf="bIsManager==true && profilesRRHH.indexOf(iduserprofile) != -1" (click)="showninebox()"> -->
+                        <div fxFlex="25%" fxFlex.xs="100%" fxFlex.sm="33%" *ngIf="profilesRRHH.indexOf(iduserprofile) != -1" (click)="showninebox()" class="cardResumen">
+                        <mat-card class="mat-elevation-z4 card-general">
+                            <mat-card-header>
+                                <mat-card-title>
+                                    <mat-icon color="primary"  class="icontitle">mail_outline</mat-icon><br>
+                                    Nine Box</mat-card-title>
+                            </mat-card-header>
+                            <mat-card-content>
+                                
+                            </mat-card-content>
+                            <mat-card-actions>
+                                <p>Conoce el potencial de tu equipo</p>
+                            </mat-card-actions>
+                        </mat-card>
+                    </div>
+                    <!-- <pre>bIsEvaluated : {{bIsEvaluated | json  }}</pre>
+                    <pre>bIsEvaluator : {{bIsEvaluator | json  }}</pre>
+                    <pre>bIsManager   : {{bIsManager | json  }}</pre> -->
+                </div>
+            </div>
+
+        </mat-accordion>
+    </div>
+</div>

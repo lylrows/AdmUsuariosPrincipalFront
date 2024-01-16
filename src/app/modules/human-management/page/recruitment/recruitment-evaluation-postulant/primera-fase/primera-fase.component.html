@@ -1,0 +1,190 @@
+<div class="content">
+    <div class="divMain">
+        <div class="content__multitest">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">1. Resultados Multitest:</h4>
+            <div style="width: 100%;margin-top: 10px;" class="multitest-resposive">
+                <div style="width: 70%;float: left !important;" class="child-multitest-responsive">
+                    <div *ngIf="loadMultitest">
+                        <div echarts class="show-deskptop" [options]="_chartOptionObj" id="echartobjcontainer" style="height:350px;"  [autoResize]="true">
+                        </div>
+                        <div echarts class="show-responsive" [options]="_chartOptionObjResponsive" id="echartobjcontainerR" style="height:350px;"  [autoResize]="true">
+                        </div>
+                    </div>
+                    <div *ngIf="!loadMultitest">
+                        <p>No se completó el multitest </p>
+                    </div>
+                </div>
+                <div style="width: 25%;float: right;vertical-align: middle;" class="child-multitest-responsive">
+                    <table style="border-collapse: collapse; width: 100%; margin: 0 auto;font-size: 12px;">
+                        <thead style="background-color: #f3db8b;">
+                            <tr>
+                                <th colspan="2"
+                                    style="background-color: #f3db8b;border:solid; border-width:1px; padding:5px; width:20%">
+                                    Leyenda</th>
+                            </tr>
+                        </thead>
+                        <tbody style="background-color: #fff">
+                            <tr>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Inferior</td>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">1</td>
+                            </tr>
+                            <tr>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Promedio
+                                    Inferior
+                                </td>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">2</td>
+                            </tr>
+                            <tr>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Promedio</td>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">3</td>
+                            </tr>
+                            <tr>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Promedio
+                                    Superior
+                                </td>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">4</td>
+                            </tr>
+                            <tr>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Superior</td>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">5</td>
+                            </tr>
+                            <tr>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Muy Superior
+                                </td>
+                                <td style="border:solid; border-width:1px; text-align:center;padding:5px;">6</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div> 
+            </div>
+        </div> <br>
+        <div style="width: 100%">
+            <table style="border-collapse: collapse; width: 100%; margin: 0 auto;font-size: 12px;">
+                <thead style="background-color: #f3db8b;">
+                    <tr>
+                        <th style="background-color: #f3db8b;border:solid; border-width:1px; padding:5px; width:30%">
+                            Niveles de Inteligencia</th>
+                        <th style="background-color: #f3db8b;border:solid; border-width:1px; padding:5px; width:70%">
+                            Interpretación</th>
+                    </tr>
+                </thead>
+                <tbody style="background-color: #fff">
+                    <tr>
+                        <td style="font-weight: bold; border:solid; border-width:1px; text-align:center;padding:5px;">Aptitud Verbal</td>
+                        <td style="border:solid; border-width:1px; text-align:left;padding:5px;">Capacidad de transmitir ideas, de manera clara y mostrar un buen nivel de desenvolvimiento linguistico</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; border:solid; border-width:1px; text-align:center;padding:5px;">Aptitud Númerica</td>
+                        <td style="border:solid; border-width:1px; text-align:left;padding:5px;">Capacidad de manejar operaciones numéricas. Es la habilidad de conceptualizar y resolver problemas matemáticos.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; border:solid; border-width:1px; text-align:center;padding:5px;">Aptitud Espacial</td>
+                        <td style="border:solid; border-width:1px; text-align:left;padding:5px;">Capacidad de relacionar, concebir e imaginar figuras, organizar, manejar coherencia en el espacio.</td>
+                    </tr>
+                    <tr>
+                        <td style="font-weight: bold; border:solid; border-width:1px; text-align:center;padding:5px;">Aptitud Abstracta</td>
+                        <td style="border:solid; border-width:1px; text-align:left;padding:5px;">Capacidad de separar conceptos para que, a través de la imaginación se pueda plantear escenarios diferentes y brindar una solución. Capacidad de imaginación, creatividad.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div> 
+        <div class="content__evaluation">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">2. Evaluación de competencias:  
+                <mat-icon (click)="openModal()" color="white" title="Ver Definiciones" style="font-size: 16pt; cursor: pointer;">library_books</mat-icon>
+            </h4>
+            <app-evaluation-proficiency [person]="person" [evaluationProficiency]="evaluationProficiency"
+                [evaluador]="evaluador" (updateevaluation)="updateproficiency.emit(true)">
+            </app-evaluation-proficiency>
+        </div>
+
+        <div class="content__evaluation">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">3. Evaluación de fortalezas:</h4>
+            <app-evaluation-rating [person]="person" [evaluador]="evaluador" [evaluationRating]="evaluationRating"
+                (updateevaluation)="updaterating.emit(true)"></app-evaluation-rating>
+        </div>
+
+        <div class="content__evaluation">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">4. Pruebas adicionales:</h4>
+            <app-evaluation-test [list]="listEvalTest" [idEvaluation]="idEvaluation" [evaluador]="evaluador"  [person]="person" 
+                (updateevaluation)="getEvaluationsTest()"></app-evaluation-test>
+        </div>
+
+        <div class="content__notas">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">5. Comentarios:</h4>
+            <div class="message"
+                style="background: #f1f1f1 !important; display: flex; text-align: center; padding: 8px 16px;">
+                <h2 class="item_message font-message">Usuario</h2>
+                <h2 class="item_message font-message">Comentario</h2>
+                <h2 class="item_date font-message">Fecha de registro</h2>
+            </div>
+            <div class="content-messages">
+                <div class="message" *ngFor="let item of notas">
+                    <span class="item_user">{{item.autor}}</span>
+                    <span class="item_message">{{item.descripcion}}</span>
+                    <span class="item_date">{{item.dateRegister | date:'dd/MM/YYYY hh:mm'}}</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="perfilesGerenteLiderRRHH.indexOf(nid_profile) != -1">
+            <div *ngIf="person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'" class="content_comentarios">
+                <h5 style="font-size: 14px !important;" *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - primera fase'">Ingresar
+                    comentario:</h5>
+                <textarea [(ngModel)]="notes.descripcion" name="" id="" cols="30" rows="5" maxlength="500"></textarea>
+                <div class="button-enviar">
+                    <button
+                        (click)="createNotes()" mat-raised-button color="primary">Grabar
+                        comentario</button>
+                </div>
+            </div>
+        </div>
+        <div class="content_buttons" *ngIf="perfilesGerenteLiderRRHH.indexOf(nid_profile) != -1" >
+            
+                <button 
+                    *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - primera fase'"
+                    (click)="aprovedEvaluation()" mat-raised-button color="primary"
+                    >Aprobar y Continuar</button>
+                <button 
+                    *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - primera fase'"
+                    (click)="rejectEvaluation()" mat-raised-button color="primary"
+                    >Terminar reclutamiento</button>
+                <button *ngIf="person != undefined" (click)="getDetailPath(person.idEvaluation)" mat-button
+                    color="warn">Cancelar</button>           
+        </div>
+    </div>
+</div>
+
+<ng-template #modalDisclaimer let-modal>
+    <div class="modal-header">
+        <h3 class="modal-title pull-left title-alignet">DETALLE DE COMPETENCIAS</h3>
+        <button type="button" class="close" aria-label="Close" (click)="AccionEnvioPoliza(false);">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="container text-center">
+            <div class="form-horizontal">
+              <br>
+              <div class="form-group" style="height: 500px;">
+                <iframe id="inlineFrameExample" name="inlineFrameExample" width="930px" height="500px" frameborder="0" marginwidth="0" marginheight="0"
+                scrolling="no" style="border:none !important; border-width:1px; margin-bottom:5px; max-width: 100%;"
+                allowfullscreen [src]="rutaHTMLPoliticasPrivacidad"></iframe>
+              </div>
+              <br>
+            </div>
+          </div>
+    </div>
+    <div class="modal-footer">
+        <div class="container">
+          <div class="row mt-2">
+            <div class="col-sm-0 col-md-3"></div>
+            <div class="col-sm-12 col-md-3">
+              <input (click)="AccionEnvioPoliza(true);" type="button" class="btn btn-primary" value="Aceptar">
+            </div>
+            <div class="col-sm-12 col-md-3">
+              <input (click)="AccionEnvioPoliza(false);" type="button" class="btn btn-primary" value="Rechazar">
+            </div>
+            <div class="col-sm-0 col-md-3"></div>
+          </div>
+        </div>
+      </div>
+</ng-template>

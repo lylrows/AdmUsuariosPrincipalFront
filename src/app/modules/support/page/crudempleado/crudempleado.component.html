@@ -1,0 +1,145 @@
+<form class="filter" [formGroup]="formFilter">
+  <div class="filter__inputs">
+    <mat-form-field>
+      <mat-label>Documento :</mat-label>
+      <input formControlName="sidentification" onkeypress="return /[0-9, ]/i.test(event.key)" autocomplete="off" placeholder="Escribir Documento" matInput />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nombre Completo :</mat-label>
+      <input formControlName="sfullname" onkeypress="return /[a-zA-ZñÑáéíóúÁÉÍÓÚ, ]/i.test(event.key)" autocomplete="off" placeholder="Escribir nombre" matInput />
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Empresa</mat-label>
+      <mat-select formControlName="nid_company" (selectionChange)="changeCompany($event.value)">
+        <mat-option *ngFor="let item of company" [value]="item.nid_company">{{
+          item.sdescription
+          }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Cargo</mat-label>
+      <mat-select formControlName="nid_position">
+        <mat-option *ngFor="let item of position" [value]="item.nid_charge">{{ item.snamecharge }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Situación</mat-label>
+      <mat-select formControlName="nid_state">
+        <mat-option value="0">Todos</mat-option>
+        <mat-option value="24">Activo</mat-option>
+        <mat-option value="23">Cesado</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="filter__buttons">
+    <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" (click)="Filter()">Buscar</button>
+    <button mat-raised-button style="background-color: #FDB930;" (click)="resetFilter()">Limpiar</button>
+  </div>
+</form>
+
+<div class="content_card" *ngFor="let item of employeeDT.data">
+  <div class="content_body" style="padding-left: 10px !important;">
+    <div class="content_first">
+      <div class="flex justify-content-center font-bold" style="text-align: center;">{{item.sfullname}}</div>
+      <div class="flex justify-content-center font-bold" style="text-align: center;">{{item.sidentification}}</div>
+      <div class="flex justify-content-center">
+        <img *ngIf="item.simg != null" style="width: 100px; margin-top: 2%; margin-bottom: 10px;" [src]="item.simg" alt="">
+        <img *ngIf="item.simg == null" style="width: 100px; margin-top: 2%; margin-bottom: 10px;" src="../../../../../assets/images/avatars/avatar.jpg" alt="">
+      </div>
+    </div>
+    <div class="content_second">
+      <div class="font-bold">
+        Empresa
+      </div>
+      <div>
+        {{item.scompany}}
+      </div>
+      <div style="margin-top: 7%;" class="font-bold">
+        Correo
+      </div>
+      <div >
+      <!-- {{item.semail}} -->
+        <div *ngFor='let item of splitTexto(item.semail)'>
+          {{item}}
+        </div>
+      </div>
+    </div>
+    <div class="content_third">
+      <div class="font-bold">
+        Cargo
+      </div>
+      <div>
+        {{item.snamecharge}}
+      </div>
+      <div style="margin-top: 7%;" class="font-bold">
+        Teléfono
+      </div>
+      <div *ngIf="item.phone != null">
+        {{item.phone}}
+      </div>
+      <div *ngIf="item.phone == null">
+        Sin Información
+      </div>
+    </div>
+    <div class="content_four">
+      <div class="font-bold">
+        Área
+      </div>
+      <div>
+        {{item.snamearea}}
+      </div>
+      <div class="font-bold" style="margin-top: 7%;">
+        Ubigeo
+      </div>
+      <div>
+        {{item.subigeo}}
+      </div>
+    </div>
+    <div class="content_five">
+      <div class="font-bold">
+        Fecha Nacimiento
+      </div>
+      <div *ngIf="item.dbirthdate != null">
+        {{ item.dbirthdate | date: 'dd/MM/YYYY'}}
+      </div>
+      <div *ngIf="item.dbirthdate == null">
+        Sin Información
+      </div>
+      <div style="margin-top: 7%;" class="font-bold">
+        Dirección
+      </div>
+      <div *ngIf="item.saddress != null">
+        {{item.saddress}}
+      </div>
+      <div *ngIf="item.saddress == null">
+        Sin Información
+      </div>
+    </div>
+    <div class="content_four" style="padding-left: 8px !important;">
+      <div class="font-bold">
+        Situación
+      </div>
+      <div>
+        {{item.sstate | titlecase}}
+      </div>
+      <div class="font-bold" style="margin-top: 7%;">
+        &nbsp;
+      </div>
+      <div>
+        &nbsp;
+      </div>
+    </div>
+  </div>
+  <div class="content_buttons">
+       <div class="content_action">
+        <button *ngIf="item.sstate != 1" (click)="managementEmployee(item.nid_person,item.nid_employee, false)" mat-raised-button class="dark-blue-400 dark-blue-400-fg">
+          <mat-icon color="white">remove_red_eye</mat-icon>&nbsp;&nbsp;Detalle</button>
+        <button *ngIf="item.sstate != 1" (click)="managementEmployee(item.nid_person,item.nid_employee, true)" mat-raised-button class="dark-blue-400 dark-blue-400-fg">
+          <mat-icon color="white">edit</mat-icon>&nbsp;&nbsp;Editar</button>
+        <button *ngIf="item.sstate != 1" mat-raised-button class="dark-blue-400 dark-blue-400-fg">
+          <mat-icon color="white">block</mat-icon>&nbsp;&nbsp;Anular</button>
+       </div>
+  </div>
+</div>
+<mat-paginator (page)="pageChanged($event)" aria-label="Select page" [length]="formFilter.controls.totalItems" [pageSizeOptions]="[10, 15, 20]" [pageIndex]="currentPage" [pageSize]="pageSize"></mat-paginator>
+

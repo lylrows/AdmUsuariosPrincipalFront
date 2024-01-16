@@ -1,0 +1,151 @@
+<mat-card class="content__evaluation_position">
+    <div class="content__form" *ngIf="model != undefined">
+        <div class="content__form">
+          <mat-form-field style="flex-basis: 100%;" class="form-input example-full-width">
+            <mat-label>Evaluado:</mat-label>
+            <input [(ngModel)]="model.evaluated" matInput>
+          </mat-form-field>
+          <mat-form-field style="flex-basis: 300px;" class="form-input example-full-width">
+            <mat-label>Empresa:</mat-label>
+            <input [(ngModel)]="model.company" matInput>
+          </mat-form-field>
+          <mat-form-field style="flex-basis: 300px;" class="form-input example-full-width">
+            <mat-label>Área:</mat-label>
+            <input [(ngModel)]="model.area" matInput>
+          </mat-form-field>
+          <mat-form-field style="flex-basis: 300px;" class="form-input example-full-width">
+            <mat-label>Fecha de ingreso:</mat-label>
+            <input [matDatepicker]="datepickerini" [(ngModel)]="model.dimissionDate" matInput>
+            <mat-datepicker-toggle matSuffix [for]="datepickerini"></mat-datepicker-toggle>
+            <mat-datepicker #datepickerini>
+              <mat-datepicker-actions>
+                <button mat-button matDatepickerCancel>Cancel</button>
+                <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+              </mat-datepicker-actions>
+            </mat-datepicker>
+          </mat-form-field>
+          <mat-form-field style="flex-basis: 300px;" class="form-input example-full-width">
+            <mat-label>Cargo actual:</mat-label>
+            <input [(ngModel)]="model.actualPosition" matInput>
+          </mat-form-field>
+          <mat-form-field style="flex-basis: 300px;" class="form-input example-full-width">
+            <mat-label>Cargo al que postula:</mat-label>
+            <input [(ngModel)]="model.postulatedPosition" matInput>
+          </mat-form-field>
+          <!-- <mat-form-field style="flex-basis: 300px;" class="form-input example-full-width">
+            <mat-label>Tiempo en el cargo (meses):</mat-label>
+            <input (keypress)="valideKey($event)" [(ngModel)]="model.timeInOffice" matInput>
+          </mat-form-field> -->
+        </div>
+          <div class="content__form" *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - primera fase'">
+            <h4><strong>Cargos asumidos en la empresa:</strong></h4>
+            <mat-form-field style="flex-basis: 100%;" class="form-input example-full-width flex-200">
+              <mat-label>Nombre de cargo:</mat-label>
+              <input matInput [(ngModel)]="cargo.scharge">
+            </mat-form-field>
+            <mat-form-field class="form-input example-full-width flex-200">
+              <mat-label>Mes Inicio:</mat-label>
+              <mat-select  [(ngModel)]="cargo.monthInit">
+                <mat-option *ngFor="let item of listMonthsIni" [value]="item.id">{{item.value}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field  class="form-input example-full-width flex-200">
+              <mat-label>Año Inicio:</mat-label>
+              <mat-select  [(ngModel)]="cargo.yearInit">
+                <mat-option *ngFor="let item of listYearsIni" [value]="item.id">{{item.value}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field class="form-input example-full-width flex-200">
+              <mat-label>Mes Fin:</mat-label>
+              <mat-select  [(ngModel)]="cargo.monthEnd">
+                <mat-option *ngFor="let item of listMonthsEnd" [value]="item.id">{{item.value}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+            <mat-form-field  class="form-input example-full-width flex-200">
+              <mat-label>Año Fin:</mat-label>
+              <mat-select  [(ngModel)]="cargo.yearEnd">
+                <mat-option *ngFor="let item of listYearsEnd" [value]="item.id">{{item.value}}</mat-option>
+              </mat-select>
+            </mat-form-field> 
+            <div class="divBuscar">
+              <button mat-raised-button color="primary" (click)="addCargo()">Agregar</button>   
+            </div>        
+          </div>
+          <div  class="pr-16 divTable">
+            <table mat-table
+                    [dataSource]="CargosDT"
+                    class="mat-elevation-z8 table" style="width: 100%; max-width: 100%;background-color: #EFEFEF;"
+                    >
+                    <ng-container matColumnDef="cargo">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo</th>
+                      <td
+                          mat-cell
+                          *matCellDef="let row"
+                          matTooltip="{{row.scharge}}"
+                          class="has_label_on_mobile"
+                          data-label="Cargo. : "
+                      >
+                      {{row.scharge}}
+                      </td>
+                      </ng-container>
+                    <ng-container matColumnDef="periodoinicio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Periodo Inicio</th>
+                    <td
+                        mat-cell
+                        *matCellDef="let row"
+                        matTooltip="{{row.pstart}}"
+                        class="has_label_on_mobile"
+                        data-label="Periodo Inicio. : "
+                    >
+                    {{row.pstart}}
+                    </td>
+                    </ng-container>
+                    <ng-container matColumnDef="periodofin">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Periodo Fin</th>
+                    <td
+                        mat-cell
+                        matTooltip="{{row.pend}}"
+                        *matCellDef="let row"
+                        class="has_label_on_mobile"
+                        data-label="Periodo Fin : "
+                    >
+                        {{ row.pend }}
+                    </td>
+                    </ng-container>
+                    <ng-container matColumnDef="meses">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Meses</th>
+                      <td
+                          mat-cell
+                          matTooltip="{{row.months}}"
+                          *matCellDef="let row"
+                          class="has_label_on_mobile"
+                          data-label="Meses : "
+                      >
+                          {{ row.months }}
+                      </td>
+                      </ng-container>
+                    <ng-container matColumnDef="acciones">
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header style="width: 80px !important; text-align: center;">Acción</th>
+                      <td mat-cell 
+                          *matCellDef="let row let i = index"
+                          class="has_label_on_mobile"
+                          data-label="">
+                          <button *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - primera fase'" mat-button class="btn-principal" (click)="EliminarGrado(i)"><mat-icon >delete</mat-icon></button>
+                      </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsCargo; sticky: true" ></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsCargo"></tr>
+                  <tr class="mat-row" *matNoDataRow>
+                      <td class="mat-cell text-center" colspan="5">
+                        No se encontraron cargos asumidos
+                      </td>
+                  </tr>
+            </table>
+            <br>
+          </div>
+          <div style="flex-basis:100%" class="form-input">
+            <button *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - primera fase'" (click)="submit()"
+            mat-raised-button color="primary">Grabar</button>
+          </div>
+    </div>
+</mat-card>

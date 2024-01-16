@@ -1,0 +1,146 @@
+<mat-card-title class="">
+    <div class="card-title-text">{{data.title}}</div>
+    <mat-divider></mat-divider>
+</mat-card-title>
+<mat-dialog-content>
+    <mat-card-content class="height-auto">
+        <form [formGroup]="itemForm" (ngSubmit)="submit()">
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                
+                <!-- <div fxFlex="100" class="pr-16 pt-16">
+                    <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+                        <mat-label>Grupo: </mat-label>
+                        <mat-select [formControl]="itemForm.controls['idgroup']"  >
+                            <mat-option value="">-- SELECCIONE --</mat-option>
+                            <mat-option *ngFor="let gr of groups" [value]="gr.code">
+                                {{ gr.description}}
+
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <small
+                    *ngIf="itemForm.controls['idgroup'].hasError('required') && itemForm.controls['idgroup'].touched"
+                    class="form-error-msg"> El Grupo de la banda salarial es requerido </small>
+                </div> -->
+                <div fxFlex="100" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                      <input matInput name="NameGroup" [formControl]="itemForm.controls['namegroup']" placeholder="Grupo" maxlength="100"
+                        onkeypress="return /[a-z, ]/i.test(event.key)" autocomplete="off" >
+                    </mat-form-field>
+                    <small *ngIf="itemForm.controls['namegroup'].hasError('required') && itemForm.controls['namegroup'].touched"
+                      class="form-error-msg"> El Grupo es requerido </small>
+                    <small *ngIf="itemForm.controls['namegroup'].hasError('maxlength') && itemForm.controls['namegroup'].touched"
+                      class="form-error-msg"> El Grupo no puede contener mas de
+                      {{itemForm.controls['namegroup'].errors.maxlength.requiredLength}} caracteres </small>
+                  </div>
+                  
+                <div fxFlex="50" class="pr-16 pt-16">
+                  <mat-form-field class="full-width">
+                      <input matInput name="namecategory" [formControl]="itemForm.controls['namecategory']" placeholder="Categoria"
+                          maxlength="20" type="text">
+                  </mat-form-field>
+                  <small
+                      *ngIf="itemForm.controls['namecategory'].hasError('required') && itemForm.controls['namecategory'].touched"
+                      class="form-error-msg">La categoría es requerida </small>
+                      <small
+                          *ngIf="itemForm.controls['namecategory'].hasError('maxlength') && itemForm.controls['namecategory'].touched"
+                          class="form-error-msg">La categoría no puede contener mas de
+                          {{itemForm.controls['namecategory'].errors.maxlength.requiredLength}} caracteres </small>
+                    <small
+                        *ngIf="itemForm.controls['namecategory'].hasError('pattern') && itemForm.controls['namecategory'].touched"
+                        class="form-error-msg">La categoría tiene caracteres inválidos </small>
+                </div>
+                <div fxFlex="50" class="pr-16 pt-16">
+                    <mat-form-field class="full-width">
+                        <input matInput name="points" [formControl]="itemForm.controls['points']" placeholder="Punto"
+                            maxlength="50" type="text">
+                    </mat-form-field>
+                    <small
+                        *ngIf="itemForm.controls['points'].hasError('required') && itemForm.controls['points'].touched"
+                        class="form-error-msg"> El Punto es requerido </small>
+                        <small
+                            *ngIf="itemForm.controls['points'].hasError('maxlength') && itemForm.controls['points'].touched"
+                            class="form-error-msg"> El Punto no puede contener mas de
+                            {{itemForm.controls['points'].errors.maxlength.requiredLength}} caracteres </small>
+                            <small
+                                *ngIf="itemForm.controls['points'].hasError('pattern') && itemForm.controls['points'].touched"
+                                class="form-error-msg"> El Punto tiene caracteres inválidos</small>
+                </div>
+                <div fxFlex="50" class="pr-16 pt-16 container-amount">
+                    <mat-form-field class="full-width">
+                        <!-- <input matInput name="minimunpoint" [formControl]="itemForm.controls['minimunpoint']" placeholder="Punto Mínimo" maxlength="50" > -->
+
+                        <input matInput  class="amount-right-align" placeholder="0" 
+                            
+                            numeric decimals="2"
+                            [formControl]="itemForm.controls['minimunpoint']" placeholder="Punto Mínimo" maxlength="10">
+                        <span matPrefix>S/.&nbsp;</span>
+                        <!-- <span matSuffix>.00</span> -->
+                    </mat-form-field>
+                    <small
+                        *ngIf="itemForm.controls['minimunpoint'].hasError('required') && itemForm.controls['minimunpoint'].touched"
+                        class="form-error-msg"> El Punto Mínimo es requerido </small>
+                </div>
+                <div fxFlex="50" class="pr-16 pt-16 container-amount">
+                    <mat-form-field class="full-width">
+                        <!-- <input matInput name="minimunpoint" [formControl]="itemForm.controls['minimunpoint']" placeholder="Punto Mínimo" maxlength="50" > -->
+
+                        <input matInput  class="amount-right-align" placeholder="0" 
+                        numeric decimals="2"
+                            [formControl]="itemForm.controls['middlepoint']" placeholder="Punto Medio" maxlength="10">
+                        <span matPrefix>S/.&nbsp;</span>
+                        <!-- <span matSuffix>.00</span> -->
+                    </mat-form-field>
+                    <small
+                        *ngIf="itemForm.controls['middlepoint'].hasError('required') && itemForm.controls['middlepoint'].touched"
+                        class="form-error-msg"> El Punto Medio es requerido </small>
+                </div>
+                <div fxFlex="50" class="pr-16 pt-16 container-amount">
+                    <mat-form-field class="full-width">
+                        <!-- <input matInput name="minimunpoint" [formControl]="itemForm.controls['minimunpoint']" placeholder="Punto Mínimo" maxlength="50" > -->
+
+                        <input matInput  class="amount-right-align" placeholder="0"  
+                        numeric decimals="2"
+                            [formControl]="itemForm.controls['maximunpoint']" placeholder="Punto Máximo" maxlength="10">
+                        <span matPrefix>S/.&nbsp;</span>
+                        <!-- <span matSuffix>.00</span> -->
+                    </mat-form-field>
+                    <small
+                        *ngIf="itemForm.controls['maximunpoint'].hasError('required') && itemForm.controls['maximunpoint'].touched"
+                        class="form-error-msg"> El Punto Máximo es requerido </small>
+                </div>
+                <div fxFlex="50" class="pr-16 pt-16 container-amount">
+                    <mat-form-field class="full-width">
+                        <!-- <input matInput name="minimunpoint" [formControl]="itemForm.controls['minimunpoint']" placeholder="Punto Mínimo" maxlength="50" > -->
+
+                        <input matInput  class="amount-right-align" placeholder="0"  
+                        numeric decimals="2"
+                            [formControl]="itemForm.controls['bandwidth']" placeholder="Amplitud de Banda" maxlength="3">
+                        <span matPrefix>%&nbsp;</span>
+                        <!-- <span matSuffix>.00</span> -->
+                    </mat-form-field>
+                    <small
+                        *ngIf="itemForm.controls['bandwidth'].hasError('required') && itemForm.controls['bandwidth'].touched"
+                        class="form-error-msg"> La amplitud de banda es requerido </small>
+                </div>                
+               
+                <div fxFlex="50" class="pt-16 pr-16">
+                    <mat-slide-toggle [formControl]="itemForm.controls['active']">Activo</mat-slide-toggle>
+                </div>
+                
+                
+                <!-- <button type="button" (click)="getFormValidationErrors()"> validar</button> -->
+
+
+                <mat-divider></mat-divider>
+                <div fxFlex="100" class="filter__buttons mt-16">
+                    <button mat-raised-button color="primary" class="dark-blue-400 dark-blue-400-fg mr-4"
+                        [disabled]="itemForm.invalid">Guardar</button>
+                    <span fxFlex></span>
+                    <button mat-button color="warn" class="dark-blue-100 dark-blue-100-fg ml-4" type="button"
+                        (click)="dialogRef.close(false)">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </mat-card-content>
+</mat-dialog-content>

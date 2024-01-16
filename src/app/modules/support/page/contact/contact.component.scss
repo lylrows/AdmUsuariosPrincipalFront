@@ -1,0 +1,29 @@
+.material-icons{
+    font-size: 17px;
+}
+
+.btn-grid{
+  background-color: #fdb930;
+  color: #ffffff;
+}
+.btn-add{
+  background-color: #cddcea !important;
+  color: #343a67 !important;
+  font-weight: 500 !important;
+}
+
+
+/*
+  PANTONE
+
+  #6c7cac=> 108, 124, 172  => Oscuro
+  #8cadda=> 140, 173, 218  => Medio
+  #cddcea=> 205, 220, 234  => Claro  
+
+*/
+@media only screen and (max-device-width: 480px) {
+  .mat-table .mat-cell:first-child {
+    padding: 0px 4px 0 16px !important;
+    text-align: right !important;
+  }
+}

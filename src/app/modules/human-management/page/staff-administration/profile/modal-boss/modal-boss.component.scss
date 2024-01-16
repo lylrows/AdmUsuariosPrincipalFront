@@ -1,0 +1,22 @@
+@media only screen and (max-width: 768px) {
+  .button-mobile {
+    width: 100% !important;
+    max-width: inherit !important;
+  }
+}
+
+@media only screen and (max-device-width: 480px) {
+    .filter__buttons{ 
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+        max-height: none !important;
+    }
+    .mat-option {
+        font-size: 0.8em !important;
+    }
+    ::ng-deep .mat-select-value-text {
+        white-space: normal !important;
+        font-size: 0.8em !important;
+    }
+}

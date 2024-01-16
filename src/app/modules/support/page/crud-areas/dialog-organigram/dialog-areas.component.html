@@ -1,0 +1,68 @@
+<mat-card-title class="">
+  <h1 matDialogTitle>{{data.title}}</h1>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-card-content>
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="100"  class="pr-16 mb-5">
+        <mat-checkbox [(ngModel)]="checkSuperior" [checked]="checkSuperior" (change)="check($event.checked)">Tiene área superior?</mat-checkbox>
+      </div>
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Empresa</mat-label>
+          <mat-select [formControl]="itemForm.controls['idEmpresa']" (selectionChange)="changeEmpresa($event)">
+            <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small 
+        *ngIf="itemForm.controls['idEmpresa'].hasError('required') && itemForm.controls['idEmpresa'].touched" 
+        class="form-error-msg"> Empresa es obligatorio </small>
+      </div>
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Gerencia</mat-label>
+          <mat-select [disabled]="disabledGerencia" [formControl]="itemForm.controls['idGerencia']" (selectionChange)="changeGerencia($event)">
+            <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small 
+        *ngIf="itemForm.controls['idGerencia'].hasError('required') && itemForm.controls['idGerencia'].touched" 
+        class="form-error-msg"> Gerencia es obligatorio </small>
+      </div>
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Área Superior</mat-label>
+          <mat-select [formControl]="itemForm.controls['idUpperArea']">
+            <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+  
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Nombre Área</mat-label>
+          <input
+          matInput
+          (keypress)="lettersOnly($event)" 
+          name="Nombre Área"
+          [formControl]="itemForm.controls['nameArea']"
+          placeholder="Nombre Área"
+          maxlength="100">
+        </mat-form-field>
+        <small 
+        *ngIf="itemForm.controls['nameArea'].hasError('required') && itemForm.controls['nameArea'].touched" 
+        class="form-error-msg"> Nombre de área es obligatorio </small>
+      </div>
+      <div fxFlex="50"  class="pt-16 pr-16">
+        <mat-slide-toggle [formControl]="itemForm.controls['active']">Activo</mat-slide-toggle>
+      </div>
+  
+      <div fxFlex="100" class="filter__buttons mt-16">
+        <button mat-button color="primary" class="dark-blue-400 dark-blue-400-fg mr-4" [disabled]="itemForm.invalid">Guardar</button>
+        <span fxFlex></span>
+        <button mat-button color="danger" class="dark-blue-100 dark-blue-100-fg ml-4" type="button" (click)="dialogRef.close(false)">Cancel</button>
+      </div>
+    </div>
+    </form>
+</mat-card-content>

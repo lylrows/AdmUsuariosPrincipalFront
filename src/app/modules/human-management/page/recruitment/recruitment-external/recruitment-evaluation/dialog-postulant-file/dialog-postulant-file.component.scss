@@ -1,0 +1,485 @@
+button{
+    width: 100%;
+}
+.titulo-archivo{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: Ellipsis;
+}
+.btn-grupofe{
+    background-color: #fdb930;
+    color: #ffffff;
+  }
+.mat-button-disabled{
+    opacity: 0.6 !important;
+  }
+
+
+  .img-prev{
+    width:250px;
+    height:250px;
+}
+
+
+button{
+    width: 100%;
+}
+.titulo-archivo{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: Ellipsis;
+}
+.btn-grupofe{
+    background-color: #fdb930;
+    color: #ffffff;
+  }
+  .height-auto{
+      height:auto;
+  }
+  .height-auto::-webkit-scrollbar {
+    height: 3px !important;
+    width: 3px !important;
+}
+
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.class-disabled {
+    pointer-events: none;
+}
+
+.class-disabled-disabled {
+    pointer-events: none;
+    opacity: 0.4;
+}
+
+.required-document::before{
+    content: '';
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    border-radius: 30px;
+    border: 1px solid #FB4747;
+    // background-color: transparent;
+    position: absolute;
+    top: -30px;
+    left: -1px;
+    box-shadow: 0 3px 8px #FB4747;
+ }
+
+ app-documento-adjunto {
+    position: relative;
+ }
+
+ .editar {
+    width: 30px;
+    height: 35px;
+    padding: 0px 0px 15px 0px !important;
+  }
+      
+  .editar svg {
+    width: 23px;
+    height: 23px;
+  }
+@media (min-width: 150px) {
+    .col-sm-auto {
+      flex: 0 0 auto;
+      width: auto;
+    }
+    .col-sm-1 {
+        flex: 0 0 auto;
+        width: 8.333333%;
+    }
+    .col-sm-2 {
+        flex: 0 0 auto;
+        width: 16.666667%;
+    }
+    .col-sm-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+    .col-sm-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+    .col-sm-5 {
+        flex: 0 0 auto;
+        width: 41.666667%;
+    }
+    .col-sm-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+    .col-sm-7 {
+        flex: 0 0 auto;
+        width: 58.333333%;
+    }
+    .col-sm-8 {
+        flex: 0 0 auto;
+        width: 66.666667%;
+    }
+    .col-sm-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+    .col-sm-10 {
+        flex: 0 0 auto;
+        width: 83.333333%;
+    }
+    .col-sm-11 {
+        flex: 0 0 auto;
+        width: 91.666667%;
+    }
+    .col-sm-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    .div-btn-file{
+        padding-right: 0;
+    }
+  }
+  @media (min-width: 576px) {
+    .col-md-auto {
+      flex: 0 0 auto;
+      width: auto;
+    }
+    .col-md-1 {
+        flex: 0 0 auto;
+        width: 8.333333%;
+    }
+    .col-md-2 {
+        flex: 0 0 auto;
+        width: 16.666667%;
+    }
+    .col-md-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+    .col-md-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+    .col-md-5 {
+        flex: 0 0 auto;
+        width: 41.666667%;
+    }
+    .col-md-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+    .col-md-7 {
+        flex: 0 0 auto;
+        width: 58.333333%;
+    }
+    .col-md-8 {
+        flex: 0 0 auto;
+        width: 66.666667%;
+    }
+    .col-md-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+    .col-md-10 {
+        flex: 0 0 auto;
+        width: 83.333333%;
+    }
+    .col-md-11 {
+        flex: 0 0 auto;
+        width: 91.666667%;
+    }
+    .col-md-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+    .div-btn-file{
+        padding-right: 8px;
+    }
+  }
+  @media (min-width: 992px) {
+    .col-lg-auto {
+      flex: 0 0 auto;
+      width: auto;
+    }
+    .col-lg-1 {
+        flex: 0 0 auto;
+        width: 8.333333%;
+    }
+    .col-lg-2 {
+        flex: 0 0 auto;
+        width: 16.666667%;
+    }
+    .col-lg-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+    .col-lg-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+    .col-lg-5 {
+        flex: 0 0 auto;
+        width: 41.666667%;
+    }
+    .col-lg-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+    .col-lg-7 {
+        flex: 0 0 auto;
+        width: 58.333333%;
+    }
+    .col-lg-8 {
+        flex: 0 0 auto;
+        width: 66.666667%;
+    }
+    .col-lg-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+    .col-lg-10 {
+        flex: 0 0 auto;
+        width: 83.333333%;
+    }
+    .col-lg-11 {
+        flex: 0 0 auto;
+        width: 91.666667%;
+    }
+    .col-lg-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+  }
+  @media (min-width: 1200px) {
+    .col-xl-auto {
+      flex: 0 0 auto;
+      width: auto;
+    }
+    .col-xl-1 {
+        flex: 0 0 auto;
+        width: 8.333333%;
+    }
+    .col-xl-2 {
+        flex: 0 0 auto;
+        width: 16.666667%;
+    }
+    .col-xl-3 {
+        flex: 0 0 auto;
+        width: 25%;
+    }
+    .col-xl-4 {
+        flex: 0 0 auto;
+        width: 33.333333%;
+    }
+    .col-xl-5 {
+        flex: 0 0 auto;
+        width: 41.666667%;
+    }
+    .col-xl-6 {
+        flex: 0 0 auto;
+        width: 50%;
+    }
+    .col-xl-7 {
+        flex: 0 0 auto;
+        width: 58.333333%;
+    }
+    .col-xl-8 {
+        flex: 0 0 auto;
+        width: 66.666667%;
+    }
+    .col-xl-9 {
+        flex: 0 0 auto;
+        width: 75%;
+    }
+    .col-xl-10 {
+        flex: 0 0 auto;
+        width: 83.333333%;
+    }
+    .col-xl-11 {
+        flex: 0 0 auto;
+        width: 91.666667%;
+    }
+    .col-xl-12 {
+        flex: 0 0 auto;
+        width: 100%;
+    }
+  }
+
+
+  mat-radio-group{
+    padding-left: 10px;
+  }
+  .mat-radio-button{
+    padding-left: 10px;
+  }
+  .content_form-adicional {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 20px;
+}
+mat-form-field{
+    width: 100%;
+}
+.content__buttons {
+    margin-top: 3%;
+    width: 100%;
+}
+.flex-1 {
+    flex: 1;
+}
+.flex-2 {
+    flex: 2;
+}
+.content__form {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.td-information-aditional {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    height: 60px !important;
+}
+
+.btn-option{
+    max-width: 200px;
+}
+
+@media only screen and (max-device-width: 480px) {
+
+    .responsive-ficha {
+        width: 100% !important;
+    }
+
+    .card-title-text{ margin-bottom: 4px !important;}
+    .filter__buttons{ 
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+        max-height: none !important;
+    }
+    .mat-focus-indicator{
+        line-height: 15px !important;
+        padding: 15px 25px !important;
+        margin-left: 0px !important;
+    }
+
+    .pt-16 {
+        padding-top: 0px!important;
+    }
+
+    .mat-icon{
+        padding-right: 31px !important;
+    }
+    .acordeon-postulant{
+        width: 88vw !important;
+    }
+    .btn-option{
+        max-width: 100% !important;
+    }
+    .mat-radio-group{
+        width: 100%;
+        display: block;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+    .mat-radio-button{
+        padding-left: 10px;
+        width: 100%;
+        padding-bottom: 10px;
+    }
+  }
+
+  @media screen and (max-width:320px) {
+    .acordeon-postulant{
+        width: 85vw !important;
+    }
+  }
+
+  .acordeon-postulant{
+    width: 96vw;
+  }
+
+  
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+  .button-mobile {
+    width: 100% !important;
+    max-width: inherit !important;
+  }
+  .acordeon-postulant{
+    width: 90vw;
+  }
+}
+
+.button-standar{
+    max-width: 200px;
+}
+
+.mat-expansion-panel-spacing {
+    margin-top: 1px !important;
+}
+
+mat-label.twolines, mat-label.threelines {
+    white-space: normal !important;
+}
+
+input.mat-input-element.twolines {
+    margin-top: 5px;
+}
+
+div.tooltipmobile {
+    display: none;
+}
+
+@media screen and (max-width:780px) {
+    input.mat-input-element.twolines {
+        margin-top: 8px;
+    }
+    input.mat-input-element.threelines {
+        margin-top: 16px;
+    }
+}
+@media screen and (max-width:500px) {
+    input.mat-input-element.twolines {
+        margin-top: 10px;
+    }
+    input.mat-input-element.threelines {
+        margin-top: 21px;
+    }
+}
+@media screen and (max-width:400px) {
+    input.mat-input-element.twolines {
+        margin-top: 15px;
+    }
+    input.mat-input-element.threelines {
+        margin-top: 26px;
+    }
+}
+
+@media screen and (max-width:599px) {
+    .content__form {
+        margin-top: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+    .content__form:first-child {
+        margin-top: 20px;
+    }
+    div.tooltipmobile {
+        display: block;
+        margin-left: 5px;
+    }
+}

@@ -1,0 +1,18 @@
+.header {
+    h1 {
+        text-align: center;
+        color: #4f66a8;
+        font-weight: 600;
+    }
+}
+
+.comentario {
+    display: flex;
+    margin: 10px;
+}
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+    margin-top: 20px;
+}

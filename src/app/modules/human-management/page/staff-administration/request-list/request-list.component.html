@@ -1,0 +1,319 @@
+<div style="margin-left: 16px;">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Empresa</mat-label>
+                <mat-select (selectionChange)="changeEmpresa()" [formControl]="bussineFC">
+                    <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Gerencia</mat-label>
+                <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC"
+                  (selectionChange)="changeGerencia()">
+                  <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16">
+             <!-- <mat-form-field appearance="fill">
+            <mat-label>Área</mat-label>
+            <mat-select [disabled]="disabledArea" [formControl]="areaFC">
+                <mat-option *ngFor="let item of areas" [value]="item.id">{{item.nameArea}}</mat-option>
+            </mat-select>
+        </mat-form-field> -->
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Área</mat-label>
+            <mat-select [disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()">
+              <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>SubÁrea</mat-label>
+                <mat-select [disabled]="disabledSubArea" [formControl]="subAreaFC">
+                  <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Estado</mat-label>
+                <mat-select [formControl]="estado">
+                    <mat-option value="1">Pendiente</mat-option>
+                    <mat-option value="2">Aceptado</mat-option>
+                    <mat-option value="3">Rechazado</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Periodo Solicitud</mat-label>
+                <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                    <input matStartDate formControlName="start" placeholder="Inicio" disabled>
+                    <input matEndDate formControlName="end" placeholder="Fin" disabled>
+                    <!-- (dateChange)="addEvent()" -->
+                </mat-date-range-input>
+                <!-- <mat-hint>Periodo Solicitud</mat-hint> -->
+                <mat-icon matDatepickerToggleIcon (click)="clearDate($event)" *ngIf="range.controls.start.value != ''">clear
+                </mat-icon>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+            </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Tipo Solicitud</mat-label>
+                <mat-select [formControl]="TipoSolicitud" (selectionChange)="changeTipoSolicitud()">
+                    <mat-option value="12">Modificacion de Datos</mat-option>
+                    <mat-option value="13">Consulta de Documentos</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16">
+            <mat-form-field class="w-100" appearance="fill" *ngIf="TipoSolicitud.value == 0">
+                <mat-label>Tipo Documento</mat-label>
+                <mat-select [disabled]="disabledTipoDocumento" [formControl]="TipoDocumento">
+                </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field class="w-100" appearance="fill" *ngIf="TipoSolicitud.value == 12">
+                <mat-label>Tipo Documento</mat-label>
+                <mat-select [disabled]="disabledTipoDocumento" [formControl]="TipoDocumento">
+                    <mat-option value="1">Dirección</mat-option>
+                    <mat-option value="2">Telefono</mat-option>
+                    <mat-option value="3">Estado Civil</mat-option>
+                    <mat-option value="4">Licencias</mat-option>
+                    <mat-option value="5">Estudio</mat-option>
+                    <mat-option value="6">ESPOSA/CONVIVIENTE</mat-option>
+                    <mat-option value="7">Hijos</mat-option>
+                </mat-select>
+            </mat-form-field>
+    
+            <mat-form-field class="w-100" appearance="fill" *ngIf="TipoSolicitud.value == 13">
+                <mat-label>Tipo Documento</mat-label>
+                <mat-select [disabled]="disabledTipoDocumento" [formControl]="TipoDocumento">
+                    <mat-option value="8">Boleta de Pago</mat-option>
+                    <mat-option value="9">Certificado de 5ta Categoria</mat-option>
+                    <mat-option value="10">Certificado de trabajo</mat-option>
+                    <mat-option value="11">Certificado CTS</mat-option>
+                    <mat-option value="12">Certificado de Utilidades</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+</div>
+<div style="margin-left: 16px;">
+    <!-- <div class="inputs">
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Empresa</mat-label>
+            <mat-select (selectionChange)="changeEmpresa()" [formControl]="bussineFC">
+                <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Gerencia</mat-label>
+            <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC"
+              (selectionChange)="changeGerencia()">
+              <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Área</mat-label>
+            <mat-select [disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()">
+              <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          
+    
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>SubÁrea</mat-label>
+            <mat-select [disabled]="disabledSubArea" [formControl]="subAreaFC">
+              <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Estado</mat-label>
+            <mat-select [formControl]="estado">
+                <mat-option value="1">Pendiente</mat-option>
+                <mat-option value="2">Aceptado</mat-option>
+                <mat-option value="3">Rechazado</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Periodo Solicitud</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+                <input matStartDate formControlName="start" placeholder="Inicio" disabled>
+                <input matEndDate formControlName="end" placeholder="Fin" disabled>
+               
+            </mat-date-range-input>
+            
+            <mat-icon matDatepickerToggleIcon (click)="clearDate($event)" *ngIf="range.controls.start.value != ''">clear
+            </mat-icon>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Tipo Solicitud</mat-label>
+            <mat-select [formControl]="TipoSolicitud" (selectionChange)="changeTipoSolicitud()">
+                <mat-option value="12">Modificacion de Datos</mat-option>
+                <mat-option value="13">Consulta de Documentos</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="fill" *ngIf="TipoSolicitud.value == 0">
+            <mat-label>Tipo Documento</mat-label>
+            <mat-select [disabled]="disabledTipoDocumento" [formControl]="TipoDocumento">
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="fill" *ngIf="TipoSolicitud.value == 12">
+            <mat-label>Tipo Documento</mat-label>
+            <mat-select [disabled]="disabledTipoDocumento" [formControl]="TipoDocumento">
+                <mat-option value="1">Dirección</mat-option>
+                <mat-option value="2">Telefono</mat-option>
+                <mat-option value="3">Estado Civil</mat-option>
+                <mat-option value="4">Licencias</mat-option>
+                <mat-option value="5">Estudio</mat-option>
+                <mat-option value="6">ESPOSA/CONVIVIENTE</mat-option>
+                <mat-option value="7">Hijos</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <mat-form-field class="w-100" appearance="fill" *ngIf="TipoSolicitud.value == 13">
+            <mat-label>Tipo Documento</mat-label>
+            <mat-select [disabled]="disabledTipoDocumento" [formControl]="TipoDocumento">
+                <mat-option value="8">Boleta de Pago</mat-option>
+                <mat-option value="9">Certificado de 5ta Categoria</mat-option>
+                <mat-option value="10">Certificado de trabajo</mat-option>
+                <mat-option value="11">Certificado CTS</mat-option>
+                <mat-option value="12">Certificado de Utilidades</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div> -->
+
+    <div class="filter__buttons">
+        <button mat-raised-button color="primary" (click)="getListRequest()">Buscar</button>
+
+        <button mat-raised-button color="warn" (click)="resetFilter()">Limpiar</button>
+
+        <button mat-raised-button color="accent" (click)="export()">Exportar</button>
+    </div>
+    <a id="afile" name="afile" style="display: none;"></a>
+
+</div>
+<div>
+
+    <mat-card class="p-0">
+        <mat-card-content class="p-0">
+            <table mat-table [dataSource]="requestDT" class="w-100">
+                <ng-container matColumnDef="option" sticky>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile opcion" data-label="Opción: ">
+                        <button mat-button
+                            (click)="showDetail(row.nid_request, row.nid_typerequest, row.nstate, row.nid_collaborator, row.dregister)">
+                            <mat-icon color="accent">touch_app</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="scollaborator">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Colaborador</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Colaborador : ">
+                        {{ row.scollaborator }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="fecha">
+                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Solicitud
+                    </th>
+                    <td style="text-align: center;" mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                        data-label="Fecha de Solicitud : ">
+                        {{ row.dregister | date:'dd/MM/YYYY' }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="styperequest">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo de Solicitud</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo de Solicitud : ">
+                        {{ row.styperequest }}
+                    </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="action">
+                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>Acción</th>
+                    <td style="text-align: center;" mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                        data-label="Acción : ">
+                        {{ row.stypeaction}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="section">
+                    <th style="text-align: center;" mat-header-cell *matHeaderCellDef mat-sort-header>Sección</th>
+                    <td style="text-align: center;" mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                        data-label="Sección : ">
+                        {{ row.ssection}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="sapprover">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Aprobador/Rechazado Por</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Aprobador : ">
+                        {{ row.sapprover }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="sstate">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+                        <div class="tooltip">
+                            <img *ngIf="row.nstate === 2" src="../../../../../../assets/images/aprobado.png"
+                                width="32px" alt="">
+                            <img *ngIf="row.nstate === 3" src="../../../../../../assets/images/rechazado.png"
+                                width="32px" alt="">
+                            <img *ngIf="row.nstate === 1" src="../../../../../../assets/images/interrogacion.png"
+                                width="32px" alt="">
+                        </div>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell text-center" colspan="8">
+                        No se encontró Resultados
+                    </td>
+                </tr>
+            </table>
+        </mat-card-content>
+        <!-- <mat-paginator #paginator [pageSizeOptions]="[10, 20, 50]"></mat-paginator> -->
+        <!-- <mat-paginator #paginator [length]="requestFilter.pagination.totalItems" [pageIndex]="currentPage"
+            [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)"
+            aria-label="Select page">
+        </mat-paginator> -->
+11111111111111111
+        <div style="display: flex;
+        justify-content: center;
+        align-items: center;">
+            
+            <!-- <span>Regresar</span> -->
+            <mat-paginator
+            style-paginator
+            showFirstLastButtons
+            [showTotalPages]="3"
+            (changedPageNumber)="changedPageNumber($event)"
+            #paginator
+            [pageIndex]="currentPage"
+            [length]="requestFilter.pagination.totalItems"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="changedPageSize($event)">
+            </mat-paginator>
+            <!-- <span style="padding-left: 15px;">Avanzar</span> -->
+            <!-- [length]="documentFilter.pagination.totalItems" -->
+        </div>
+
+    </mat-card>
+</div>

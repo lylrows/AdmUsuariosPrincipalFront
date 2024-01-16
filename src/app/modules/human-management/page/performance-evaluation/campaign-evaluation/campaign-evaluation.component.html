@@ -1,0 +1,229 @@
+<div class="">
+
+    <div class="header">
+        <div class="header__title">
+            <button routerLink="/humanmanagement/bell" mat-icon-button>
+                <mat-icon>keyboard_backspace</mat-icon>
+            </button>
+            <h1>{{ campaign?.nameCampaign }} </h1>
+        </div>
+        <hr style="width: 100%;">
+        <div class="header__group">
+            <div class="header__group__label">
+                <strong>Fecha Inicio: </strong>
+                <h3>{{ campaign?.startDate }}</h3>
+            </div>
+            <div class="header__group__label">
+                <strong>Fecha Fin: </strong>
+                <h3>{{ campaign?.endDate }}</h3>
+            </div>
+            <div class="header__group__label">
+                <strong>Cantidad de empleados: </strong>
+                <h3>{{ campaign?.cantidadColaboradores }}</h3>
+            </div>
+            <div class="header__group__label">
+                <strong>Estado: </strong>
+                <h3>{{ campaign?.statusName }}</h3>
+            </div>
+        </div>
+    </div>
+    <div class="w-100" style="margin-left: 15px;padding-right: 20px;">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="50" style="padding-right: 5px;">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Empresa</mat-label>
+                    <mat-select (selectionChange)="changeEmpresa()" [formControl]="bussineFC">
+                        <mat-option *ngFor="let item of empresas" [value]="item.nid_company">{{item.sdescription}}
+                        </mat-option>
+                        <!-- <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option> -->
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" style="padding-right: 5px;">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Gerencia</mat-label>
+                    <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC"
+                        (selectionChange)="changeGerencia()">
+                        <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" style="padding-right: 5px;">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Área</mat-label>
+                    <mat-select [disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()">
+                        <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" style="padding-right: 5px;">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>SubÁrea</mat-label>
+                    <mat-select [disabled]="disabledSubArea" [formControl]="subAreaFC">
+                        <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" style="padding-right: 5px;">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Etapas</mat-label>
+                    <mat-select [formControl]="inputFiler">
+                        <!-- <mat-option *ngFor="let item of listnumberAction" [value]="item.code">{{item.name}}</mat-option> -->
+                        <mat-option *ngFor="let item of listnumberAction" [value]="item">{{item.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div class="filter__buttons" style="padding-left: 12px;padding-right: 12px;">
+        <button mat-raised-button color="primary" style="height: 54px;" (click)="search()">Buscar
+            
+        </button>
+        <button mat-raised-button color="warn" style="height: 54px;" (click)="resetFilter()">Limpiar</button>
+        <button (click)="printXlsProgress()" mat-raised-button color="warn">
+            <mat-icon style="color: white; margin: 0px !important">archive</mat-icon>  Reporte de Avance</button>
+        <button mat-raised-button color="warn" (click)="OpenDeleted()">
+            <mat-icon style="color: white; margin: 0px !important">delete_sweep</mat-icon>  Ver eliminados</button>
+        
+        
+    </div>
+
+    <mat-card class="p-0">
+        <mat-card-content class="p-0" style="width: 100%; overflow: auto">
+            <table mat-table [dataSource]="evaluationoDT" matSort class="w-100">
+                <ng-container matColumnDef="view" sticky>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Opciones</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="">
+
+                        <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Desplegar"
+                            matTooltipPosition="right" mat-stroked-button color="accent">
+                            <mat-icon>more_vert</mat-icon>
+                        </button>
+                        <mat-menu #menu="matMenu" xPosition="after">
+                            <button (click)="detail(row)" mat-menu-item>
+                                <mat-icon color="accent">remove_red_eye</mat-icon>
+                                <span>Ver Evaluación</span>
+                            </button>
+
+                            <button (click)="resume(row)" mat-menu-item>
+                                <mat-icon color="accent">assignment</mat-icon>
+                                <span>Ver Resumen</span>
+                            </button>
+                            <button (click)="delete(row)" mat-menu-item>
+                                <mat-icon color="accent">delete</mat-icon>
+                                <span>Eliminar Empleado</span>
+                            </button>
+                        </mat-menu>
+
+
+
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="evaluatedName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Evaluado</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: left;"
+                        data-label="Evaluado : ">
+                        {{ row.evaluatedName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="chargerEvaluated">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo Evaluado</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Cargo Evaluado : ">
+                        {{ row.chargeEvaluated }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="evaluatorName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Evaluador</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Evaluador : ">
+                        {{ row.evaluatorName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="chargerEvaluator">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo Evaluador</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Cargo Evaluador : ">
+                        {{ row.chargeEvaluator }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="timePart">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Etapa</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Etapa : ">
+                        {{ row.timePartDescription }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="numberaction">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sub Etapa</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Sub Etapa : ">
+                        {{ row.numberActionName }}
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell text-center" colspan="7">
+                        No se encontro Evaluaciones
+                    </td>
+                </tr>
+            </table>
+
+        </mat-card-content>
+        <div style="display: flex;
+            justify-content: center;
+            align-items: center;">
+
+            <!-- <span>Regresar</span> -->
+            <mat-paginator style-paginator showFirstLastButtons [showTotalPages]="3"
+                (changedPageNumber)="changedPageNumber($event)" #paginator [pageIndex]="currentPage"
+                [length]="campaignFilter.pagination.totalItems" [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions" (page)="changedPageSize($event)">
+            </mat-paginator>
+            <!-- <span style="padding-left: 15px;">Avanzar</span> -->
+            <!-- [length]="documentFilter.pagination.totalItems" -->
+        </div>
+    </mat-card>
+
+</div>
+
+<mat-drawer #deleted class="sidenav-lateral"class="sidenav-lateral" mode="side" position="end"
+[ngStyle]="{'width': anchoPopup == 50 ? '50%' : (anchoPopup == 70 ? '70%' : '100%') }">
+    <p class="title-modal-lateral">Postulantes eliminados</p>
+    <mat-card class="p-0">
+        <mat-card-content class="p-0" style="width: 100%; overflow: auto">
+            <table mat-table [dataSource]="evaluatedDeletedDT" matSort class="w-100">
+                <ng-container matColumnDef="evaluatedName">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Evaluado</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: left;"
+                        data-label="Evaluado : ">
+                        {{ row.evaluatedName }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="chargerEvaluated">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo Evaluado</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Cargo Evaluado : ">
+                        {{ row.chargeEvaluated }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="scommentdelete">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentario</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Cargo Evaluado : ">
+                        {{ row.scommentdelete }}
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumnsDeleted; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumnsDeleted"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell text-center" colspan="7">
+                        No se encontraron eliminados
+                    </td>
+                </tr>
+            </table>
+        </mat-card-content>
+    </mat-card>
+    <div class="footer__buttons" style="justify-content: flex-start; padding-left: 0!important;">
+        <button (click)="closeDeletebar()" class="btn-primary-cian3" mat-raised-button>Cerrar</button>
+    </div>
+</mat-drawer>
+<a id="afile" name="afile" style="display: none;"></a>

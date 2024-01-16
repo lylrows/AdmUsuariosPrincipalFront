@@ -1,0 +1,435 @@
+<div class="fab-container">
+
+  <button mat-raised-button class="primario" (click)="save()">
+    Guardar y Enviar
+  </button>
+</div>
+<div class="">
+  <div class="w-100">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" class="">
+        <h1 class="titulolistas"><button routerLink="/humanmanagement/bell" mat-icon-button>
+            <mat-icon>keyboard_backspace</mat-icon>
+          </button> {{ title }}</h1>
+      </div>
+    </div>
+  </div>
+  <!-- <hr />  -->
+  <div class="first">
+    <mat-accordion class="w-100" multi>
+      <mat-expansion-panel expanded>
+        <mat-expansion-panel-header>
+          <mat-panel-title> <b class="titulolistas">Información de la Campaña </b></mat-panel-title>
+        </mat-expansion-panel-header>
+        <!-- FIN -->
+        <form [formGroup]="form">
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="100"  class="pr-16">
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Primer Nombre</mat-label>
+                <input formControlName="name" type="text" matInput placeholder="Nombre de la campaña" maxlength="100" autocomplete="off" />
+              </mat-form-field>
+              <mat-error *ngIf="form.controls.name.touched && form.controls.name.invalid">
+                <span *ngIf="form.controls.name.errors.required" class="form-error-msg">Nombre es <strong>requerido</strong></span>
+                <span *ngIf="form.controls['name'].hasError('pattern') && form.controls['name'].touched"
+                  class="form-error-msg"> Solo está permitido numero, letras y caracter (-) </span>
+                <span *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched"
+                  class="form-error-msg"> El Nombre no puede contener mas de {{form.controls['name'].errors.maxlength.requiredLength}} caracteres </span>
+              </mat-error>
+            </div>
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Año</mat-label>
+                <input value=2022 autocomplete="off" placeholder="Escribir año" matInput type="text"
+                  formControlName="year" />
+              </mat-form-field>
+                <mat-error *ngIf="form.controls.year.touched && form.controls.year.invalid">
+                  <span *ngIf="form.controls.year.errors.required" class="form-error-msg">Año es <strong>requerido</strong>
+                  </span>
+                  <span *ngIf="form.controls.year.errors.minlength && !form.controls.year.errors.pattern" class="form-error-msg">Mínimo son 4
+                    <strong>numeros</strong>
+                  </span>
+                  <span *ngIf="form.controls.year.errors.maxlength && !form.controls.year.errors.pattern" class="form-error-msg">Máximo son 4
+                    <strong>numeros</strong>
+                  </span>
+                  <span *ngIf="form.controls.year.errors.pattern" class="form-error-msg">Solo debe ingresar <strong>números</strong>
+                  </span>
+                  <span *ngIf="!form.controls.year.errors.maxlength && !form.controls.year.errors.minlength && form.controls.year.errors.min" class="form-error-msg">Año no debe ser menor al año actual
+                  </span>
+                </mat-error>
+            </div>
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Mes</mat-label>
+                <mat-select formControlName="month">
+                  <mat-option *ngFor="let item of listmonth" [value]="item.code">{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+                <mat-error *ngIf="form.controls.month.touched && form.controls.month.invalid">
+                  <span *ngIf="form.controls.month.errors.required" class="form-error-msg">Mes es <strong>requerido</strong>
+                  </span>
+                </mat-error>
+            </div>
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Fecha Inicio</mat-label>
+                <input formControlName="dateInit" matInput [matDatepicker]="picker" readonly />
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <mat-error *ngIf="form.controls.dateInit.touched && form.controls.dateInit.invalid">
+                <span *ngIf="form.controls.dateInit.errors.required" class="form-error-msg">Fecha Inicio es <strong>requerido</strong>
+                </span>
+              </mat-error>
+            </div>
+            <div fxFlex="50"  class="pr-16">
+              <mat-form-field class="full-width" appearance="fill">
+                <mat-label>Fecha Fin</mat-label>
+                <input matInput formControlName="dateEnd" [matDatepicker]="pickerend" (dateChange)="validEndDate()"
+                  readonly />
+                <mat-datepicker-toggle matSuffix [for]="pickerend"></mat-datepicker-toggle>
+                <mat-datepicker #pickerend></mat-datepicker>
+              </mat-form-field>
+              <mat-error *ngIf="form.controls.dateEnd.touched && form.controls.dateEnd.invalid">
+                <span *ngIf="form.controls.dateEnd.errors.required" class="form-error-msg">Fecha Fin es <strong>requerido</strong>
+                </span>
+              </mat-error>
+            </div>
+          </div>
+          <!-- <div class="inputs">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Nombre</mat-label>
+              <input formControlName="name" type="text" matInput placeholder="Nombre de la campaña" maxlength="100" autocomplete="off" />
+              
+            </mat-form-field>
+            <mat-error *ngIf="form.controls.name.touched && form.controls.name.invalid">
+              <span *ngIf="form.controls.name.errors.required" class="form-error-msg">Nombre es <strong>requerido</strong></span>
+              <span *ngIf="form.controls['name'].hasError('pattern') && form.controls['name'].touched"
+                class="form-error-msg"> Solo está permitido numero, letras y caracter (-) </span>
+              <span *ngIf="form.controls['name'].hasError('maxlength') && form.controls['name'].touched"
+                class="form-error-msg"> El Nombre no puede contener mas de {{form.controls['name'].errors.maxlength.requiredLength}} caracteres </span>
+  
+            </mat-error>
+          </div>
+          <div class="inputs">
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Año</mat-label>
+              <input value=2022 autocomplete="off" placeholder="Escribir año" matInput type="text"
+                formControlName="year" />
+              <mat-error *ngIf="form.controls.year.touched && form.controls.year.invalid">
+                <span *ngIf="form.controls.year.errors.required">Año es <strong>requerido</strong>
+                </span>
+                <span *ngIf="form.controls.year.errors.minlength && !form.controls.year.errors.pattern">Minimo son 4
+                  <strong>numeros</strong>
+                </span>
+                <span *ngIf="form.controls.year.errors.maxlength && !form.controls.year.errors.pattern">Maximo son 4
+                  <strong>numeros</strong>
+                </span>
+                <span *ngIf="form.controls.year.errors.pattern">Solo debe ingresar <strong>numeros</strong>
+                </span>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100" appearance="fill">
+              <mat-label>Mes</mat-label>
+              <mat-select formControlName="month">
+                <mat-option *ngFor="let item of listmonth" [value]="item.code">{{item.name}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="form.controls.month.touched && form.controls.month.invalid">
+                <span *ngIf="form.controls.month.errors.required">Mes es <strong>requerido</strong>
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="inputs">
+            <mat-form-field appearance="fill">
+              <mat-label>Fecha Inicio</mat-label>
+              <input formControlName="dateInit" matInput [matDatepicker]="picker" readonly />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+              <mat-error *ngIf="form.controls.dateInit.touched && form.controls.dateInit.invalid">
+                <span *ngIf="form.controls.dateInit.errors.required">Fecha Inicio es <strong>requerido</strong>
+                </span>
+              </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+              <mat-label>Fecha Fin</mat-label>
+              <input matInput formControlName="dateEnd" [matDatepicker]="pickerend" (dateChange)="validEndDate()"
+                readonly />
+              <mat-datepicker-toggle matSuffix [for]="pickerend"></mat-datepicker-toggle>
+              <mat-datepicker #pickerend></mat-datepicker>
+              <mat-error *ngIf="form.controls.dateEnd.touched && form.controls.dateEnd.invalid">
+                <span *ngIf="form.controls.dateEnd.errors.required">Fecha Fin es <strong>requerido</strong>
+                </span>
+              </mat-error>
+            </mat-form-field>
+          </div> -->
+        </form>
+
+      </mat-expansion-panel>
+      <!-- INICIO - PESTAÑAS  -->
+      <!-- (selectedTabChange)="eventSelectedTab($event)" -->
+      <mat-tab-group>
+        <mat-tab label="Configuración de Cargos">
+          <ng-template mat-tab-label>
+            <span style="color: #7B8EC8;">Configuración de Cargos</span>
+          </ng-template>
+          <span>
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+              <div fxFlex="30" class="pr-16 pt-16">
+                <h2 class="titulolistas" style="margin-top: 14px;"> Configuración de Cargos</h2>
+              </div>
+
+            </div>
+            <div class="inputs">
+              <mat-form-field appearance="fill">
+                <mat-label>Empresa</mat-label>
+                <mat-select (selectionChange)="changeEmpresa()" [formControl]="bussineFC">
+                  <mat-option *ngFor="let item of empresas" [value]="item.nid_company">{{item.sdescription}}
+                  </mat-option>
+                  <!-- <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option> -->
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>Gerencia</mat-label>
+                <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC"
+                  (selectionChange)="changeGerencia()">
+                  <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="inputs">
+              <mat-form-field appearance="fill">
+                <mat-label>Área</mat-label>
+                <mat-select [disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()">
+                  <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+              <mat-form-field appearance="fill">
+                <mat-label>SubÁrea</mat-label>
+                <mat-select [disabled]="disabledSubArea" [formControl]="subAreaFC">
+                  <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+              <div fxFlex="100">
+                <div class="" style="padding-left: 14px;text-align: right !important;">
+                  <mat-checkbox (change)="toggleSelectAllCargos()" class="inbox-toggle-all mt-16"
+                    style="margin-right: 10px;">
+                    Todos
+                  </mat-checkbox>
+                  <button mat-raised-button (click)="Filtrar()"
+                    style="margin-right: 10px;" class="btn_FilterCampaing primario">Filtrar</button>
+                  <button mat-raised-button color="warn" (click)="resetFilter()" class="btn_FilterCampaing">Limpiar</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- AGREGANDO PARA PRUEBAS PERO SE QUEDA -->
+            <div fxLayout="row wrap" fxLayout.lt-sm="column">
+              <div fxFlex="100" class="pr-16 pt-16">
+                <h3 class="pt-16">Cargos Disponibles {{ listPositionsAvailables.length }}</h3>
+
+              </div>
+              <div fxFlex="100" class="pr-16">
+                <!-- flagSelectAll  -->
+                <mat-selection-list [(ngModel)]="selPositionsAvaliables" (selectionChange)="onChange($event)"
+                  [multiple]="true">
+                  <mat-list-option *ngFor="let node of listPositionsAvailables" [selected]="node.isSelected"
+                    [value]="node" style="height: auto;font-size: 14px;padding-bottom: 4px;" class="rows-cargos">
+                    <!-- treegroup -->
+                    <div class="">
+                      <table style="width: 100%;">
+                        <tr>
+                          <td style="width:100px">
+                            <img *ngIf="node.imageCompany != ''" src="{{node.imageCompany}}" alt="imagen"
+                              style="width: 80px !important;height: 30px !important;">
+                          </td>
+                          <!-- <td class="treegroup__group">
+                            <strong> : </strong>{{ node.nameArea }}
+                          </td> -->
+                          <td class="treegroup__group">
+                            <strong>Cargo / Área :</strong><span><b> {{ node.nameCharge }}</b></span> | <span> {{
+                              node.nameArea }}</span>
+                          </td>
+                        </tr>
+                      </table>
+                    </div>
+                  </mat-list-option>
+                </mat-selection-list>
+              </div>
+            </div>
+          </span>
+          <!-- Falta agregar el Check -->
+
+        </mat-tab>
+        <mat-tab label="Configuración de Competencias">
+          <ng-template mat-tab-label>
+            <span style="color: #7B8EC8;">Configuración de Competencias</span>
+          </ng-template>
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="50" class="pr-16 pt-16">
+              <p class="text-desc-16 pr-16 pt-16 ">
+                Selecciona una o más cargos y asignale sus respectivas competencias
+              </p>
+
+            </div>
+            <div fxFlex="50" class="pr-16 pt-16">
+              <mat-form-field class="input-filtro-cargo w-100" appearance="fill">
+                <mat-label style="color:#8284ef !important ;"><b>{{ listPositionsAssigned.length }} Cargos
+                    Seleccionados</b>(Cargo/Area)</mat-label>
+                <mat-select (selectionChange)="changeSelectedPositions()" [(ngModel)]="selPositionsAssigned">
+                  <mat-option *ngFor="let node of listPositionsAssigned" [value]="node">
+                    <span><b> {{ node.nameCharge }}</b></span> | <span> {{node.nameArea }}</span>
+
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+
+            </div>
+          </div>
+          <br>
+          <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="100">
+              <!-- INICIO DE TABLE COMPETENCIAS  -->
+              <table id="idtable-competences" mat-table [dataSource]="CompetenciasDTO"
+                style="width: 100%;box-shadow: none;" multiTemplateDataRows>
+                
+                <!-- <div fxLayout="row wrap">-->
+                <ng-container matColumnDef="NameCompetence">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Competencias
+                    <a href="javascript:void(0)" (click)="toggleTableRows()">
+                      <span style="color: #536BB2;text-decoration: underline;font-weight: bold;">
+                        {{isTableExpanded ? 'Minimizar Todo' : 'Expandir Todo'}}
+                      </span>
+                    </a>
+                  </th>
+                  <td mat-cell *matCellDef="let row" class="cell__Competencia">
+                    <span style="display: flex;" class="pt-16">
+                      <img src="./assets/icons/proficiency/{{row.iconCompetence}}" style="height: 20px;
+                            width: 17.812923431396484px;
+                            left: 3px;
+                            top: 2px;
+                            border-radius: 0px;
+                            margin-top: 16px;">
+                      &nbsp;&nbsp;
+                      <p class="texto-first-mayus" style="margin-top: 16px;">
+                        <span style="color: #536BB2;font-weight: bold;">
+                          {{row.nameCompetence}}
+                        </span>
+                      </p>&nbsp;&nbsp;
+                      <a href="javascript:void()" (click)="row.isExpanded = !row.isExpanded" style="margin-top: 16px;" > <!--class="Expand__Competencia"-->
+                        <span>
+                          <img src="./assets/icons/proficiency/{{row.isExpanded ? 'Minimized' : 'Expanded'}}.svg">
+                        </span>
+
+                      </a>
+                    </span>
+                    <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                      {{row.descriptionCompetence}}
+                    </p>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Level1">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Nivel 1</th>
+                  <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel">
+                    <label class="lbl_Compentencia" style="font-weight: bold;">Nivel 1</label>
+                    <mat-radio-button (click)="checkCompetencia(row, 1)" [name]="row.idCompetence"
+                      [checked]="row.idLevel == 1" title="Nivel 1">
+                    </mat-radio-button>
+                    <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                      {{row.descriptionLevel1}}
+                    </p>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Level2">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Nivel 2</th>
+                  <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel">
+                    <a class="lbl_Compentencia" style="font-weight: bold;" (click)="openDescription()">Nivel 2</a>
+                    <mat-radio-button (click)="checkCompetencia(row, 2)" [name]="row.idCompetence"
+                      [checked]="row.idLevel == 2" title="Nivel 2">
+                    </mat-radio-button>
+                    <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                      {{row.descriptionLevel2}}
+                    </p>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Level3">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Nivel 3</th>
+                  <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel">
+                    <label class="lbl_Compentencia" style="font-weight: bold;">Nivel 3</label>
+                    <mat-radio-button (click)="checkCompetencia(row, 3)" [name]="row.idCompetence"
+                      [checked]="row.idLevel == 3" title="Nivel 3">
+                    </mat-radio-button>
+                    <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                      {{row.descriptionLevel3}}
+                    </p>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="Level4">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Nivel 4</th>
+                  <td mat-cell *matCellDef="let row" style="text-align:center;" class="cell__Nivel">
+                    <label class="lbl_Compentencia" style="font-weight: bold;">Nivel 4</label>
+                    <mat-radio-button (click)="checkCompetencia(row, 4)" [name]="row.idCompetence"
+                      [checked]="row.idLevel == 4" title="Nivel 4">
+                    </mat-radio-button>
+                    <p class="lbl_Compentencia" *ngIf="row.isExpanded" style="text-align: justify;margin-top: 10px;margin-bottom: 10px;">
+                      {{row.descriptionLevel4}}
+                    </p>
+                  </td>
+                </ng-container>
+             
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="competence-element-row"
+                  [class.student-expanded-row]="row.isExpanded"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell text-center" colspan="5">
+                    No se encontro Competencias
+                  </td>
+                </tr>
+                <!-- Extra row to show detail content column -->
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="competence-detail-row"></tr>
+                <!-- Template for details row -->
+                <ng-container matColumnDef="expandedDetail">
+                  <td mat-cell *matCellDef="let row" [attr.colspan]="displayedColumns.length">
+                    <div class="row competence-element-detail"
+                      [@detailExpand]="row.isExpanded ? 'expanded' : 'collapsed'">
+
+                      <div class="w-100">
+                        <div fxLayout="row wrap">
+                          <div fxFlex="40" style="text-align: justify;padding-right: 25px;">
+                            {{row.descriptionCompetence}}
+
+                          </div>
+                          <div fxFlex="15" style="text-align: center; ">
+                            {{row.descriptionLevel1}}
+
+                          </div>
+                          <div fxFlex="15" style="text-align: center; ">
+                            {{row.descriptionLevel2}}
+
+                          </div>
+                          <div fxFlex="15" style="text-align: center; ">
+                            {{row.descriptionLevel3}}
+
+                          </div>
+                          <div fxFlex="15" style="text-align: center; ">
+                            {{row.descriptionLevel4}}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+              </table>
+              <!-- FIN DE TABLE COMPETENCIAS -->
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+      <!-- FIN - PESTAÑAS  -->
+    </mat-accordion>
+  </div>
+</div>

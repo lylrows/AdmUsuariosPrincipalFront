@@ -1,0 +1,46 @@
+<p style="text-align: right;">
+    <a  (click)="onNoClick()">X</a>
+</p>
+<p *ngIf="data.messageAditional != null && data.messageAditional != ''">
+    <mat-icon class="error-icon" style="color: #ffc107; font-size: 30px !important;">warning</mat-icon>&nbsp;
+    <span style="font-size: 20px;color: #536BB2;font-weight: 600;" class="responsive-text">
+        {{data.messageAditional}}
+    </span>
+    <span style="color:orange;font-weight:bold !important; font-size: 20px" class="responsive-text">
+        <img src="./assets/icons/edit.png" style="height: 20px;border: 0px solid;width: 20px;margin-top:5px;vertical-align:middle;"> Categoría
+    </span>
+    <span style="font-size: 20px;color: #536BB2;font-weight: 600;" class="responsive-text">
+        {{data.messageAditional2}}
+    </span>
+</p>
+<p>
+    <span style="font-size: 20px;color: #536BB2;font-weight: 600;" class="responsive-text">
+        {{data.message}}
+    </span>
+</p>
+<p *ngIf="data.result==false">
+     <textarea cols="45" rows="3" placeholder="Ingresar comentario con el motivo (Requerido)" 
+                style="width: 100%;height: 140px;background: #EEF4F8;
+                        border: 1px solid #536BB2;border-radius: 4px;
+                        color: #536BB2;font-family: 'Nunito' !important;"
+                [(ngModel)]="data.comment">
+    </textarea>
+</p>
+   
+
+<div fxLayout="row wrap" class="pt-16" >
+    <div fxFlex="100" style="text-align: left;"
+            >
+        <button mat-raised-button color="primary" class="responsive-text" 
+              style="margin: 0 3px;" [mat-dialog-close]="data">
+              {{data.textButton}}
+        </button>
+        <button mat-raised-button color="primary" (click)="onNoClick()" class="responsive-text"
+                style="background: #8CACDA !important;margin: 0 3px;">
+          Cancelar
+        </button>
+
+      </div>
+
+</div>
+

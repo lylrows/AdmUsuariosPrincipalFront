@@ -1,0 +1,226 @@
+<div class="content">
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="header">
+            <h1>SOLICITUD DE {{title | uppercase}}</h1>
+        </div>
+        <hr>
+        <div class="personal">
+            <h1 class="title">1. DATOS PERSONALES: </h1>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Código del Empleado: </label>
+                    <span> {{ codeEmployee }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">DNI N*: </label>
+                    <span> {{dni }} </span>
+                </div>
+               
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label >Nombres y Apellidos: </label>
+                    <span> {{fullname }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Fecha de Ingreso: </label>
+                    <span> {{ dateAdmission }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">Área: </label>
+                    <span> {{ area }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label class="size-large">Cargo: </label>
+                    <span> {{ charge }} </span>
+                </div>
+            </div>
+        </div>
+        <div class="motivo">
+            <h1 class="title">2.SOLICITADO: </h1>
+            <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Tipo de Servicio:</label>
+                <div style="display: flex; flex-direction: column; align-items: flex-start;" >
+                    <mat-checkbox [disabled]="isEdit" class="example-margin" [value]="true" [checked]="selectedServiciosepultura" formControlName="serviciosepultura">Servicio de Sepultura</mat-checkbox>
+                    <mat-checkbox [disabled]="isEdit" class="example-margin" [value]="true" [checked]="selectedServiciofunerario" formControlName="serviciofunerario" (change)="checkedServicioFunerario($event)">Servicio Funerario</mat-checkbox>
+                    <mat-checkbox [disabled]="isEdit" class="example-margin" [value]="true" [checked]="selectedCeremoniainhumacion" formControlName="ceremoniainhumacion">Ceremonia de inhumación</mat-checkbox>
+                    <mat-checkbox [disabled]="isEdit" class="example-margin" [value]="true" [checked]="selectedOtros" formControlName="otros">Otros</mat-checkbox>
+                </div>
+            </div>
+            <div class="motivo__amount" *ngIf="selectedServiciosepultura && bMostrarServicioFunerario">
+                <label class="size-large" style="font-weight: bold;">Servicio de Sepultura:</label>
+                <table style="border: 1px solid black">
+                    <thead>
+                        <tr>
+                            <th class="width-column">Tiempo en Planilla</th>
+                            <th class="width-column">% de Descuento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <mat-radio-button (click)="check('Sepultura', 'Sepultura_25')" name="Sepultura_25" [checked]="Sepultura_25"  [disabled]="readOnlyView">
+                                    Menos de 3 años
+                                </mat-radio-button>
+                            </td>
+                            <td>25%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-radio-button (click)="check('Sepultura', 'Sepultura_50')" name="Sepultura_50" [checked]="Sepultura_50" [disabled]="readOnlyView">
+                                    Mas o igual a 3 años
+                                </mat-radio-button>
+                            </td>
+                            <td>50%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="motivo__amount" *ngIf="selectedServiciofunerario">
+                <label class="size-large" style="font-weight: bold;">Servicio Funerario:</label>
+                <table style="border: 1px solid black">
+                    <thead>
+                        <tr>
+                            <th class="width-column">Producto</th>
+                            <th class="width-column">% de Descuento</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <mat-radio-button (click)="check('Funerario', 'Funerario_25')" name="Funerario_25" [checked]="Funerario_25" [disabled]="readOnlyView">
+                                    Clásico
+                                </mat-radio-button>
+                            </td>
+                            <td>25%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-radio-button (click)="check('Funerario', 'Funerario_35')" name="Funerario_35" [checked]="Funerario_35" [disabled]="readOnlyView">
+                                    Superior
+                                </mat-radio-button>
+                            </td>
+                            <td>35%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-radio-button (click)="check('Funerario', 'Funerario_45')" name="Funerario_45" [checked]="Funerario_45" [disabled]="readOnlyView" >
+                                    Lujo
+                                </mat-radio-button>
+                            </td>
+                            <td>45%</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-radio-button (click)="check('Funerario', 'Funerario_50')" name="Funerario_50" [checked]="Funerario_50" [disabled]="readOnlyView">
+                                    VIP
+                                </mat-radio-button>
+                            </td>
+                            <td>50%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="motivo__amount" *ngIf="selectedCeremoniainhumacion">
+                <label class="size-large" style="font-weight: bold;">Ceremonia de inhumación:</label>
+                <table style="border: 1px solid black">
+                    <tbody>
+                        <tr>
+                            <td class="width-column" style="font-weight: bold;">
+                                <mat-radio-button (click)="check('Inhumacion', 'Inhumacion_50')" name="Inhumacion_50" [checked]="Inhumacion_50">
+                                    % de Descuento
+                                </mat-radio-button>
+                            </td>
+                            <td class="width-column">50%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="motivo__amount" *ngIf="selectedOtros">
+                <label class="size-large" style="font-weight: bold;">Otros:</label>
+                <table style="border: 1px solid black">
+                    <tbody>
+                        <tr>
+                            <td class="width-column">
+                                <mat-radio-button (click)="check('Otros', 'Otros_50')" name="Otros_50" [checked]="Otros_50">
+                                    Ampliaciones
+                                </mat-radio-button>
+                            </td>
+                            <td class="width-column">% de Descuento</td>
+                            <td class="width-column">50% (Por única vez)</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <mat-radio-button (click)="check('Otros', 'Otros_75')" name="Otros_75" [checked]="Otros_75">
+                                    Alquiler de Carroza
+                                </mat-radio-button>
+                            </td>
+                            <td>% de Descuento</td>
+                            <td>75%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <h1 class="title">3. OBSERVACIONES: </h1>
+            <div class="motivo__type">
+                <!-- <div class="motivo__type-group">
+                    <label class="size-large" style="font-weight: bold;" >Decision:</label>
+                    <mat-radio-group class="size-input"  formControlName="bmeetrequirements">
+                        <mat-radio-button [disabled]="isEdit" value='1'>SI</mat-radio-button>
+                        <mat-radio-button [disabled]="isEdit" value='0'>NO</mat-radio-button>
+                    </mat-radio-group>
+                </div> -->
+                <div class="motivo__type-solicitud" style="margin-top: 0px;">
+                    <label class="size-large" style="font-weight: bold;">OBSERVACIONES :</label>
+                    <mat-form-field class="size-input"  appearance="fill">
+                        <textarea class="size-input" [readonly]="isEdit" formControlName="observations" matInput 
+                            placeholder="Escribir la observacion"></textarea>
+                        <mat-error *ngIf="
+                    form.controls.observations.touched &&
+                    form.controls.observations.invalid
+                                          ">
+                            <span *ngIf="form.controls.observations.errors.required">Observacion es
+                                <strong>requerido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                 
+
+            </div>
+        </div>
+
+        <div *ngIf="isEdit" class="motivo">
+            <h1 class="title">HISTORIAL DE SOLICITUD: </h1>
+            <app-staff-request-approver style="width: 50%;text-align: center;"></app-staff-request-approver>
+        </div>
+        <div class="motivo" *ngIf="isAceept || StatusRejected">
+            <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+            <div class="motivo__amount">
+              <label class="size-large" style="font-weight: bold;">Comentario: </label>
+              <mat-form-field class="size-input">
+                <mat-label>Comentario</mat-label>
+                <!-- <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation" [readonly]="StatusRejected" 
+                [disabled]="readOnlyView"></textarea>           -->
+                <textarea class="size-input" [readonly]="readOnlyView" formControlName="commentEvaluation" matInput 
+                [disabled]="readOnlyView"
+                            placeholder="Comentario"></textarea>
+              </mat-form-field>
+            </div> 
+          </div>
+        <div class="footer">
+            <button *ngIf="!isEdit"  mat-raised-button color="primary" [disabled]="readOnlyView"
+                type="submit">Guardar</button>
+            <button *ngIf="isEdit && isAceept" mat-raised-button color="primary" [disabled]="readOnlyView"
+                type="button" (click)="accept()">Aprobar</button>
+            <button *ngIf="isEdit && isAceept" type="button" mat-raised-button [disabled]="readOnlyView"
+                style="background-color: #f44336; color: white;" (click)="reject()"> Rechazar</button>
+            <button type="button"  mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+        </div>
+    </form>
+
+</div>

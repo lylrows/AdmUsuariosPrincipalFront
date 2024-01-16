@@ -1,0 +1,234 @@
+
+.content__card{
+    flex-basis: 200px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: #f6f9ff;
+    box-shadow: 0 0 15px #0000001a;
+    border-radius: 12px;
+    width: fit-content;  
+    min-width: 200px;
+}
+.content__salary {
+    font-size: 14px;
+    margin-top: 2%;
+}
+.content__modality {
+    font-size: 14px;
+    margin-top: 2%;
+}
+
+.card{
+    display: flex;
+    flex-direction: row;
+    gap: 25px;
+    margin-top: 20px;
+    &__number{
+        font-size: 32px;
+        font-weight: 800;
+        width: fit-content;
+    }
+    &__text{
+        font-size: 20px;
+        font-weight: 700;
+        width: fit-content;
+    }
+}
+
+.content {
+    padding: 8px 15px 8px 15px;
+    &__button {
+        display: flex;
+        flex-direction: row;
+        gap: 25px;
+        margin-top: 20px;
+        &-new {
+            width: 195px;
+            height: 65px;
+            background: #6C7EB4;
+            border-radius: 20px;
+            border: 0;
+            color: #ffffff;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 23px;
+            cursor: pointer;
+        }
+        &-replace {
+            width: 195px;
+            height: 65px;
+            font-weight: bold;
+            font-size: 14px;
+            line-height: 23px;
+            border-radius: 20px;
+            border: 0;
+            background: #BCCDEB;
+            cursor: pointer;
+        }
+    }
+    &__table {
+        margin-bottom: 30px;
+        &__button {
+            display: flex;
+            margin-left: 25px;
+            gap: 22px;
+            button {
+                width: 190px;
+                height: 40px;
+                background: #DEDEDE;
+                box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.25);
+                border-top-left-radius: 5px;
+                border-top-right-radius: 5px;
+                border: 0;
+                cursor: pointer;
+            }
+        }
+    }
+    &__borrador {
+        padding: 0px 15px 0px 15px;
+        margin-bottom: 15px;
+    }
+}
+
+.active {
+    background: #4F66A8 !important;
+    color: #ffffff;
+}
+
+.noactive {
+    background: #DEDEDE !important;
+    color: black;
+}
+
+.table-state {
+    width: 90px;
+    height: 25px;
+    background: #4F66A8;
+    border-radius: 10px;
+    color: #ffffff;
+    text-align: center;
+    padding: 2px;
+}
+
+.title {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 28px;
+    color: #4F66A8;
+}
+
+.solicitud-class {
+    color: #626A8D;
+    cursor: pointer;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 960px) {
+    .content {
+        padding: 7px;
+        &__table {
+            &__button {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                margin-left: 0;
+                button {
+                    width: auto;
+                }
+            }
+        }
+    }
+}
+
+.mat-paginator{
+    background-color: transparent !important;
+}
+.mat-form-field{
+    height: 52.06px !important;
+}
+::ng-deep .mat-form-search{    
+    .mat-form-field-flex{
+        padding-top: 0px !important;
+        background-color: transparent !important;
+        border: 0.5px solid #4F66A8 !important;
+    }
+    ::placeholder{
+        color: #4F66A8;
+        opacity: 1;
+    }
+}
+
+.icon-search{
+    color: #4F66A8;
+    opacity: 1;
+}
+.transp{
+    background-color: transparent !important;
+    border: 0.5px solid #4F66A8 !important;
+}
+.lateral-padding{
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+.lateral-padding-off{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #4F66A8 !important;
+}
+
+::ng-deep .mat-tab-label{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.color-pendiente {
+    background-color: #DE9310 !important;
+}
+
+.color-aprobado {
+    background-color: #219653 !important;
+}
+
+.color-rechazado {
+    background-color: #EB5757 !important;
+}
+.field-search{
+    height:52.75px; 
+    width: 40%;
+}
+
+@media screen and (max-width:430px) {
+    .divbtnNuevo{
+        display: none;
+    }
+    .title{
+        text-align: center;
+    }
+    .divbtnNuevo2{
+        text-align: center;
+        padding-bottom: 40px;
+    }
+    .rowcard{
+        align-items: center;
+    }
+    .field-search{
+        width: 100%;
+    }
+}
+
+@media screen and (max-width:600px) {
+    .rowcard{
+        align-items: center;
+        width: 100%;
+    }
+}
+
+@media screen and (min-width:431px) {
+    .divbtnNuevo2{
+        display: none;
+    }
+}

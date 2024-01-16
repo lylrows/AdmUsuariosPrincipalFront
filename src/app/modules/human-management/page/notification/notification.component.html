@@ -1,0 +1,141 @@
+<form class="filter" [formGroup]="formFilter">
+  <div class="filter__inputs">
+    <mat-form-field appearance="fill">
+      <mat-label>Remitente :</mat-label>
+      <input formControlName="semisor" autocomplete="off" placeholder="Remitente" matInput />
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Asunto :</mat-label>
+      <input formControlName="ssubject" autocomplete="off" placeholder="Asunto" matInput />
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Desde :</mat-label>
+      <input
+      matInput
+      formControlName="sstartdate"
+      [matDatepicker]="pickerStartDate"
+      name="StartDate" readonly
+      placeholder="Fecha Inicial">
+      <mat-datepicker-toggle matSuffix [for]="pickerStartDate" ></mat-datepicker-toggle>
+      <mat-datepicker #pickerStartDate></mat-datepicker>
+    </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Hasta :</mat-label>
+      <input
+      matInput 
+      formControlName="senddate"
+      [matDatepicker]="pickerEndDate"
+      name="EndDate" readonly
+      placeholder="Fecha Inicial">
+      <mat-datepicker-toggle matSuffix [for]="pickerEndDate" ></mat-datepicker-toggle>
+      <mat-datepicker #pickerEndDate></mat-datepicker>
+    </mat-form-field>
+
+  </div>
+  <div class="filter__buttons">
+    <button mat-raised-button color="primary" (click)="Filter()">Buscar</button>
+    <button mat-raised-button color="warn" (click)="resetFilter()">Limpiar</button>
+    <!-- <button mat-raised-button class="dark-blue-400 dark-blue-400-fg" (click)="Filter()">Buscar</button>
+    <button mat-raised-button style="background-color: #FDB930;" (click)="resetFilter()">Limpiar</button> -->
+  </div>
+</form>
+<br>
+<br>
+
+<mat-sidenav-container>
+    <!-- Inbox left side bar -->
+    <mat-sidenav #sidenav [opened]="isSidenavOpen" mode="side" class="inbox-sidenav">
+      <!-- Compose button -->
+      <!-- left side buttons -->
+      <mat-nav-list class="inbox-nav-list" role="list">
+        <mat-list-item class="primary-imenu-item" role="listitem" routerLinkActive="open" (click)="loadBandeja()">
+          <a fxLayout="row">
+            <mat-icon class="text-muted">inbox</mat-icon>
+            <span>Bandeja</span>
+          </a>
+        </mat-list-item>
+        <mat-list-item class="primary-imenu-item" role="listitem" routerLinkActive="open" (click)="loadRecognition()">
+          <a fxLayout="row">
+            <mat-icon class="text-muted">folder_special</mat-icon>
+            <span>Reconocimientos</span>
+          </a>
+        </mat-list-item>
+        <mat-list-item class="primary-imenu-item" role="listitem" routerLinkActive="open" (click)="loadArchived()">
+          <a fxLayout="row">
+            <mat-icon class="text-muted">archive</mat-icon>
+            <span>Archivados</span>
+          </a>
+        </mat-list-item>
+        <mat-list-item class="primary-imenu-item" role="listitem" routerLinkActive="open" (click)="loadFavorite()">
+          <a fxLayout="row">
+            <mat-icon class="text-muted">favorite</mat-icon>
+            <span>Favoritos</span>
+          </a>
+        </mat-list-item>
+      </mat-nav-list>
+    </mat-sidenav>
+  
+    <div class="messages-wrap">
+      <mat-toolbar class="inbox-toolbar bg-toolbar dark-blue-400-fg">
+        <!-- Left sidebar toggle button -->
+        <mat-checkbox *ngIf="accion == 'notificaciones'" (change)="selectToggleAll()" class="inbox-toggle-all mr-16"><small>Todo</small></mat-checkbox>
+        <small *ngIf="accion == 'reconocimientos'" >Reconocimientos</small>
+        <small *ngIf="accion == 'archivados'" >Archivados</small>
+        <small *ngIf="accion == 'favoritos'" >Favoritos</small>
+        <button *ngIf="accion == 'notificaciones'" (click)="archiveList()" mat-icon-button matTooltip="Move to archive"><mat-icon>archive</mat-icon></button>
+        <button *ngIf="accion == 'archivados'" (click)="unarchiveList()" mat-icon-button matTooltip="Move to archive"><mat-icon>unarchive</mat-icon></button>
+        <button mat-icon-button (click)="sidenav.toggle()" fxShow [fxShow.gt-sm]="isMobile"><mat-icon>short_text</mat-icon></button>
+        <!-- multiple email select and control -->
+      </mat-toolbar>
+      
+      <mat-accordion *ngIf="messages.length > 0 ;else notfound">
+        <mat-expansion-panel *ngFor="let message of messages" hideToggle="true" (opened)="fnopenmessage(message)">
+          <mat-expansion-panel-header>
+            <mat-panel-title style="width: 260px;">
+              <mat-checkbox *ngIf="accion == 'notificaciones' || accion == 'archivados'"
+              [(ngModel)]="message.selected" 
+              (click)="stopProp($event)" 
+              class="mail-checkbox hide-on-open" style="width: 40px !important;">
+              </mat-checkbox>
+              <button [disabled]="accion == 'archivados'" *ngIf="accion == 'notificaciones' || accion == 'favoritos' || accion == 'archivados'"
+              mat-icon-button 
+              matTooltip="Mark as important"
+              (click)="update(message, $event)" 
+              class="hide-on-open text-muted mr-16"><mat-icon [ngClass]="{'star': message.favorite == true}">{{ message.favorite ? 'start' : 'star_border' }}</mat-icon></button>
+              <span *ngIf="message.important == true"><mat-icon style="color: red;">priority_high</mat-icon></span>
+  
+              <span class="hide-on-open"   [ngStyle]="{'font-weight': (message.viewed==true) ? 'normal' : 'bold'}">{{message.sender}}</span>
+              <div fxFlex="1 1 auto" fxLayout="row" fxLayoutAlign="start center" class="show-on-open">
+                <img [src]="message.senderPhoto" alt="" class="inbox-face mr-16">
+                <div fxLayout="column">
+                  <span class="m-0"  [ngStyle]="{'font-weight': (message.viewed==true) ? 'normal' : 'bold'}">{{message.sender}}</span>
+                  <small class="text-muted m-0">{{message.sendDate | date}}</small>
+                  
+                </div>
+              </div>
+            </mat-panel-title>
+            <mat-panel-description>
+            <span class="mail-subject text-sm mat-color-default" [ngStyle]="{'font-weight': (message.viewed==true) ? 'normal' : 'bold'}">{{message.subject}}</span>
+            <span fxFlex></span>
+            <!-- <span class="text-sm" fxHide.lt-sm="true">{{message.sendDate | relativeTime}}</span>  -->
+            <span class="text-sm" fxHide.lt-sm="true" [ngStyle]="{'font-weight': (message.viewed==true) ? 'normal' : 'bold'}">{{message.relativeSendDate }}</span>
+            
+            
+            <button *ngIf="accion == 'notificaciones'" mat-icon-button [matMenuTriggerFor]="msgMenu" (click)="$event.stopPropagation()" class="hidden-on-open">
+              <mat-icon class="text-muted">more_vert</mat-icon>
+            </button>
+            <mat-menu #msgMenu="matMenu">
+              <button *ngIf="accion == 'notificaciones'" (click)="archive(message);" mat-menu-item><mat-icon>archive</mat-icon> Archivar</button>
+            </mat-menu>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          <div class="message-text" [innerHTML]="message.message | safeHtml"></div>
+        </mat-expansion-panel>
+      </mat-accordion>
+      <ng-template #notfound>
+        <mat-card>        No tiene notificaciones</mat-card>
+      </ng-template>
+    </div>
+  
+  </mat-sidenav-container>

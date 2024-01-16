@@ -1,0 +1,46 @@
+mat-radio-group{
+    padding-left: 10px;
+  }
+  .mat-radio-button{
+    padding-left: 10px;
+  }
+
+  ::ng-deep.background-exactus>.mat-form-field-wrapper>.mat-form-field-flex {
+    background-color: #dddcd4 !important;
+}
+@media screen and (max-width:320px) {
+  .acordeon-postulant{
+      width: 85vw !important;
+  }
+}
+
+.acordeon-postulant{
+  width: 96vw;
+}
+
+@media only screen and (max-device-width: 480px) {
+
+  .filter__buttons{ 
+      display: grid !important;
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 8px;
+      max-height: none !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  /* For mobile phones: */
+.button-mobile {
+  width: 100% !important;
+  max-width: inherit !important;
+}
+.acordeon-postulant{
+  width: 90vw;
+}
+}
+.content_two{
+  display: flex !important;
+}
+.button-standar{
+  max-width: 200px;
+}

@@ -1,0 +1,157 @@
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+        <mat-label>Primer Nombre</mat-label>
+        <input required matInput name="firstNameRequest" [(ngModel)]="postulantRequest.firstName" (keyup)="SendParentInformation()">
+     </mat-form-field>
+     <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+       <mat-label>Segundo Nombre</mat-label>
+       <input matInput  name="secondNameRequest" [(ngModel)]="postulantRequest.secondName" (keyup)="SendParentInformation()">
+     </mat-form-field> 
+     <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+       <mat-label>Apellido Paterno</mat-label>
+       <input required matInput name="lastNameRequest" [(ngModel)]="postulantRequest.lastName" (keyup)="SendParentInformation()">
+      </mat-form-field> 
+</div>
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1 mat-mobile-for">
+        <mat-label>Apellido Materno</mat-label>
+        <input required matInput name="motherLastNameRequest" [(ngModel)]="postulantRequest.motherLastName" (keyup)="SendParentInformation()">
+    </mat-form-field>  
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+        <mat-label>Tipo de Documento</mat-label>
+        <mat-select required name="documenttypeRequest" [(ngModel)]="postulantRequest.documentType" (selectionChange)="SendParentInformation()">              
+            <mat-option *ngFor="let item of lstTipoDocumento" [value]="item.id">
+                {{ item.descriptionValue }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>          
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+        <mat-label>Nro de documento</mat-label>
+        <input required matInput (keypress)="valideKey($event)" name="documentNumberRequest" [(ngModel)]="postulantRequest.documentNumber" (keyup)="SendParentInformation()">         
+    </mat-form-field>
+</div>
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+        <mat-label>Fecha de Nacimiento</mat-label>
+        <input required matInput name="birthDateRequest" [(ngModel)]="this.dateBirth" (dateChange)="SendParentInformation()" [matDatepicker]="pickerBirth" readonly>
+        <mat-datepicker-toggle matSuffix [for]="pickerBirth"></mat-datepicker-toggle>
+        <mat-datepicker #pickerBirth></mat-datepicker>
+    </mat-form-field>  
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+        <mat-label>Empresa</mat-label>  
+        <mat-select required name="idCompanyRequest" [(ngModel)]="postulantRequest.idCompany" (selectionChange)="changeEmpresa()">              
+            <mat-option *ngFor="let item of empresas" [value]="item.nid_company">{{item.sdescription}}</mat-option>
+        </mat-select>
+    </mat-form-field> 
+</div>
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+        <mat-label>Gerencia</mat-label>
+        <mat-select required name="idManagementRequest" [(ngModel)]="postulantRequest.idManagement" (selectionChange)="changeGerencia()">            
+            <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+        </mat-select>
+    </mat-form-field> 
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+        <mat-label>Área</mat-label>
+        <mat-select name="idAreaRequest" [(ngModel)]="postulantRequest.idArea" (selectionChange)="changeArea()">    
+            <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+        </mat-select>
+    </mat-form-field> 
+</div>
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1">
+        <mat-label>Sub Área</mat-label>
+        <mat-select name="idSubAreaRequest" [(ngModel)]="postulantRequest.idSubArea" (selectionChange)="SendParentInformation()">              
+            <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+        </mat-select>
+    </mat-form-field> 
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1" [class.background-exactus]="showExactusDescription">
+        <mat-label>Centro de Costo <strong *ngIf="showExactusDescription">(Exactus)</strong></mat-label>
+        <mat-select required name="idCostCenterRequest" [(ngModel)]="postulantRequest.idCostCenter" (selectionChange)="SendParentInformation()">              
+            <mat-option *ngFor="let item of constCenter" [value]="item.nid_costcenter">
+                {{item.sname}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field> 
+</div> 
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1" [class.background-exactus]="showExactusDescription">
+        <mat-label>Puesto <strong *ngIf="showExactusDescription">(Exactus)</strong></mat-label>
+        <input required matInput name="positionRequest" [(ngModel)]="postulantRequest.position" readonly>
+    </mat-form-field> 
+</div>
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1" [class.background-exactus]="showExactusDescription">
+        <mat-label>Fecha de Ingreso <strong *ngIf="showExactusDescription">(Exactus)</strong></mat-label>
+        <input required matInput name="incomeDateRequest" [(ngModel)]="this.dateIncome" (dateChange)="SendParentInformation()" [matDatepicker]="picker" readonly>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field> 
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1" [class.background-exactus]="showExactusDescription">
+        <mat-label>Fecha Fin <strong *ngIf="showExactusDescription">(Exactus)</strong></mat-label>
+        <input required matInput name="endDateRequest" [(ngModel)]="this.dateEnd" (dateChange)="SendParentInformation()" [matDatepicker]="picker2" readonly>
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field> 
+</div>
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div class="form-input-radio example-full-width" style="flex: 1">
+        <mat-label>Tipo de Contrato <strong *ngIf="showExactusDescription">(Exactus)</strong></mat-label>
+        <div style="display: flex; gap: 20px; margin-top: 2%;">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="postulantRequest.contractType" (change)="SendParentInformation()">
+                <mat-radio-button [checked]="83 == postulantRequest.contractType" style="margin-bottom: 8px;margin-right: 20px; width: 250px;" [value]="83">Temporal</mat-radio-button>
+                <mat-radio-button [checked]="84 == postulantRequest.contractType" style="margin-bottom: 8px;margin-right: 20px; width: 250px;" [value]="84">Practicas Pre-profesionales</mat-radio-button>
+                <mat-radio-button [checked]="85 == postulantRequest.contractType" style="margin-bottom: 8px;margin-right: 20px; width: 250px;" [value]="85">Plazo Fijo</mat-radio-button>
+                <mat-radio-button [checked]="86 == postulantRequest.contractType" style="margin-bottom: 8px;margin-right: 20px; width: 250px;" [value]="86">Plazo Indeterminado</mat-radio-button>
+                <mat-radio-button [checked]="87 == postulantRequest.contractType" style="margin-bottom: 8px;margin-right: 20px; width: 250px;" [value]="87">Practicas Profesionales</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+</div>
+<div class="content__form content_form_mobile" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div class="form-input-radio example-full-width" style="flex: 1">
+        <mat-label>Tipo de Vacante</mat-label>
+        <div style="display: flex; gap: 20px; margin-top: 2%;">
+            <mat-radio-group aria-label="Select an option" [(ngModel)]="postulantRequest.vacantType" (change)="SendParentInformation()">
+                <mat-radio-button [checked]="53 == postulantRequest.vacantType" style="margin-bottom: 8px;margin-right: 20px; width: 170px;" [value]="53">Nueva</mat-radio-button>
+                <mat-radio-button [checked]="54 == postulantRequest.vacantType" style="margin-bottom: 8px;margin-right: 20px; width: 170px;" [value]="54">Temporal</mat-radio-button>
+                <mat-radio-button [checked]="3412 == postulantRequest.vacantType" style="margin-bottom: 8px;margin-right: 20px; width: 170px;" [value]="3412">De reemplazo</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+</div>
+<div class="content__form content_form_mobile" fxLayout="row wrap" fxLayout.lt-sm="row">    
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1 search-mobile" [class.background-exactus]="showExactusDescription">
+        <mat-label>Jefe Inmediato <strong *ngIf="showExactusDescription">(Exactus)</strong></mat-label>
+        <input required matInput name="bossRequest" [(ngModel)]="postulantRequest.boss" readonly>
+    </mat-form-field> 
+    <button type="button" (click)="openDialogAssignBoss()" pButton pRipple icon="pi pi-search"
+            class="p-button-rounded p-button-text p-button-info button-mobile" title = "Asignar un nuevo Jefe"></button>
+</div>
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">
+    <mat-form-field class="full-width" style="margin-top: 4px;" [class.background-exactus]="showExactusDescription">
+        <mat-label>Horario <strong *ngIf="showExactusDescription">(Exactus)</strong></mat-label>
+        <mat-select  placeholder="Seleccionar una opcion" [(ngModel)]="postulantRequest.schedule">
+            <input matInput (keyup)="onKeyHorario($event.target.value)" style="padding-left: 16px; height: 42px; width: 90%;">
+            <mat-option *ngFor="let item of listHorariosSelected" [value]="item.sshort_value">{{item.sshort_value + ' - ' + item.sdescription_value}}</mat-option>
+        </mat-select> 
+    </mat-form-field>
+</div>
+<div class="content__form" fxLayout="row wrap" fxLayout.lt-sm="column">    
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1" [class.background-exactus]="showExactusDescription">
+        <mat-label>Categoría Banda Salarial <strong *ngIf="showExactusDescription">(Exactus)</strong></mat-label>
+        <mat-select required name="idSalaryCategoryRequest" [(ngModel)]="postulantRequest.idSalaryCategory" (selectionChange)="SendParentInformation()">              
+            <mat-option *ngFor="let gr of lstcategorias" [value]="gr.code">
+                {{ gr.description}}                
+              </mat-option>
+        </mat-select>
+    </mat-form-field>                 
+    <mat-form-field appearance="fill" class="form-input example-full-width flex-1" [class.background-exactus]="showExactusDescription">
+        <mat-label>Sede <strong *ngIf="showExactusDescription">(Exactus)</strong></mat-label>
+        <mat-select required name="idCampus" [(ngModel)]="postulantRequest.idCampus" (selectionChange)="SendParentInformation()">              
+            <mat-option *ngFor="let item of lstSede" [value]="item.nid_mastertable">
+                {{item.sdescription_value}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field> 
+</div>

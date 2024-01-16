@@ -1,0 +1,263 @@
+::ng-deep .center-alert {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate3d(-50%, 0, 0) !important;
+    -webkit-transform: translate3d(-50%, 0, 0);
+    -moz-transform: translate3d(-50%, 0, 0);
+    -o-transform: translate3d(-50%, 0, 0);
+    -ms-transform: translate3d(-50%, 0, 0);
+    transform: translate3d(-50%, 0, 0);
+}
+
+.header {
+    h1 {
+        text-align: center;
+        color: #4f66a8;
+        font-weight: 600;
+    }
+}
+
+.button_download {
+    display: flex;
+    align-items: baseline;
+  }
+
+.adjunto {
+    display: flex;
+    width: 90%;
+    margin-top: 10px;
+}
+
+.file-input {
+    display: none;
+  }
+
+.personal {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #4f66a8;
+    border-radius: 10px;
+    .title {
+        color: #4f66a8;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    &__group {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+        &-input {
+            display: flex;
+            gap: 10px;
+            width: 50%;
+            label {
+                font-weight: 600;
+                text-align: start;
+            }
+            span {
+                text-align: start;
+            }
+        }
+        &-name {
+            display: flex;
+            width: 90%;
+            gap: 10px;
+            label {
+                font-weight: 600;
+                text-align: start;
+                width: 150px;
+            }
+            span {
+                text-align: start;
+            }
+        }
+    }
+}
+
+.size-large {
+    width: 150px;
+}
+
+.size-short {
+    width: 50px;
+}
+
+.footer {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+    button {
+        background-color: #4f66a8;
+        color: #ffffff;
+    }
+}
+
+.size-input {
+    width: 75%;
+}
+
+.motivo {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #4f66a8;
+    border-radius: 10px;
+    .title {
+        color: #4f66a8;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    &__amount {
+        display: flex;
+        margin-bottom: 10px;
+        gap: 10px;
+        label {
+            justify-content: center;
+            text-align: start;
+            align-self: center;
+        }
+    }
+    &__mix {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        text-align: center;
+        &-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+    }
+    &__type {
+        display: flex;
+        flex-direction: column;
+        &-group {
+            display: flex;
+            gap: 10px;
+            mat-radio-group {
+                margin-right: 6px;
+            }
+        }
+        &-solicitud {
+            display: flex;
+            gap: 10px;
+            label {
+                align-self: center;
+            }
+        }
+    }
+}
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+
+  @media screen and (max-width: 960px) {
+    .personal {
+        &__group {
+            display: flex;
+            flex-direction: column;
+            &-input {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            &-name {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+
+    .button_download {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+    .size-input {
+        width: 100%;
+    }
+
+    .adjunto {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .motivo {
+        &__type {
+            &-group {
+                display: flex;
+                flex-direction: column;
+                mat-radio-group {
+                    text-align: center;
+                }
+            }
+            &-solicitud {
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+            } 
+        }
+        &__amount {
+            display: flex;
+            flex-direction: column;
+        }
+
+        &__mix {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            &-group {
+                text-align: center;
+                justify-content: center;
+            }
+        }
+
+        .size-large {
+            width: 100%;
+        }
+    }
+}
+
+.input-periodo {
+    width: 100%;
+    max-width: 150px;
+}
+
+:host::ng-deep.mat-checkbox-layout{
+    white-space: normal !important;
+}
+    
+:host::ng-deep.mat-checkbox-inner-container{
+    margin-top: 4px;
+}
+
+@media screen and (max-width:420px) {
+    .motivo__mix-group{
+        width: 95% !important;
+    }
+    .footer{
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+    }
+    .personal__group-name{
+        span{
+            text-align: justify !important;
+        }
+    }
+    h1{
+        font-size: 18px !important;
+    }
+    .input-periodo{
+        max-width: 100% !important;
+    }
+}

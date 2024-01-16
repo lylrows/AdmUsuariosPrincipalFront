@@ -1,0 +1,371 @@
+<div class="content">
+    <div class="section-header">
+        <div class="section-info" *ngIf="position != ''">
+            <button routerLink="/humanmanagement/recruitment" mat-icon-button>
+                <mat-icon>keyboard_backspace</mat-icon>
+              </button> 
+            <label style="align-self: center;">Puesto requerido: </label> 
+            <span style="align-self: center;">{{position}}</span>
+        </div>
+    </div>
+    <div style="margin-left: 15px;">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Título / Carrera</mat-label>
+                    <input
+                    [(ngModel)]="filter.estudios"
+                    matInput
+                    placeholder="Título / Carrera">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Institución</mat-label>
+                    <input
+                    [(ngModel)]="filter.universidad"
+                    matInput
+                    maxlength="100"
+                    name="universidad"
+                    placeholder="Institución">
+                  </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Edad Mínima</mat-label>
+                    <input
+                    [(ngModel)]="filter.edadMinima"
+                    matInput
+                    name="Nombre Área"
+                    placeholder="Edad Mínima">
+                  </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Edad Máxima</mat-label>
+                    <input
+                    [(ngModel)]="filter.edadMaxima"
+                    matInput
+                    name="Nombre Área"
+                    placeholder="Edad Máxima">
+                  </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Salario Mínimo</mat-label>
+                    <input [(ngModel)]="filter.salarioMinimo" matInput name="Salario Mínimo" placeholder="Salario Mínimo">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Salario Máximo</mat-label>
+                    <input [(ngModel)]="filter.salarioMaximo" matInput name="Salario Máximo" placeholder="Salario Máximo">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Género</mat-label>
+                    <mat-select [(ngModel)]="filter.genero">
+                        <!-- <mat-option  value=""></mat-option> -->
+                        <mat-option  value="M">Masculino</mat-option>
+                        <mat-option  value="F">Femenino</mat-option>
+                        <mat-option  value="Indistinto">Indistinto</mat-option>        
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Tipo de Estudio</mat-label>
+                    <input
+                    [(ngModel)]="filter.levelStudy"
+                    matInput
+                    maxlength="100" 
+                    name="Tipo de Estudio"
+                    placeholder="Tipo de Estudio">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field class="example-chip-list" appearance="fill">
+                    <mat-label>Palabras Clave</mat-label> 
+                    <mat-chip-list #chipList aria-label="key selection">
+                      <mat-chip *ngFor="let kword of keyWords" (removed)="remove(kword)">
+                        {{kword.keyWord}}
+                        <button matChipRemove class="chip-remove">
+                          <mat-icon class="icon-remove">cancel</mat-icon>
+                        </button>
+                      </mat-chip>
+                      <input placeholder="Nueva Palabra..."
+                             [matChipInputFor]="chipList"
+                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                             [matChipInputAddOnBlur]="addOnBlur"
+                             (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <div style="margin-top:10px;margin-bottom: 10px;">
+                    <mat-checkbox (change)="toggleSelectIsWorking()" class="inbox-toggle-all">
+                    </mat-checkbox>
+                    <small style="font-weight: bold;"> Actualmente trabajando </small>    
+                </div> 
+            </div>
+        </div>
+    </div>
+    <div class="filter__buttons">
+        <button mat-raised-button color="primary" 
+            (click)="getPostulants(true)">
+            Buscar
+        </button>
+        <button *ngIf="flowDT.data.length > 0"
+            mat-raised-button color="warn" 
+            (click)="createEvaluation()">
+            Pre-Seleccionar
+        </button>
+        <button *ngIf="flowDT.data.length > 0"
+            mat-raised-button color="accent" (click)="exportar()">
+            Exportar
+        </button>
+
+        <a id="afile" name="afile" style="display: none;"></a>
+    </div>
+    <div class="section-table">
+        <table mat-table [dataSource]="flowDT" class="w-100 mat-elevation-z8"
+                style="box-shadow: none;">
+            <ng-container matColumnDef="check" sticky>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                <td
+                mat-cell
+                *matCellDef="let row"
+                class="has_label_on_mobile"
+                data-label="Seleccionar :  "
+                >
+                <mat-checkbox
+                    (click)="$event.stopPropagation()"
+                    (change)="$event ? selection.toggle(row) : null"
+                    [checked]="selection.isSelected(row)"
+                >
+                </mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="skill">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Asertividad</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nivel de Skills : ">
+                    <p-tag *ngIf="row.porcentajeAsertividad >= 0 && row.porcentajeAsertividad <= 50" severity="danger">{{row.porcentajeAsertividad}} %</p-tag>
+                    <p-tag *ngIf="row.porcentajeAsertividad > 50 && row.porcentajeAsertividad <= 70" severity="warning">
+                        {{row.porcentajeAsertividad}} %
+                    </p-tag>
+                    <p-tag *ngIf="row.porcentajeAsertividad > 70 && row.porcentajeAsertividad <= 100" severity="success">
+                        {{row.porcentajeAsertividad}} %
+                    </p-tag>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="fullName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre del Postulante</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre del Postulante. : ">
+                    {{ row.fullName }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="documentNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>DNI</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="DNI : ">
+                    {{ row.documentNumber }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo de Contacto</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Correo de Contacto. : ">
+                    {{ row.email }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="cellPhone">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                    Nro. de Contacto
+                </th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nro: de Contacto : ">
+                    {{ row.cellPhone }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="cvAttached">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Cv Adjuntado</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Cv Adjuntado : "
+                        style="text-align: center;">
+                    <!-- <button *ngIf="row.cvAttached != null" 
+                        (click)="getFile(row.cvAttached, row.id)" mat-raised-button 
+                        class="dark-blue-400 dark-blue-400-fg">
+                        Descargar Cv
+                    </button> -->
+                    <button *ngIf="row.cvAttached != null" 
+                            (click)="getFile(row.cvAttached, row.id)"
+                                style="border: 0px;color:#536BB2 !important;
+                                background: transparent; "           
+                                matTooltip="Descargar CV Adjuntado">
+                                <mat-icon>archive</mat-icon>  
+                    </button>     
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="state">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+                    <p-tag *ngIf="row.state== 'CV no leído'" severity="danger" [value]="row.state"></p-tag>
+                    <p-tag *ngIf="row.state== 'CV Leído'" severity="success" [value]="row.state"></p-tag>
+                    <p-tag *ngIf="row.state== 'PreSeleccionado'" severity="info" [value]="'Pre-Seleccionado'"></p-tag>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="dateRegister">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Postulación</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha de Postulación : ">
+                    {{ row.dateRegister}}
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell text-center" colspan="10">
+                    No se encontró postulantes
+                </td>
+            </tr>
+        </table>
+        <mat-paginator #paginator [length]="filter.pagination.totalItems" [pageIndex]="currentPage" [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
+        </mat-paginator>
+    </div>
+    
+    <div style="width: 100% !important; overflow-x:auto;">
+        
+        
+    </div>
+        <!-- <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="20"  class="pr-16">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div class="filter__buttons" style="display: flex; justify-content: center;">
+                        <button mat-raised-button color="primary" 
+                            (click)="getPostulants(true)">
+                            Buscar
+                        </button>
+                        
+                        <a id="afile" name="afile" style="display: none;"></a>
+                    </div>
+                </div>
+                <br>         
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div fxFlex="100"  class="pr-16">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>Título / Carrera</mat-label>
+                            <input
+                            [(ngModel)]="filter.estudios"
+                            matInput
+                            placeholder="Título / Carrera">
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="100"  class="pr-16">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>Institución</mat-label>
+                            <input
+                            [(ngModel)]="filter.universidad"
+                            matInput
+                            maxlength="100"
+                            name="universidad"
+                            placeholder="Institución">
+                          </mat-form-field>
+                    </div>
+                    <div fxFlex="50"  class="pr-16">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>Edad Mínima</mat-label>
+                            <input
+                            [(ngModel)]="filter.edadMinima"
+                            matInput
+                            name="Nombre Área"
+                            placeholder="Edad Mínima">
+                          </mat-form-field>
+                    </div>
+                    <div fxFlex="50"  class="pr-16">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>Edad Máxima</mat-label>
+                            <input
+                            [(ngModel)]="filter.edadMaxima"
+                            matInput
+                            name="Nombre Área"
+                            placeholder="Edad Máxima">
+                          </mat-form-field>
+                    </div>
+                    <div fxFlex="50"  class="pr-16">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>Salario Mínimo</mat-label>
+                            <input [(ngModel)]="filter.salarioMinimo" matInput name="Salario Mínimo" placeholder="Salario Mínimo">
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50"  class="pr-16">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>Salario Máximo</mat-label>
+                            <input [(ngModel)]="filter.salarioMaximo" matInput name="Salario Máximo" placeholder="Salario Máximo">
+                    </mat-form-field>
+                    </div>
+                    <div fxFlex="50"  class="pr-16">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>Género</mat-label>
+                            <mat-select [(ngModel)]="filter.genero">
+                                
+                                <mat-option  value="M">Masculino</mat-option>
+                                <mat-option  value="F">Femenino</mat-option>
+                                <mat-option  value="Indistinto">Indistinto</mat-option>        
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div fxFlex="50"  class="pr-16">
+                        <div style="margin-top: 15px;">
+                            <mat-checkbox (change)="toggleSelectIsWorking()" class="inbox-toggle-all">
+                            </mat-checkbox>
+                            <small style="font-weight: bold;"> Actualmente trabajando </small>    
+                        </div> 
+                    </div>
+                    <div fxFlex="100"  class="pr-16">
+                        <mat-form-field appearance="fill" style="width: 100%;">
+                            <mat-label>Tipo de Estudio</mat-label>
+                            <input
+                            [(ngModel)]="filter.levelStudy"
+                            matInput
+                            maxlength="100" 
+                            name="Tipo de Estudio"
+                            placeholder="Tipo de Estudio">
+                        </mat-form-field>
+                    </div> 
+                    <div fxFlex="100"  class="pr-16">
+                        <mat-form-field class="example-chip-list" appearance="fill" style="width: 100%;">
+                            <mat-label>Palabras Clave</mat-label> 
+                            <mat-chip-list #chipList aria-label="key selection">
+                              <mat-chip *ngFor="let kword of keyWords" (removed)="remove(kword)">
+                                {{kword.keyWord}}
+                                <button matChipRemove class="chip-remove">
+                                  <mat-icon class="icon-remove">cancel</mat-icon>
+                                </button>
+                              </mat-chip>
+                              <input placeholder="Nueva Palabra..."
+                                     [matChipInputFor]="chipList"
+                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                     [matChipInputAddOnBlur]="addOnBlur"
+                                     (matChipInputTokenEnd)="add($event)">
+                            </mat-chip-list>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div fxFlex="80"  class="pr-16">
+                <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                    <div class="filter__buttons" style="display: flex; justify-content: center;">
+                        <button *ngIf="flowDT.data.length > 0"
+                            mat-raised-button color="warn" 
+                            (click)="createEvaluation()">
+                            Pre-Seleccionar
+                        </button>
+                        <button *ngIf="flowDT.data.length > 0"
+                            mat-raised-button color="accent" (click)="exportar()">
+                            Exportar
+                        </button>
+                    </div>                    
+                </div>
+                <br>
+                
+            </div>
+        </div> -->
+    </div>  

@@ -1,0 +1,40 @@
+.content__evaluation_position {
+    width: 100%;
+    margin: 0px;
+    padding: 20px;
+    font-size: 12px;
+}
+
+.content__form {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.form-input {
+    flex-grow: 0.5;
+}
+
+.flex-200{
+    flex-basis: 200px;
+}
+
+@media screen and (max-width:500px) {
+    .flex-200{
+        flex-basis: 100%;
+    }
+    button{
+        width:95%;
+    }
+    .divBuscar{
+        width: 100%;
+    }
+    .divTable{
+        width: 100% !important;
+    }
+}
+
+.divTable{
+    width: 80%;
+}

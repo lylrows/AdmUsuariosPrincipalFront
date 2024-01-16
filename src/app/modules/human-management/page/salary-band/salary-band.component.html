@@ -1,0 +1,379 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+    <hr />
+
+    <div class="first">
+        <mat-accordion class="w-100" multi>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Filtros de Búsqueda </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div style="margin-left:15px ;">
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Año</mat-label>
+                                <input autocomplete="off" placeholder="Escribir año" matInput type="number"
+                                    minlength="4" maxlength="4" [(ngModel)]="Filter.Period" />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Mes</mat-label>
+                                <mat-select [(ngModel)]="Filter.Month">
+                                    <mat-option *ngFor="let item of listmonth" [value]="item.code">{{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Empresa</mat-label>
+                                <mat-select (selectionChange)="changeEmpresa()" [(ngModel)]="bussineFC">
+                                    <mat-option *ngFor="let item of empresas" [value]="item.nid_company">
+                                        {{item.sdescription}}
+                                    </mat-option>
+
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Gerencia</mat-label>
+                                <mat-select [disabled]="disabledGerencia" [(ngModel)]="gerenciaFC"
+                                    (selectionChange)="changeGerencia()">
+                                    <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea
+                                        | uppercase }}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Área (CC)</mat-label>
+                                <mat-select [disabled]="disabledArea" [(ngModel)]="areaCCFC">
+                                    <mat-option *ngFor="let item of areascc" [value]="item.code">{{item.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Nombre Cargo</mat-label>
+                                <input matInput maxlength="70" (keypress)="lettersOnly($event)"
+                                    [(ngModel)]="Filter.ChargeName" name="Nombre Cargo" placeholder="Nombre Cargo"
+                                    autocomplete="off">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-left: 16px;" class="pr-16">
+                    <div class="filter__buttons">
+                        <button (click)="getList()" mat-raised-button color="primary">
+                            Buscar
+                        </button>
+
+                        <button (click)="printXls()" mat-raised-button color="warn">
+                            Exportar
+                        </button>
+
+                        <button mat-raised-button color="warn" (click)="resetFilter()">Limpiar</button>
+                    </div>
+                    <a id="afile" name="afile" style="display: none;"></a>
+                </div>
+            </mat-expansion-panel>
+
+            <mat-accordion class="w-100" multi *ngIf="!this.responsive">
+                <mat-expansion-panel expanded>
+                    <mat-expansion-panel-header style="background-color: #FBE5D6;" fxLayoutAlign="center">
+                        <mat-panel-title>
+                            <p style="text-align: center; width: 100%;margin-top: 15px !important;font-weight: 700;font-size: 20px">Detalle de Banda Salarial por Colaborador</p>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <div style="overflow-x: auto;overflow-y: scroll;height: 700px;">
+                        <table id="tblLista">
+                            <thead>
+                            <tr>
+                                <td class="sticky-col first-col"></td>
+                                <td class="sticky-col second-col"></td>
+                                <td colspan="5"></td>
+                                <td class="headergris" colspan="5" style="text-align: center;">DETALLE DE INGRESOS</td>
+                                <td colspan="6" class="headergris"></td>
+                                <td class="headergris"></td>
+                                <td colspan="4" class="headergris"> Rango de Bandas</td>
+                                <td colspan="22" class="headerceleste">Banda del Puesto</td>
+                                
+                            </tr>
+                            <tr >
+                    
+                                <th class="headerceleste sticky-col first-col" style="z-index: 10;">Código</th>
+                                <th class="headerceleste sticky-col second-col" style="z-index: 10;">Nombre</th>
+                                <th class="headerceleste" style="width: 300px;">Cargo</th>
+                                <th class="headerceleste" style="width: 250px;">Área</th>
+                                <th class="headerceleste verticalTableHeader" style="width: 50px;">Categoría</th>
+                                <th class="headerceleste verticalTableHeader">Fecha <br> Ingreso</th>
+                                <th class="headerceleste verticalTableHeader">Años de <br> Servicio</th>
+                                <th class="headergris verticalTableHeader">Sueldo <br> Básico</th>
+                                <th class="headergris verticalTableHeader">PASI</th>
+                                <th class="headergris verticalTableHeader">PROMEDIO<br> DE <br>INGRESOS <br>VARIABLES</th>
+                                <th class="headergris verticalTableHeader">OTROS <br>INGRESOS <br>NO<br> REMUNERATIVOS</th>
+                                <th class="headergris verticalTableHeader">TOTAL <br>SUELDO </th>
+                                <th class="headerceleste verticalTableHeader" style="background-color: #FDB118 !important;">Incremento<br>Basico</th>
+                                <th class="headerceleste verticalTableHeader" style="background-color: #FDB118 !important;">Incremento<br>de<br>PASI</th>
+                                <th class="headerceleste verticalTableHeader" style="background-color: #FDB118 !important;">Incremento<br>de Ing.<br>No Remun.</th>
+                                <th class="headerceleste verticalTableHeader">SUELDO<br>PARA BANDA</th>
+                                <th class="headerceleste verticalTableHeader">Total<br>Nuevos Ingresos </th>
+                                <th class="headerceleste ">SEMAFORO <br> DE <br>   ALERTA</th>
+                                <th class="headerceleste">Estado en Banda</th>
+                                <th class="headerceleste">Mínimo S/</th>
+                                <th class="headerceleste">Medio S/</th>
+                                <th class="headerceleste">Máximo S/</th>
+                                <th class="headerceleste">PER BANDA %</th>
+                                <th class="headerceleste" colspan="6">Fuera de la Banda</th>
+                                <th class="headerceleste" colspan="3">Min</th>
+                                <th class="headerceleste" colspan="4">Medio</th>
+                                <th class="headerceleste" colspan="3">Max</th>
+                                <th class="headerceleste" colspan="6"> (+) Fuera de la Banda</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listdata" (click)="selectedRow(item)" >
+                    
+                                    <td class="sticky-col first-col" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.codEmployee}}</td>
+                                    <td class="sticky-col second-col" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}" >{{item.colaborator}}</td>
+                                    <td [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{ item.position }}</td>
+                                    <!-- <td>{{ item.managementName}}</td> -->
+                                    <td [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{ item.areaName }}</td>
+                                    <td [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{ item.categoryName}}</td>
+                                    <td style="text-align: center;" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{ item.admissionDate}}</td>
+                                    <td style="text-align: center;" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.yearsService}}</td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.basicMonth | number : '1.2-2'}}</td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.passive | number : '1.2-2'}}</td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.averageEarnableIncome | number : '1.2-2'}}</td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.otherUnpaid | number : '1.2-2'}}</td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.totalSalary | number : '1.2-2'}}</td>
+                                    
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        <span [ngClass]="{incremento: item.increase > 0,
+                                            decremento: item.increase <= 0}"> {{item.increase | number : '1.2-2'}} 
+                                        </span>
+                                            
+                                    </td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        <span [ngClass]="{incremento: item.increasePassive > 0,
+                                            decremento: item.increasePassive <= 0}"> {{item.increasePassive | number : '1.2-2'}} 
+                                        </span>
+
+                                    </td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        <span [ngClass]="{incremento: item.increaseUnpaid > 0,
+                                            decremento: item.increaseUnpaid <= 0}"> {{item.increaseUnpaid | number : '1.2-2'}} 
+                                        </span>
+                                    </td>
+                                    
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.salaryBandAmount | number : '1.2-2'}}</td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.totalNewIncome | number : '1.2-2'}}</td>
+                                    <!-- [ngClass]="{semaforo1: item.lights === 0.1, 
+                                        semaforo2: item.lights === 0.2,
+                                        semaforo3: item.lights === 0.3,
+                                        semaforo4: item.lights === 0.4,
+                                        semaforo5: item.lights === 0.5}" -->
+                                    <td [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                        <div [ngClass]="{circulo1: item.lights === 0.1, 
+                                            circulo2: item.lights === 0.2,
+                                            circulo3: item.lights === 0.3,
+                                            circulo4: item.lights === 0.4,
+                                            circulo5: item.lights === 0.5}"></div>
+                                    </td>
+                                    <td [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.statusBandText}}</td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">S/. {{item.minimunPoint | number : '1.2-2'}}</td>
+                                    <td class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">S/. {{item.middlePoint | number : '1.2-2'}}</td>
+                                    <td  class="columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">S/. {{item.maximunPoint | number : '1.2-2'}}</td>
+                                    <td class="columnanumerica"  [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.perBand | number : '1.2-2'}}%</td>
+                                    <td class="celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand <-51 ? "o" : "" }}</td>
+                                    <td class="celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 51 && item.perBand  < -41  ? "o" : "" }}</td>
+                                    <td class="celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > -41 && item.perBand  < -31  ? "o" : "" }}</td>
+                                    <td class="celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > -31 && item.perBand  < -21  ? "o" : "" }}</td>
+                                    <td class="celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > -21 && item.perBand  < -11  ? "o" : "" }}</td>
+                                    <td class="celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > -11 && item.perBand  <  0  ? "o" : "" }}</td>
+    
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 0 && item.perBand  <  11  ? "o" : "" }}</td>
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 11 && item.perBand  <  21  ? "o" : "" }}</td>
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 21 && item.perBand  <  31  ? "o" : "" }}</td>
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 31 && item.perBand  <  41  ? "o" : "" }}</td>
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 41 && item.perBand  <  51  ? "o" : "" }}</td>
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 51 && item.perBand  <  61  ? "o" : "" }}</td>
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 61 && item.perBand  <  71  ? "o" : "" }}</td>
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 71 && item.perBand  <  81  ? "o" : "" }}</td>
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 81 && item.perBand  <  91  ? "o" : "" }}</td>
+                                    <td class="celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 91 && item.perBand  <  101  ? "o" : "" }}</td>
+    
+                                    <td class="celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 101 && item.perBand  <  111  ? "o" : "" }}</td>
+                                    <td class="celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 111 && item.perBand  <  121  ? "o" : "" }}</td>
+                                    <td class="celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 121 && item.perBand  <  131  ? "o" : "" }}</td>
+                                    <td class="celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 131 && item.perBand  <  141  ? "o" : "" }}</td>
+                                    <td class="celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 141 && item.perBand  <  151  ? "o" : "" }}</td>
+                                    <td class="celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 151  ? "o" : "" }}</td>
+                        
+                                </tr>
+                                <tr *ngIf="listdata.length === 0">
+                                    <td colspan="46">No se encontraron registros </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+
+            <ng-template #DetailDialog>
+                <mat-dialog-content>
+                    <mat-accordion class="w-100" multi>
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header style="background-color: #FBE5D6;" fxLayoutAlign="center">
+                                <mat-panel-title>
+                                    <p style="text-align: center; width: 100%;margin-top: 15px !important;font-weight: 700;font-size: 20px">Detalle de Banda Salarial por Colaborador</p>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+        
+                            <div style="overflow-x: auto;overflow-y: scroll;height: 700px;">
+                                <table id="tblLista-res">
+                                    <thead>
+                                    <tr class="font-size-responsive">
+                                        <td class="sticky-col first-col-res"></td>
+                                        <td class="sticky-col second-col-res"></td>
+                                        <td colspan="5"></td>
+                                        <td class="headergris" colspan="5" style="text-align: center;">DETALLE DE INGRESOS</td>
+                                        <td colspan="6" class="headergris"></td>
+                                        <td class="headergris"></td>
+                                        <td colspan="4" class="headergris"> Rango de Bandas</td>
+                                        <td colspan="22" class="headerceleste">Banda del Puesto</td>                                        
+                                    </tr>
+                                    <tr class="font-size-responsive">                            
+                                        <th class="headerceleste sticky-col first-col-res" style="z-index: 10;" >Código</th>
+                                        <th class="headerceleste sticky-col second-col-res" style="z-index: 10;">Nombre</th>
+                                        <th class="headerceleste" style="width: 300px;">Cargo</th>
+                                        <th class="headerceleste" style="width: 250px;">Área</th>
+                                        <th class="headerceleste verticalTableHeader" style="width: 50px;">Categoría</th>
+                                        <th class="headerceleste verticalTableHeader">Fecha <br> Ingreso</th>
+                                        <th class="headerceleste verticalTableHeader">Años de <br> Servicio</th>
+                                        <th class="headergris verticalTableHeader">Sueldo <br> Básico</th>
+                                        <th class="headergris verticalTableHeader">PASI</th>
+                                        <th class="headergris verticalTableHeader">PROMEDIO<br> DE <br>INGRESOS <br>VARIABLES</th>
+                                        <th class="headergris verticalTableHeader">OTROS <br>INGRESOS <br>NO<br> REMUNERATIVOS</th>
+                                        <th class="headergris verticalTableHeader">TOTAL <br>SUELDO </th>
+                                        <th class="headerceleste verticalTableHeader" style="background-color: #FDB118 !important;">Incremento<br>Basico</th>
+                                        <th class="headerceleste verticalTableHeader" style="background-color: #FDB118 !important;">Incremento<br>de<br>PASI</th>
+                                        <th class="headerceleste verticalTableHeader" style="background-color: #FDB118 !important;">Incremento<br>de Ing.<br>No Remun.</th>
+                                        <th class="headerceleste verticalTableHeader">SUELDO<br>PARA BANDA</th>
+                                        <th class="headerceleste verticalTableHeader">Total<br>Nuevos Ingresos </th>
+                                        <th class="headerceleste ">SEMAFORO <br> DE <br>   ALERTA</th>
+                                        <th class="headerceleste">Estado en Banda</th>
+                                        <th class="headerceleste">Mínimo S/</th>
+                                        <th class="headerceleste">Medio S/</th>
+                                        <th class="headerceleste">Máximo S/</th>
+                                        <th class="headerceleste">PER BANDA %</th>
+                                        <th class="headerceleste" colspan="6">Fuera de la Banda</th>
+                                        <th class="headerceleste" colspan="3">Min</th>
+                                        <th class="headerceleste" colspan="4">Medio</th>
+                                        <th class="headerceleste" colspan="3">Max</th>
+                                        <th class="headerceleste" colspan="6"> (+) Fuera de la Banda</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of listdata" (click)="selectedRow(item)" class="font-size-responsive">
+                            
+                                            <td class="font-size-responsive sticky-col first-col-res" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.codEmployee}}</td>
+                                            <td class="font-size-responsive sticky-col second-col-res" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.colaborator}}</td>
+                                            <td class="font-size-responsive" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{ item.position }}</td>
+                                            <!-- <td>{{ item.managementName}}</td> -->
+                                            <td class="font-size-responsive" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{ item.areaName }}</td>
+                                            <td class="font-size-responsive" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{ item.categoryName}}</td>
+                                            <td class="font-size-responsive" style="text-align: center;" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{ item.admissionDate}}</td>
+                                            <td class="font-size-responsive" style="text-align: center;" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.yearsService}}</td>
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.basicMonth | number : '1.2-2'}}</td>
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.passive | number : '1.2-2'}}</td>
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.averageEarnableIncome | number : '1.2-2'}}</td>
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.otherUnpaid | number : '1.2-2'}}</td>
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.totalSalary | number : '1.2-2'}}</td>
+                                            
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                <span [ngClass]="{incremento: item.increase > 0,
+                                                    decremento: item.increase <= 0}"> {{item.increase | number : '1.2-2'}} 
+                                                </span>
+                                                    
+                                            </td>
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                <span [ngClass]="{incremento: item.increasePassive > 0,
+                                                    decremento: item.increasePassive <= 0}"> {{item.increasePassive | number : '1.2-2'}} 
+                                                </span>
+        
+                                            </td>
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                <span [ngClass]="{incremento: item.increaseUnpaid > 0,
+                                                    decremento: item.increaseUnpaid <= 0}"> {{item.increaseUnpaid | number : '1.2-2'}} 
+                                                </span>
+                                            </td>
+                                            
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.salaryBandAmount | number : '1.2-2'}}</td>
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.totalNewIncome | number : '1.2-2'}}</td>
+                                            <!-- [ngClass]="{semaforo1: item.lights === 0.1, 
+                                                semaforo2: item.lights === 0.2,
+                                                semaforo3: item.lights === 0.3,
+                                                semaforo4: item.lights === 0.4,
+                                                semaforo5: item.lights === 0.5}" -->
+                                            <td class="font-size-responsive" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">
+                                                <div [ngClass]="{circulo1: item.lights === 0.1, 
+                                                    circulo2: item.lights === 0.2,
+                                                    circulo3: item.lights === 0.3,
+                                                    circulo4: item.lights === 0.4,
+                                                    circulo5: item.lights === 0.5}"></div>
+                                            </td>
+                                            <td [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.statusBandText}}</td>
+                                            <td class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">S/. {{item.minimunPoint | number : '1.2-2'}}</td>
+                                            <td class="font-size-responsivecolumnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">S/. {{item.middlePoint | number : '1.2-2'}}</td>
+                                            <td  class="font-size-responsive columnanumerica" [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">S/. {{item.maximunPoint | number : '1.2-2'}}</td>
+                                            <td class="font-size-responsive columnanumerica"  [ngClass]="{'row-selected': item.idEmployee === isSelectedRow.idEmployee}">{{item.perBand | number : '1.2-2'}}%</td>
+                                            <td class="font-size-responsive celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand <-51 ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 51 && item.perBand  < -41  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > -41 && item.perBand  < -31  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > -31 && item.perBand  < -21  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > -21 && item.perBand  < -11  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > -11 && item.perBand  <  0  ? "o" : "" }}</td>
+            
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 0 && item.perBand  <  11  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 11 && item.perBand  <  21  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 21 && item.perBand  <  31  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 31 && item.perBand  <  41  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 41 && item.perBand  <  51  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 51 && item.perBand  <  61  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 61 && item.perBand  <  71  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 71 && item.perBand  <  81  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 81 && item.perBand  <  91  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdaceleste"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 91 && item.perBand  <  101  ? "o" : "" }}</td>
+            
+                                            <td class="font-size-responsive celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 101 && item.perBand  <  111  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 111 && item.perBand  <  121  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 121 && item.perBand  <  131  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 131 && item.perBand  <  141  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 141 && item.perBand  <  151  ? "o" : "" }}</td>
+                                            <td class="font-size-responsive celdamorada2"  style="padding-left: 0px !important;font-weight: bold !important;" >{{ item.perBand > 151  ? "o" : "" }}</td>
+                                
+                                        </tr>
+                                        <tr *ngIf="listdata.length === 0">
+                                            <td colspan="46">No se encontraron registros </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </mat-dialog-content>
+                <mat-dialog-actions align="end">
+                    <button mat-raised-button color="primary" style="margin: auto;" matDialogClose="no">Cerrar</button>
+                </mat-dialog-actions>
+            </ng-template>
+        </mat-accordion>
+    </div>
+</div>
+<a id="afile" name="afile" style="display: none;"></a>

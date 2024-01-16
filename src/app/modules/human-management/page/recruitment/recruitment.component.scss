@@ -1,0 +1,102 @@
+@import '../../../../../assets/styles/scss/variables';
+
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    margin-top: 50px;
+    img {
+        margin: auto;
+        width: 700px;
+        height: 328px;
+        border-radius: 20px;
+    }
+    h1 {
+        margin-top: 32px;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 24px;
+        line-height: 28px;
+        color: $menu-activo-color;
+    }
+    span {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 21px;
+        color: $text-black;
+    }
+    &__buttons {
+        margin-top: 30px;
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+        justify-content: center;
+        cursor: pointer;
+        &-externo {
+            width: 250px;
+            height: 60px;
+            background: $primary-color;
+            box-shadow: 0px 4px 4px $box-shadow-rgba;
+            border-radius: 20px;
+            color: $font-white;
+            border: none;
+            cursor: pointer;
+        }
+        &-interno {
+            width: 250px;
+            height: 60px;
+            background: $secondary-color;
+            box-shadow: 0px 4px 4px $box-shadow-rgba;
+            border-radius: 20px;
+            color: $font-white;
+            border: none;
+            cursor: pointer;
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .content {
+        img {
+            padding: 0px 10px 0px 10px;
+            height: 200px;
+        }
+        &__buttons {
+            flex-direction: column;
+            margin-bottom: 30px;
+            &-externo {
+                margin: auto;
+            }
+            &-interno {
+                margin: auto;
+            }
+        }
+    }
+    .section-title{
+        margin-bottom: 15px;
+    }
+}
+
+.section-recruitment {
+    width: 100%;
+    margin-top: 7%;
+}
+
+.section-title {
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 21px;
+    color: $text-black;
+}
+
+.section-table {
+    text-align:left;
+    width: 100%;
+    margin-top: 1%;
+}
+
+.section-button {
+    margin-top: 4%;
+}

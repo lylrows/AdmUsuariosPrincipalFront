@@ -1,0 +1,70 @@
+<div class="content">
+    <div class="divMain">
+        <div class="content__evaluation">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">1. Evaluación de competencias : 
+                <mat-icon (click)="openModal()" color="white" title="Ver Definiciones" style="font-size: 16pt; cursor: pointer;">library_books</mat-icon>
+            </h4>
+            <app-evaluation-proficiency [person]="person" [evaluationProficiency]="evaluationProficiency"
+                [evaluador]="evaluador" (updateevaluation)="updateproficiency.emit(true)">
+            </app-evaluation-proficiency>
+        </div>
+        <div class="content__evaluation">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">2. Evaluación de fortalezas:</h4>
+            <app-evaluation-rating [person]="person" [evaluador]="evaluador" [evaluationRating]="evaluationRating"
+                (updateevaluation)="updaterating.emit(true)"></app-evaluation-rating>
+        </div>
+        <div class="content__notas">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">3. Comentarios:</h4>
+            <div class="message"
+                style="background: #f1f1f1 !important; display: flex; text-align: center; padding: 8px 16px;">
+                <h2 class="item_message font-message">Usuario</h2>
+                <h2 class="item_message font-message">Notas</h2> 
+                <h2 class="item_date font-message">Fecha de registro</h2>
+            </div>
+            <div class="content-messages">
+                <div class="message" *ngFor="let item of notes">
+                    <span class="item_user">{{item.autor}}</span>
+                    <span class="item_message">{{item.descripcion}}</span>
+                    <span class="item_date">{{item.dateRegister | date:'dd/MM/YYYY hh:mm'}}</span>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="perfilesGerenteLiderRRHH.indexOf(nid_profile) != -1">
+            <div *ngIf="person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'" class="content_comentarios">
+                <h5 style="font-size: 14px !important;" *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - segunda fase'">Ingresar
+                    comentario:</h5>
+                <textarea [(ngModel)]="notesobj.descripcion" name="" id="" cols="30" rows="5"></textarea>
+                <div class="button-enviar">
+                    <button
+                        (click)="createNotes()" mat-raised-button color="primary">Grabar
+                        comentario</button>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="perfilesJefeArea.indexOf(nid_profile) != -1">
+            <div *ngIf="person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'" class="content_comentarios">
+                <h5 style="font-size: 14px !important;" *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - segunda fase'">Ingresar
+                    comentario:</h5>
+                <textarea [(ngModel)]="notesobj.descripcion" name="" id="" cols="30" rows="5"></textarea>
+                <div class="button-enviar">
+                    <button
+                        (click)="createNotes()" mat-raised-button color="primary">Grabar
+                        comentario</button>
+                </div>
+            </div>
+        </div>
+        <div class="content_buttons" *ngIf="perfilesGerenteLiderRRHH.indexOf(nid_profile) != -1 || perfilesJefeArea.indexOf(nid_profile) != -1">
+            <button [disabled]="dtoEvaluation.approved == null"
+                *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - segunda fase'"
+                (click)="aprovedEvaluation()" mat-raised-button
+                color="primary">Aprobar y Continuar</button>
+            <button [disabled]="dtoEvaluation.approved == null"
+                *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - segunda fase'"
+                (click)="rejectEvaluation()" mat-raised-button
+                color="primary">Terminar reclutamiento</button>
+            <button *ngIf="person != undefined" (click)="getDetailPath(person.idEvaluation)"
+                mat-button
+                color="warn">Cancelar</button>
+        </div>
+    </div>
+</div>

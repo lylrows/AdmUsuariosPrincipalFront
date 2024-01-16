@@ -1,0 +1,58 @@
+<div fxLayout="row wrap">
+    <div
+    *ngFor="let contact of contacts;let impar = odd;let par = even;"
+    
+    fxFlex="100"
+    fxFlex.gt-sm="50"
+    fxFlex.sm="50"
+    fxFlex.gt-lg="33"
+    >
+      <mat-card class="user-card p-0" [ngClass]="{colorpar:par,colorimpar:impar}" >
+        
+        <mat-card-content>
+          
+          <div class="card-title-text">
+            <span>
+              
+              <p class="first-line">{{contact.reason}}</p>
+              <p>Nombre: {{contact.name}}</p>
+              <p>Cargo: {{contact.position}}</p>
+              <p>
+                <!-- <mat-icon matSuffix>phone</mat-icon>  -->
+                <img src="./assets/icons/whatsapp.svg" style="height: 22px;
+                border: 0px solid;
+                width: 24px;">
+                : <a href="https://api.whatsapp.com/send?phone=51{{contact.phone.trim()}}" target="_blank">{{contact.phone}}</a> </p>   
+              <p>
+                <!-- <mat-icon matSuffix>settings_phone</mat-icon>  -->
+                <img src="./assets/icons/telephone.png" style="height: 20px;
+                border: 0px solid;
+                width: 24px;">
+                : {{contact.extension}} (anexo)
+                
+                <!-- <img src="./assets/icons/whatsapp_icon.svg" style="height: 20px;
+                width: 17.812923431396484px;
+                left: 3px;
+                top: 2px;
+                border-radius: 0px;
+                margin-top: 16px;"> -->
+
+              </p>   
+              <p>
+                <!-- <mat-icon matSuffix>email</mat-icon>  -->
+                <img src="./assets/icons/email.png" style="height: 20px;
+                border: 0px solid;
+                width: 24px;">
+                : <a href="mailto:{{contact.email}}">{{contact.email}}</a> </p>   
+
+            </span>
+            <span fxFlex></span>
+            <div class="item">
+              <a href="" class="toolbar-avatar md mr-16"><img [src]="contact.photo_url" alt=""></a>
+            </div>
+            
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>

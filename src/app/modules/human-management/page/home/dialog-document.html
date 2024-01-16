@@ -1,0 +1,57 @@
+<div fxLayout="row wrap" fxLayoutAlign="center" style="text-align: center;">
+    <div fxFlex="100">
+        <mat-card class="rounded-circle card-list-category" fxLayout="row wrap" fxLayoutAlign="start center">
+            <mat-icon _ngcontent-xai-c373="" role="img"
+                class="mat-icon notranslate mb-16 material-icons mat-icon-no-color avatar-md rounded-circle dibujo"
+                aria-hidden="true" data-mat-icon-type="font"
+                style="font-size: 32px; margin-right:15px !important; margin-bottom: 0!important; height: 32px; width: 32px;">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <rect width="32" height="32" fill="url(#pattern0)" />
+                    <defs>
+                        <pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
+                            <use xlink:href="#image0_10_122" transform="scale(0.03125)" />
+                        </pattern>
+                        <image id="image0_10_122" width="32" height="32"
+                            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAACJUlEQVRYhcWXMUscURSFvx0rYXY3oGl2QESsNmARCRgbC5t0/gH/hT9DrCVgI9ikTSGBmCJg0iXCQuKCIWIRK4skLlqeNPexl0l25s1u3LlwYN+de865b3Zm3nsNSUTGPPAC2ACeAkvAI7v2E/gOfAbeA2+AmyhVSWV4IulA1ePAuIX6Zea7OdF3knYkbUhalNQ2LFpux2p87I7TwJKknhN5KalbNhuHrnFC9EwzqoEVSQMjfpW0VsE4jzXTkGmulDWQSbo3wmtJyQTmAYlpybSzogYurPD4PxjncWza30Y1sGcFlw9gHnBpHnv5BhY0jNiHbUbSF8NMJKfrfBZ8A0eWPKwwm5YTa1XgHRrnSBINSU3gt32XMuA68svoeS3gNpLXAX4EXgJs2eBDBfNJ4tq8ALYSYNMGr6ZgHiJ4bSbAqg0+TbGB4LWaAMs2uJpiA8FrOQFmbfCrgLAPnABphHhqtfsFNcFrFvcqpQWvzrnVnLu6tuO2LZe62n6BXhqISLqz31kBYT7XRMh7nXyjjwv0Mqu7Q8Nld73kA+Jn91HSnKQbw5zl8ndpFNattpfgnsiS/3YAPAP6wHPgDJDhzHJ9qxmUaA3fPEnb1s1pSdf/uhM++hEzDzg1zjaSmk6kM2YTMbc9oON4zUkWo1TSW0knFcz/WoxCcpzleByMXI5RzRuSgGlsyS58Pl9U+6YU1bwtD6j1YOJR29HM40EPpw2p3uP5Hy0YgPj2aob/AAAAAElFTkSuQmCC" />
+                    </defs>
+                </svg>
+            </mat-icon>
+            <div style="text-align: center;">
+                <p class="m-0 text-14 text-muted line-height-1 color-write cssbuton" >{{dataEmpresaCategoria.nameCategory}}</p>
+            </div>
+        </mat-card>
+    </div>
+    <div fxFlex="100">
+        <mat-radio-group aria-label="Select an option" style="display:inline-grid;" [(ngModel)]="documentSelect">
+            <mat-radio-button *ngFor="let document of getListDocumentSubcategory(null); let i = index "
+                [value]="document.filenamefolder + document.filename" [checked]="i==0" style="padding-bottom: 18px;">
+                {{document.description}}</mat-radio-button>
+        </mat-radio-group>
+    </div>
+    
+    <div fxFlex="100">
+        <mat-tab-group style="height: 150px;width: 97%;">
+            <mat-tab [label]="distdocument.nameSubCategory"
+                *ngFor="let distdocument of distinctSubCategory; let i = index " style="overflow: scroll;">
+                <mat-radio-group aria-label="Select an option" style="display:inline-grid;"
+                    [(ngModel)]="documentSelect">
+                    <mat-radio-button
+                        *ngFor="let document of getListDocumentSubcategory(distdocument.idSubCategory) ; let i = index "
+                        [value]="document.filenamefolder + document.filename" [checked]="i==0"
+                        style="padding-bottom: 18px;">{{document.description}}</mat-radio-button>
+                </mat-radio-group>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <div fxLayout="row wrap" fxLayoutAlign="center" class="pre_actions">
+        <div class="filter__buttons">
+            <button mat-button color="primary" class="btn-principal" (click)="downloadDocument(documentSelect)"
+                [disabled]="!(documents.length>0)">Descargar</button>
+            <button mat-button color="warn" class="btn-secundario" (click)="onNoClick()">Cancelar</button>
+        </div>
+
+    </div>
+</div>

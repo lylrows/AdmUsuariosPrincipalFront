@@ -1,0 +1,72 @@
+.img-table{
+    width:45px;
+    height:45px;
+}
+
+.mat-column-description,.mat-column-option,.mat-column-id,.mat-column-title,.mat-column-nameArchivo,.mat-column-imagen,.mat-column-active {
+    width: 100%;
+}
+
+@media (min-width: 961px) {
+    .mat-column-option{
+        width: 10%;
+    }
+    .mat-column-id{
+        width: 10%;
+    }
+    .mat-column-title{
+        width: 15%;
+    }
+    .mat-column-description {
+        width: 20%;
+    }
+    .mat-column-nameArchivo,.mat-column-imagen,.mat-column-active{
+        width: 15%;
+    }
+}
+
+.ng-trigger-dialogContainer{
+    height: auto !important;
+}
+.ng-trigger-dialogContainer::-webkit-scrollbar {
+    height: 3px !important;
+    width: 3px !important;
+}
+
+
+
+
+
+
+.mat-column-option{
+    width: 10%;
+}
+.mat-column-id{
+    width: 5%;
+}
+.mat-column-title{
+    width: 10%;
+}
+.mat-column-description {
+    width: 55%;
+}
+.mat-column-nameArchivo{
+    width: 10%;
+}
+.mat-column-imagen{
+    width: 5%;
+}
+.mat-column-active{
+    width: 5%;
+}
+
+@media only screen and (max-device-width: 480px) {
+    .mat-table .mat-cell {
+      width: 100%;
+    }
+
+    .mat-table .mat-cell:first-child {
+        padding: 0px 4px 0 16px !important;
+        text-align: right !important;
+      }
+  }

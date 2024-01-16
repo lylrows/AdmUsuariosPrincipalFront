@@ -1,0 +1,17 @@
+.p-button {
+    background: transparent !important;
+    border: none !important;
+  }
+
+.p-button.p-button-icon-only.p-button-rounded {
+    border-radius: 50%;
+}
+
+::ng-deep .p-button-icon {
+  font-size: 20px !important;
+}
+
+button {
+  padding-top: 0px !important;
+  padding-bottom: 0px !important;
+}

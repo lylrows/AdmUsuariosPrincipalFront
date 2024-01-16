@@ -1,0 +1,64 @@
+<div class="filter">
+  <div class="filter__inputs">
+    <mat-form-field>
+      <mat-label>Empresa</mat-label>
+      <mat-select [(ngModel)]="filter.idEmpresa" (selectionChange)="changeEmpresa()">
+        <mat-option [value]="0">Mostrar Todos</mat-option>
+        <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Gerencia</mat-label>
+      <mat-select [(ngModel)]="filter.idGerencia" (selectionChange)="changeGerencia()">
+        <mat-option [value]="0">Mostrar Todos</mat-option>
+        <mat-option *ngFor="let item of gerencias" [value]="item.id">{{item.nameArea}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Área</mat-label>
+      <mat-select [(ngModel)]="filter.idArea">
+        <mat-option [value]="0">Mostrar Todos</mat-option>
+        <mat-option *ngFor="let item of lstAreas" [value]="item.id">{{item.nameArea}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Tipo de contratación</mat-label>
+      <mat-select [(ngModel)]="filter.idJobType"> 
+        <mat-option [value]="0">Mostrar Todos</mat-option>
+        <mat-option *ngFor="let item of lstTypeJob" [value]="item.id">{{item.descriptionValue}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="filter__buttons">
+    <button (click)="search()" mat-raised-button class="dark-blue-400 dark-blue-400-fg">Buscar</button>
+  </div>
+</div>
+
+<div class="content_jobs">
+  <mat-card (click)="loadDetail(item.id_job)" *ngFor="let item of lstJob;" class="content_job"
+    [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+    <div class="section_info_job">
+      <div class="content_detail_first">
+        <h2 class="title-job">{{item.stitle}}</h2>
+        <span class="company-date">{{item.scompanyname}}</span>
+        <div class="detail-job" [innerHTML]="item.snoticedetails | safeHtml"></div>
+      </div>
+      <div class="content_detail_second">
+          <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <ul class="primeralista">
+                   <li><i class="pi pi-clock"></i>&nbsp;&nbsp;Publicado el {{item.screationdate}}</li>
+                   <li><i class="pi pi-home"></i>&nbsp;&nbsp;{{item.slocation}}</li>
+                   <li><i class="pi pi-map-marker"></i>&nbsp;&nbsp;{{item.smodality}}</li>
+               </ul>
+           </div> 
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <div class="content__pagination">
+    <mat-paginator #paginator [length]="filter.pagination.totalItems" [pageIndex]="currentPage" [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
+    </mat-paginator>
+  </div>
+</div>

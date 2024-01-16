@@ -1,0 +1,99 @@
+
+<mat-card-title class="">
+  <div class="card-title-text">{{data.title}}</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-dialog-content>
+  <mat-card-content class="height-auto">
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Ventana</mat-label>
+            <mat-select [formControl]="itemForm.controls['idType']" required>
+                <mat-option *ngFor="let item of types" [value]="item.idType">{{item.descriptionValue}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="itemForm.controls['idType'].invalid">{{getErrorMessage(1)}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Orden</mat-label>
+          <input
+          matInput
+          name="Orden"
+          type="number"
+          min="0"
+          [formControl]="itemForm.controls['orden']"
+          placeholder="Orden"
+          required
+          >
+          <mat-error *ngIf="itemForm.controls['orden'].invalid">{{getErrorMessage(2)}}</mat-error>
+        </mat-form-field>
+      </div>
+      <div fxFlex="100" class="pr-16" style="padding-top: 20px;">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Url</mat-label>
+          <input
+          matInput
+          name="Url"
+          type="text"
+          [formControl]="itemForm.controls['urlImage']"
+          placeholder="Url"
+          >
+        </mat-form-field>
+      </div>
+      
+      <div  class="pr-16 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <div>
+            <div class="row mt-2 mb-2">
+              <div class="row">
+                <div class="col-md-6 col-sm-12 div-btn-file">
+                  <button mat-raised-button class="btn-grupofe mt-16 margin-right-10" (click)="fileInput.click()"
+                    type="button">
+                    <mat-icon>file_upload</mat-icon>
+                    Cargar foto
+                  </button>
+                </div>
+                <div class="col-md-6 col-sm-12 div-btn-file">
+                  <button mat-raised-button class="btn-grupofe mt-16 mr-4" (click)="deletefile();"
+                    type="button">
+                    <mat-icon>delete</mat-icon>
+                    Borrar foto
+                  </button>
+                </div>
+              </div>
+            </div>
+            <span style="font-size: 10px;">Tamaño recomendado de 815 x 338 píxeles </span>
+            <div class="row mt-16 mb-2">
+              <div class="col-md-6 col-sm-6 col-lg-12">
+                <span class="titulo-archivo">Foto: </span>
+                <p class="titulo-archivo" [innerHTML]="displayFileName"></p>
+                <input type="file" name="" (change)="capturarFile($event)" #fileInput class="archivo"
+                  style="display: none;" accept="image/png, image/gif, image/jpeg,image/jpg, image/webp, video/mp4, video/webm, video/ogg" />
+              </div>
+            </div>
+          </div>
+        </div>
+      <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="300">
+        <mat-card class="profile-sidebar mb-16 pb-0">
+          <div class="propic text-center">
+            <img [src]="imagenPrevia" *ngIf="isImage" alt="" style="width:270px; height:200px; border-radius:0;">
+            <video *ngIf="!isImage" controls  style="width:270px; height:200px; border-radius:0;">
+              <source [src]="imagenPrevia" type="video/mp4">
+            </video>
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex="50"  class="pt-16 pr-16">
+        <mat-slide-toggle  [formControl]="itemForm.controls['active']" >Activo</mat-slide-toggle>
+      </div>
+      <div fxFlex="100" class="filter__buttons mt-16">
+          <button mat-button color="primary" class="dark-blue-400 dark-blue-400-fg mr-4" [disabled]="itemForm.invalid">Guardar</button>
+          <span fxFlex></span>
+          <button mat-button color="danger" class="dark-blue-100 dark-blue-100-fg ml-4" type="button" (click)="dialogRef.close(false)">Cancel</button>
+      </div>
+    </div>
+    </form>
+  </mat-card-content>
+</mat-dialog-content>

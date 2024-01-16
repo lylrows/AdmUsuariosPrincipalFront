@@ -1,0 +1,70 @@
+<mat-card-title class="">
+  <div class="card-title-text">{{data.title}}</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-dialog-content>
+<mat-card-content class="height-auto">
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Empresa</mat-label>
+          <mat-select [formControl]="itemForm.controls['idCompany']" (selectionChange)="changeEmpresa($event)">
+            <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <small 
+        *ngIf="itemForm.controls['idCompany'].hasError('required') && itemForm.controls['idCompany'].touched" 
+        class="form-error-msg">La empresa es obligatorio </small>
+      </div>
+      <div fxFlex="50"  class="pr-16">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Area</mat-label>
+            <mat-select [formControl]="itemForm.controls['idArea']" >
+              <mat-option *ngFor="let item of areas" [value]="item.id">{{item.nameArea}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      <div fxFlex="50"  class="pr-16">
+        <mat-form-field class="full-width" appearance="fill">
+          <mat-label>Asunto</mat-label>
+          <input
+          matInput
+          maxlength="100"
+          name="Asunto"
+          [formControl]="itemForm.controls['subject']"
+          placeholder="Asunto">
+        </mat-form-field>
+        <small *ngIf="itemForm.controls['subject'].hasError('required') && itemForm.controls['subject'].touched" 
+          class="form-error-msg"> El Asunto es obligatorio </small>
+        <small *ngIf="itemForm.controls['subject'].hasError('pattern') && itemForm.controls['subject'].touched" 
+            class="form-error-msg"> Solo se debe de ingresar <strong>números, letras y ("-")</strong></small>
+      </div>           
+      
+      <div fxFlex="50"  class="pt-16 pr-16">
+        <mat-slide-toggle [formControl]="itemForm.controls['active']">Activo</mat-slide-toggle>
+      </div>
+
+      <div fxFlex="100"  class="pr-16">
+          
+        Descripción:
+          
+            <mat-card-content class="p-0">
+              <quill-editor [modules]="editorOptions" 
+              theme="snow"  
+              [formControl]="itemForm.controls['body']"></quill-editor>
+            </mat-card-content>
+      </div>
+
+       <div fxFlex="100" class="filter__buttons mt-16">
+        <button mat-button color="primary" class="dark-blue-400 dark-blue-400-fg mr-4"
+          [disabled]="itemForm.invalid">Guardar</button>
+        <span fxFlex></span>
+        <button mat-button color="danger" class="dark-blue-100 dark-blue-100-fg ml-4" type="button"
+          (click)="dialogRef.close(false)">Cancel</button>
+      </div>
+    </div>
+    </form>
+</mat-card-content>
+</mat-dialog-content>

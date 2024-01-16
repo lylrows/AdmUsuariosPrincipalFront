@@ -1,0 +1,82 @@
+.mat-card {
+  border-radius: 20px;
+  min-height: 188px;
+}
+
+.colorpar {
+  background-color: #fff;
+  border-color: #8cadda;
+  color: #8cadda;
+  border-style: double;
+  border-width: 1px;
+}
+
+.colorimpar {
+  background-color: #fff;
+  /* 108, 124, 172*/
+  border-color: #7b8ec8;
+  color: #7b8ec8;
+  border-style: double;
+  border-width: 1px;
+}
+
+/*
+  PANTONE
+
+  #6c7cac=> 108, 124, 172  => Oscuro
+  #8cadda=> 140, 173, 218  => Medio
+  #cddcea=> 205, 220, 234  => Claro  
+
+*/
+
+.toolbar-avatar.md,
+.toolbar-avatar.md>img {
+  width: 120px !important;
+  height: 120px;
+}
+
+.mat-card.p-0 .mat-card-content {
+  padding: 0 0rem 0rem;
+}
+
+p {
+  margin: 0 0 10px;
+  font-size: 14px;
+}
+
+.first-line {
+  padding-top: 1.5rem;
+  
+  font-size: 17px;
+  font-weight: 600;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-color: #97aae4;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.item {
+  width: 120px;
+  min-height: 120px;
+  max-height: auto;
+  float: left;
+  margin: 3px;
+  padding: 3px;
+}
+
+.material-icons {
+  font-size: 20px;
+  line-height: 0;
+}
+
+@media only screen and (max-device-width: 360px) {
+
+  .card-title-text > span:first-child{
+    width: 50% !important;
+  }
+  
+}

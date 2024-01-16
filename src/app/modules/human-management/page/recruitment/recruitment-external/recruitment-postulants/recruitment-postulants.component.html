@@ -1,0 +1,288 @@
+<div class="content">    
+    <div class="section-header"> 
+        <div class="section-info" *ngIf="position != ''">
+            <button routerLink="/humanmanagement/recruitment" mat-icon-button>
+                <mat-icon>keyboard_backspace</mat-icon>
+              </button> 
+              <label style="align-self: center;">Puesto requerido: </label> 
+              <span style="align-self: center;">{{position}}</span>
+        </div>
+    </div>
+    <div style="margin-left: 15px;">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Título / Carrera</mat-label>
+                    <input [(ngModel)]="filter.estudios" matInput placeholder="Título / Carrera">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Institución</mat-label>
+                    <input
+                    [(ngModel)]="filter.universidad"
+                    matInput
+                    maxlength="100"
+                    name="universidad"
+                    placeholder="Institución">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Edad Mínima</mat-label>
+                    <input [(ngModel)]="filter.edadMinima" (keypress)="valideKey($event)" maxlength="2" matInput name="Nombre Área" placeholder="Edad Mínima">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Edad Máxima</mat-label>
+                    <input [(ngModel)]="filter.edadMaxima" (keypress)="valideKey($event)" maxlength="2" matInput name="Nombre Área" placeholder="Edad Máxima">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Salario Mínimo</mat-label>
+                    <input [(ngModel)]="filter.salarioMinimo" (keypress)="valideKeyAmount($event, filter.salarioMinimo)" matInput name="Salario Mínimo" placeholder="Salario Minimo">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Salario Máximo</mat-label>
+                    <input [(ngModel)]="filter.salarioMaximo" (keypress)="valideKeyAmount($event, filter.salarioMinimo)" matInput name="Salario Máximo" placeholder="Salario Maximo">
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Género</mat-label>
+                    <mat-select [(ngModel)]="filter.genero">
+                        <!-- <mat-option  value=""></mat-option> -->
+                        <mat-option  value="M">Masculino</mat-option>
+                        <mat-option  value="F">Femenino</mat-option>
+                        <mat-option  value="Indistinto">Indistinto</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Tipo de Estudio</mat-label>
+                    <input
+                    [(ngModel)]="filter.levelStudy"
+                    matInput
+                    maxlength="100"
+                    name="Tipo de Estudio" 
+                    placeholder="Tipo de Estudio">
+                  </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <mat-form-field class="example-chip-list" appearance="fill" style="width: 100%;">
+                    <mat-label>Palabras Clave</mat-label>  
+                    <mat-chip-list #chipList aria-label="key selection">
+                      <mat-chip *ngFor="let kword of keyWords" (removed)="remove(kword)">
+                        {{kword.keyWord}}
+                        <button matChipRemove class="chip-remove">
+                          <mat-icon class="icon-remove">cancel</mat-icon>
+                        </button>
+                      </mat-chip>
+                      <input placeholder="Nueva Palabra..."
+                             [matChipInputFor]="chipList"
+                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                             [matChipInputAddOnBlur]="addOnBlur"
+                             (matChipInputTokenEnd)="add($event)">
+                    </mat-chip-list>
+                </mat-form-field>
+            </div>
+            <div fxFlex="33" class="pr-16">
+                <div style="margin-top: 15px;">
+                    <mat-checkbox (change)="toggleSelectIsWorking()" class="inbox-toggle-all">
+                    </mat-checkbox>
+                    <small style="font-weight: bold;"> Actualmente trabajando </small>               
+                </div>  
+            </div>
+        </div>
+    </div>
+    <div class="filter__buttons">
+        <button mat-raised-button color="primary" (click)="getPostulants(true)">
+            Buscar
+        </button>
+        <button *ngIf="flowDT.data.length > 0"
+            mat-raised-button color="warn" (click)="createEvaluation()">
+            Pre-Seleccionar
+        </button>    
+        <button *ngIf="flowDT.data.length > 0"
+            mat-raised-button color="accent" (click)="exportar()">
+            Exportar
+        </button> 
+        <a id="afile" name="afile" style="display: none;"></a>
+    </div>
+    <div class="section-table">
+        <table mat-table [dataSource]="flowDT" class="w-100 mat-elevation-z8"
+                        style="box-shadow: none;">
+                    <ng-container matColumnDef="check" sticky>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="">
+                            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+                                [checked]="selection.isSelected(row)">
+                            </mat-checkbox>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="skill">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Asertividad</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nivel de Skills : ">
+                            <p-tag *ngIf="row.porcentajeAsertividad >= 0 && row.porcentajeAsertividad <= 50" severity="danger">{{row.porcentajeAsertividad}} %</p-tag>
+                            <p-tag *ngIf="row.porcentajeAsertividad > 50 && row.porcentajeAsertividad <= 70" severity="warning">
+                                {{row.porcentajeAsertividad}} %
+                            </p-tag>
+                            <p-tag *ngIf="row.porcentajeAsertividad > 70 && row.porcentajeAsertividad <= 100" severity="success">
+                                {{row.porcentajeAsertividad}} %
+                            </p-tag>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="fullName">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre del Postulante</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre del postulante. : ">
+                            <a style="color:#536BB2;font-weight:bold;" (click)="getCvNewWindow(row.idPerson, row.idJob, row.idPostulant, row)">{{ row.fullName }}</a>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="documentNumber">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>DNI</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="DNI : ">
+                            {{ row.documentNumber }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo de Contacto</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Correo de contacto. : ">
+                            {{ row.email }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cellPhone">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                            Nro. de Contacto
+                        </th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nro: de contacto : ">
+                            {{ row.cellPhone }}
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="cvGrupoFe">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">
+                            CV
+                        </th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="CV en Grupo fe : "
+                           style="text-align: center;"
+                            >
+                            <div class="divCV">
+                            <!-- <img src="./assets/icons/pdf.png" style="margin-right:5px; cursor: pointer"
+                                 (click)="getCv(row.idPerson, row.idJob, row.idPostulant, row)"
+                                 matTooltip="Formato PDF Grupo FE"> -->
+
+                            <svg (click)="getCv(row.idPerson, row.idJob, row.idPostulant, row)" style="cursor:pointer;" version="1.0" xmlns="http://www.w3.org/2000/svg"
+                                 width="20pt" height="20pt" viewBox="0 0 512.000000 512.000000"
+                                 preserveAspectRatio="xMidYMid meet">                                
+                                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                                fill="red" stroke="none">
+                                <path d="M920 5033 c-173 -26 -294 -129 -341 -288 -21 -75 -21 -4295 0 -4370
+                                39 -132 126 -222 266 -274 35 -13 209 -16 1275 -18 l1235 -4 -80 81 -79 80
+                                -1156 2 -1157 3 -49 30 c-30 19 -60 49 -79 79 l-30 49 0 2157 0 2157 30 49
+                                c19 30 49 60 79 79 l49 30 876 3 c794 2 880 1 921 -14 38 -14 170 -141 862
+                                -833 633 -632 822 -826 837 -861 20 -43 21 -65 21 -505 l0 -460 80 -80 80 -80
+                                0 505 c0 278 -5 534 -10 569 -20 141 11 106 -907 1022 -917 915 -866 869
+                                -1007 890 -58 8 -1663 11 -1716 2z"/>
+                                <path d="M2371 3470 c-44 -10 -82 -40 -100 -76 -10 -19 -16 -72 -19 -149 -4
+                                -132 21 -308 77 -534 l28 -115 -39 -90 c-94 -216 -374 -760 -416 -808 -8 -10
+                                -58 -41 -111 -69 -229 -122 -394 -261 -450 -379 -49 -104 -39 -140 52 -187
+                                112 -56 209 -25 342 111 76 78 212 267 299 417 l38 66 122 36 c241 72 455 122
+                                682 161 l91 16 104 -49 c120 -57 324 -128 392 -137 26 -4 47 -9 47 -11 0 -2
+                                -28 -36 -61 -75 -145 -169 -216 -331 -238 -546 -33 -317 102 -637 352 -837
+                                410 -328 1014 -262 1342 148 328 410 262 1014 -148 1342 -242 193 -568 258
+                                -867 171 l-80 -23 0 26 c0 67 -68 123 -177 146 -84 18 -322 20 -478 3 l-112
+                                -11 -61 37 c-162 98 -332 313 -426 537 l-28 66 21 131 c26 165 51 388 51 459
+                                0 171 -87 256 -229 223z m103 -93 c52 -78 60 -304 16 -419 -12 -32 -25 -58
+                                -30 -58 -27 0 -59 409 -36 478 9 28 31 28 50 -1z m38 -1077 c66 -100 128 -173
+                                218 -255 36 -32 66 -62 68 -66 1 -3 -46 -16 -105 -29 -126 -26 -382 -98 -477
+                                -134 -36 -14 -66 -21 -66 -16 0 6 22 50 49 99 73 130 146 278 187 378 46 113
+                                54 127 63 117 4 -5 33 -47 63 -94z m1108 -406 c76 -18 110 -37 110 -63 0 -22
+                                -45 -41 -95 -41 -65 0 -335 85 -350 111 -10 16 262 11 335 -7z m640 -109 c52
+                                -27 60 -58 60 -220 l0 -145 103 0 c115 0 158 -17 178 -68 26 -66 12 -93 -177
+                                -355 -107 -149 -190 -255 -206 -263 -37 -19 -87 -18 -121 4 -15 9 -107 127
+                                -204 262 -186 259 -200 287 -174 352 20 51 63 68 179 68 l102 0 0 145 c0 161
+                                8 193 58 219 37 21 164 21 202 1z m-2446 -237 c-35 -60 -120 -178 -177 -246
+                                -61 -74 -148 -151 -170 -152 -4 0 2 19 14 43 41 80 123 176 248 290 85 78 98
+                                87 85 65z"/>
+                                </g>
+                                </svg>&nbsp;
+                            <!-- <img src="./assets/icons/word.png" style="margin-right:5px; cursor: pointer"
+                                 (click)="getCvWord(row.idPerson, row.idJob, row.idPostulant, row)"
+                                 matTooltip="Formato Word Grupo FE"> -->
+                            <svg (click)="getCvWord(row.idPerson, row.idJob, row.idPostulant, row)" style="cursor:pointer;" version="1.0" xmlns="http://www.w3.org/2000/svg"
+                                 width="20pt" height="20pt" viewBox="0 0 512.000000 512.000000"
+                                 preserveAspectRatio="xMidYMid meet">
+                                
+                                <g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+                                fill="blue" stroke="none">
+                                <path d="M887 5030 c-159 -27 -292 -166 -318 -331 -6 -41 -9 -828 -7 -2184 l3
+                                -2120 21 -52 c45 -110 134 -197 244 -240 42 -17 124 -18 1285 -21 l1240 -3
+                                -80 81 -79 80 -1156 2 c-1071 3 -1157 4 -1186 20 -41 22 -90 71 -112 112 -16
+                                29 -17 166 -17 2186 0 2020 1 2157 17 2186 22 41 71 90 112 112 28 16 100 17
+                                896 20 640 2 877 0 910 -9 41 -11 113 -80 869 -833 661 -659 828 -831 847
+                                -871 l24 -50 0 -455 0 -455 80 -80 80 -80 0 520 c0 567 -4 610 -56 702 -37 66
+                                -1651 1680 -1717 1717 -97 55 -108 56 -1017 55 -459 -1 -857 -5 -883 -9z"/>
+                                <path d="M1645 2638 c2 -7 77 -299 165 -648 89 -349 166 -652 171 -672 l10
+                                -38 164 0 c91 0 165 2 165 4 0 2 41 163 91 357 51 195 106 426 124 514 22 106
+                                34 152 38 135 3 -14 18 -83 32 -155 14 -71 68 -292 119 -490 l93 -360 164 -3
+                                165 -2 172 677 c95 373 172 681 172 686 0 4 -63 7 -139 7 -138 0 -139 0 -145
+                                -24 -45 -179 -201 -875 -215 -957 -18 -110 -31 -147 -31 -93 -1 61 -53 292
+                                -152 676 l-103 398 -137 0 c-76 0 -138 -2 -138 -5 0 -3 -45 -178 -100 -388
+                                -104 -401 -122 -479 -145 -616 -14 -84 -25 -114 -25 -70 -1 50 -52 296 -142
+                                681 l-93 398 -142 0 c-110 0 -141 -3 -138 -12z"/>
+                                <path d="M4010 1905 c-413 -65 -733 -388 -795 -803 -19 -121 -19 -163 0 -283
+                                63 -421 383 -741 803 -804 121 -19 163 -19 284 0 420 63 740 383 803 804 19
+                                120 19 162 0 282 -63 421 -383 741 -803 804 -116 18 -178 18 -292 0z m245
+                                -121 c55 -26 65 -62 65 -223 l0 -141 103 0 c84 0 107 -4 131 -19 68 -45 74
+                                -112 19 -193 -130 -189 -332 -459 -354 -472 -34 -20 -84 -20 -118 0 -22 13
+                                -220 277 -353 472 -56 81 -50 148 18 193 24 15 47 19 132 19 l102 0 0 141 c0
+                                160 10 197 63 223 42 21 149 21 192 0z"/>
+                                </g>
+                                </svg>   
+                            <!-- <img src="./assets/icons/pdf.png" *ngIf="row.cvName != null"
+                                 (click)="getFile(row.cvAttached, row.cvName)" style="cursor: pointer"
+                                 matTooltip="Descargar Formato de Postulante">  -->
+                            <button
+                                 (click)="getFile(row.cvAttached, row.cvName)"
+                                     style="border: 0px;color:#536BB2 !important;
+                                     background: transparent; "           
+                                     matTooltip="Descargar CV Adjuntado">
+                                     <mat-icon>archive</mat-icon>  
+                         </button>  
+                            </div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="state">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+                            <p-tag *ngIf="row.state== 'CV no leído'" severity="danger" [value]="row.state"></p-tag>
+                            <p-tag *ngIf="row.state== 'CV Leído'" severity="success" [value]="row.state"></p-tag>
+                            <p-tag *ngIf="row.state== 'PreSeleccionado'" severity="info" [value]="'Pre-Seleccionado'"></p-tag>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="dateRegister">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Postulación</th>
+                        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha de postulación : ">
+                            {{ row.dateRegister}}
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        
+                    <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell text-center" colspan="10">
+                            No se encontró postulantes
+                        </td>
+                    </tr>
+                </table>
+                <mat-paginator class="w-100" #paginator [length]="filter.pagination.totalItems" [pageIndex]="currentPage" 
+                    [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)"
+                    aria-label="Select page">
+                </mat-paginator>
+    </div>
+</div>

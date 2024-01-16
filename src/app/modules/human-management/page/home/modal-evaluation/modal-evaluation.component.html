@@ -1,0 +1,23 @@
+<div class="content">
+    <div class="header">
+        <h1>LISTA DE CAMPAÑAS POR REVISAR</h1>
+        <hr style="width: 100%;">
+    </div>
+
+    <div class="text">
+        <p>Tienes las siguientes campañas pendientes por revisar.</p>
+    </div>
+
+    <div class="list">
+        <div *ngFor="let item of evaluation" class="list-group">
+            <h1>{{ item.campaign }}</h1>
+            <button (click)="detail()" mat-icon-button >
+                <mat-icon color="accent">touch_app</mat-icon>
+              </button>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button type="button" style="background-color: #cddcea;color:#343a67" mat-raised-button (click)="cancel()">Cancelar</button>
+    </div>
+</div>

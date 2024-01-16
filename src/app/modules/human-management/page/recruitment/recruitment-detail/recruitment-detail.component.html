@@ -1,0 +1,805 @@
+<div class="content">
+  <h2 class="title">Panel de reclutamiento de personal</h2>
+  <mat-card style="background: linear-gradient(103.06deg, #C4F1FF -10.93%, rgba(238, 244, 248, 0.75) 78.46%), #EEF4F8;
+              ">
+    <!-- width: 1115px; height: 126px;  -->
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="10" class="divfoto">
+        <!-- <img src="http://181.224.251.52:8042/Imagenes/Usuario/2o24cu3p.uhz.png" style="width:100px;height:100px;background:#C4C4C4;border-radius:100px;"> -->
+        <img class="img_profile" *ngIf="detail != undefined && detail.sphoto_url != ''" [src]="detail?.sphoto_url" style="width:100px;height:100px;background:#C4C4C4;border-radius:100px;">
+        <img class="img_profile" *ngIf="detail != undefined && detail.sphoto_url == ''"
+            src="../../../../../../assets/images/avatars/avatar.jpg" style="width:100px;height:100px;background:#C4C4C4;border-radius:100px;">
+      </div>
+      <div fxFlex="60">
+        <p>
+          <mat-label class="name_label" style="color: #7B8EC8">Solicitante: {{detail?.fullname}}</mat-label>
+
+        </p>
+
+        <span>
+          <mat-icon style="color: #111111;">email</mat-icon>
+          <span class="aligned-with-icon"> {{detail?.semail}}</span>
+
+        </span>
+        <p>
+          <mat-icon style="color: #111111;">phone</mat-icon>
+          <span class="aligned-with-icon"> {{detail?.sphone}}</span>
+
+        </p>
+
+
+      </div>
+      <div fxFlex="30" style="text-align: center;padding-top: 32px !important;">
+        <div *ngIf="level != 4 && state != 4">
+          <div *ngIf="permiss != null && permiss.boolSAcceptorDecline == true && 
+                        idprofile == 2 && level == 1 ||
+                        idprofile == 3 && level == 2 ||
+                        idprofile == 20 && level == 3 ||
+                        ((profileLiderTalento.indexOf(idprofile) > -1 || idprofile == 20) && state == 2)">
+            <!-- idprofile estaba con codigo 20 -->
+            <!-- <div *ngIf="idprofile == this.detail.nid_profile_aprovver && state == 2"> -->
+            <button mat-raised-button color="primary" (click)="openDialogAprobar()" style="margin: 0 3px;">
+              Aprobar
+            </button>
+            <button mat-raised-button color="primary" class="pl-16 " (click)="openDialogRechazar()"
+              style="background: #8CACDA !important;margin: 0 3px;">
+              Rechazar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+  <div class="buttons" *ngIf="level == 4 && state != 4 && (this.idprofile == 20 || this.idprofile == 21)">
+    <button mat-raised-button color="primary" routerLink="/support/crud-postjoboffer/{{this.id}}" class="btneditar"
+      style="text-align: left;">
+      {{buttonpublicar}}
+    </button>
+  </div>
+  <!-- INICIO INFO -->
+
+
+
+  <mat-tab-group [@.disabled]="true" style="width: 100%;">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        Datos del Puesto
+      </ng-template>
+      <h3 style="color: #536BB2;font-weight: bold;margin-left: 20px;">Datos del Puesto</h3>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Empresa
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            {{detail?.scompany_position}}
+          </div>
+        </div>
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Área
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            {{detail?.sarea_position}}
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Puesto
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;padding-top: 10px;
+                               padding-bottom: 10px;margin-bottom: 6px;">
+            {{detail?.sname}}
+          </div>
+        </div>
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Tipo de Vacante
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            {{detail?.styperequest}}
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Locación
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;padding-top: 10px;
+                               padding-bottom: 10px;margin-bottom: 6px;">
+            {{detail?.slocation}}
+          </div>
+        </div>
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Sede
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            {{detail?.ssede}}
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Categoría del Empleado
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            {{detail?.scategory}}
+          </div>
+        </div>
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Discapacidad
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            {{detail?.isSuitableForDisabled ? 'Si' : 'No'}}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="detail?.ntype != 2">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+        margin-bottom: 6px;margin-left: 20px;">
+
+          <div fxFlex="20" >
+            <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+              Sexo
+            </div>
+          </div>
+          <div fxFlex="30" >
+            <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                              margin-right: 4px;    padding-top: 10px;
+                              padding-bottom: 10px;">
+              {{detail?.ssex}}
+            </div>
+          </div>
+          <div fxFlex="20">
+            <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+              Nivel Académico
+            </div>
+          </div>
+          <div fxFlex="30">
+            <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                              margin-right: 4px;    padding-top: 10px;
+                              padding-bottom: 10px;">
+              {{detail?.sacademiclevel}}
+            </div>
+          </div>
+
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                      margin-bottom: 6px;margin-left: 20px;">
+          <div fxFlex="20">
+            <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+              Edad Mínima
+            </div>
+          </div>
+          <div fxFlex="30">
+            <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                                margin-right: 4px;    padding-top: 10px;
+                                padding-bottom: 10px;">
+              {{detail?.nminimumage}}
+            </div>
+          </div>
+          <div fxFlex="20">
+            <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+              Edad Máxima
+            </div>
+          </div>
+          <div fxFlex="30">
+            <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                                margin-right: 4px;    padding-top: 10px;
+                                padding-bottom: 10px;">
+              {{detail?.nmaximumage}}
+            </div>
+          </div>
+
+        </div>
+        <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                      margin-bottom: 6px;margin-left: 20px;">
+          <div fxFlex="20">
+            <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+              Nivel Académico
+            </div>
+          </div>
+          <div fxFlex="30">
+            <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                                margin-right: 4px;    padding-top: 10px;
+                                padding-bottom: 10px;">
+              {{detail?.sacademiclevel}}
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Conocimientos
+          </div>
+        </div>
+        <div fxFlex="80" style="padding-bottom: 6px;">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                      margin-right: 4px;    padding-top: 10px;
+                      padding-bottom: 10px;">
+            <div class="html-editor" [innerHTML]="detail?.sknowledge | safeHtml"></div>
+          </div>
+        </div>
+
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Certificaciones
+          </div>
+        </div>
+        <div fxFlex="80" style="padding-bottom: 6px;">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <div class="html-editor" [innerHTML]="detail?.sabilities | safeHtml"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Justificación
+          </div>
+        </div>
+        <div fxFlex="80" style="padding-bottom: 6px;">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                 margin-right: 4px;    padding-top: 10px;
+                 padding-bottom: 10px;">
+            <div class="html-editor" [innerHTML]="detail?.sjustification | safeHtml"></div>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                      margin-bottom: 6px;margin-left: 20px;">
+
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Idiomas
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div>
+            <p style="justify-content: center; align-items: center;" *ngFor="let item of detail?.lstLanguages">
+              <mat-icon style="size:20%;vertical-align: bottom;">remove</mat-icon>{{item.slanguage}} - {{item.snivel}}
+            </p>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+
+        <div fxFlex="100">
+
+          <div class="pt-16 pl-8 pb-16 has_label_on_mobile" style="color: #536BB2;font-weight: bold;">
+            Competencias
+          </div>
+          <!-- INICIO TABLE -->
+          <table id="idtable-competences" mat-table [dataSource]="CompetenciasDTO" style="width: 100%;box-shadow: none;"
+            multiTemplateDataRows>
+            <ng-container matColumnDef="NameCompetence">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Competencias
+
+              </th>
+              <td mat-cell *matCellDef="let row">
+                <span style="display: flex;" class="pt-16">
+                  {{row.nameProficiency}}
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Level1">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Nivel 1</th>
+              <td mat-cell *matCellDef="let row" style="text-align:center;">
+                <mat-radio-button [disabled]="row.idLevel != 1" matTooltip="Nivel 1" [name]="row.id"
+                  [checked]="row.idLevel == 1">
+                </mat-radio-button>
+                <span class="has_label_on_mobile" style="color: #536BB2;font-weight: bold;">
+                  Nivel 1
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Level2">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Nivel 2</th>
+              <td mat-cell *matCellDef="let row" style="text-align:center;">
+                <mat-radio-button [disabled]="row.idLevel != 2" matTooltip="Nivel 2" [name]="row.id"
+                  [checked]="row.idLevel == 2">
+                </mat-radio-button>
+                <span class="has_label_on_mobile" style="color: #536BB2;font-weight: bold;">
+                  Nivel 2
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Level3">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Nivel 3</th>
+              <td mat-cell *matCellDef="let row" style="text-align:center;">
+                <mat-radio-button [disabled]="row.idLevel != 3" matTooltip="Nivel 3" [name]="row.id"
+                  [checked]="row.idLevel == 3">
+                </mat-radio-button>
+                <span class="has_label_on_mobile" style="color: #536BB2;font-weight: bold;">
+                  Nivel 3
+                </span>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Level4">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align:center;">Nivel 4</th>
+              <td mat-cell *matCellDef="let row" style="text-align:center;">
+                <mat-radio-button [disabled]="row.idLevel != 4" matTooltip="Nivel 4" [name]="row.id"
+                  [checked]="row.idLevel == 4">
+                </mat-radio-button>
+                <span class="has_label_on_mobile" style="color: #536BB2;font-weight: bold;">
+                  Nivel 4
+                </span>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns1; sticky: true">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+
+            <tr class="mat-row" *matNoDataRow>
+              <td class="mat-cell text-center" colspan="9">
+                No se encontro Borradores
+              </td>
+            </tr>
+          </table>
+        </div>
+      
+      </div>
+
+    </mat-tab>
+
+    <mat-tab *ngIf="detail?.ntype != 2">
+      <ng-template mat-tab-label>
+        Especialidades
+      </ng-template>
+      <h3 style="color: #536BB2;font-weight: bold;margin-left: 20px;">Especialidades</h3>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Especialidades Requeridas
+          </div>
+        </div>
+        <div fxFlex="30" style="padding-bottom: 6px;">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <div class="html-editor" [innerHTML]="detail?.specialtyrequired | safeHtml"></div>
+          </div>
+        </div>
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Otros títulos y Especialidades Complementarias
+          </div>
+        </div>
+        <div fxFlex="30" style="padding-bottom: 6px;">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <div class="html-editor" [innerHTML]="detail?.sotherspecialty | safeHtml"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </mat-tab>
+    <mat-tab *ngIf="detail?.ntype != 2">
+      <ng-template mat-tab-label>
+        Funciones
+      </ng-template>
+
+      <h3 style="color: #536BB2;font-weight: bold;margin-left: 20px;">Funciones</h3>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Principales Funciones del Puesto
+          </div>
+        </div>
+        <div fxFlex="80" style="padding-bottom: 6px;">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <div class="html-editor" [innerHTML]="detail?.sfunctions | safeHtml"></div>
+          </div>
+        </div>
+
+      </div>
+
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        Condiciones
+      </ng-template>
+      <h3 style="color: #536BB2;font-weight: bold;margin-left: 20px;">Condiciones</h3>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Horario
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <mat-label>{{detail?.schedule}} </mat-label>
+          </div>
+        </div>
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Tiempo de Contratación
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <mat-label>{{detail?.ncontracttime}} </mat-label>
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;" *ngIf="detail?.ntype != 2">
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Sistema de trabajo
+          </div>
+        </div>
+        <div fxFlex="30">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <mat-label>{{detail?.sworksystem}} </mat-label>
+          </div>
+        </div>
+
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        Grado Académico
+      </ng-template>
+      <h3 style="color: #536BB2;font-weight: bold;margin-left: 20px;">Grado Académico</h3>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Carrera Pre Grado
+          </div>
+        </div>
+        <div fxFlex="80" class="pr-16 pt-16">
+          <table mat-table
+          [dataSource]="PregradoDT"
+          class="w-100 mat-elevation-z8"
+          style="background-color: #EFEFEF;"
+          >
+          <ng-container matColumnDef="carrera" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Carrera</th>
+          <td
+              mat-cell
+              *matCellDef="let row"
+              matTooltip="{{row.scareer}}"
+              class="has_label_on_mobile"
+              data-label="Carrera. : "
+          >
+          {{row.scareer}}
+          </td>
+          </ng-container>
+          <ng-container matColumnDef="grado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Grado</th>
+          <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Grade : "
+          >
+          {{row.sgrade}}
+          </td>
+          </ng-container>
+          
+          <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsPregrado; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsPregrado"></tr>
+
+              <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell text-center" colspan="9">
+                  No se encontraron carreras
+                  </td>
+              </tr>
+          </table>
+        </div>
+        <div fxFlex="100" class="pr-16 pt-16">
+            <mat-divider></mat-divider>
+        </div>
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Carrera Post Grado
+          </div>
+        </div>
+        <div fxFlex="80" class="pr-16 pt-16">
+          <table mat-table
+          [dataSource]="PostgradoDT"
+          class="w-100 mat-elevation-z8"
+          style="background-color: #EFEFEF;"
+          >
+          <ng-container matColumnDef="carrera" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Carrera</th>
+          <td
+              mat-cell
+              *matCellDef="let row"
+              matTooltip="{{row.scareer}}"
+              class="has_label_on_mobile"
+              data-label="Carrera. : "
+          >
+          {{row.scareer}}
+          </td>
+          </ng-container>
+          <ng-container matColumnDef="grado">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Grado</th>
+          <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Grade : "
+          >
+          {{row.sgrade}}
+          </td>
+          </ng-container>
+          
+          <tr
+                  mat-header-row
+                  *matHeaderRowDef="displayedColumnsPregrado; sticky: true"
+              ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumnsPregrado"></tr>
+
+              <tr class="mat-row" *matNoDataRow>
+                  <td class="mat-cell text-center" colspan="9">
+                  No se encontraron carreras
+                  </td>
+              </tr>
+          </table>
+        </div>
+        <div fxFlex="100" class="pr-16 pt-16">
+          <mat-divider></mat-divider>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        Visión del Puesto
+      </ng-template>
+      <h3 style="color: #536BB2;font-weight: bold;margin-left: 20px;">Visión del Puesto</h3>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Primer Mes
+          </div>
+        </div>
+        <div fxFlex="80" style="padding-bottom: 6px;">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <div class="html-editor" [innerHTML]="detail?.scommentfirstmonth | safeHtml"></div>
+          </div>
+        </div>
+
+      </div>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+
+        <div fxFlex="20">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Primer Año
+          </div>
+        </div>
+        <div fxFlex="80" style="padding-bottom: 6px;">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <div class="html-editor" [innerHTML]="detail?.scommentfirstyear | safeHtml"></div>
+          </div>
+        </div>
+      </div> 
+    </mat-tab>
+    <mat-tab *ngIf="this.mostrarCategoria">
+      <ng-template mat-tab-label>
+        <span style="color:orange;font-weight:bold !important;font-size:1.2em;">
+          <img src="./assets/icons/edit.png" style="height: 20px;border: 0px solid;width: 20px;margin-top:5px;vertical-align:middle;"> Categoría
+        </span>
+      </ng-template>
+      <h3 style="color: #536BB2;font-weight: bold;margin-left: 20px;">Categoría</h3>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="  
+                    margin-bottom: 6px;margin-left: 20px;">
+        <div fxFlex="50">
+          <mat-form-field style="width: 100%;">
+            <mat-label>Grupo: </mat-label>
+            <mat-select [formControl]="categoriasFC" [(ngModel)]="detail.nid_group">
+              <mat-option value="">-- SELECCIONE --</mat-option>
+              <mat-option *ngFor="let gr of lstcategorias" [value]="gr.code">
+                {{ gr.description}}
+
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div>
+        <div fxFlex="30">
+        </div>
+        <div fxFlex="50">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Salario Bruto</mat-label>
+            <input type="number" [formControl]="groosssalaryFC" [(ngModel)]="detail.ngroosssalary" matInput
+              placeholder="Salario Bruto" maxlength="100" />
+              <span matPrefix>S/&nbsp;</span>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </mat-tab>
+    <mat-tab *ngIf="permiss != null && permiss.boolSAcceptorDecline && 
+                  idprofile == 2 && level == 1 ||
+                  idprofile == 20 && level == 2">
+      <ng-template mat-tab-label>
+        Comentarios
+      </ng-template>
+      <h3 style="color: #536BB2;font-weight: bold;margin-left: 20px;">Comentarios</h3>
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="background: #EEF4F8;    
+                    margin-bottom: 6px;margin-left: 20px;">
+        <div fxFlex="20" style="align-self: center;">
+          <div class="pt-16 pl-8 pb-16" style="color: #536BB2;font-weight: bold;">
+            Comentario
+          </div>
+        </div>
+        <div fxFlex="80" style="padding-bottom: 6px;">
+          <div class="pt-14 pl-8 pb-14" style="background-color:white ;margin-top: 6px;
+                               margin-right: 4px;    padding-top: 10px;
+                               padding-bottom: 10px;">
+            <textarea [formControl]="commentInput" style="width: 100%;font-family: 'Nunito' !important;border: none;"
+              placeholder="Comentario">
+                </textarea>
+          </div>
+
+        </div>
+      </div>
+
+    </mat-tab>
+
+  </mat-tab-group>
+  <!-- <mat-card class="mat-elevation-z11">-->
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxFlex="100">
+      <!-- INICIO ACCIONES  -->
+      <div *ngIf="state == 1" class="buttons">
+        <!-- <button mat-raised-button color="primary" (click)="update()">
+          Grabar Solicitud
+        </button> -->
+      </div>
+
+      <!-- FIN ACCIONES -->
+
+    </div>
+  </div>
+  <section class="table-flujo">
+    <strong style="color: #536BB2;font-size: 18px;">Flujo de Solicitud</strong>
+    <br><br> 
+    <table mat-table [dataSource]="flowDT" class="w-100 mat-elevation-z8"
+      style="background-color: #E9F8FF;box-shadow: none;">
+      <ng-container matColumnDef="nro" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nro. : ">
+          {{ row.id }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="origen">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Origen : ">
+          {{ row.originArea | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="destino">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Destino - Evaluador
+        </th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Destino : ">
+          {{ row.destinationArea | titlecase }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="inicio">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Inicio
+        </th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Inicio : ">
+          {{ row.dateStart | date:'dd/MM/YYYY hh:mm' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="fin">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Fin</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fin : ">
+          {{ row.dateEnd | date:'dd/MM/YYYY hh:mm' }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="tiempo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tiempo</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tiempo : ">
+          {{ row.timeAll }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="estado">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+          {{ row.state }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="comentario">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Comentario</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Comentario : ">
+          {{ row.comment }}
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell text-center" colspan="7">
+          No se encontró flujos de aprobación
+        </td>
+      </tr>
+    </table>
+  </section>
+</div>

@@ -1,0 +1,196 @@
+.header {
+    h1 {
+        text-align: center;
+        color: #4f66a8;
+        font-weight: 600;
+    }
+}
+
+.personal {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #4f66a8;
+    border-radius: 10px;
+    .title {
+        color: #4f66a8;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    &__group {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+        &-input {
+            display: flex;
+            gap: 10px;
+            width: 50%;
+            label {
+                font-weight: 600;
+                text-align: start;
+            }
+            span {
+                text-align: start;
+            }
+        }
+        &-name {
+            display: flex;
+            width: 90%;
+            gap: 10px;
+            label {
+                font-weight: 600;
+                text-align: start;
+                width: 150px;
+            }
+            span {
+                text-align: start;
+            }
+        }
+    }
+}
+
+.size-large {
+    width: 150px;
+}
+
+.size-short {
+    width: 50px;
+}
+
+.adjunto {
+    display: flex;
+    width: 90%;
+    margin-top: 10px;
+}
+
+.size-input {
+    width: 70%;
+}
+
+.file-input {
+    display: none;
+  }
+
+.footer {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+    button {
+        background-color: #4f66a8;
+        color: #ffffff;
+    }
+}
+
+.motivo {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #4f66a8;
+    border-radius: 10px;
+    .title {
+        color: #4f66a8;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    &__amount {
+        display: flex;
+        margin-bottom: 10px;
+        label {
+            width: 160px;
+            justify-content: center;
+            text-align: start;
+            align-self: center;
+        }
+    }
+    &__type {
+        display: flex;
+        flex-direction: column;
+        &-group {
+            mat-radio-group {
+                margin-right: 6px;
+            }
+        }
+        &-solicitud {
+            display: flex;
+            gap: 10px;
+            label {
+                align-self: center;
+            }
+        }
+    }
+}
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+
+  .button_download {
+    display: flex;
+    align-items: baseline;
+  }
+
+
+  @media screen and (max-width: 960px) {
+    .personal {
+        &__group {
+            display: flex;
+            flex-direction: column;
+            &-input {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            &-name {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+
+    .adjunto {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .size-input {
+        width: 100%;
+    }
+
+    .button_download {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+    .motivo {
+        &__type {
+            &-solicitud {
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+            }
+        }
+        &__amount {
+            display: flex;
+            flex-direction: column;
+            label {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .footer{
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+    }
+    h1{
+        font-size: 18px !important;
+    }
+}

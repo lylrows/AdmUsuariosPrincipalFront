@@ -1,0 +1,8 @@
+<input type="file" hidden #file (change)="changeFile($event)" accept="application/pdf">
+<button *ngIf="!archivoExiste" (click)="file.click()" type="button" pButton pRipple icon="pi pi-paperclip"
+class="p-button-rounded p-button-text p-button-primary" [title]="toolTipAdjunto" [disabled]="disabled_row"></button>
+<button *ngIf="archivoExiste" type="button" (click)="downloadDocument()" pButton pRipple icon="pi pi-download"
+class="p-button-rounded p-button-text p-button-info" [title]="titleDescargar" style="pointer-events: all !important; opacity: 1 !important; z-index: 5 !important;"></button>
+<button *ngIf="archivoExiste"type="button" (click)="deleteFile(file);" pButton pRipple icon="pi pi-times"
+class="p-button-rounded p-button-text p-button-danger" title="Eliminar Documento" [disabled]="disabled_row"></button>
+<a id="afile" name="afile" style="display: none;"></a>

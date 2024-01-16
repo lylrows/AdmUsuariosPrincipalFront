@@ -1,0 +1,159 @@
+@media (min-width: 1200px) {
+  .mat-table {
+    overflow-x: scroll;
+  }
+
+  .mat-row {
+    min-width: max-content;
+  }
+
+  .mat-cell,
+  .mat-header-cell {
+    word-wrap: initial;
+    display: table-cell;
+    padding: 0px 10px;
+    line-break: unset;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+  }
+
+  .mat-row,
+  .mat-header-row {
+    display: table-row;
+  }
+}
+
+.title-modal-lateral {
+  color: #536BB2;
+  font-weight: 600;
+  font-size: 26px;
+  line-height: 160%;
+}
+
+.footer__buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: end;
+  padding: 15px;
+}
+
+.sidenav-lateral {
+  position: fixed;
+  padding: 30px;
+  z-index: 10000;
+}
+
+.btn-primary-cian3 {
+  background: #7B8EC8;
+  border-radius: 4px !important;
+  color: #FAFAFA;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 22px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  margin: 15px;
+
+  &__title {
+    display: flex;
+    gap: 5px;
+    align-items: flex-end;
+
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: #4f66a8;
+    }
+  }
+
+  &__group {
+    margin-top: 15px;
+    display: flex;
+    gap: 15px;
+
+    &__label {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+    }
+  }
+}
+
+// .filter {
+//   display: flex;
+//   gap: 15px;
+// }
+
+.btn-add {
+  background-color: #cddcea !important;
+  color: #343a67 !important;
+  font-weight: 500 !important;
+}
+
+.showfor {
+  margin-left: 20px;
+  width: 20%;
+}
+
+// .buttons {
+//   display: flex;
+//   gap: 10px;
+// }
+
+// @media screen and (max-width: 960px) {
+//   .showfor {
+//     width: 100%;
+//     margin-left: 0px;
+//   }
+
+//   .filter {
+//     display: flex;
+//     flex-direction: column;
+//     gap: 15px;
+//     mat-form-fiel {
+//       width: 100%;
+//     }
+//   }
+// }
+
+
+@media screen and (max-width: 576px) {
+  .header {
+    &__group {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .text-filter {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.inputs {
+  display: flex;
+  gap: 20px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 960px) {
+
+  .inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    mat-form-field {
+      width: 100%;
+    }
+  }
+
+}

@@ -1,0 +1,87 @@
+select {
+  font-size: 14px;
+  font-weight: 500;
+  font-family: Nunito;
+  color: #495057;
+  background: #ffffff;
+  padding: 0.75rem 0.75rem;
+  border: 1px solid #ced4da;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s,
+  box-shadow 0.2s;
+  border-radius: 6px;
+}
+
+th {
+  background: #f1f1f1 !important;
+  font-size: 14px;
+  text-align: center !important;
+  padding: 0.5rem 1rem !important;
+}
+
+td {
+font-size: 12px;
+padding: 0rem 1rem 0rem 1rem !important;
+}
+
+.p-button.p-button-icon-only.p-button-rounded {
+border-radius: 50%;
+height: 2.5rem !important;
+}
+
+input {
+width: 100% !important;
+font-size: 12px;
+}
+
+select {
+  width: 100% !important;
+  font-size: 12px;
+}
+
+textarea {
+  width: 100% !important;
+  font-size: 12px;
+}
+
+.editar {
+  width: 25px;
+  height: 30px;
+  padding: 8px 0px 0px 0px !important;
+}
+    
+.editar svg {
+  width: 20px;
+  height: 20px;
+}
+
+.p-button {
+  background: transparent !important;
+  border: none !important;
+}
+
+.center-button {
+  margin: auto !important;
+}
+
+.center-botones {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+@media screen and (max-width:960px) {
+  .cellResponsive{
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+  .selDescription{
+    min-width: 160px;
+  }
+}
+
+@media only screen and (max-device-width: 480px) {
+  .editar {
+    width: 25px;
+    height: 30px;
+    padding: 0px 0px 0px 0px !important;
+  }
+}

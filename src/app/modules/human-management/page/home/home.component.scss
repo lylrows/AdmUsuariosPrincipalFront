@@ -1,0 +1,262 @@
+@import '../../../../../assets/styles/scss/_variables.scss';
+
+h2 {
+  color:$base-color; 
+  font-weight: bold;
+}
+
+.fx_layout{
+  background-color:$wall-white; 
+  border-radius: 30px; 
+  justify-content: space-evenly; 
+  min-width: 100%; 
+  text-align: center !important;
+}
+
+.fx-layout{
+  border: 1px solid $base-color; 
+  height: 200px; 
+  width: 1px; 
+  margin:24px; 
+  overflow: auto;
+}
+
+.card-organization{
+  background-color: $base-color;
+  color: $font-white;
+}
+/*
+.mat-card.mat-focus-indicator{
+  background-color: #9AB3DF;
+  color: #FFFFFF;
+  justify-content: center !important;
+  flex-flow: inherit !important;
+  cursor: pointer;
+  border-radius:32.5px !important;
+  max-height: 65px;
+}
+*/
+.card-list-category{
+  background-color: $base-color;
+  color: $font-white;
+  justify-content: center !important;
+  flex-flow: inherit !important;
+  cursor: pointer;
+  border-radius:32.5px !important;
+  max-height: 65px;
+}
+.color-write{
+  color: $font-white;
+  text-align: center;
+  margin-left: 5px !important;
+}
+.carousel-list{
+  margin-bottom: 45px !important;
+}
+.card-empresa{
+  background-color: $menu-activo-color;
+  color:$font-white;
+}
+.card-logo-empresa{
+  display: -webkit-inline-box;
+}
+.logo-empresa{
+  margin:10px;
+}
+.logos{
+height: 50px;
+width: 100px;
+padding-left: 10px;
+padding-right: 10px;
+}
+.btn-principal{
+  max-height: 39px;
+  width: 100%;
+  color: $font-white;
+  background-color: $base-color;
+  border-radius: 15px;
+  text-align: center;
+  margin-top: 10px;
+}
+.btn-secundario{
+  max-height: 39px;
+  width: 100%;
+  color: $font-white;
+  background-color: $secondary-color;
+  border-radius: 15px;
+  text-align: center;
+  margin-top: 10px;
+}
+.card-btn{
+  display:flex;
+  justify-content:space-evenly;
+}
+.div-organization{
+  /* overflow-x:auto; 
+  position:relative; */
+}
+
+.div-organization::-webkit-scrollbar {
+  height: 3px !important;
+  width: 3px !important;
+}
+
+.egret-navy .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: $primary-color !important;
+}
+.mat-radio-checked .mat-radio-outer-circle {
+  border-color: $primary-color !important;
+}
+.egret-navy .mat-radio-button.mat-accent .mat-radio-inner-circle, .egret-navy .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .egret-navy .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .egret-navy .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+  background-color: $primary-color !important;
+}
+.mat-radio-checked  .mat-radio-label  .mat-radio-container  .mat-radio-inner-circle {
+  background-color:  $primary-color !important;
+  ;
+}
+
+.section-slider-images{
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 2%;
+}
+
+.section-dowloands{
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 2%;   
+}
+
+.section-organization{
+  margin-left: 2%;
+  margin-right: 2%;
+  margin-bottom: 2%;   
+}
+.view-mobil{
+  display: none;
+  }
+  .view-desktop{
+      display: block;
+  }
+@media screen and (max-width: 600px) {
+  .card-list-category{
+      max-height: 50px;
+  }
+  
+  .view-desktop{
+      display: none;
+  }
+  .view-mobil{
+      display: block;
+  }
+
+  .cssbuton{
+    color: $font-white;
+    text-align: center;
+    /* margin-left: -45px !important; */
+   }
+   .dibujo{
+    display: none;
+  }
+}
+
+.linea-desktop {
+  display: block;
+}
+.linea-responsive {
+  display: none;
+}
+@media screen and (max-width: 480px) {
+  .datos-mision {
+    flex-direction: column !important;
+  }
+  .linea-desktop {
+    display: none !important;
+  }
+  .linea-responsive {
+    display: block !important;
+  }
+  /* .margin-box {
+    margin-left: 30px !important;
+  } */
+
+  .divDatos{
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  
+}
+
+.carousel {
+  border-radius: 15px !important;
+}
+
+.html-editor > p{
+    margin: 0px !important;
+}
+
+p {
+  margin: 0px !important;
+}
+
+:host ::ng-deep .mat-tab-group { // /deep/ reemplazado por ::ng-deep
+  flex-direction: row;
+}
+:host ::ng-deep .mat-tab-header {
+  border-bottom: none;
+  overflow-y: scroll !important;
+}
+:host ::ng-deep .mat-tab-header-pagination {
+  display: none !important;
+}
+:host ::ng-deep .mat-tab-labels {
+  flex-direction: column;
+}
+.mat-tab-label {
+  padding-right: 0 !important;
+}
+:host ::ng-deep.mat-tab-label {
+  padding-right: 5px !important;
+  padding-left: 0 !important;
+  min-width: 130px;
+}
+:host ::ng-deep .mat-tab-body-content{
+  margin-left: 5%;
+  margin-right: 5%;
+  width: 95%;
+  display: inline-flex;
+}
+:host ::ng-deep .mat-ink-bar {
+  height: 100%;
+  left: 98% !important;
+  background-color: $base-color!important;
+}
+:host ::ng-deep .mat-tab-body-wrapper {
+  flex: 1 1 auto;
+}
+:host ::ng-deep .carousel-slide-content{
+  background-color: $body-color;
+}
+::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+  color: $font-white;
+  background-color: $base-color;
+}
+::ng-deep .mat-tab-label-container {
+  overflow-y: visible !important;
+}
+::ng-deep .mat-tab-header::-webkit-scrollbar {
+  display: none;
+}
+
+.pre_actions{
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/**
+.color-write{
+  color: #FFFFFF;
+  text-align: center;
+  margin-left: 5px !important;
+}
+*/

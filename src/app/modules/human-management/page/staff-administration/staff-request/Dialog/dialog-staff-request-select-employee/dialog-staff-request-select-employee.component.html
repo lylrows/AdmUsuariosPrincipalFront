@@ -1,0 +1,47 @@
+<div class="content">
+    <div class="header">
+        <h1>SELECCIONAR EMPLEADO PARA LA SOLICITUD</h1>
+    </div>
+    <hr>
+
+    <div class="select">
+        <label>Empleados Disponibles: </label>
+        <mat-form-field class="full-width" style="margin-top: 4px;">
+            <mat-select  placeholder="Seleccionar una opcion" [formControl]="employeeF">
+                <input matInput autofocus (keyup)="onKey($event.target.value)" style="padding-left: 16px; height: 42px; width: 90%;">
+                <mat-option *ngFor="let item of listEmployeeSelected" [value]="item.nid_employee">{{item.sfullname}}</mat-option>
+              </mat-select>
+            <mat-error *ngIf="
+            employeeF.touched &&
+            employeeF.invalid
+                                  ">
+                <span *ngIf="employeeF.errors.required">Empleados es
+                    <strong>requerido</strong>
+                </span>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="select">
+        <label>Tipo de Solicitud: </label>
+        <mat-form-field class="full-width" style="margin-top: 4px;">
+            <mat-select  placeholder="Seleccionar una opcion" [formControl]="typecapF">
+                <mat-option *ngFor="let item of listtype" [value]="item.nid_mastertable">{{item.sdescription_value}}</mat-option>
+              </mat-select>
+            <mat-error *ngIf="
+            typecapF.touched &&
+            typecapF.invalid
+                                  ">
+                <span *ngIf="typecapF.errors.required">Tipo de Solicitud es
+                    <strong>requerido</strong>
+                </span>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="footer">
+        <button  mat-raised-button color="primary"
+            type="submit" (click)="select()">Seleccionar</button>
+        <button type="button" mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+    </div>
+</div>

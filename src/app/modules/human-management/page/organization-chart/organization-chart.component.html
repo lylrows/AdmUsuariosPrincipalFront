@@ -1,0 +1,155 @@
+<mat-divider class="divider"></mat-divider>
+<!-- <div fxLayout="row wrap">
+  <div fxFlex="30" fxFlex.gt-sm="30" fxFlex.sm="50">
+  </div>
+  <div fxFlex="40" fxFlex-lg="40" fxFlex-sm="100">
+    <div fxLayout="row wrap">
+      <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; justify-content: center;">
+        <a id="empresa_1" (click)="loadOrganigram('1')"><img
+            src="../../../../../assets/images/GrupoFe/logocampofe_min.svg" class="img-fluid logos"></a>
+      </div>
+      <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; align-items: center; justify-content: center;">
+        <a id="empresa_2" (click)="loadOrganigram('2')"><img
+            src="../../../../../assets/images/GrupoFe/logoprestafe_min.svg" class="img-fluid logos"></a>
+      </div>
+      <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; align-items: center; justify-content: center;">
+        <a id="empresa_3" (click)="loadOrganigram('3')"><img
+            src="../../../../../assets/images/GrupoFe/logofesalud_min.svg" class="img-fluid logos"></a>
+      </div>
+      <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; align-items: center; justify-content: center;">
+        <a id="empresa_4" (click)="loadOrganigram('4')"><img src="../../../../../assets/images/GrupoFe/logo_grupofe.svg"
+            class="img-fluid logos"></a>
+      </div>
+      <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; align-items: center; justify-content: center;">
+        <a id="empresa_5" (click)="loadOrganigram('5')"><img
+            src="../../../../../assets/images/GrupoFe/Logo funeraria.svg" class="img-fluid logos"></a>
+      </div>
+    </div>
+  </div>
+  <div fxFlex="30" fxFlex.gt-sm="30" fxFlex.sm="50">
+  </div>
+</div> -->
+
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex-lg="100" fxFlex-sm="100" style="text-align: center;">
+    <div fxLayout="row wrap" style=" display: flex;
+      justify-content: center;
+      padding-left: 30%;
+      padding-right: 30%;">
+      <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; align-items: center; justify-content: center;">
+        <a id="empresa_4" (click)="loadOrganigram('4')"><img src="../../../../../assets/images/GrupoFe/logo_grupofe.svg"
+            class="img-fluid logos"></a>
+      </div>
+      <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; justify-content: center;">
+        <a id="empresa_1" (click)="loadOrganigram('1')"><img
+            src="../../../../../assets/images/GrupoFe/logocampofe_min.svg" class="img-fluid logos"></a>
+      </div>
+      <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; align-items: center; justify-content: center;">
+        <a id="empresa_2" (click)="loadOrganigram('2')"><img
+            src="../../../../../assets/images/GrupoFe/logoprestafe_min.svg" class="img-fluid logos"></a>
+      </div>
+      <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; align-items: center; justify-content: center;">
+        <a id="empresa_3" (click)="loadOrganigram('3')"><img
+            src="../../../../../assets/images/GrupoFe/logofesalud_min.svg" class="img-fluid logos"></a>
+      </div>
+      <!-- <div fxFlex="20" fxFlex-lg="20" fxFlex-sm="100" fxFlex.lt-md="100" class="padding-icons"
+        style="display: flex; align-items: center; justify-content: center;">
+        <a id="empresa_5" (click)="loadOrganigram('5')"><img src="../../../../../assets/images/GrupoFe/Logo funeraria.svg" class="img-fluid logos"></a>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+
+
+<mat-divider class="divider"></mat-divider>
+<div fxLayout="row wrap" *ngIf="!responsive">
+  <div fxFlex="100" style="padding: 6px; ">
+    <div id="tree"></div>
+
+    <p-organizationChart [value]="organigram" selectionMode="single" [(selection)]="selectedNode"
+      (onNodeSelect)="onNodeSelect($event)" styleClass="company">
+      <ng-template let-node pTemplate="person">
+        <div class="node-header p-corner-top">{{node.label}}</div>
+        <div class="node-content">
+          <img src="{{node.data.avatar}}" class="img-fluid">
+          <div>Nombre: {{node.data.name}}</div>
+          <div>Cargo: {{node.data.cargo}}</div>
+        </div>
+      </ng-template>
+      <ng-template let-node pTemplate="area">
+        <div class="node-content">
+          <div class="text-tittle">{{node.label}}</div>
+        </div>
+      </ng-template>
+      <ng-template let-node pTemplate="department">
+        <div class="node-content">
+          <img src="{{node.data.avatar}}" class="img-fluid">
+          <div class="text-tittle">{{node.label}}</div>
+          <div class="text-detail">Nombre: {{node.data.name}}</div>
+          <div class="text-detail">Cargo: {{node.data.cargo}}</div>
+        </div>
+      </ng-template>
+    </p-organizationChart>
+
+
+
+
+  </div>
+</div>
+
+<ng-template #DetailDialog>
+  <div style="width: 100%; text-align: right;">
+    <a class="close-modal" tabindex="0" role="button" (click)="close()">X</a>
+  </div>
+  <h1>Organigrama</h1>
+  <mat-dialog-content class="mat-typography">
+    <div style="text-align: left; margin-bottom: 10px;">
+      <label><b>Recuerda:</b> </label><br>
+      <span>1.- Para una mejor interacción gira tu pantalla de manera horizontal.</span><br>
+      <span>2.- Puedes <b>acercar</b> o <b>alejar</b> los elementos en <b>pantalla</b> para facilitar su
+        visualización.</span><br>
+    </div>
+    <div fxLayout="row wrap">
+      <div fxFlex="100" style="height: 400px !important;">
+        <div id="tree"></div>
+        <!-- <p-organizationChart [value]="organigram" selectionMode="single" [(selection)]="selectedNode"
+          (onNodeSelect)="onNodeSelect($event)" styleClass="company">
+          <ng-template let-node pTemplate="person">
+            <div class="node-header p-corner-top">{{node.label}}</div>
+            <div class="node-content">
+              <img src="{{node.data.avatar}}" class="img-fluid">
+              <div>Nombre: {{node.data.name}}</div>
+              <div>Cargo: {{node.data.cargo}}</div>
+            </div>
+          </ng-template>
+          <ng-template let-node pTemplate="area">
+            <div class="node-content">
+              <div class="text-tittle">{{node.label}}</div>
+            </div>
+          </ng-template>
+          <ng-template let-node pTemplate="department">
+            <div class="node-content">
+              <img src="{{node.data.avatar}}" class="img-fluid">
+              <div class="text-tittle">{{node.label}}</div>
+              <div class="text-detail">Nombre: {{node.data.name}}</div>
+              <div class="text-detail">Cargo: {{node.data.cargo}}</div>
+            </div>
+          </ng-template>
+        </p-organizationChart> -->
+      </div>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" matDialogClose="no">Cerrar</button>
+  </mat-dialog-actions>
+</ng-template>

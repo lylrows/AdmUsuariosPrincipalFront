@@ -1,0 +1,74 @@
+<p style="    font-size: 20px;
+        font-weight: 600;
+        line-height: 29px;
+        letter-spacing: 0em;
+        color: #4f66a8;">
+        Asignar Jefe
+</p>
+<hr>
+<div class="w-100">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100">
+            <mat-form-field  class="w-100" appearance="fill">
+                <mat-label>Empresa</mat-label>
+                <mat-select (selectionChange)="changeEmpresa()" [formControl]="bussineFC">
+                    <mat-option *ngFor="let item of empresas" [value]="item.nid_company">{{item.sdescription}}</mat-option>
+                    <!-- <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option> -->
+                </mat-select>
+            </mat-form-field>            
+        </div>
+        <div fxFlex="100" >
+            <mat-form-field  class="w-100" appearance="fill">
+                <mat-label>Gerencia</mat-label>
+                <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC" (selectionChange)="changeGerencia()">
+                    <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+        </div>
+        <div fxFlex="100" >
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Área</mat-label>
+                <mat-select [disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()">
+                    <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+            
+        </div>
+        <div fxFlex="100" >
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>SubÁrea</mat-label>
+                <mat-select [disabled]="disabledSubArea" [formControl]="subAreaFC" (selectionChange)="changeSubArea()">
+                    <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div fxFlex="100" >
+            <mat-form-field class="w-100" appearance="fill">
+                <mat-label>Empleados</mat-label>
+                <mat-select [disabled]="disabledBoss" [formControl]="bossFC" (selectionChange)="changeBoss($event)">
+                    <mat-option *ngFor="let item of boss" [value]="item.nid_employee">{{item.sfullname}}</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+    </div>
+    <div fxLayout="row wrap" >
+        <div fxFlex="100" class="filter__buttons mt-16" style="display: flex; justify-content: center;">
+            <button class="button-mobile" mat-raised-button color="primary" 
+                  style="margin: 0 3px;" [mat-dialog-close]="data">
+                  Aceptar
+            </button>
+            <button class="button-mobile" mat-raised-button color="warn" (click)="resetFilter()" >
+                Limpiar
+            </button>
+            <button class="button-mobile" mat-raised-button color="primary" (click)="onNoClick()"
+                    style="background: #8CACDA !important;margin: 0 3px;">
+              Cancelar
+            </button>
+    
+          </div>
+    
+    </div>
+
+</div>

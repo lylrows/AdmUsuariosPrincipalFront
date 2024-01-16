@@ -1,0 +1,238 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+    <hr />
+
+    <div class="first">
+        <mat-accordion class="w-100" multi>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> <b>Información de la Campaña </b></mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <form>
+                    <div class="inputs">
+                        <mat-form-field>
+                            <mat-label>Evaluado</mat-label>
+                            <input [(ngModel)]="header.evaluatedName" name="evaluatedName" type="text" matInput readonly
+                                placeholder="Evaluado" maxlength="100" />
+
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>DNI Evaluado</mat-label>
+                            <input [(ngModel)]="header.evaluatedDNI" name="evaluatedDNI" type="text" matInput readonly
+                                placeholder="DNI Evaluado" maxlength="100" />
+
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Evaluador</mat-label>
+                            <input [(ngModel)]="header.evaluatorName" name="evaluatorName" type="text" matInput readonly
+                                placeholder="Evaluador" maxlength="100" />
+
+                        </mat-form-field>
+                    </div>
+                    <div class="inputs">
+                        <mat-form-field>
+                            <mat-label>DNI Evaluador</mat-label>
+                            <input [(ngModel)]="header.evaluatorDNI" name="evaluatorDNI" type="text" matInput readonly
+                                placeholder="DNI Evaluador" maxlength="100" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Cargo</mat-label>
+                            <input [(ngModel)]="header.chargeName" name="chargeName" type="text" matInput readonly
+                                placeholder="Cargo" maxlength="100" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Area</mat-label>
+                            <input [(ngModel)]="header.areaName" name="areaName" type="text" matInput placeholder="Area"
+                                readonly maxlength="100" />
+                        </mat-form-field>
+                    </div>
+                    <div class="inputs">
+                        <mat-form-field>
+                            <mat-label>Periodo</mat-label>
+                            <input [(ngModel)]="header.period" name="period" type="text" matInput placeholder="Periodo"
+                                readonly maxlength="100" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Fecha Ingreso</mat-label>
+                            <input [(ngModel)]="header.admissionDate" name="admissionDate" type="text" matInput readonly
+                                placeholder="Fecha Ingreso" maxlength="100" />
+                        </mat-form-field>
+                        <mat-form-field>
+                            <mat-label>Cargo</mat-label>
+                            <input [(ngModel)]="header.chargeName" name="chargeName1" type="text" matInput readonly
+                                placeholder="Cargo" maxlength="100" />
+                        </mat-form-field>
+                    </div>
+                </form>
+            </mat-expansion-panel>
+
+            <!-- INICIO - PESTAÑAS  -->
+            <mat-tab-group>
+                <mat-tab label="Objetivos organizacionales" class="tab" >
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div fxFlex="100" class="pr-16 pt-16">
+                            <ul  class="ul_titulo">
+                                <li class="ul_titulo_liuno">Objetivos Organizacionales</li>
+                                <li class="ul_titulo_lidos"><mat-chip
+                                    class="icon-chip objetivosporcgroup" 
+                                    color="primary"     
+                                    selected="true">60%</mat-chip></li>
+                            </ul>
+                            
+                            <!-- <span fxFlex></span> -->
+                            
+                            <!-- <h2 class="titulolistas" style="margin-top: 14px;">  </h2> -->
+                        </div>
+
+                    </div>
+                    <div class="content">
+                        <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                            <!-- Donut chart -->
+                            <div fxFlex="100" fxFlex.gt-sm="33.33" fxFlex.sm="50" class="divResumen">
+                                <mat-card class="p-0 cardpie" style="background-color: #EEF4F8;">
+                                    <mat-card-title fxLayoutAlign="start center" style="padding-left: 16px;padding-right: 43px;padding-top: 15px;" >
+                                        <small class="text-muted titulopie">% Logrado de objetivos</small>
+                                        <span fxFlex></span>
+                                        <mat-chip id="obj_porc"
+                                        class="icon-chip objetivosporc" 
+                                        color="primary" 
+                                        selected="true">{{ponderadoobjetivoslogrado}}%</mat-chip>
+                                      </mat-card-title>
+                                      <mat-card-content>
+                                        <div echarts [options]="trafficSourcesChart" [autoResize]="true" style="height: 250px"
+                                        ></div>
+                                      </mat-card-content>
+                                      <mat-card-actions>
+                                        <small class="text-muted leyendapie" ><span id="obj_circuloprimario" class="circulo" style="background-color: #536BB2;">&nbsp;</span>% Logrado de objetivos</small>
+                                        
+                                      </mat-card-actions>
+                                      
+                                </mat-card>
+                            </div>
+                            <!--/ End donut chart -->
+                            <div fxFlex="100" fxFlex.gt-sm="66.67" fxFlex.sm="50" class="divResumen">
+
+                                <mat-card class="p-0 card-objetivos">
+                                    
+                                    <div class="mb-16" *ngFor="let item of objetivos; let i = index" 
+                                        style="padding-left: 10px;padding-top: 12px;padding-right: 44px;">
+                                      
+                                        <ul class="ul_progress">
+                                            <li class="ul_progress_li_uno"><span class="circulo" style="margin-top: 6px;"
+                                                [style.background-color]="item.bexceeded == true ? '#6366F1' :(item.percent<= 70 ? '#FF0000' : (item.percent<= 100 ? '#219653' : '#6366F1'))"
+                                                ></span></li>
+                                            <li class="ul_progress_li_dos">{{item.jobObjectives}} <p class="parrafoIndicador"> {{item.indicatorOrganizational}} ( {{item.progress}} / <span class="parrafoGoal">{{item.goal}}</span> ) </p></li>
+                                            <li class="ul_progress_li_tres">
+                                                <ul class="ul_dias_restantes">
+                                                    <li class="ul_dias_restantes_uno">Quedan</li>
+                                                    <li class="ul_dias_restantes_dos">{{item.daysleft}} días</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        
+                                        <mat-progress-bar [appProgressBarColor]="item"
+                                            class="rounded"
+                                            [mode]="determinate"
+                                            [value]="item.percent"
+                                             style="height: 10px">
+                                        </mat-progress-bar>
+                                    </div>
+                                    
+                                </mat-card>
+                            </div>
+                            <!--/ End tab -->
+
+                        </div>
+                    </div>
+
+
+
+                </mat-tab>
+                <mat-tab label="Competencias organizacionales" class="tab" >
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div fxFlex="100" class="pr-16 pt-16">
+                            <ul  class="ul_titulo">
+                                <li class="ul_titulo_liuno">Competencias Organizacionales</li>
+                                <li class="ul_titulo_lidos"><mat-chip
+                                    class="icon-chip objetivosporcgroup" 
+                                    color="primary"     
+                                    selected="true">40%</mat-chip></li>
+                            </ul>
+                        </div>
+
+                    </div>
+                    <div class="content">
+                        <div fxLayout="row wrap" fxLayoutGap="16px grid">
+                            <!-- Donut chart -->
+                            <div fxFlex="100" fxFlex.gt-sm="33.33" fxFlex.sm="50" class="divResumen">
+                                <mat-card class="p-0 cardpie" style="background-color: #EEF4F8;">
+                                    <mat-card-title fxLayoutAlign="start center" style="padding-left: 16px;padding-right: 43px;padding-top: 15px;" >
+                                        <small class="text-muted titulopie">% Logrado de Competencias</small>
+                                        <span fxFlex></span>
+                                        <mat-chip
+                                        id="comp_porc"
+                                        class="icon-chip objetivosporc" 
+                                        color="primary" 
+                                        selected="true" [style.background-color]="stylecolorprimario_comp">{{ponderadocompetencialogrado}}%</mat-chip>
+                                      </mat-card-title>
+                                      <mat-card-content>
+                                        <div echarts [options]="optionCompetencias" [autoResize]="true"
+                                        style="height: 250px;"></div>
+                                      </mat-card-content>
+                                      <mat-card-actions>
+                                        <small class="text-muted leyendapie" ><span id="comp_circuloprimario" class="circulo" [ngStyle]="getCompColor(1)">&nbsp;</span>% Logrado de Competencias</small>
+                                        
+                                      </mat-card-actions>
+                                </mat-card>
+                            </div>
+                            <!--/ End donut chart -->
+                            <div fxFlex="100" fxFlex.gt-sm="66.67" fxFlex.sm="50" class="divResumen">
+
+                                <mat-card class="p-0 card-objetivos">
+                                    
+                                    <div class="mb-16" *ngFor="let item of competencias; let i = index" 
+                                        style="padding-left: 10px;padding-top: 12px;padding-right: 44px;">
+
+                                        <ul class="ul_progress">
+                                            <li class="ul_progress_li_uno"><span class="circulo" style="margin-top: 6px;"
+                                                [style.background-color]="item.bexceeded == true ? '#6366F1' :(item.percent<= 70 ? '#FF0000' : (item.percent<= 100 ? '#219653' : '#6366F1'))"
+                                                ></span></li>
+                                            <!-- <li class="ul_progress_li_dos">{{item.organizationalProficiency}}
+                                                <p style="margin-bottom: 0px;font-size: 18px;color: black;font-weight: 100;"> {{item.indicatorOrganizational}} ( {{item.qualification}} / <span style="font-weight: bold;font-size: 19px;">{{item.idProficiencyLevel}}</span>  ) </p>
+                                            </li> -->
+                                            <li class="ul_progress_li_dos">{{item.organizationalProficiency}} <p class="parrafoIndicador"> {{item.indicatorOrganizational}} ( {{item.qualification}} / <span class="parrafoGoal">{{item.idProficiencyLevel}}</span> ) </p></li>
+                                            <li class="ul_progress_li_tres">
+                                                <ul class="ul_dias_restantes">
+                                                    <li class="ul_dias_restantes_uno">Quedan</li>
+                                                    <li class="ul_dias_restantes_dos">{{item.daysleft}} días</li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+                                        
+                                        <mat-progress-bar [appProgressBarColor]="item"
+                                            class="rounded"
+                                            [mode]="determinate"
+                                            [value]="item.percent"
+                                             style="height: 10px">
+                                        </mat-progress-bar>
+                                    </div>
+                                    
+                                </mat-card>
+                            </div>
+                            <!--/ End tab -->
+
+                        </div>
+                    </div>
+
+                </mat-tab>
+            </mat-tab-group>
+            <!-- FIN - PESTAÑAS  -->
+            <br><br>
+            <div class="inputs">
+                <!-- <mat-label class="text-comment">Comentarios: </mat-label> -->
+                <mat-label class="text-comment"><strong>Comentarios: </strong>{{comentario}}</mat-label>
+            </div><br>
+        </mat-accordion>
+    </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="content">
+  <form [formGroup]="itemForm" (ngSubmit)="submit()">
+    <div class="header">
+      <h1>SOLICITUD DE {{data.title | uppercase}}</h1>
+    </div>
+    <hr>
+    <div class="personal">
+      <h1 class="title">1. DATOS PERSONALES: </h1>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Código del Empleado: </label>
+          <span> {{ codeEmployee }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">DNI N*: </label>
+          <span> {{dni }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label>Nombres y Apellidos: </label>
+          <span> {{ fullname }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Fecha de Ingreso: </label>
+          <span> {{ dateAdmission }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">Área: </label>
+          <span> {{ area }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label class="size-large">Cargo: </label>
+          <span> {{charge }} </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="motivo">
+      <!-- VACACIONES SIN EXCEPCIÓN -->
+      <h1 class="title">2. SOLICITUD DE {{data.title | uppercase}}: </h1>   
+      <h4>Días de Vacaciones Disponibles: {{ diasVacaciones }} </h4>
+      <div class="motivo__mix">
+        <div class="motivo__mix-group">
+          <label class="all-large" style="font-weight: bold;">Inicio y Fin de Vacaciones: </label>
+          <mat-form-field appearance="fill">
+            <mat-label>Inicio – Fin</mat-label>
+            <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [max]="maxDate">
+              <input matStartDate formControlName="start" placeholder="Inicio" disabled (dateChange)="addEvent('start', $event)">
+              <input matEndDate formControlName="end" placeholder="Fin" disabled (dateChange)="addEvent('end', $event)">
+            </mat-date-range-input>
+            <!-- <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint> -->
+            <mat-icon matDatepickerToggleIcon (click)="clearDate($event)" *ngIf="range.controls.start.value != null">clear</mat-icon>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker disabled="false"></mat-date-range-picker>
+            <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="motivo__mix-group"></div>
+      </div>
+
+
+      <div class="motivo__mix">
+        <div class="motivo__mix-group">
+          <label class="size-large" style="font-weight: bold;">Días Calendario: </label>
+          <mat-form-field appearance="fill">
+            <mat-label>Días Calendario</mat-label>
+            <input matInput name="NumberCalendarDays" [formControl]="itemForm.controls['numberCalendarDays']"
+              placeholder="N° de Días Calendario" readonly>
+          </mat-form-field>
+        </div>
+        <div class="motivo__mix-group">
+          <label class="size-large" style="font-weight: bold;">Días Hábiles: </label>
+          <mat-form-field appearance="fill">
+            <mat-label>Días Hábiles</mat-label>
+            <input matInput name="NumberBusinessDays" [formControl]="itemForm.controls['numberBusinessDays']"
+              placeholder="N° de Días Hábiles" readonly>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="motivo__mix">
+
+        
+        <div class="motivo__mix-group">
+          <label class="size-large" style="font-weight: bold;">Vacaciones pendientes: </label>
+          <mat-form-field appearance="fill">
+            <mat-label>Vacaciones pendientes</mat-label>
+            <input matInput name="nnumberoutstandingbalance" [formControl]="itemForm.controls['nnumberoutstandingbalance']"
+              placeholder="Vacaciones pendientes" readonly>
+          </mat-form-field>
+        </div>
+        <div class="motivo__mix-group">
+          <label class="size-large" style="font-weight: bold;">Vacaciones truncas: </label>
+          <mat-form-field appearance="fill">
+            <mat-label>Vacaciones truncas</mat-label>
+            <input matInput name="nnumbertruncatedbalance" [formControl]="itemForm.controls['nnumbertruncatedbalance']"
+              placeholder="Vacaciones truncas" readonly>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </div>
+
+
+
+
+
+    
+    <div class="personal">
+      <!-- <h1 class="title">Nota importante: </h1> -->
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label>Nota: </label>
+          <span>Todo colaborador durante el periodo de vacaciones mantendrá suspendido todos los accesos a los sistemas y demás canales de la organización propios  de sus funciones, y no podrá acceder a las instalaciones de la organización.</span>
+        </div> 
+      </div>
+    </div>
+
+
+
+
+
+    <div class="footer">
+      <button mat-raised-button color="primary"
+        [disabled]="itemForm.invalid">Guardar</button>
+      <span fxFlex></span>
+      <button  mat-raised-button color="warn" type="button"
+        (click)="dialogRef.close(false)">Cancelar</button>
+    </div>
+
+
+  </form>
+</div>

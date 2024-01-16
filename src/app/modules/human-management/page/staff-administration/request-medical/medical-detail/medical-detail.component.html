@@ -1,0 +1,778 @@
+<div class="content">
+    <h2 class="title">
+        <button routerLink="/humanmanagement/request-medical" mat-icon-button>
+            <mat-icon>keyboard_backspace</mat-icon>
+          </button> {{ title }}</h2>
+    <hr style="width: 100%;">
+    <form [formGroup]="form" >
+        
+        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;
+                                    font-weight: bold !important;">
+                                    Datos del Empleado
+                        </h2>
+        <div class="group">
+            <div class="group__sub">
+                <mat-form-field class="full-width">
+                    <mat-label>Empresa:</mat-label>
+                    <input matInput type="text" formControlName="company" readonly>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Fecha de ingreso colaborador:</mat-label>
+                    <input matInput type="text" name="dateAdmission" formControlName="dateAdmission" readonly>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>Nombre Colaborador:</mat-label>
+                    <input matInput type="text" formControlName="sfullname" readonly>
+                </mat-form-field>
+                <mat-form-field class="full-width">
+                    <mat-label>DNI:</mat-label>
+                    <input matInput type="text" formControlName="dni" readonly>
+                </mat-form-field>
+            </div>
+        </div>
+
+
+        <mat-accordion class="w-100" multi>
+
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;
+                                    font-weight: bold !important;">
+                                    Datos del Descanso médico o subsidio
+                        </h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div *ngIf="!isEdit">
+                  Dias acumulados:  {{days}} 
+                </div>
+                <div class="group">
+                    <div class="group__sub">
+
+                        <mat-form-field class="full-width">
+                            <mat-label>Fecha de Registro:</mat-label>
+                            <input formControlName="dregisterdm" readonly matInput [matDatepicker]="pickerregistro">
+                            <mat-datepicker-toggle matSuffix [for]="pickerregistro"></mat-datepicker-toggle>
+                            <mat-datepicker disabled #pickerregistro></mat-datepicker>
+                            <mat-error *ngIf="form.controls.dregisterdm.touched &&
+                                              form.controls.dregisterdm.invalid
+                                             ">
+                                <span *ngIf="form.controls.dregisterdm.errors.required">Fecha de registro es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>Fecha de Emisión:</mat-label>
+                            <input formControlName="dissuedm" readonly matInput (dateChange)="validDateActual()"
+                                [matDatepicker]="pickeremision">
+                            <mat-datepicker-toggle matSuffix [for]="pickeremision"></mat-datepicker-toggle>
+                            <mat-datepicker [disabled]="isEdit" #pickeremision></mat-datepicker>
+                            <mat-error *ngIf="form.controls.dissuedm.touched &&
+                                              form.controls.dissuedm.invalid
+                                             ">
+                                <span *ngIf="form.controls.dissuedm.errors.required">Fecha Emisión es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>Fecha de inicio:</mat-label>
+                            <input formControlName="ddateinitdm" readonly matInput (dateChange)="validDateStart()"
+                                [matDatepicker]="pickerinicio">
+                            <mat-datepicker-toggle matSuffix [for]="pickerinicio"></mat-datepicker-toggle>
+                            <mat-datepicker [disabled]="isEdit" #pickerinicio></mat-datepicker>
+                            <mat-error *ngIf="
+                                form.controls.ddateinitdm.touched &&
+                                form.controls.ddateinitdm.invalid
+                                          ">
+                                <span *ngIf="form.controls.ddateinitdm.errors.required">Fecha Inicio es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>Fecha fin:</mat-label>
+                            <input formControlName="ddateenddm" readonly matInput (dateChange)="validDateEnd()"
+                                [matDatepicker]="pickerfin">
+                            <mat-datepicker-toggle matSuffix [for]="pickerfin"></mat-datepicker-toggle>
+                            <mat-datepicker [disabled]="isEdit" #pickerfin></mat-datepicker>
+                            <mat-error *ngIf="
+                                            form.controls.ddateenddm.touched &&
+                                            form.controls.ddateenddm.invalid
+                                              ">
+                                <span *ngIf="form.controls.ddateenddm.errors.required">Fecha Fin es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>Diagnóstico:</mat-label>
+                            <textarea [readonly]="isEdit" formControlName="smedicaldiagnostic" matInput></textarea>
+                            <mat-error *ngIf="
+                        form.controls.smedicaldiagnostic.touched &&
+                        form.controls.smedicaldiagnostic.invalid
+                                              ">
+                                <span *ngIf="form.controls.smedicaldiagnostic.errors.required">Diagnóstico es
+                                    <strong>requerido</strong>
+                                </span>
+                                <span *ngIf="form.controls.smedicaldiagnostic.errors.pattern">Solo se debe
+                                    de
+                                    ingresar <strong>letras</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>RUC de la clínica del médico :</mat-label>
+                            <input [readonly]="isEdit" matInput type="text" name="srucclinic" formControlName="srucclinic" (keypress)="valideKey($event)" maxlength="11">
+                            <mat-error *ngIf="
+                        form.controls.srucclinic.touched &&
+                        form.controls.srucclinic.invalid
+                                              ">
+                                <span *ngIf="form.controls.srucclinic.errors.required">Ruc es
+                                    <strong>requerido</strong>
+                                </span>
+                                <span *ngIf="form.controls.srucclinic.errors.pattern">Ruc solo permite
+                                    <strong>numeros</strong>
+                                </span>
+                                <span
+                                    *ngIf="form.controls.srucclinic.errors.minlength && !form.controls.srucclinic.errors.pattern">Minimo
+                                    son 11 <strong>numeros</strong>
+                                </span>
+                                <span
+                                    *ngIf="form.controls.srucclinic.errors.maxlength && !form.controls.srucclinic.errors.pattern">Maximo
+                                    son 11 <strong>numeros</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>Colegiatura del médico :</mat-label>
+                            <input [readonly]="isEdit" matInput name="tuitiondoctor" formControlName="tuitiondoctor">
+                            <mat-error *ngIf="form.controls.tuitiondoctor.touched &&
+                                              form.controls.tuitiondoctor.invalid
+                                              ">
+                                <span *ngIf="form.controls.tuitiondoctor.errors.required">Colegiatura es
+                                    <strong>requerido</strong>
+                                </span>
+                                <span *ngIf="form.controls.tuitiondoctor.errors.pattern">Solo se debe
+                                    de
+                                    ingresar <strong>letras o números</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>Origen del descanso médico :</mat-label>
+                            <mat-select [disabled]="isEdit" formControlName="noriginmedical">
+                                <mat-option *ngFor="let item of listorigin" [value]="item.nid_mastertable">
+                                    {{item.sdescription_value}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="
+                        form.controls.noriginmedical.touched &&
+                        form.controls.noriginmedical.invalid
+                                              ">
+                                <span *ngIf="form.controls.noriginmedical.errors.required">Origen es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field class="full-width">
+                            <mat-label>Tipo de descanso:</mat-label>
+                            <mat-select (selectionChange)="changetipodm($event)" [disabled]="isEdit"
+                                formControlName="ntypedm">
+                                <mat-option *ngFor="let item of listtype" [value]="item.nid_mastertable">
+                                    {{item.sdescription_value}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="
+                                            form.controls.ntypedm.touched &&
+                                            form.controls.ntypedm.invalid
+                                              ">
+                                <span *ngIf="form.controls.ntypedm.errors.required">Tipo de descando es
+                                    <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                     
+                        <mat-form-field *ngIf="nid_profile != 7 " class="full-width">
+                            <mat-label>Tipo de Acción Exactus:</mat-label>
+                            <mat-select  [disabled]="isEdit || disabledtypeaction" formControlName="scodtypeaction">
+                                <mat-option *ngFor="let item of typeactionexactuslist" [value]="item.code">
+                                    {{item.description}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.controls.scodtypeaction.touched && form.controls.scodtypeaction.invalid">
+                                <span *ngIf="form.controls.scodtypeaction.errors.required">Tipo de Acción Exactios es <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="nid_profile != 7 " class="full-width">
+                            <mat-label>Tipo de Ausencia Exactus:</mat-label>
+                            <mat-select  disabled="true"
+                                        formControlName="scodtypeabsence">
+                                <mat-option *ngFor="let item of absenceexactuslist" [value]="item.code">
+                                    {{item.description}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.controls.scodtypeaction.touched && form.controls.scodtypeaction.invalid">
+                                <span *ngIf="form.controls.scodtypeaction.errors.required">Tipo de Ausencia es <strong>requerido</strong>
+                                </span>
+                            </mat-error>
+                        </mat-form-field>
+
+
+                    </div>
+                </div>
+                <mat-form-field class="full-width">
+                    <mat-checkbox *ngIf="isEdit!=true" [disabled]="isEdit" (click)="OnChange($event)"
+                                style="position: relative;height: 16px;">
+                   </mat-checkbox>
+                   <mat-checkbox *ngIf="isEdit===true" [disabled]="isEdit"
+                                style="position: relative"
+                                [checked]="selectedTerms">
+                    </mat-checkbox>
+                    <p style="margin-left: 10px;">
+                        <span>
+                            <strong>Acepto el Compromiso</strong>
+                        </span><br><br>
+                        <span class="span-detail">Me comprometo a entregar todos los documentos en físico que acrediten mi descanso médico al área de RR. HH en los plazos establecidos:</span>
+                        <br><br>
+                        <span class="span-detail"><strong>- Primeros 20 días de descanso del año:</strong>
+                            Plazo dentro de las 48 horas emitido el descanso médico.
+                        </span>
+                        <br>
+                        <br>
+                        <span class="span-detail"><strong>- A partir del 21avo día de descanso al año:</strong>
+                        Plazo dentro de los 15 días calendario una vez emitido el descanso médico.
+                        </span>
+                        <br><br>
+                        <span class="span-detail">
+                            En el caso de incumplir con la entrega de algunos de los documentos obligatorios, que impida el recupero de la prestación económica ante Essalud estaré sujeto a las disposiciones que la organización considere pertinente
+
+                        </span>
+                            <input [readonly]="true" matInput name="scommitment"
+                            formControlName="scommitment"
+                            style="color: #eef4f8 !important;"
+                            >
+
+                    </p>
+                            
+                    <mat-error *ngIf="form.controls.scommitment.touched &&
+                                      form.controls.scommitment.invalid
+                                     ">
+                        <span *ngIf="form.controls.scommitment.errors.required">Compromiso es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="isEdit" expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;
+                        font-weight: bold !important;">Semáforos</h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="semaforo">
+                    <div class="semaforo__group">
+                        <h2>Etapa 1: Evaluación</h2>
+                        <span *ngIf="ndaysdocument != null">{{ ndaysdocument }} días restantes</span>
+                        <span *ngIf="ndaysdocument === null">Pendiente</span>
+                        <div *ngIf="nstatedocument === 1 && nstate != 3">
+                            <div *ngIf="ndaysdocument > 20 && ndaysdocument <= 30" class="semaforo__group__item">
+                                <div [ngStyle]="{background: scolordocument}" id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                            <div *ngIf="ndaysdocument > 10 && ndaysdocument <= 20" class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div [ngStyle]="{background: scolordocument}" id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                            <div *ngIf="ndaysdocument <= 10" class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div [ngStyle]="{background: scolordocument}" id="circulo3"></div>
+                            </div>
+                        </div>
+                        <div *ngIf="nstatedocument === 2">
+                            Completado y Validado
+                        </div>
+                        <div *ngIf="nstate === 3 ">
+                            No Completado
+                        </div>
+
+                    </div>
+
+                    <div *ngIf="ntype != 1005" class="semaforo__group">
+                        <h2>Etapa 2: Registro VIVA</h2>
+                        <span *ngIf="ndaysregisterviva != null">{{ ndaysregisterviva }} días restantes</span>
+                        <span *ngIf="ndaysregisterviva === null">Pendiente</span>
+                        <div *ngIf="!nstateregisterviva && ndaysregisterviva != null">
+                            <div *ngIf="ndaysregisterviva > 20 && ndaysregisterviva <= 30" class="semaforo__group__item">
+                                <div [ngStyle]="{background: scolorregisterviva}" id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                            <div *ngIf="ndaysregisterviva > 10 && ndaysregisterviva <= 20" class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div [ngStyle]="{background: scolorregisterviva}" id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                            <div *ngIf="ndaysregisterviva <= 10" class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div [ngStyle]="{background: scolorregisterviva}" id="circulo3"></div>
+                            </div>
+                        </div>
+                        <div *ngIf="nstateregisterviva === null">
+                            <div class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                        </div>
+                        <div *ngIf="nstateregisterviva">
+                            Completado y Validado
+                        </div>
+                    </div>
+
+                    <div *ngIf="ntype != 1005" class="semaforo__group">
+                        <h2>Etapa 3: Evaluación VIVA</h2>
+                        <span *ngIf="ndaysCIT != null">{{ ndaysCIT }} días restantes</span>
+                        <span *ngIf="ndaysCIT === null">Pendiente</span>
+                        <div *ngIf="!nstateCIT && ndaysCIT != null">
+                            <div *ngIf="ndaysCIT > 31 && ndaysCIT <= 45" class="semaforo__group__item">
+                                <div [ngStyle]="{background: scolorCIT}" id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                            <div *ngIf="ndaysCIT > 10 && ndaysCIT <= 31" class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div [ngStyle]="{background: scolorCIT}" id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                            <div *ngIf="ndaysCIT <= 10" class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div [ngStyle]="{background: scolorCIT}" id="circulo3"></div>
+                            </div>
+                        </div>
+                        <div *ngIf="nstateCIT">
+                            Completado y Validado
+                        </div>
+                        <div *ngIf="nstateCIT === null">
+                            <div class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="ntype != 1005" class="semaforo__group">
+                        <h2>Etapa 4: Recupero VIVA</h2>
+                        <span *ngIf="ndaysAmount != null">{{ ndaysAmount }} días restantes</span>
+                        <span *ngIf="ndaysAmount === null">Pendiente</span>
+                        <div *ngIf="!nstateAmount && ndaysAmount != null">
+                            <div *ngIf="ndaysAmount > 20 && ndaysAmount <= 30" class="semaforo__group__item">
+                                <div [ngStyle]="{background: scolorAmount}" id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                            <div *ngIf="ndaysAmount > 10 && ndaysAmount <= 20" class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div [ngStyle]="{background: scolorAmount}" id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                            <div *ngIf="ndaysAmount <= 10" class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div [ngStyle]="{background: scolorAmount}" id="circulo3"></div>
+                            </div>
+                        </div>
+                        <div *ngIf="nstateAmount">
+                            Completado y Validado
+                        </div>
+                        <div *ngIf="nstateAmount === null">
+                            <div class="semaforo__group__item">
+                                <div id="circulo1"></div>
+                                <div id="circulo2"></div>
+                                <div id="circulo3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-expansion-panel>
+            <!-- -->
+            <mat-expansion-panel *ngIf="isEdit && (nstate === 5 || nstate === 6 || nstate === 7 || nstate === 8) && nid_originmedical === 1037" expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;
+                        font-weight: bold !important;">Registrado en VIVA</h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="viva">
+                    <div class="viva-group">
+                        <div style="display: flex; gap: 20px; align-items: center;">
+                            <h3>Registrado en viva: </h3>
+                            <mat-slide-toggle [disabled]="nstate != 5 || !isApproved" [checked]="bregisterviva"
+                                (change)="changeviva($event)">{{ bregisterviva ? 'SI' : 'NO'
+                                }}</mat-slide-toggle>
+                        </div>
+                        <div class="viva-input">
+                            <h3>Número de Operación: </h3>
+                            <mat-form-field>
+                                <mat-label>Número de Operación</mat-label>
+                                <input [readonly]="nstate != 5 || !isApproved" [formControl]="operationnumber" matInput>
+                                <mat-error *ngIf="
+                            operationnumber.touched &&
+                            operationnumber.invalid
+                                                  ">
+                                    <span *ngIf="operationnumber.errors.required">Número e operación es
+                                        <strong>requerido</strong>
+                                    </span>
+
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="viva-input">
+                            <h3>Código NITT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </h3>
+                            <mat-form-field>
+                                <mat-label>Código NITT</mat-label>
+                                <input [readonly]="nstate != 5 || !isApproved" [formControl]="codigonitt" matInput>
+                                <mat-error *ngIf="
+                                codigonitt.touched &&
+                                codigonitt.invalid
+                                                  ">
+                                    <span *ngIf="codigonitt.errors.required">código nitt es
+                                        <strong>requerido</strong>
+                                    </span>
+
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="list-document">
+                        <div class="document">
+                            <div class="adjunto">
+                                <mat-label>Adjuntar Comprobante</mat-label>
+                                <hr style="width: 100%;">
+                                <input type="file" class="file-input" (change)="onFileSelectedVIVA($event)" #fileUpload>
+
+                                <div class="file-upload">
+
+                                    {{fileRegisterVIVAname || "Ningun archivo cargado"}}
+
+                                    <button *ngIf="nstate === 5 && isApproved" style="margin-left: 5px;" mat-mini-fab
+                                        type="button" class="upload-btn" (click)="fileUpload.click()">
+                                        <mat-icon >attach_file</mat-icon>
+                                    </button>
+                                    <button *ngIf="sfileVIVAR" type="button" style="margin-left: 10px;" mat-mini-fab
+                                        (click)="ViewAdjuntoviva()" class="upload-btn">
+                                        <mat-icon >get_app</mat-icon>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="isEdit && (nstate === 6 || nstate === 7 || nstate === 8)" expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;">Código CITT de VIVA</h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="viva">
+                    <div class="viva-group">
+                      
+                        <div class="viva-input">
+                            <h3>Código CITT: </h3>
+                            <mat-form-field>
+                                <mat-label>Código CITT</mat-label>
+                                <input [readonly]="nstate != 6 || !isApproved" [formControl]="codigocitt" matInput>
+                                <mat-error *ngIf="
+                                codigocitt.touched &&
+                                codigocitt.invalid
+                                                  ">
+                                    <span *ngIf="codigocitt.errors.required">Código citt es
+                                        <strong>requerido</strong>
+                                    </span>
+
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        
+                        <div class="viva-input">
+                            <h3>Fecha CITT:&nbsp;&nbsp;</h3>
+                            <mat-form-field>
+                                <mat-label>Fecha CITT</mat-label>
+                                
+                                <input [formControl]="dateCIT" readonly matInput 
+                                    [matDatepicker]="pickerdateCIT">
+                                <mat-datepicker-toggle matSuffix [for]="pickerdateCIT"></mat-datepicker-toggle>
+                                <mat-datepicker [disabled]="nstate != 6 || !isApproved" #pickerdateCIT></mat-datepicker>
+                                
+                            </mat-form-field>
+                        </div>
+                        
+                    </div>
+
+                    <div class="list-document">
+                        <div class="document">
+                            <div class="adjunto">
+                                <mat-label>Adjuntar Comprobante</mat-label>
+                                <hr style="width: 100%;">
+                                <input type="file" class="file-input" (change)="onFileSelectedCITT($event)" #fileUpload>
+
+                                <div class="file-upload">
+
+                                    {{fileRegisterCITTName || "Ningun archivo cargado"}}
+
+                                    <button *ngIf="nstate === 6 && isApproved" style="margin-left: 5px;" mat-mini-fab
+                                        type="button" class="upload-btn" (click)="fileUpload.click()">
+                                        <mat-icon >attach_file</mat-icon>
+                                    </button>
+                                    <button *ngIf="sfileCITT" type="button" style="margin-left: 10px;" mat-mini-fab
+                                        (click)="ViewAdjuntoCITT()" class="upload-btn">
+                                        <mat-icon >get_app</mat-icon>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+            
+            <mat-expansion-panel *ngIf="isEdit && (nstate === 7 || nstate === 8)" expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;">Monto Devuelto</h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="viva">
+                    <div class="viva-group">
+ 
+                        <div class="viva-input">
+                            <h3>Monto Devuelto: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+                            <mat-form-field>
+                                <mat-label>Monto devuelto</mat-label>
+                                <input type="number" [readonly]="nstate != 7 || !isApproved" [formControl]="montoAmount"
+                                    matInput>
+                                <mat-error *ngIf="montoAmount.touched &&
+                                                  montoAmount.invalid
+                                                  ">
+                                    <span *ngIf="montoAmount.errors.required">monto es
+                                        <strong>requerido</strong>
+                                    </span>
+
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="viva-input">
+                            <h3>Monto no Devuelto: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h3>
+                            <mat-form-field>
+                                <mat-label>Monto no devuelto</mat-label>
+                                <input type="number" [readonly]="nstate != 7 || !isApproved" [formControl]="montoUnreturnAmount"
+                                    matInput>
+                                <mat-error *ngIf="montoUnreturnAmount.touched && montoUnreturnAmount.invalid">
+                                    <span *ngIf="montoUnreturnAmount.errors.required">monto no devuelto es
+                                        <strong>requerido</strong>
+                                    </span>
+
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="viva-input">
+                            <h3>Observación de Monto:&nbsp;</h3>
+                            <mat-form-field>
+                                <mat-label>Observación Monto</mat-label>
+                                <textarea [readonly]="nstate != 7 || !isApproved" [formControl]="sobservationamount"
+                                    matInput></textarea>
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+                </div>
+
+            </mat-expansion-panel>
+
+            <mat-expansion-panel   expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        <h2 style="text-align: center; width: 100%;margin-top: 15px !important;color: #4F66A8;font-weight: bold !important;">Documentos</h2>
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <div class="list-document" *ngIf="!isEdit">
+                    <div class="document" *ngFor="let item of listdocument">
+                        <div class="adjunto">
+                            <mat-label style="color: #4F66A8 !important;font-weight: bold;">Adjuntar {{ item.sdescription_value }} 
+                                <span *ngIf="item.bbreak_requiredfile" style="color: red;">(*)</span>
+                            </mat-label>
+                            <hr style="width: 100%;">
+                            <input type="file" class="file-input" (change)="onFileSelected($event, item.nid_mastertable, 1)"
+                                #fileUpload >
+
+                            <div *ngIf="!isEdit" class="file-upload">
+                                {{item.filename || "Ningun archivo cargado"}}
+                                <button *ngIf="!isEdit" style="margin-left: 5px;" mat-mini-fab type="button"
+                                    class="upload-btn" (click)="fileUpload.click()">
+                                    <mat-icon  style="color: black;">attach_file</mat-icon>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="list-document" *ngIf="isEdit">
+                    <div class="document" *ngFor="let item of listdocumentbyId">
+                        <div class="adjunto">
+                            <mat-label style="color: #4F66A8 !important;font-weight: bold;">
+                                Documento {{ item.sdocument }}
+                                <span *ngIf="item.bbreak_requiredfile" style="color: red;">(*)</span>
+                            </mat-label>
+                            <hr style="width: 100%;">
+                            <div class="button_download" *ngIf="isEdit">
+                                <p>{{ item.nameFile }} </p>
+
+                                <button *ngIf="isEdit && (item.nstate == 0 || item.nstate == 1 || item.nstate == 3)" style="margin-left: 5px;" mat-mini-fab type="button"
+                                    class="upload-btn" (click)="fileUpload.click()">
+                                    <mat-icon  style="color: black;" matTooltip="Adjuntar documento">attach_file</mat-icon>
+                                </button>
+                                <input type="file" class="file-input" (change)="onFileSelected($event, item.ndocument, 2)"
+                                #fileUpload >
+                                <button *ngIf="item.nstate != 0" type="button" style="margin-left: 10px;" mat-mini-fab
+                                    (click)="ViewAdjunto(item.sfile)" class="upload-btn"
+                                    matTooltip="Descargar documento">
+                                    <mat-icon style="color: black;">get_app</mat-icon>
+                                </button>
+                                
+                                <button *ngIf="item.nstate === 1 && isApproved"
+                                    (click)="approvedDocument(item.nid_document_medical, item.sdocument)" type="button"
+                                    style="margin-left: 10px; background-color: #4f66a8;" mat-mini-fab
+                                    matTooltip="Aprobar documento">
+                                    <mat-icon style="color: black;">check_circle_outline</mat-icon>
+                                </button>
+                                <button *ngIf="item.nstate === 1 && isApproved"
+                                    (click)="rejectedDocument(item.nid_document_medical, item.sdocument)" type="button"
+                                    style="margin-left: 10px; background-color: red;" mat-mini-fab
+                                    matTooltip="Observar documento">
+                                    <mat-icon style="color: black;">close</mat-icon>
+                                </button>
+
+                                <button *ngIf="(item.nstate === 1 || item.nstate === 2) && (item.ndocument===1008 || item.ndocument===1020) && isSendExactus===false && bCanSendToExactus===true"
+                                    (click)="SendDumentExactus(item.nid_document_medical, item.sdocument)" type="button"
+                                    style="margin-left: 10px; background-color: #4f66a8;" mat-mini-fab 
+                                    matTooltip="Enviar a Exactus">
+                                    <mat-icon style="color: black;">send</mat-icon>
+                                </button>
+                            </div>
+                            <div class="span-list">
+                                
+                                <span *ngIf="item.nstate === 2 && (item.ndocument===1008 || item.ndocument===1020) && isSendExactus===true" class="validado">{{nsendexactus}}Enviado a Exactus</span>
+                                <span *ngIf="item.nstate === 2" class="validado">Validado</span>
+                                <span *ngIf="item.nstate === 3" class="observado">Observado:</span>
+                                <br>
+                                <br>
+                                
+                                <span *ngIf="item.nstate === 3" class="textobservado">{{item.scommentobserve}}</span>
+
+                            </div>
+
+                           
+                            
+                        </div>  
+                  
+                    </div>
+                </div>
+
+                
+
+            </mat-expansion-panel>
+
+
+        </mat-accordion>
+
+        
+
+        <div class="footer">
+
+            <button *ngIf="nstate === 0 && id === 0"  mat-raised-button class="dark-blue-400 dark-blue-400-fg" color="primary"
+                (click)="openDialogGuardar(true)">
+                Guardar como Borrador
+            </button>
+
+
+            <button *ngIf="nstate === 0 && id > 0" mat-raised-button color="primary"
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="updateMissingArchivesDraft()">Guardar como Borrador
+            </button>   
+
+
+            <button *ngIf="nstate === 0 && id === 0" mat-raised-button class="dark-blue-400 dark-blue-400-fg" color="primary"
+                (click)="save()">
+                Guardar y Enviar
+            </button>
+
+            <button *ngIf="nstate === 0 && id > 0" mat-raised-button class="dark-blue-400 dark-blue-400-fg" color="primary"
+                (click)="SendMissingArchivesDraft()">
+                Guardar y Enviar
+            </button>
+
+            <button *ngIf="isEdit && nstate === 4 && isEditFile" mat-raised-button color="primary"
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="editFiles()">Guardar
+            </button>
+            <button *ngIf="isEdit && nstate === 5 && isApproved && nid_originmedical === 1037" mat-raised-button color="primary"
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="updateVIVA()">Guardar</button>
+            <button *ngIf="isEdit && nstate === 6 && isApproved" mat-raised-button color="primary"
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="updateCITT()">Guardar</button>
+            <button *ngIf="isEdit && nstate === 7 && isApproved" mat-raised-button color="primary"
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="updateAmount()">Guardar</button>
+            <button *ngIf="isEdit && (nstate === 1 || nstate === 4) && isApproved" mat-raised-button 
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="validDocument()"
+                >Aprobar
+            </button>
+
+            <button *ngIf="isEdit && (nstate === 1 || nstate === 4) && isApproved" mat-raised-button 
+            class="dark-blue-400 dark-blue-400-fg" type="button" (click)="ObservDocumentMasive()"
+            >Observar Documentos</button>
+
+
+
+            <button *ngIf="isEdit && isApproved && (nstate === 1 || nstate === 4)" mat-raised-button color="primary"
+                style="background-color: #f44336; color: white;" type="button" (click)="reject()">Rechazar</button>
+            <button *ngIf="isEdit && nstate === 1 && isUpdateFile && bCanSendToExactus" mat-raised-button color="primary"
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="updateMissingArchives()">Actualizar Archivos
+            </button>   
+
+            <!-- <button *ngIf="isEdit && nstate === 0" mat-raised-button color="primary"
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="updateMissingArchives2()">Actualizar Archivos 2
+            </button>    -->
+
+            <button *ngIf="isEdit && (nstate === 4) && isApproved" mat-raised-button color="primary"
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="updateMissingArchives()">Actualizar Archivos
+            </button>   
+
+
+            <!-- <button *ngIf="isEdit && nstate === 1 && isUpdateFile" mat-raised-button color="primary"
+                class="dark-blue-400 dark-blue-400-fg" type="button" (click)="editFiles()">Actualizar Archivos 3
+            </button> -->
+
+            <button type="button" mat-raised-button (click)="cancel()" color="warn">Cancelar</button>     
+
+        
+
+
+            
+        </div>
+    </form>
+</div>

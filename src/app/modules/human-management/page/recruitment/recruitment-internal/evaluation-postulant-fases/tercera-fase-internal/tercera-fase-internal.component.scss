@@ -1,0 +1,162 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .content__competencias {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+  
+    width: 100%;
+  }
+  
+  .file_input {
+    background: #dfdfdf;
+    width: 100%;
+    padding: 30px;
+    cursor: pointer;
+  }
+  
+  .adjunto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .adjunto span {
+    font-size: 15px;
+  }
+  
+  .content__multitest {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+  
+    width: 100%;
+  }
+  
+  .content_comentarios {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+  
+    width: 100%;
+  }
+  
+  .button-enviar {
+    width: 100%;
+    margin-top: 1%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+  
+  .content_buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 3%;
+    margin-bottom: 4%;
+  }
+  
+  .content__notas {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+  
+    width: 100%;
+  }
+  
+  .content-messages {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    padding: 5px;
+    font-size: 13px;
+  }
+  
+  .message {
+    display: flex;
+  }
+  
+  .item_user {
+    flex: 300px;
+    font-weight: bold;
+  }
+  
+  .item_message {
+    flex: 300px;
+  }
+  
+  .item_date {
+    flex: 300px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .content__accion {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3%;
+    width: 100%;
+  }
+  
+  .accion {
+    display: flex;
+    gap: 10px;
+    margin-top: 2%;
+    margin: 0 auto;
+  }
+  
+  .mx {
+    margin: 20px;
+  }
+  
+  .content__evaluation {
+    width: 100%;
+    margin-top: 3%;
+  }
+  
+  button:disabled {
+      cursor: not-allowed;
+  }
+
+  .font-message {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    font-family: Nunito !important;
+    color: #343a40 !important;
+    margin-bottom: 0px !important;
+  }
+  
+  .divMain{
+    background-color: #f5f8fa;
+    width: 100%;
+    margin: 0 auto;
+  }
+  
+  @media screen and (min-width: 800px) {
+    .divMain{
+      width: 100%;
+      margin: 0 auto;
+      background-color: #f5f8fa;
+      padding-left: 40px;
+      padding-right: 40px;
+    }
+  }
+
+  @media screen and (max-width:500px) {
+    .button-enviar button{
+      width:100% !important;
+
+    }
+    .content_buttons{
+      display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+        button{
+          max-width: 100%;
+        }
+    }
+  }

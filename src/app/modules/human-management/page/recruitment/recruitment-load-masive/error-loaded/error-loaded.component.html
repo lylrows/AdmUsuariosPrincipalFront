@@ -1,0 +1,13 @@
+<mat-card-title style="text-align: center">
+    <div class="title-modal">{{ title }}</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+  <mat-card-content style="margin-top: 3%;">
+     <li>
+         <ul *ngFor="let item of listError">{{item}}</ul>
+     </li>
+  </mat-card-content>
+  <mat-card-footer style="margin-top: 3%; display:flex; justify-content:center">
+    <button mat-raised-button (click)="close()"
+    class="dark-blue-400 dark-blue-400-fg">Cerrar</button>
+  </mat-card-footer>

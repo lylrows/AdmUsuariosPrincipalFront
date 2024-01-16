@@ -1,0 +1,23 @@
+<mat-card-title>
+  <div class="card-title-text">Detalle del Reconocimiento</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-card-content>
+    <div class="content">
+        <div class="content__img">
+            <h2>{{fullname | titlecase}}</h2>
+            <img src="http://10.10.101.11:8042/Imagenes\l30sjxkr.otg.jpg" alt="">
+        </div>
+        <div class="content__body">
+            <div class="content__body__title">
+                <h1>{{title  | titlecase}}</h1>
+                <mat-icon style="color: #DD9923;">{{icon}}</mat-icon>
+            </div>
+            <span class="text-muted">Hace {{ hour }}</span>
+            <p>{{description}}</p>
+        </div>
+    </div>
+</mat-card-content>
+<mat-card-footer style="padding: 10px;">
+    <button class="btncancel" type="button" mat-raised-button (click)="cancel()">Cancelar</button>
+</mat-card-footer>

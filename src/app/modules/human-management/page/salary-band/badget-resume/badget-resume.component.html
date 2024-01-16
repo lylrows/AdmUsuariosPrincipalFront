@@ -1,0 +1,325 @@
+<div class="container">
+    <h1>{{ title }}</h1>
+    <hr />
+
+    <div class="first">
+        <mat-accordion class="w-100" multi>
+            <mat-expansion-panel expanded>
+                <mat-expansion-panel-header>
+                    <mat-panel-title> Filtros de Búsqueda </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div style="margin-left:15px ;">
+                    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Año</mat-label>
+                                <input autocomplete="off" placeholder="Escribir año" matInput type="number"
+                                    minlength="4" maxlength="4" [(ngModel)]="Filter.Period" />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Mes</mat-label>
+                                <mat-select [(ngModel)]="Filter.Month">
+                                    <mat-option *ngFor="let item of listmonth" [value]="item.code">{{item.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Grupo</mat-label>
+                                <mat-select [(ngModel)]="nid_areagroup" (selectionChange)="getAreasCenterCost()">
+                                    <mat-option value="0">-- TODOS --</mat-option>
+                                    <mat-option *ngFor="let item of areagroups" [value]="item.code">{{item.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Area</mat-label>
+                                <mat-select [(ngModel)]="sareascentercost" multiple>
+                                    <!-- <mat-option value="" >-- TODOS --</mat-option> -->
+                                    <mat-option *ngFor="let item of areascentercost" [value]="item.code">
+                                        {{item.description}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                            <mat-form-field appearance="fill" class="w-100">
+                                <mat-label>Año Variación</mat-label>
+                                <input autocomplete="off" placeholder="Escribir año" matInput type="number"
+                                    minlength="4" maxlength="4" [(ngModel)]="Filter.PeriodVariation" />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50" class="pr-16">
+                        </div>                     
+                    </div>
+                </div>
+
+                <div style="margin-left: 16px;" class="pr-16">                            
+                    <div class="filter__buttons">
+                        <button (click)="getList()" mat-raised-button color="primary">
+                            Buscar
+                        </button>
+                        <button (click)="printXls()" mat-raised-button color="warn">
+                            Exportar
+                        </button>
+                        <button mat-raised-button color="warn" (click)="resetFilter()">Limpiar</button>
+                    </div>
+                    <a id="afile" name="afile" style="display: none;"></a>                
+                </div>
+            </mat-expansion-panel>
+            <mat-accordion class="w-100" multi *ngIf="!this.responsive">
+                <mat-expansion-panel expanded>
+                    <mat-expansion-panel-header style="background-color: #FBE5D6;" fxLayoutAlign="center">
+                        <mat-panel-title>
+                            <p
+                                style="text-align: center; width: 100%;margin-top: 15px !important;font-weight: 700;font-size: 20px">
+                                {{titletab}}
+                            </p>
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div style="overflow-x: auto;overflow-y: scroll;height: 700px;">
+                        <table id="tblLista">
+                            <thead>
+                                <tr>
+                                    <th>AREA</th>
+                                    <th>EJECUTADO {{previousPeriod-2}}</th>
+                                    <th>EJECUTADO {{previousPeriod-1}}</th>
+                                    <th>EJECUTADO {{previousPeriod}}</th>
+                                    <th>EJECUTADO {{currentPeriod}}</th>
+                                    <th>PRESUPUESTO {{previousPeriod}}</th>
+                                    <th>PRESUPUESTO {{currentPeriod}}</th>
+                                    <th>VAR P{{currentPeriod}} vs E{{variationPeriod}} %</th>
+                                    <th>VAR P{{currentPeriod}} vs E{{variationPeriod}} S/.</th>
+                                </tr>
+
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of listdata" [ngClass]="{'rowgroupclass': item.isGroup === true}">
+
+                                    <td *ngIf="item.isGroup === true"
+                                        style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                        item.nameGroup}}</td>
+                                    <td *ngIf="item.isGroup === false">{{ item.nameArea}}</td>
+                                    <td *ngIf="item.isGroup === true"
+                                        style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                        item.previousExecAmount2 | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                        item.previousExecAmount2 | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === true"
+                                        style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                        item.previousExecAmount1 | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                        item.previousExecAmount1 | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === true"
+                                        style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                        item.previousExecAmount | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                        item.previousExecAmount | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === true"
+                                        style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                        item.currentExecAmount | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                        item.currentExecAmount | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === true"
+                                        style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                        item.previousAmount | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                        item.previousAmount | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === true"
+                                        style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                        item.currentAmount | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === false" style="text-align: center;">{{ item.currentAmount
+                                        | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === true"
+                                        style="font-weight: bold !important;background-color:#d9d9d9 !important;">
+                                        {{(item.variationPorc ) | number : '1.1-1'}} %</td>
+                                    <td *ngIf="item.isGroup === false" style="text-align: center;">{{(item.variationPorc
+                                        ) | number : '1.1-1'}} %</td>
+                                    <td *ngIf="item.isGroup === true"
+                                        style="font-weight: bold !important;background-color:#d9d9d9 !important;">{{
+                                        item.variationAmount | number : '1.2-2'}}</td>
+                                    <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                        item.variationAmount | number : '1.2-2'}}</td>
+
+
+                                </tr>
+                                <tr *ngIf="listdata.length > 0">
+                                    <td colspan="9"></td>
+                                </tr>
+                                <tr *ngIf="listdata.length > 0" style="background-color: #002060;color: white;">
+                                    <td style="text-align: left;background-color: #002060;color: white;">TOTAL</td>
+
+                                    <td style="text-align: center;background-color: #002060;color: white;">{{total_1 |
+                                        number : '1.2-2'}}</td>
+                                    <td style="text-align: center;background-color: #002060;color: white;">{{total_2 |
+                                        number : '1.2-2'}}</td>
+                                    <td style="text-align: center;background-color: #002060;color: white;">{{total_3 |
+                                        number : '1.2-2'}}</td>
+                                    <td style="text-align: center;background-color: #002060;color: white;">{{total_4 |
+                                        number : '1.2-2'}}</td>
+                                    <td style="text-align: center;background-color: #002060;color: white;">{{total_5 |
+                                        number : '1.2-2'}}</td>
+                                    <td style="text-align: center;background-color: #002060;color: white;">{{total_6 |
+                                        number : '1.2-2'}}</td>
+                                    <td style="text-align: center;background-color: #002060;color: white;">{{total_7 |
+                                        number : '1.1-1'}} %</td>
+                                    <td style="text-align: center;background-color: #002060;color: white;">{{total_8 |
+                                        number : '1.2-2'}}</td>
+                                </tr>
+
+
+                                <tr *ngIf="listdata.length === 0">
+                                    <td colspan="9">No se encontraron registros </td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <ng-template #DetailDialog>
+                <mat-dialog-content>
+                    <mat-accordion class="w-100" multi>
+                        <mat-expansion-panel expanded>
+                            <mat-expansion-panel-header style="background-color: #FBE5D6;" fxLayoutAlign="center">
+                                <mat-panel-title>
+                                    <p
+                                        style="text-align: center; width: 100%;margin-top: 15px !important;font-weight: 700;font-size: 20px">
+                                        {{titletab}}
+                                    </p>
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+        
+        
+                            <div style="overflow-x: auto;overflow-y: scroll;height: 700px;">
+        
+                                <table id="tblLista-res" style="width: 1300px;">
+                                    <thead>
+                                        <tr>
+                                            <th>AREA</th>
+                                            <th>EJECUTADO {{previousPeriod-2}}</th>
+                                            <th>EJECUTADO {{previousPeriod-1}}</th>
+                                            <th>EJECUTADO {{previousPeriod}}</th>
+                                            <th>EJECUTADO {{currentPeriod}}</th>
+                                            <th>PRESUPUESTO {{previousPeriod}}</th>
+                                            <th>PRESUPUESTO {{currentPeriod}}</th>
+                                            <th style="width: 100px !important;">VAR P{{currentPeriod}} vs E{{variationPeriod}} %</th>
+                                            <th>VAR P{{currentPeriod}} vs E{{variationPeriod}} S/.</th>
+                                        </tr>
+        
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let item of listdata" [ngClass]="{'rowgroupclass': item.isGroup === true}">
+        
+        
+                                            <td *ngIf="item.isGroup === true"
+                                                style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                                item.nameGroup}}</td>
+                                            <td *ngIf="item.isGroup === false">{{ item.nameArea}}</td>
+        
+        
+        
+                                            <td *ngIf="item.isGroup === true"
+                                                style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                                item.previousExecAmount2 | number : '1.2-2'}}</td>
+                                            <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                                item.previousExecAmount2 | number : '1.2-2'}}</td>
+        
+                                            <td *ngIf="item.isGroup === true"
+                                                style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                                item.previousExecAmount1 | number : '1.2-2'}}</td>
+                                            <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                                item.previousExecAmount1 | number : '1.2-2'}}</td>
+        
+        
+        
+                                            <td *ngIf="item.isGroup === true"
+                                                style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                                item.previousExecAmount | number : '1.2-2'}}</td>
+                                            <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                                item.previousExecAmount | number : '1.2-2'}}</td>
+        
+        
+                                            <td *ngIf="item.isGroup === true"
+                                                style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                                item.currentExecAmount | number : '1.2-2'}}</td>
+                                            <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                                item.currentExecAmount | number : '1.2-2'}}</td>
+        
+        
+                                            <td *ngIf="item.isGroup === true"
+                                                style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                                item.previousAmount | number : '1.2-2'}}</td>
+                                            <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                                item.previousAmount | number : '1.2-2'}}</td>
+        
+        
+                                            <td *ngIf="item.isGroup === true"
+                                                style="font-weight: bold !important; background-color:#d9d9d9 !important;">{{
+                                                item.currentAmount | number : '1.2-2'}}</td>
+                                            <td *ngIf="item.isGroup === false" style="text-align: center;">{{ item.currentAmount
+                                                | number : '1.2-2'}}</td>
+        
+                                            <td *ngIf="item.isGroup === true"
+                                                style="font-weight: bold !important;background-color:#d9d9d9 !important; width: 100px !important">
+                                                {{(item.variationPorc ) | number : '1.1-1'}} %</td>
+                                            <td *ngIf="item.isGroup === false" style="text-align: center;width: 100px !important">{{(item.variationPorc
+                                                ) | number : '1.1-1'}} %</td>
+        
+        
+                                            <td *ngIf="item.isGroup === true"
+                                                style="font-weight: bold !important;background-color:#d9d9d9 !important;">{{
+                                                item.variationAmount | number : '1.2-2'}}</td>
+                                            <td *ngIf="item.isGroup === false" style="text-align: center;">{{
+                                                item.variationAmount | number : '1.2-2'}}</td>
+        
+                                                
+                                        </tr>
+                                        <tr *ngIf="listdata.length > 0">
+                                            <td colspan="9"></td>
+                                        </tr>
+                                        <tr *ngIf="listdata.length > 0" style="background-color: #002060;color: white;">
+                                            <td style="text-align: left;background-color: #002060;color: white;">TOTAL</td>
+        
+                                            <td style="text-align: center;background-color: #002060;color: white;">{{total_1 |
+                                                number : '1.2-2'}}</td>
+                                            <td style="text-align: center;background-color: #002060;color: white;">{{total_2 |
+                                                number : '1.2-2'}}</td>
+                                            <td style="text-align: center;background-color: #002060;color: white;">{{total_3 |
+                                                number : '1.2-2'}}</td>
+                                            <td style="text-align: center;background-color: #002060;color: white;">{{total_4 |
+                                                number : '1.2-2'}}</td>
+                                            <td style="text-align: center;background-color: #002060;color: white;">{{total_5 |
+                                                number : '1.2-2'}}</td>
+                                            <td style="text-align: center;background-color: #002060;color: white;">{{total_6 |
+                                                number : '1.2-2'}}</td>
+                                            <td style="text-align: center;background-color: #002060;color: white;">{{total_7 |
+                                                number : '1.1-1'}} %</td>
+                                            <td style="text-align: center;background-color: #002060;color: white;">{{total_8 |
+                                                number : '1.2-2'}}</td>
+                                        </tr>
+        
+        
+                                        <tr *ngIf="listdata.length === 0">
+                                            <td colspan="9">No se encontraron registros </td>
+                                        </tr>
+        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </mat-dialog-content>
+                <mat-dialog-actions align="end">
+                    <button mat-raised-button color="primary" style="margin: auto;" matDialogClose="no">Cerrar</button>
+                </mat-dialog-actions>
+            </ng-template>
+        </mat-accordion>
+    </div>
+</div>
+<a id="afile" name="afile" style="display: none;"></a>

@@ -1,0 +1,40 @@
+.content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.content__title span {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.content__steps {
+    width: 100%;
+    margin-top: 2%;
+}
+
+.fab-container {
+    position: fixed;
+    top: 135px;
+    right: 100px;
+    z-index: 150;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: all 0.3s ease;
+    transform-origin: 50% 30%;
+  }
+  
+  .fab-container > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .fab-container > div > button {
+    margin-top: 10px;
+    outline: none;
+  }

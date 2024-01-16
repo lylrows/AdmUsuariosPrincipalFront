@@ -1,0 +1,35 @@
+@media only screen and (max-device-width: 480px) {
+    .mat-dialog-title {
+        font: 400 24px/3px "Nunito" !important;
+    }
+    .filter__buttons{ 
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+        max-height: none !important;
+    }
+    .mat-focus-indicator{
+        line-height: 15px !important;
+        padding: 15px 25px !important;
+        margin-left: 0px !important;
+        width: 100% !important;
+    }
+
+    .pr-16 {
+        padding-right: 0px !important;
+    }
+
+    .mat-table .mat-row:not(.example-expanded-row) {
+        display: revert !important;
+    }
+
+    .mat-table .mat-cell{
+        display: table-cell !important;
+        padding: 0px !important;
+        width: 0% !important;
+    }
+    
+    td > .mat-focus-indicator {
+        padding: 0px !important;
+    }
+}

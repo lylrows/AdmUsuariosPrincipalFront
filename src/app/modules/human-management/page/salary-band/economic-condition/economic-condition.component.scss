@@ -1,0 +1,479 @@
+#tblLista {
+    border-collapse: collapse !important;
+    width: 3620px;
+    border-spacing: 0 !important;
+    font-family: "Nunito" !important;
+
+    display: table;
+
+    text-indent: initial;
+    border-color: grey;
+    font-size: 14px;
+
+
+
+    th {
+        text-align: center;
+        font-size: 12px;
+    }
+
+    // td {
+    //     font-size: 11px;
+    //     padding-left: 4px;
+    // }
+
+    thead {
+        background: inherit;
+        box-sizing: border-box;
+        display: table-header-group;
+        vertical-align: middle;
+        border-color: inherit;
+
+        tr {
+            th {
+                background: #8CACDA !important;
+                color: #F9F9F9 !important;
+                font-size: 14px;
+                font-weight: 500;
+                font-family: Nunito;
+            }
+
+            th {
+                text-align: center;
+                font-size: 12px;
+
+
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                z-index: 2;
+            }
+
+            th[scope=row] {
+                position: -webkit-sticky;
+                position: sticky;
+                left: 450px;
+                z-index: 1;
+            }
+        }
+    }
+
+    tbody {
+
+        background: inherit;
+        box-sizing: border-box;
+        display: table-row-group;
+        vertical-align: middle;
+        border-color: inherit;
+
+        tr {
+            height: 48px;
+            display: table-row;
+            vertical-align: inherit;
+            border-color: inherit;
+            box-sizing: border-box;
+            background: inherit;
+
+            td {
+                font-size: 14px;
+                font-weight: 500;
+                font-family: Nunito;
+                font: 400 14px/20px "Nunito" !important;
+                letter-spacing: normal;
+                left: 0px;
+                z-index: 1;
+                padding-left: 24px !important;
+                border-bottom-color: rgba(0, 0, 0, 0.12);
+                color: rgba(0, 0, 0, 0.87);
+                background: inherit;
+                padding: 0;
+                border-bottom-width: 1px;
+                border-bottom-style: solid;
+                display: table-cell;
+                vertical-align: inherit;
+            }
+        }
+
+        tr:nth-child(even) td {
+            background: #F9F9F9;
+        }
+
+        tr:nth-child(odd) td {
+            background: #EEF4F8;
+        }
+
+    }
+
+}
+
+#tblLista-res {
+    border-collapse: collapse !important;
+    width: 3620px;
+    border-spacing: 0 !important;
+    font-family: "Nunito" !important;
+
+    display: table;
+
+    text-indent: initial;
+    border-color: grey;
+    font-size: 12px;
+
+
+
+    th {
+        text-align: center;
+        font-size: 12px;
+    }
+
+    // td {
+    //     font-size: 11px;
+    //     padding-left: 4px;
+    // }
+
+    thead {
+        background: inherit;
+        box-sizing: border-box;
+        display: table-header-group;
+        vertical-align: middle;
+        border-color: inherit;
+
+        tr {
+            th {
+                background: #8CACDA !important;
+                color: #F9F9F9 !important;
+                font-size: 12px;
+                font-weight: 500;
+                font-family: Nunito;
+            }
+
+            th {
+                text-align: center;
+                font-size: 12px;
+
+
+                position: -webkit-sticky;
+                position: sticky;
+                top: 0;
+                z-index: 2;
+            }
+
+            th[scope=row] {
+                position: -webkit-sticky;
+                position: sticky;
+                left: 450px;
+                z-index: 1;
+            }
+        }
+    }
+
+    tbody {
+
+        background: inherit;
+        box-sizing: border-box;
+        display: table-row-group;
+        vertical-align: middle;
+        border-color: inherit;
+
+        tr {
+            height: 48px;
+            display: table-row;
+            vertical-align: inherit;
+            border-color: inherit;
+            box-sizing: border-box;
+            background: inherit;
+
+            td {
+                font-size: 12px;
+                font-weight: 500;
+                font-family: Nunito;
+                font: 400 12px/20px "Nunito" !important;
+                letter-spacing: normal;
+                left: 0px;
+                z-index: 1;
+                padding-left: 14px !important;
+                border-bottom-color: rgba(0, 0, 0, 0.12);
+                color: rgba(0, 0, 0, 0.87);
+                background: inherit;
+                padding: 0;
+                border-bottom-width: 1px;
+                border-bottom-style: solid;
+                display: table-cell;
+                vertical-align: inherit;
+            }
+        }
+
+        tr:nth-child(even) td {
+            background: #F9F9F9;
+        }
+
+        tr:nth-child(odd) td {
+            background: #EEF4F8;
+        }
+
+    }
+
+}
+
+.headergris {
+    background-color: #F2F2F2 !important;
+}
+
+.columnaenblanco {
+    width: 20px;
+    border-top: none !important;
+    border-bottom: none !important;
+}
+
+.headerceleste {
+    background-color: #DEEAF6;
+}
+
+.headeramarillo {
+    background-color: #FFF2CB;
+}
+
+.headerverdeclaro {
+    background-color: #E2EEDA;
+}
+
+.headerveroscuro {
+    background-color: #A9CD90;
+}
+
+.colmnamount {
+    text-align: center;
+    padding-right: 4px;
+}
+
+.columndate {
+    text-align: center;
+}
+
+.semaforovar0 {
+    background-color: white;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: solid 1px;
+}
+
+.semaforovar1 {
+    background-color: green;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: solid 1px;
+}
+
+.semaforovar2 {
+    background-color: yellow;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: solid 1px;
+}
+
+.semaforovar3 {
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border: solid 1px;
+}
+
+.sticky-col {
+
+    background-color: white;
+}
+
+.first-col {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    left: 0px;
+    position: -webkit-sticky;
+    position: sticky;
+}
+
+.second-col {
+    width: 350px;
+    min-width: 350px;
+    max-width: 350px;
+    left: 100px !important;
+
+    position: -webkit-sticky;
+    position: sticky;
+}
+
+.first-col-res {
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+    left: 0px;
+    position: -webkit-sticky;
+    position: sticky;
+}
+
+.second-col-res {
+    width: 100px;
+    min-width: 100px;
+    max-width: 100px;
+    left: 80px !important;
+
+    position: -webkit-sticky;
+    word-break: break-word;
+    position: sticky;
+}
+
+// MOD: 04/08/2022
+tbody tr {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+}
+
+.row-selected {
+    background-color: #ddf9a6 !important;
+}
+
+.incremento {
+
+    color: white;
+    font-weight: bold;
+    background: #0f9018;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 6px;
+    border-width: 0.5px;
+    border-color: gray;
+}
+
+.decremento {
+
+
+    color: rgb(0, 0, 0);
+    // font-weight: bold;
+    background: rgb(255, 255, 255);
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 6px;
+    border-width: 0.5px;
+    border-color: gray;
+}
+
+.inputs {
+    display: flex;
+    gap: 20px;
+
+    mat-form-field {
+        width: 100%;
+    }
+}
+
+
+@media only screen and (max-device-width: 480px) {
+    .buttons buttons {
+        padding: 5px;
+    }
+
+    .sticky-col {
+        // position: initial !important;
+        background-color: white;
+    }
+
+    tbody{
+        .second-col {
+            width: 350px;
+            min-width: 350px;
+            max-width: 350px;
+            left: 100px !important;
+    
+            position: sticky;
+            // border: solid 1px red;
+    
+        }
+
+    }
+
+    
+}
+
+
+
+
+@media (min-width: 150px) {
+
+    tbody{
+
+        .second-col {
+            width: 350px;
+            min-width: 350px;
+            max-width: 350px;
+            left: 100px !important;
+    
+            position: sticky;
+            // border: solid 1px blue;
+    
+        }
+    }
+    
+
+}
+
+@media (min-width: 576px) {
+    tbody{
+        .second-col {
+            width: 350px;
+            min-width: 350px;
+            max-width: 350px;
+            left: 100px !important;
+    
+            position: initial !important;
+            // border: solid 1px green;
+    
+        }
+
+    }
+    
+
+}
+
+@media (min-width: 992px) {
+
+
+    tbody{
+        .second-col {
+            width: 350px;
+            min-width: 350px;
+            max-width: 350px;
+            left: 100px !important;
+    
+            position: sticky;
+            // border: solid 1px yellow;
+    
+        }
+    }
+
+    
+}
+
+@media (min-width: 1200px) {
+
+    tbody{
+    
+        .second-col {
+            width: 350px;
+            min-width: 350px;
+            max-width: 350px;
+            left: 100px !important;
+    
+            position: sticky;
+            // border: solid 1px pink;
+    
+        }
+
+    }
+
+    
+}
+

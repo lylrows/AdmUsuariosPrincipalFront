@@ -1,0 +1,319 @@
+<div class="content">
+  <form [formGroup]="itemForm">
+    <div class="header">
+      <h1>SOLICITUD DE {{data.title | uppercase}}</h1>
+    </div>
+    <hr>
+
+    <div class="personal">
+      <h1 class="title">1. DATOS PERSONALES: </h1>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Código del Empleado: </label>
+          <span> {{ codeEmployee }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">DNI N*: </label>
+          <span> {{dni }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label>Nombres y Apellidos: </label>
+          <span> {{ fullname }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Fecha de Ingreso: </label>
+          <span> {{ dateAdmission }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">Área: </label>
+          <span> {{ area }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label class="size-large">Cargo: </label>
+          <span> {{charge }} </span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="motivo">
+      <h1 class="title">2. DATOS DE LA SOLICITUD: </h1>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Tipo de Cuota: </label>
+        <mat-radio-group (change)="changetipo()" [disabled]="!permitEdit" style="align-self: center;" [formControl]="itemForm.controls['ntypecase']">
+          <mat-radio-button value='1'>Simple</mat-radio-button>
+          <mat-radio-button value='2'>Doble</mat-radio-button>
+          <!-- <mat-radio-button value='3'>Cobro Utilidades</mat-radio-button>
+          <mat-radio-button value='4'>Cobro Gratificación</mat-radio-button> -->
+        </mat-radio-group>
+        <mat-error *ngIf="
+          itemForm.controls.ntypecase.touched &&
+          itemForm.controls.ntypecase.invalid
+                                ">
+          <small *ngIf="itemForm.controls['ntypecase'].hasError('required') && itemForm.controls['ntypecase'].touched"
+            class="form-error-msg"> El tipo de couta es obligatorio </small>
+        </mat-error>
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Monto Solicitado: </label>
+        <mat-form-field class="size-input">
+          <input matInput name="Amount" [formControl]="itemForm.controls['amount']" placeholder="Monto Solicitado"
+          [readonly]="!permitEdit" (change)="CalculateAmount()">
+
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Nro. Cuotas: </label>
+        <mat-form-field class="size-input">
+          <input matInput name="NumberFee" [formControl]="itemForm.controls['numberFee']" placeholder="Nro. Cuotas"
+          [readonly]="!permitEdit" (change)="CalculateAmount()">
+        </mat-form-field>
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Cobro Gratificación: </label>
+        <mat-form-field class="input-periodo">
+          <mat-select [disabled]="!permitEdit" [formControl]="itemForm.controls['cobroGratificacion']" (selectionChange)="CalculateAmount()">
+            <mat-option *ngFor="let item of listCobroGratificacion" [value]="item.sshort_value">{{item.sdescription_value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-checkbox   style="position: relative" [formControl]="itemForm.controls['bGrati']" 
+        (change)="onChangeGrati($event)"
+        >
+          Otro Monto
+        </mat-checkbox>
+
+        <mat-form-field  *ngIf="bshowOtroGrati===true">
+          
+          <input matInput  class="amount-right-align" placeholder="0" 
+              
+              numeric decimals="0"
+              [formControl]="itemForm.controls['nAddGrati']" placeholder="Adicionar gratificación" maxlength="10"
+              (keypress)="valideKey($event)" autocomplete="off" (blur)='fnValidAmountAditional($event.target.value)'
+              >
+          <span matPrefix>S/.&nbsp;</span>
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Cobro Utilidades: </label>
+        <mat-form-field class="input-periodo">
+          <mat-select [disabled]="!permitEdit" [formControl]="itemForm.controls['cobroUtilidad']" (selectionChange)="CalculateAmount()">
+            <mat-option *ngFor="let item of listCobroUtilidades" [value]="item.sshort_value">{{item.sdescription_value}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-checkbox   style="position: relative" [formControl]="itemForm.controls['bUtil']"
+        
+        (change)="onChangeUtil($event)"
+        
+        > 
+        Otro Monto
+        </mat-checkbox>
+        <mat-form-field  *ngIf="bshowOtroUtil === true">
+          <input matInput  class="amount-right-align" placeholder="0" 
+          
+              numeric decimals="0" autocomplete="off"
+              [formControl]="itemForm.controls['nAddUtilidad']" placeholder="Adicionar Utilidad" maxlength="10"
+              (keypress)="valideKey($event)" (blur)='fnValidAmountAditional($event.target.value)'
+              >
+          <span matPrefix>S/.&nbsp;</span>
+        </mat-form-field>
+      </div>
+
+      <div  class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Saldo: </label>
+        <mat-form-field class="size-input">
+          <input type="number" min="0" matInput readonly name="balance"
+            [formControl]="itemForm.controls['balance']" placeholder="Saldo" readonly>
+        </mat-form-field>
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Cuota Mensual: </label>
+        <mat-form-field class="size-input">
+          <input type="number" readonly min="0" matInput readonly name="AmountMonthlyFee"
+            [formControl]="itemForm.controls['amountMonthlyFee']" placeholder="Cuota Mensual" readonly>
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount" style="display: none;">
+        <label class="size-large" style="font-weight: bold;">Número de Cuota Doble: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Número de Cuota Doble</mat-label>
+          <input matInput name="ncoutaselect" [formControl]="itemForm.controls['ncoutaselect']"
+          placeholder="Número de Cuota Doble" readonly>
+        </mat-form-field>
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Motivo de Préstamo: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Motivo de Préstamo</mat-label> 
+          <mat-select [disabled]="!permitEdit"  [formControl]="itemForm.controls['idTypeLoan']">
+            <mat-option *ngFor="let item of lstTypeLoan" [value]="item.id">{{item.description}}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="
+          itemForm.controls.idTypeLoan.touched &&
+          itemForm.controls.idTypeLoan.invalid
+                                ">
+            <small
+              *ngIf="itemForm.controls['idTypeLoan'].hasError('required') && itemForm.controls['idTypeLoan'].touched"
+              class="form-error-msg"> El Tipo de Motivo es obligatorio </small>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Fecha Préstamo: </label>
+        <mat-form-field class="input-periodo">
+          <input matInput [disabled]="!permitEdit" [formControl]="itemForm.controls['dateLoan']"  [matDatepicker]="pickerStartVacation"
+            name="dateLoan" placeholder="Fecha Inicial" (dateChange)="CalculateTimeLine()">
+          <mat-datepicker-toggle matSuffix [for]="pickerStartVacation"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStartVacation></mat-datepicker> 
+        </mat-form-field>        
+      </div>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Detalle del Motivo del Préstamo: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Detalle del Motivo del Préstamo</mat-label>
+          <textarea [readonly]="!permitEdit" maxlength="500" matInput placeholder="" formControlName="detailReasonLoan"></textarea>
+          <mat-error *ngIf="
+              itemForm.controls.detailReasonLoan.touched &&
+              itemForm.controls.detailReasonLoan.invalid
+                                          ">
+            <span *ngIf="itemForm.controls.detailReasonLoan.errors.required">Detalle es
+              <strong>requerido</strong>
+            </span>
+            <span *ngIf="itemForm.controls.detailReasonLoan.errors.pattern">Solo se debe
+              de
+              ingresar <strong>letras</strong>
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="adjunto">
+        <mat-label class="size-large" style="font-weight: bold;align-self: center;">Adjuntar Sustento:</mat-label>
+        <div class="button_download">
+          <!-- <p>{{ nameFile }}</p> -->
+          <button style="margin-left: 5px;" mat-mini-fab (click)="ViewAdjunto()" class="upload-btn">
+            <mat-icon style="color: #536BB2;">get_app</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="motivo__amount" style="margin-top: 15px;">
+        <label class="size-large" style="font-weight: bold; align-items: flex-start; align-self: flex-start">Términos y Condiciones: </label>
+        <div style="max-width: 500px; text-align: justify;">
+          <mat-checkbox disabled [checked]="selectedTerms" style="position: relative">
+            El solicitante autoriza expresamente a la empresa descontar el valor de las cuotas mensuales de sus respectivas remuneraciones. Asimismo, en caso de culminación de la relación laboral del solicitante con la empresa, se darán por vencidas todas las cuotas, en cuyo caso el solicitante autoriza a la empresa a descontar el integro del saldo pendiente de pago de las remuneraciones y beneficios sociales que, a la fecha de cese, se encuentren pendientes de pago o que se devenguen con posterioridad.
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">CRONOGRAMA DE PAGO: </h1>
+      <table mat-table [dataSource]="dataSource" matSort class="w-100">
+        <ng-container matColumnDef="ncoutacount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">N° Cuota</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="N° Cuota : ">
+              {{ row.ncoutacount }}
+          </td>
+      </ng-container>
+      <ng-container matColumnDef="ncuotafijasinigv">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Importe</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Importe : ">
+              {{ row.ncuotafijasinigv | number: '.2' }}
+          </td>
+      </ng-container>
+      <ng-container matColumnDef="ninterest">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Interes</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Interes : ">
+              {{ row.ninterest | number: '.2' }}
+          </td>
+      </ng-container>
+      <ng-container matColumnDef="nintmoreigv">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Int + IGV</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Int + IGV : ">
+              {{ row.nintmoreigv | number: '.2' }}
+          </td>
+      </ng-container>
+      <ng-container matColumnDef="ncuotatotal">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Cuota Total</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Cuota Total : ">
+              {{ row.ncuotatatotal | number: '.2' }}
+          </td>
+      </ng-container>
+      <ng-container matColumnDef="speriod">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Periodo</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Periodo : ">
+            {{ row.smonth }} {{ row.nyear }}
+        </td>
+    </ng-container>
+      <ng-container matColumnDef="sgratificacion">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Gratif.</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Gratif. : ">
+              {{ row.sgratificacion }}
+          </td>
+      </ng-container>
+      <ng-container matColumnDef="sutilidad">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Util.</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;" data-label="Util. : ">
+              {{ row.sutilidad }}
+          </td>
+      </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ 'make-gris': !row.state }">
+        </tr>
+    
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="7">
+                No se encontró registros 
+        </td>
+        </tr>
+    </table>
+    </div>
+    
+    <div class="personal">
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label>Nota: </label>
+          <span>Los intereses mostrados, están calculados de manera referencial en base a la fecha del registro de la solicitud.</span>
+        </div> 
+      </div>
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">HISTORIAL DE SOLICITUD: </h1>
+      <app-staff-request-approver style="width: 50%;text-align: center;"></app-staff-request-approver>
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Comentario: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Comentario</mat-label>
+          <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation" [readonly]="readOnlyView"></textarea>          
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+        color="primary" type="button" (click)="approveRequest()">
+        Aprobar</button>
+      <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+        style="background-color: #f44336; color: white;" type="button" (click)="rejectRequest()">
+        Rechazar</button>
+      <button *ngIf="permitEdit" mat-raised-button color="primary" (click)="guardarSolicitud()">Guardar</button>
+      <button mat-raised-button color="primary" type="button"
+        (click)="dialogRef.close(false)">Cancelar</button>
+    </div>
+
+  </form>
+</div>

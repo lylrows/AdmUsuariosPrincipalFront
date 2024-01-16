@@ -1,0 +1,1137 @@
+<div>
+    <div style="margin-left:15px ;">
+        <div fxLayout="row wrap" fxLayout.lt-sm="column">
+            <!-- <div fxFlex="50" class="pr-16">
+                <mat-form-field class="w-100" *ngIf="isGlobal" appearance="fill">
+                    <mat-label>Campañas</mat-label>
+                    <mat-select (selectionChange)="changeCampania()" [formControl]="campanaFC">
+                        <mat-option *ngFor="let item of listcampaign" [value]="item.nid_campaign">{{item.snamecampaign}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div> -->
+            <div fxFlex="50" class="pr-16">
+                <mat-form-field appearance="fill" class="w-100">
+                    <mat-label>Campañas</mat-label>
+                    <mat-select [formControl]="campanasMultiCtrl" placeholder="Campaña" [multiple]="true" #multiSelectCampana>
+                        <mat-option>
+                            <ngx-mat-select-search [formControl]="campanasMultiFilterCtrl" placeholderLabel="Campaña">
+                            </ngx-mat-select-search>
+                        </mat-option>
+
+                        <mat-option *ngFor="let website of filteredCampanasMulti | async" [value]="website">
+                            {{website.snamecampaign | titlecase}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16">
+                <mat-form-field class="w-100" *ngIf="isGlobal" appearance="fill">
+                    <mat-label>Empresa</mat-label>
+                    <mat-select (selectionChange)="changeEmpresa()" [formControl]="bussineFC">
+                        <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Gerencia</mat-label>
+                    <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC"
+                        (selectionChange)="changeGerencia()">
+                        <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>Área</mat-label>
+                    <mat-select [disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()">
+                        <!-- <mat-option *ngFor="let item of areas" [value]="item.id">{{item.nameArea}}</mat-option> -->
+                        <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16">
+                <mat-form-field class="w-100" appearance="fill">
+                    <mat-label>SubÁrea</mat-label>
+                    <mat-select [disabled]="disabledSubArea" [formControl]="subAreaFC"
+                        (selectionChange)="changeSubArea()">
+                        <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16">
+                <mat-form-field class="w-100" *ngIf="isGlobal" appearance="fill">
+                    <mat-label>Cargo</mat-label>
+                    <mat-select [disabled]="disabledArea" [formControl]="cargoFC">
+                            
+                        <mat-option *ngFor="let item of lstcargo" [value]="item.nid_charge">{{item.snamecharge}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                
+            </div>
+            <div fxFlex="50" class="pr-16">
+                <mat-form-field class="w-100" *ngIf="isGlobal" appearance="fill">
+                    <mat-label>Conceptos</mat-label>
+                    <!-- (selectionChange)="changeCampania()"  -->
+                    <mat-select [formControl]="conceptosFC" multiple>
+                        <!-- <mat-option *ngFor="let item of listcampaign" [value]="item.id">{{item.name}}</mat-option> -->
+                        <mat-option *ngFor="let item of listconceptos" [value]="item.scode_config">{{item.sdescription}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div fxFlex="50" class="pr-16">
+                <div class="filter__buttons" style="width: 60%;">
+                    <button mat-raised-button color="primary" (click)="search()" fxFlex="50">Buscar</button>
+                    <button mat-raised-button color="warn" (click)="resetFilter()" fxFlex="50">Limpiar</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<br>
+<div class="w-100" style="overflow: scroll;" *ngIf="!responsive">
+    <div class="flexcontainer" style="padding: 0 40px;">
+        <table style="width: 100%;" >
+            <tr>
+                <td rowspan="3" style="writing-mode: vertical-rl;text-orientation: mixed;text-align: center;width: 40px;"
+                    class="leyendanine">
+                    <div style="display: flex; justify-content: center; vertical-align: middle;">
+                        <mat-divider style="margin-right: 10px; height: 25%" vertical></mat-divider>
+                        <span style="height: 50%;">POTENCIAL ( COMPETENCIAS)</span>
+                        <mat-divider style="margin-right: 10px; height: 25%" vertical></mat-divider>
+                    </div>
+                </td>
+                <td style="writing-mode: vertical-rl;text-orientation: mixed;text-align: center;width: 40px;"
+                    class="labels-box-v">
+                    <!-- MÁS DE 50  -->
+                    {{this.COMP_ALTO_MAX_GRUPO_2[0] === undefined ? "": this.COMP_ALTO_MAX_GRUPO_2[0].sdescription}}
+                    <br>
+                    {{this.COMP_ALTO_MAX_GRUPO_2[0]=== undefined ? "" : this.COMP_ALTO_MAX_GRUPO_2[0].snamegroup}}
+                    <br>
+                    
+                    ( {{ this.COMP_ALTO_MAX_GRUPO_2[0] === undefined ? "" : this.COMP_ALTO_MAX_GRUPO_2[0].nmin_level }} - A MÁS )
+
+                    
+                </td>
+
+                <td style="width: 33%;">
+                    <div class="innerbox" style="background-color: #FFCD1C; position:relative;">
+                        <!-- <div class="innerbox" style="background-color: #C9E8FB; position:relative;"> -->
+                        <table class="table-content-image" style="height:80%;">
+                            <!-- *ngIf="neje_x < 50 && neje_y > 50 " -->
+                            <tr>
+                                <td>
+                                    <!-- Desempeño pobre Alto potencial TALENTO MAL UBICADO -->
+                                    <span class="toolbar-avatar md mr-16" *ngFor="let item of TALENTO_MAL_UBICADO_DATA;"
+                                        [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                                + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                        matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip="matTooltip">
+                                        <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                            alt="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-text" style="height:20%;"
+                            >
+                            <tr>
+                                <td>
+                                    <p  class="ninebox-text">{{ LEYENDA_CTO01_TEXT[0] === undefined ? "": LEYENDA_CTO01_TEXT[0].sdescription }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                            *ngIf="TALENTO_MAL_UBICADO_TEXT != ''">
+                            <tr>
+                                <td>
+                                    <div style="display:flex; width: 100%">
+                                        <div style="display: flex; flex-grow: 1">
+                                            <span>{{ TALENTO_MAL_UBICADO_TEXT }}</span>
+                                        </div>
+                                        <div style="display: inline-flex; flex: 0 0 auto">
+                                            <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                (click)="openPopUp({}, 'TALENTO_MAL_UBICADO')">Ver listado</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                    </div>
+                </td>
+                <td style="width: 33%;">
+                    <div class="innerbox" style="background-color: #8BBC3A; position:relative;">
+                        <!-- <div class="innerbox" style="background-color: #9DD7FA; position:relative;"> -->
+                        <table class="table-content-image" style="height:80%;">
+                            <!-- *ngIf="neje_x === 50 && neje_y > 50 " -->
+                            <tr>
+                                <td>
+                                    <!-- Desempeño bueno Alto potencial LISTO PARA NUEVAS OPORTUNIDADES -->
+                                    <span class="toolbar-avatar md mr-16"
+                                        *ngFor="let item of LISTO_PARA_NUEVAS_OPORTUNIDADES_DATA;" [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                        matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip="matTooltip">
+                                        <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                            alt="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-text" style="height:20%;"
+                            >
+                            <tr>
+                                <td>
+                                    <p  class="ninebox-text">{{ LEYENDA_CTO02_TEXT[0] === undefined ? "" : (LEYENDA_CTO02_TEXT[0].sdescription) }}</p>
+
+                                    
+                                </td>
+                            </tr>
+                        </table>
+                
+                        <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                            *ngIf="LISTO_PARA_NUEVAS_OPORTUNIDADES_TEXT != ''">
+                            <tr>
+                                <td>
+                                    <div style="display:flex; width: 100%">
+                                        <div style="display: flex; flex-grow: 1">
+                                            <span>{{ LISTO_PARA_NUEVAS_OPORTUNIDADES_TEXT }}</span>
+                                        </div>
+                                        <div style="display: inline-flex; flex: 0 0 auto">
+                                            <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                (click)="openPopUp({}, 'LISTO_PARA_NUEVAS_OPORTUNIDADES')">Ver
+                                                listado</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td style="width: 33%;">
+                    <div class="innerbox" style="background-color: #62AA59; position:relative;">
+                        <!-- <div class="innerbox" style="background-color: #9ED6FA; position:relative;"> -->
+                        <table class="table-content-image">
+                            <!-- *ngIf="neje_x > 50 && neje_y > 50 " -->
+                            <tr>
+                                <td>
+                                    <!-- Desempeño sobresaliente Alto potencial "TOP TALENT" (El mejor talento) -->
+                                    <span class="toolbar-avatar md mr-16" *ngFor="let item of TOP_TALENT_DATA;"
+                                    [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                    + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                    matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip="matTooltip">
+                                        <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                            alt="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-text" style="height:20%;"
+                            >
+                            <tr>
+                                <td>
+                                    <p  class="ninebox-text">{{ LEYENDA_CTO03_TEXT[0] === undefined ? "" : LEYENDA_CTO03_TEXT[0].sdescription }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                            *ngIf="TOP_TALENT_TEXT != ''">
+                            <tr>
+                                <td>
+                                    <div style="display:flex; width: 100%">
+                                        <div style="display: flex; flex-grow: 1">
+                                            <span>{{ TOP_TALENT_TEXT }}</span>
+                                        </div>
+                                        <div style="display: inline-flex; flex: 0 0 auto">
+                                            <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                (click)="openPopUp({}, 'TOP_TALENT')">Ver listado</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="writing-mode: vertical-rl;text-orientation: mixed;text-align: center;width: 40px;"
+                    class="labels-box-v">
+                    <!-- 50 -->
+                    {{this.COMP_MEDIO_MAX_GRUPO_2[0] === undefined ? "" : this.COMP_MEDIO_MAX_GRUPO_2[0].sdescription}}
+                    <br>
+                    {{ this.COMP_MEDIO_MAX_GRUPO_2[0] === undefined ? "" : this.COMP_MEDIO_MAX_GRUPO_2[0].snamegroup}}
+                    <br>
+                    ( {{this.COMP_MEDIO_MAX_GRUPO_2[0] === undefined ? 0 : this.COMP_MEDIO_MAX_GRUPO_2[0].nmin_level}} - {{this.COMP_MEDIO_MAX_GRUPO_2[0] === undefined ? 0 : this.COMP_MEDIO_MAX_GRUPO_2[0].nmax_level}} )
+                </td>
+                <td style="width: 33%;">
+                    <div class="innerbox" style="background-color: #F2AE4E; position:relative;">
+                        <!-- <div class="innerbox" style="background-color: #E5F3FC; position:relative;"> -->
+                        <table class="table-content-image">
+                            <!-- *ngIf="neje_x < 50 && neje_y === 50 " -->
+                            <tr>
+                                <td>
+                                    <!-- Desempeño pobre Potencial medio "NUEVO ROL" -->
+                                    <span class="toolbar-avatar md mr-16" *ngFor="let item of NUEVO_ROL_DATA;"
+                                    [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                    + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                    matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip="matTooltip">
+                                        <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                            alt="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-text" style="height:20%;"
+                            >
+                            <tr>
+                                <td>
+                                    <p class="ninebox-text" >{{ LEYENDA_CTO04_TEXT[0] === undefined ? "" :LEYENDA_CTO04_TEXT[0].sdescription }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                       
+                        <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                            *ngIf="NUEVO_ROL_TEXT != ''">
+                            <tr>
+                                <td>
+                                    <div style="display:flex; width: 100%">
+                                        <div style="display: flex; flex-grow: 1">
+                                            <span>{{ NUEVO_ROL_TEXT }}</span>
+                                        </div>
+                                        <div style="display: inline-flex; flex: 0 0 auto">
+                                            <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                (click)="openPopUp({}, 'NUEVO_ROL')">Ver listado</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td style="width: 33%;">
+                    <div class="innerbox" style="background-color: #FFCD1C; position:relative;">
+                        <!-- <div class="innerbox" style="background-color: #C9E8FB; position:relative;"> -->
+                        <table class="table-content-image">
+                            <!-- *ngIf="neje_x === 50 && neje_y === 50 " -->
+                            <tr>
+                                <td>
+                                    <!-- Desempeño bueno Potencial medio "MIEMBRO CLAVE" -->
+                                    <span class="toolbar-avatar md mr-16" *ngFor="let item of MIEMBRO_CLAVE_DATA;"
+                                    [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                    + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                    matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip="matTooltip">
+                                        <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                            alt="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-text" style="height:20%;"
+                            >
+                            <tr>
+                                <td>
+                                    <p  class="ninebox-text" >{{ LEYENDA_CTO05_TEXT[0] === undefined ? "" : LEYENDA_CTO05_TEXT[0].sdescription }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                            *ngIf="MIEMBRO_CLAVE_TEXT != ''">
+                            <tr>
+                                <td>
+                                    <div style="display:flex; width: 100%">
+                                        <div style="display: flex; flex-grow: 1">
+                                            <span>{{ MIEMBRO_CLAVE_TEXT }}</span>
+                                        </div>
+                                        <div style="display: inline-flex; flex: 0 0 auto">
+                                            <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                (click)="openPopUp({}, 'MIEMBRO_CLAVE')">Ver listado</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td style="width: 33%;">
+                    <div class="innerbox" style="background-color: #8BBC3A; position:relative;">
+                        <!-- <div class="innerbox" style="background-color: #9ED6FA; position:relative;"> -->
+                        <table class="table-content-image">
+                            <!-- *ngIf="neje_x > 50 && neje_y === 50 " -->
+                            <tr>
+                                <td>
+                                    <!-- Desempeño sobresaliente Potencial medio "LIDER EMERGENTE" -->
+                                    <span class="toolbar-avatar md mr-16" *ngFor="let item of LIDER_EMERGENTE_DATA;"
+                                    [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                    + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                    matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip="matTooltip">
+                                        <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                            alt="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-text" style="height:20%;"
+                            >
+                            <tr>
+                                <td>
+                                    <p  class="ninebox-text" >{{ LEYENDA_CTO06_TEXT[0] === undefined ? "" : LEYENDA_CTO06_TEXT[0].sdescription }}</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                            *ngIf="LIDER_EMERGENTE_TEXT != ''">
+                            <tr>
+                                <td>
+                                    <div style="display:flex; width: 100%">
+                                        <div style="display: flex; flex-grow: 1">
+                                            <span>{{ LIDER_EMERGENTE_TEXT }}</span>
+                                        </div>
+                                        <div style="display: inline-flex; flex: 0 0 auto">
+                                            <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                (click)="openPopUp({}, 'LIDER_EMERGENTE')">Ver listado</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td style="writing-mode: vertical-rl;text-orientation: mixed;text-align: center;width: 40px;"
+                    class="labels-box-v">
+                    <!-- MENOS DE 50 -->
+                    {{this.COMP_BAJO_MAX_GRUPO_2[0] === undefined ? "": this.COMP_BAJO_MAX_GRUPO_2[0].sdescription}}
+                    <br>
+                    {{this.COMP_BAJO_MAX_GRUPO_2[0] === undefined ? "": this.COMP_BAJO_MAX_GRUPO_2[0].snamegroup}}
+                    <br>
+                    ( {{this.COMP_BAJO_MAX_GRUPO_2[0] === undefined ? 0 : this.COMP_BAJO_MAX_GRUPO_2[0].nmin_level}} - {{this.COMP_BAJO_MAX_GRUPO_2[0] === undefined ? 0: this.COMP_BAJO_MAX_GRUPO_2[0].nmax_level}} )
+                </td>
+                <td style="width: 33%;">
+                    <div class="innerbox" style="background-color: #CF4740; position:relative;">
+                        <!-- <div class="innerbox" style="background-color: #F2F8FF; position:relative;"> -->
+                        <table class="table-content-image">
+                            <!-- *ngIf="neje_x < 50 && neje_y < 50 " -->
+                            <tr>
+                                <td>
+                                    <!-- Desempeño pobre Potencial limitado "BAJO RENDIMIENTO" -->
+                                    <span class="toolbar-avatar md mr-16" *ngFor="let item of BAJO_RENDIMIENTO_DATA;"
+                                    [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                    + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                    matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip="matTooltip">
+                                        <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                            alt="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-text" style="height:20%;"
+                            >
+                            <tr>
+                                <td>
+                                    <p  class="ninebox-text">{{ LEYENDA_CTO07_TEXT[0] === undefined ? "" : LEYENDA_CTO07_TEXT[0].sdescription }}</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                            *ngIf="BAJO_RENDIMIENTO_TEXT != ''">
+                            <tr>
+                                <td>
+                                    <div style="display:flex; width: 100%">
+                                        <div style="display: flex; flex-grow: 1">
+                                            <span>{{ BAJO_RENDIMIENTO_TEXT }}</span>
+                                        </div>
+                                        <div style="display: inline-flex; flex: 0 0 auto">
+                                            <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                (click)="openPopUp({}, 'BAJO_RENDIMIENTO')">Ver listado</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+                <td style="width: 33%;">
+
+                    <div class="innerbox" style="background-color: #F2AE4E; position:relative;">
+                        <!-- <div class="innerbox" style="background-color: #E5F3FC; position:relative;"> -->
+                        <table class="table-content-image">
+                            <!-- *ngIf="neje_x === 50 && neje_y < 50 " -->
+                            <tr>
+                                <td>
+                                    <!-- Desempeño bueno Potencial limitado "DESEMPEÑO SÓLIDO" -->
+                                    <span class="toolbar-avatar md mr-16" *ngFor="let item of DESEMPENO_SOLIDO_DATA;"
+                                    [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                    + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                    matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip="matTooltip">
+                                        <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                            alt="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-text" style="height:20%;"
+                            >
+                            <tr>
+                                <td>
+                                    <p class="ninebox-text" >{{ LEYENDA_CTO08_TEXT[0] === undefined ? "" : LEYENDA_CTO08_TEXT[0].sdescription }}</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                            *ngIf="DESEMPENO_SOLIDO_TEXT != ''">
+                            <tr>
+                                <td>
+                                    <div style="display:flex; width: 100%">
+                                        <div style="display: flex; flex-grow: 1">
+                                            <span>{{ DESEMPENO_SOLIDO_TEXT }}</span>
+                                        </div>
+                                        <div style="display: inline-flex; flex: 0 0 auto">
+                                            <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                (click)="openPopUp({}, 'DESEMPENO_SOLIDO')">Ver listado</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+
+                </td>
+                <td style="width: 33%;">
+                    <div class="innerbox" style="background-color: #FFCD1C; position:relative;">
+                        <!-- <div class="innerbox" style="background-color: #C9E8FB; position:relative;"> -->
+                        <table class="table-content-image">
+                            <!-- *ngIf="neje_x > 50 && neje_y < 50 " -->
+                            <tr>
+                                <td>
+                                    <!-- Desempeño sobresaliente Potencial limitado "DESEMPEÑO SOBRESALIENTE" -->
+                                    <span class="toolbar-avatar md mr-16" *ngFor="let item of DESEMPENO_SOBRESALIENTE_DATA;"
+                                    [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                    + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                    matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip="matTooltip">
+                                        <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                            alt="">
+                                    </span>
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="table-content-text" style="height:20%;"
+                            >
+                            <tr>
+                                <td>
+                                    <p  class="ninebox-text">{{ LEYENDA_CTO09_TEXT[0] === undefined ? "": LEYENDA_CTO09_TEXT[0].sdescription }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        
+                        <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                            *ngIf="DESEMPENO_SOBRESALIENTE_TEXT != ''">
+                            <tr>
+                                <td>
+                                    <div style="display:flex; width: 100%">
+                                        <div style="display: flex; flex-grow: 1">
+                                            <span>{{ DESEMPENO_SOBRESALIENTE_TEXT }}</span>
+                                        </div>
+                                        <div style="display: inline-flex; flex: 0 0 auto">
+                                            <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                (click)="openPopUp({}, 'DESEMPENO_SOBRESALIENTE')">Ver listado</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td style="text-align: center;" class="labels-box-h">
+                    <!-- MENOS DE 50 -->
+                    {{this.OBJ_BAJO_MAX_GRUPO_1[0] === undefined ? "" : this.OBJ_BAJO_MAX_GRUPO_1[0].sdescription}}
+                    <br>
+                    {{this.OBJ_BAJO_MAX_GRUPO_1[0] === undefined ? "" : this.OBJ_BAJO_MAX_GRUPO_1[0].snamegroup}}
+                    <br>
+                    ( {{this.OBJ_BAJO_MAX_GRUPO_1[0] === undefined ? 0 : this.OBJ_BAJO_MAX_GRUPO_1[0].nmin_level}} - {{
+                        this.OBJ_BAJO_MAX_GRUPO_1[0] === undefined ? 0 : this.OBJ_BAJO_MAX_GRUPO_1[0].nmax_level 
+                    }} )
+                </td>
+                <td style="text-align: center;" class="labels-box-h">
+                    <!-- 50 -->
+                    {{this.OBJ_MEDIO_MAX_GRUPO_1[0] === undefined ? "" : this.OBJ_MEDIO_MAX_GRUPO_1[0].sdescription}}
+                    <br>
+                    {{this.OBJ_MEDIO_MAX_GRUPO_1[0] === undefined ? "": this.OBJ_MEDIO_MAX_GRUPO_1[0].snamegroup}}
+                    <br>
+                    ( {{this.OBJ_MEDIO_MAX_GRUPO_1[0] === undefined ? 0 : this.OBJ_MEDIO_MAX_GRUPO_1[0].nmin_level }} - {{
+                        this.OBJ_MEDIO_MAX_GRUPO_1[0] === undefined ? 0 : this.OBJ_MEDIO_MAX_GRUPO_1[0].nmax_level }} )
+                </td>
+                <td style="text-align: center;" class="labels-box-h">
+                    <!-- MAS DE 50 -->
+                    {{this.OBJ_ALTO_MAX_GRUPO_1[0] ===  undefined ? "" : this.OBJ_ALTO_MAX_GRUPO_1[0].sdescription}}
+                    <br>
+                    {{this.OBJ_ALTO_MAX_GRUPO_1[0] === undefined ? "" : this.OBJ_ALTO_MAX_GRUPO_1[0].snamegroup}}
+                    <br>
+                    ( {{this.OBJ_ALTO_MAX_GRUPO_1[0] ===  undefined ? 0 : this.OBJ_ALTO_MAX_GRUPO_1[0].nmin_level }} - A MÁS )
+                    
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td colspan="3" style="text-align: center;" class="leyendanine">
+                    <div style="display: flex; justify-content: center; vertical-align: middle;">
+                        <mat-divider style="width: 40%; margin-top: 10px;"></mat-divider>
+                        <span style="width: 20%;">DESEMPEÑO ( OBJETIVOS )</span>
+                        <mat-divider style="width: 40%; margin-top: 10px;"></mat-divider>
+                    </div>
+                </td>
+
+            </tr>
+        </table>
+    </div>
+</div>
+<br>
+<br>
+
+<ng-template #DetailDialog> 
+    <div style="width: 100%; text-align: right;">
+      <a class="close-modal" tabindex="0" role="button" (click)="close()">X</a>
+    </div> 
+    <h1>Nine Box</h1>
+    <mat-dialog-content class="mat-typography">
+        <div style="text-align: left; margin-bottom: 10px;">
+          <label><b>Recuerda:</b> </label><br>
+          <span>1.- Para una mejor interacción gira tu pantalla de manera horizontal.</span><br>
+        </div>
+        <div class="flexcontainer" style="padding: 0 40px;">
+            <table style="width: 100%;" >
+                <tr>
+                    <td rowspan="3" style="writing-mode: vertical-rl;text-orientation: mixed;text-align: center;width: 40px;"
+                        class="leyendanine">
+                        <div style="display: flex; justify-content: center; vertical-align: middle;">
+                            <mat-divider style="margin-right: 10px; height: 25%" vertical></mat-divider>
+                            <span style="height: 50%;">POTENCIAL <br>(COMPETENCIAS)</span>
+                            <mat-divider style="margin-right: 10px; height: 25%" vertical></mat-divider>
+                        </div>
+                    </td>
+                    <td style="writing-mode: vertical-rl;text-orientation: mixed;text-align: center;width: 40px;"
+                        class="labels-box-v">
+                        <!-- MÁS DE 50  -->
+                        {{this.COMP_ALTO_MAX_GRUPO_2[0] === undefined ? "": this.COMP_ALTO_MAX_GRUPO_2[0].sdescription}}
+                        <br>
+                        {{this.COMP_ALTO_MAX_GRUPO_2[0]=== undefined ? "" : this.COMP_ALTO_MAX_GRUPO_2[0].snamegroup}}
+                        <br>
+                        
+                        ( {{ this.COMP_ALTO_MAX_GRUPO_2[0] === undefined ? "" : this.COMP_ALTO_MAX_GRUPO_2[0].nmin_level }} - A MÁS )
+    
+                        
+                    </td>
+    
+                    <td style="width: 33%;">
+                        <div class="innerbox" style="background-color: #FFCD1C; position:relative;">
+                            <!-- <div class="innerbox" style="background-color: #C9E8FB; position:relative;"> -->
+                            <table class="table-content-image" style="height:80%;">
+                                <!-- *ngIf="neje_x < 50 && neje_y > 50 " -->
+                                <tr>
+                                    <td>
+                                        <!-- Desempeño pobre Alto potencial TALENTO MAL UBICADO -->
+                                        <span class="toolbar-avatar md mr-16" *ngFor="let item of TALENTO_MAL_UBICADO_DATA;"
+                                            [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                                    + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                            matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip1="matTooltip" (click)="displayTooltip(1, item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                            + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %')">
+                                            <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                                alt="">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-text" style="height:20%;"
+                                >
+                                <tr>
+                                    <td>
+                                        <p  class="ninebox-text">{{ LEYENDA_CTO01_TEXT[0] === undefined ? "": LEYENDA_CTO01_TEXT[0].sdescription }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                                *ngIf="TALENTO_MAL_UBICADO_TEXT != ''">
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; width: 100%">
+                                            <div style="display: flex; flex-grow: 1">
+                                                <span>{{ TALENTO_MAL_UBICADO_TEXT }}</span>
+                                            </div>
+                                            <div style="display: inline-flex; flex: 0 0 auto">
+                                                <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                    (click)="openPopUp({}, 'TALENTO_MAL_UBICADO')">Ver listado</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+    
+                        </div>
+                    </td>
+                    <td style="width: 33%;">
+                        <div class="innerbox" style="background-color: #8BBC3A; position:relative;">
+                            <!-- <div class="innerbox" style="background-color: #9DD7FA; position:relative;"> -->
+                            <table class="table-content-image" style="height:80%;">
+                                <!-- *ngIf="neje_x === 50 && neje_y > 50 " -->
+                                <tr>
+                                    <td>
+                                        <!-- Desempeño bueno Alto potencial LISTO PARA NUEVAS OPORTUNIDADES -->
+                                        <span class="toolbar-avatar md mr-16"
+                                            *ngFor="let item of LISTO_PARA_NUEVAS_OPORTUNIDADES_DATA;" [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                            + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                            matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip2="matTooltip" (click)="displayTooltip(2, item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                            + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %')">
+                                            <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                                alt="">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-text" style="height:20%;"
+                                >
+                                <tr>
+                                    <td>
+                                        <p  class="ninebox-text">{{ LEYENDA_CTO02_TEXT[0] === undefined ? "" : (LEYENDA_CTO02_TEXT[0].sdescription) }}</p>
+    
+                                        
+                                    </td>
+                                </tr>
+                            </table>
+                    
+                            <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                                *ngIf="LISTO_PARA_NUEVAS_OPORTUNIDADES_TEXT != ''">
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; width: 100%">
+                                            <div style="display: flex; flex-grow: 1">
+                                                <span>{{ LISTO_PARA_NUEVAS_OPORTUNIDADES_TEXT }}</span>
+                                            </div>
+                                            <div style="display: inline-flex; flex: 0 0 auto">
+                                                <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                    (click)="openPopUp({}, 'LISTO_PARA_NUEVAS_OPORTUNIDADES')">Ver
+                                                    listado</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td style="width: 33%;">
+                        <div class="innerbox" style="background-color: #62AA59; position:relative;">
+                            <!-- <div class="innerbox" style="background-color: #9ED6FA; position:relative;"> -->
+                            <table class="table-content-image">
+                                <!-- *ngIf="neje_x > 50 && neje_y > 50 " -->
+                                <tr>
+                                    <td>
+                                        <!-- Desempeño sobresaliente Alto potencial "TOP TALENT" (El mejor talento) -->
+                                        <span class="toolbar-avatar md mr-16" *ngFor="let item of TOP_TALENT_DATA;"
+                                        [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                        matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip3="matTooltip" (click)="displayTooltip(3, item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %')">
+                                            <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                                alt="">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-text" style="height:20%;"
+                                >
+                                <tr>
+                                    <td>
+                                        <p  class="ninebox-text">{{ LEYENDA_CTO03_TEXT[0] === undefined ? "" : LEYENDA_CTO03_TEXT[0].sdescription }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                                *ngIf="TOP_TALENT_TEXT != ''">
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; width: 100%">
+                                            <div style="display: flex; flex-grow: 1">
+                                                <span>{{ TOP_TALENT_TEXT }}</span>
+                                            </div>
+                                            <div style="display: inline-flex; flex: 0 0 auto">
+                                                <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                    (click)="openPopUp({}, 'TOP_TALENT')">Ver listado</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="writing-mode: vertical-rl;text-orientation: mixed;text-align: center;width: 40px;"
+                        class="labels-box-v">
+                        <!-- 50 -->
+                        {{this.COMP_MEDIO_MAX_GRUPO_2[0] === undefined ? "" : this.COMP_MEDIO_MAX_GRUPO_2[0].sdescription}}
+                        <br>
+                        {{ this.COMP_MEDIO_MAX_GRUPO_2[0] === undefined ? "" : this.COMP_MEDIO_MAX_GRUPO_2[0].snamegroup}}
+                        <br>
+                        ( {{this.COMP_MEDIO_MAX_GRUPO_2[0] === undefined ? 0 : this.COMP_MEDIO_MAX_GRUPO_2[0].nmin_level}} - {{this.COMP_MEDIO_MAX_GRUPO_2[0] === undefined ? 0 : this.COMP_MEDIO_MAX_GRUPO_2[0].nmax_level}} )
+                    </td>
+                    <td style="width: 33%;">
+                        <div class="innerbox" style="background-color: #F2AE4E; position:relative;">
+                            <!-- <div class="innerbox" style="background-color: #E5F3FC; position:relative;"> -->
+                            <table class="table-content-image">
+                                <!-- *ngIf="neje_x < 50 && neje_y === 50 " -->
+                                <tr>
+                                    <td>
+                                        <!-- Desempeño pobre Potencial medio "NUEVO ROL" -->
+                                        <span class="toolbar-avatar md mr-16" *ngFor="let item of NUEVO_ROL_DATA;"
+                                        [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                        matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip4="matTooltip" (click)="displayTooltip(4, item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %')">
+                                            <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                                alt="">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-text" style="height:20%;"
+                                >
+                                <tr>
+                                    <td>
+                                        <p class="ninebox-text" >{{ LEYENDA_CTO04_TEXT[0] === undefined ? "" :LEYENDA_CTO04_TEXT[0].sdescription }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                           
+                            <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                                *ngIf="NUEVO_ROL_TEXT != ''">
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; width: 100%">
+                                            <div style="display: flex; flex-grow: 1">
+                                                <span>{{ NUEVO_ROL_TEXT }}</span>
+                                            </div>
+                                            <div style="display: inline-flex; flex: 0 0 auto">
+                                                <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                    (click)="openPopUp({}, 'NUEVO_ROL')">Ver listado</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td style="width: 33%;">
+                        <div class="innerbox" style="background-color: #FFCD1C; position:relative;">
+                            <!-- <div class="innerbox" style="background-color: #C9E8FB; position:relative;"> -->
+                            <table class="table-content-image">
+                                <!-- *ngIf="neje_x === 50 && neje_y === 50 " -->
+                                <tr>
+                                    <td>
+                                        <!-- Desempeño bueno Potencial medio "MIEMBRO CLAVE" -->
+                                        <span class="toolbar-avatar md mr-16" *ngFor="let item of MIEMBRO_CLAVE_DATA;"
+                                        [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                        matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip5="matTooltip" (click)="displayTooltip(5, item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %')">
+                                            <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                                alt="">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-text" style="height:20%;"
+                                >
+                                <tr>
+                                    <td>
+                                        <p  class="ninebox-text" >{{ LEYENDA_CTO05_TEXT[0] === undefined ? "" : LEYENDA_CTO05_TEXT[0].sdescription }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                                *ngIf="MIEMBRO_CLAVE_TEXT != ''">
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; width: 100%">
+                                            <div style="display: flex; flex-grow: 1">
+                                                <span>{{ MIEMBRO_CLAVE_TEXT }}</span>
+                                            </div>
+                                            <div style="display: inline-flex; flex: 0 0 auto">
+                                                <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                    (click)="openPopUp({}, 'MIEMBRO_CLAVE')">Ver listado</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td style="width: 33%;">
+                        <div class="innerbox" style="background-color: #8BBC3A; position:relative;">
+                            <!-- <div class="innerbox" style="background-color: #9ED6FA; position:relative;"> -->
+                            <table class="table-content-image">
+                                <!-- *ngIf="neje_x > 50 && neje_y === 50 " -->
+                                <tr>
+                                    <td>
+                                        <!-- Desempeño sobresaliente Potencial medio "LIDER EMERGENTE" -->
+                                        <span class="toolbar-avatar md mr-16" *ngFor="let item of LIDER_EMERGENTE_DATA;"
+                                        [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                        matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip6="matTooltip" (click)="displayTooltip(6, item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %')">
+                                            <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                                alt="">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-text" style="height:20%;"
+                                >
+                                <tr>
+                                    <td>
+                                        <p  class="ninebox-text" >{{ LEYENDA_CTO06_TEXT[0] === undefined ? "" : LEYENDA_CTO06_TEXT[0].sdescription }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+    
+                            <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                                *ngIf="LIDER_EMERGENTE_TEXT != ''">
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; width: 100%">
+                                            <div style="display: flex; flex-grow: 1">
+                                                <span>{{ LIDER_EMERGENTE_TEXT }}</span>
+                                            </div>
+                                            <div style="display: inline-flex; flex: 0 0 auto">
+                                                <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                    (click)="openPopUp({}, 'LIDER_EMERGENTE')">Ver listado</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+    
+                </tr>
+                <tr>
+                    <td style="writing-mode: vertical-rl;text-orientation: mixed;text-align: center;width: 40px;"
+                        class="labels-box-v">
+                        <!-- MENOS DE 50 -->
+                        {{this.COMP_BAJO_MAX_GRUPO_2[0] === undefined ? "": this.COMP_BAJO_MAX_GRUPO_2[0].sdescription}}
+                        <br>
+                        {{this.COMP_BAJO_MAX_GRUPO_2[0] === undefined ? "": this.COMP_BAJO_MAX_GRUPO_2[0].snamegroup}}
+                        <br>
+                        ( {{this.COMP_BAJO_MAX_GRUPO_2[0] === undefined ? 0 : this.COMP_BAJO_MAX_GRUPO_2[0].nmin_level}} - {{this.COMP_BAJO_MAX_GRUPO_2[0] === undefined ? 0: this.COMP_BAJO_MAX_GRUPO_2[0].nmax_level}} )
+                    </td>
+                    <td style="width: 33%;">
+                        <div class="innerbox" style="background-color: #CF4740; position:relative;">
+                            <!-- <div class="innerbox" style="background-color: #F2F8FF; position:relative;"> -->
+                            <table class="table-content-image">
+                                <!-- *ngIf="neje_x < 50 && neje_y < 50 " -->
+                                <tr>
+                                    <td>
+                                        <!-- Desempeño pobre Potencial limitado "BAJO RENDIMIENTO" -->
+                                        <span class="toolbar-avatar md mr-16" *ngFor="let item of BAJO_RENDIMIENTO_DATA;"
+                                        [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                        matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip7="matTooltip" (click)="displayTooltip(7, item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %')">
+                                            <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                                alt="">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-text" style="height:20%;"
+                                >
+                                <tr>
+                                    <td>
+                                        <p  class="ninebox-text">{{ LEYENDA_CTO07_TEXT[0] === undefined ? "" : LEYENDA_CTO07_TEXT[0].sdescription }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+    
+                            <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                                *ngIf="BAJO_RENDIMIENTO_TEXT != ''">
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; width: 100%">
+                                            <div style="display: flex; flex-grow: 1">
+                                                <span>{{ BAJO_RENDIMIENTO_TEXT }}</span>
+                                            </div>
+                                            <div style="display: inline-flex; flex: 0 0 auto">
+                                                <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                    (click)="openPopUp({}, 'BAJO_RENDIMIENTO')">Ver listado</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+                    <td style="width: 33%;">
+    
+                        <div class="innerbox" style="background-color: #F2AE4E; position:relative;">
+                            <!-- <div class="innerbox" style="background-color: #E5F3FC; position:relative;"> -->
+                            <table class="table-content-image">
+                                <!-- *ngIf="neje_x === 50 && neje_y < 50 " -->
+                                <tr>
+                                    <td>
+                                        <!-- Desempeño bueno Potencial limitado "DESEMPEÑO SÓLIDO" -->
+                                        <span class="toolbar-avatar md mr-16" *ngFor="let item of DESEMPENO_SOLIDO_DATA;"
+                                        [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                        matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip8="matTooltip" (click)="displayTooltip(8, item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %')">
+                                            <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                                alt="">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-text" style="height:20%;"
+                                >
+                                <tr>
+                                    <td>
+                                        <p class="ninebox-text" >{{ LEYENDA_CTO08_TEXT[0] === undefined ? "" : LEYENDA_CTO08_TEXT[0].sdescription }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+    
+                            <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                                *ngIf="DESEMPENO_SOLIDO_TEXT != ''">
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; width: 100%">
+                                            <div style="display: flex; flex-grow: 1">
+                                                <span>{{ DESEMPENO_SOLIDO_TEXT }}</span>
+                                            </div>
+                                            <div style="display: inline-flex; flex: 0 0 auto">
+                                                <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                    (click)="openPopUp({}, 'DESEMPENO_SOLIDO')">Ver listado</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+    
+                    </td>
+                    <td style="width: 33%;">
+                        <div class="innerbox" style="background-color: #FFCD1C; position:relative;">
+                            <!-- <div class="innerbox" style="background-color: #C9E8FB; position:relative;"> -->
+                            <table class="table-content-image">
+                                <!-- *ngIf="neje_x > 50 && neje_y < 50 " -->
+                                <tr>
+                                    <td>
+                                        <!-- Desempeño sobresaliente Potencial limitado "DESEMPEÑO SOBRESALIENTE" -->
+                                        <span class="toolbar-avatar md mr-16" *ngFor="let item of DESEMPENO_SOBRESALIENTE_DATA;"
+                                        [matTooltip]="item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %'"
+                                        matTooltipPosition="right" matTooltipClass="allow-cr" #tooltip9="matTooltip" (click)="displayTooltip(9, item.nombreCompleto + '\n Objetivos: '+ getRound(item.objetivoPorc.toString()) + ' %' 
+                                        + '\n Competencias: '+ getRound(item.competenciaPorc.toString()) + ' %')">
+                                            <img [src]="item.fotoUrl==null?'./assets/images/avatars/avatar.jpg':item.fotoUrl"
+                                                alt="">
+                                        </span>
+                                    </td>
+                                </tr>
+                            </table>
+                            <table class="table-content-text" style="height:20%;"
+                                >
+                                <tr>
+                                    <td>
+                                        <p  class="ninebox-text">{{ LEYENDA_CTO09_TEXT[0] === undefined ? "": LEYENDA_CTO09_TEXT[0].sdescription }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                            
+                            <table class="table-content-image" style="position:absolute; bottom:0; height:20px;"
+                                *ngIf="DESEMPENO_SOBRESALIENTE_TEXT != ''">
+                                <tr>
+                                    <td>
+                                        <div style="display:flex; width: 100%">
+                                            <div style="display: flex; flex-grow: 1">
+                                                <span>{{ DESEMPENO_SOBRESALIENTE_TEXT }}</span>
+                                            </div>
+                                            <div style="display: inline-flex; flex: 0 0 auto">
+                                                <strong style="text-decoration: underline; cursor: pointer !important;"
+                                                    (click)="openPopUp({}, 'DESEMPENO_SOBRESALIENTE')">Ver listado</strong>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </td>
+    
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td style="text-align: center;" class="labels-box-h">
+                        <!-- MENOS DE 50 -->
+                        {{this.OBJ_BAJO_MAX_GRUPO_1[0] === undefined ? "" : this.OBJ_BAJO_MAX_GRUPO_1[0].sdescription}}
+                        <br>
+                        {{this.OBJ_BAJO_MAX_GRUPO_1[0] === undefined ? "" : this.OBJ_BAJO_MAX_GRUPO_1[0].snamegroup}}
+                        <br>
+                        ( {{this.OBJ_BAJO_MAX_GRUPO_1[0] === undefined ? 0 : this.OBJ_BAJO_MAX_GRUPO_1[0].nmin_level}} - {{
+                            this.OBJ_BAJO_MAX_GRUPO_1[0] === undefined ? 0 : this.OBJ_BAJO_MAX_GRUPO_1[0].nmax_level 
+                        }} )
+                    </td>
+                    <td style="text-align: center;" class="labels-box-h">
+                        <!-- 50 -->
+                        {{this.OBJ_MEDIO_MAX_GRUPO_1[0] === undefined ? "" : this.OBJ_MEDIO_MAX_GRUPO_1[0].sdescription}}
+                        <br>
+                        {{this.OBJ_MEDIO_MAX_GRUPO_1[0] === undefined ? "": this.OBJ_MEDIO_MAX_GRUPO_1[0].snamegroup}}
+                        <br>
+                        ( {{this.OBJ_MEDIO_MAX_GRUPO_1[0] === undefined ? 0 : this.OBJ_MEDIO_MAX_GRUPO_1[0].nmin_level }} - {{
+                            this.OBJ_MEDIO_MAX_GRUPO_1[0] === undefined ? 0 : this.OBJ_MEDIO_MAX_GRUPO_1[0].nmax_level }} )
+                    </td>
+                    <td style="text-align: center;" class="labels-box-h">
+                        <!-- MAS DE 50 -->
+                        {{this.OBJ_ALTO_MAX_GRUPO_1[0] ===  undefined ? "" : this.OBJ_ALTO_MAX_GRUPO_1[0].sdescription}}
+                        <br>
+                        {{this.OBJ_ALTO_MAX_GRUPO_1[0] === undefined ? "" : this.OBJ_ALTO_MAX_GRUPO_1[0].snamegroup}}
+                        <br>
+                        ( {{this.OBJ_ALTO_MAX_GRUPO_1[0] ===  undefined ? 0 : this.OBJ_ALTO_MAX_GRUPO_1[0].nmin_level }} - A MÁS )
+                        
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td colspan="3" style="text-align: center;" class="leyendanine">
+                        <div style="display: flex; justify-content: center; vertical-align: middle;">
+                            <mat-divider style="width: 40%; margin-top: 10px;"></mat-divider>
+                            <span style="width: 20%;">DESEMPEÑO <br>(OBJETIVOS)</span>
+                            <mat-divider style="width: 40%; margin-top: 10px;"></mat-divider>
+                        </div>
+                    </td>
+    
+                </tr>
+            </table>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-raised-button color="primary" matDialogClose="no">Cerrar</button>
+    </mat-dialog-actions>
+</ng-template>
+

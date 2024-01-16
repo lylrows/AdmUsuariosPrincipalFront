@@ -1,0 +1,168 @@
+<mat-card-title class="">
+  <div class="card-title-text">{{data.title}}</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-dialog-content>
+  <mat-card-content class="height-auto">
+    <form [formGroup]="itemForm" (ngSubmit)="submit(fileInput.files)">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <!-- <div fxFlex="100" class="pr-16 pt-16">
+          <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+            <mat-label>Asociar al Empleado: </mat-label>
+            <mat-select [formControl]="itemForm.controls['id_Employee']" (selectionChange)="changeEmployee($event)">
+              <mat-option value="0">-- SELECCIONE --</mat-option>
+              <mat-option *ngFor="let emp of employees" [value]="emp.nid_employee">
+                {{emp.nid_employee }} | {{emp.snames }} {{emp.ssurnames }}
+
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div> -->
+        <div fxFlex="100" class="pr-16 pt-16">
+          <mat-form-field class="" appearance="fill" style="width: 100%;">
+            <mat-label>Asociar al Empleado</mat-label>
+            <mat-select [formControl]="employeesMultiCtrl" placeholder="Empleado" [multiple]="false" #multiSelectEmployee>
+                <mat-option>
+                    <ngx-mat-select-search [formControl]="employeesMultiFilterCtrl" placeholderLabel="Empleado">
+                    </ngx-mat-select-search>
+                </mat-option>
+
+                <mat-option *ngFor="let website of filteredEmployeesMulti | async" [value]="website">
+                  {{website.nid_employee }} |{{website.sfullname}}
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="50" class="pr-16 pt-16">
+          <mat-form-field class="full-width">
+            <input matInput name="Nombre" [formControl]="itemForm.controls['name']" placeholder="Nombre" maxlength="50"
+              onkeypress="return /[a-z, ]/i.test(event.key)">
+          </mat-form-field>
+          <small *ngIf="itemForm.controls['name'].hasError('required') && itemForm.controls['name'].touched"
+            class="form-error-msg"> El nombre es requerido </small>
+          <small *ngIf="itemForm.controls['name'].hasError('maxlength') && itemForm.controls['name'].touched"
+            class="form-error-msg"> El nombre no puede contener mas de
+            {{itemForm.controls['name'].errors.maxlength.requiredLength}} caracteres </small>
+        </div>
+        <div fxFlex="50" class="pr-16 pt-16">
+          <mat-form-field class="full-width">
+            <input matInput name="Cargo" [formControl]="itemForm.controls['position']" placeholder="Cargo"
+              maxlength="50" onkeypress="return /[a-z, ]/i.test(event.key)">
+          </mat-form-field>
+          <small *ngIf="itemForm.controls['position'].hasError('required') && itemForm.controls['position'].touched"
+            class="form-error-msg"> El Cargo es requerido </small>
+          <small *ngIf="itemForm.controls['position'].hasError('maxlength') && itemForm.controls['position'].touched"
+            class="form-error-msg"> El Cargo no puede contener mas de
+            {{itemForm.controls['position'].errors.maxlength.requiredLength}} caracteres </small>
+        </div>
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field class="full-width">
+            <input matInput name="Teléfono" [formControl]="itemForm.controls['phone']" placeholder="Teléfono"
+              maxlength="20" onkeypress="return /[0-9, ]/i.test(event.key)">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+          <small *ngIf="itemForm.controls['phone'].hasError('required') && itemForm.controls['phone'].touched"
+            class="form-error-msg"> El Teléfono es requerido </small>
+          <small *ngIf="itemForm.controls['phone'].hasError('maxlength') && itemForm.controls['phone'].touched"
+            class="form-error-msg"> El Teléfono no puede contener mas de
+            {{itemForm.controls['phone'].errors.maxlength.requiredLength}} caracteres </small>
+        </div>
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field class="full-width">
+            <input matInput name="Anexo" [formControl]="itemForm.controls['extension']" placeholder="Anexo"
+              maxlength="7" onkeypress="return /[0-9, ]/i.test(event.key)">
+            <mat-icon matSuffix>settings_phone</mat-icon>
+          </mat-form-field>
+          
+          <small *ngIf="itemForm.controls['extension'].hasError('maxlength') && itemForm.controls['extension'].touched"
+            class="form-error-msg"> El Teléfono no puede contener mas de
+            {{itemForm.controls['extension'].errors.maxlength.requiredLength}} caracteres </small>
+        </div>
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field class="full-width">
+            <input matInput name="Correo" [formControl]="itemForm.controls['email']" placeholder="Correo"
+              maxlength="50" >
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+          <small *ngIf="itemForm.controls['email'].hasError('email') && itemForm.controls['email'].touched"
+            class="form-error-msg"> El Correo no es válido</small>
+          <small *ngIf="itemForm.controls['email'].hasError('maxlength') && itemForm.controls['email'].touched"
+            class="form-error-msg"> El Correo no puede contener mas de
+            {{itemForm.controls['email'].errors.maxlength.requiredLength}} caracteres </small>
+        </div>
+
+
+        <div fxFlex="50" class="pr-16">
+          <mat-form-field class="full-width">
+            <input matInput name="Motivo" [formControl]="itemForm.controls['reason']" placeholder="Motivo"
+              maxlength="50" onkeypress="return /[a-z, ]/i.test(event.key)">
+          </mat-form-field>
+          <small *ngIf="itemForm.controls['reason'].hasError('required') && itemForm.controls['reason'].touched"
+            class="form-error-msg"> El Motivo es requerido </small>
+          <small *ngIf="itemForm.controls['reason'].hasError('maxlength') && itemForm.controls['reason'].touched"
+            class="form-error-msg"> El Motivo no puede contener mas de
+            {{itemForm.controls['reason'].errors.maxlength.requiredLength}} caracteres </small>
+        </div>
+
+        <div class="pr-16 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+<div>
+            <div class="row mt-2 mb-2">
+            <div class="row">
+              <div class="col-md-6 col-sm-12 div-btn-file">
+                <button mat-raised-button class="btn-grupofe mt-16 margin-right-10" (click)="fileInput.click()"
+                  type="button">
+                  <mat-icon>file_upload</mat-icon>
+                  Cargar foto
+                </button>
+              </div>
+              <div class="col-md-6 col-sm-12 div-btn-file">
+                <button mat-raised-button class="btn-grupofe mt-16 mr-4" (click)="deletefile();" type="button">
+                  <mat-icon>delete</mat-icon>
+                  Borrar foto
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-16 mb-2">
+            <div class="col-md-6 col-sm-6 col-lg-12">
+              <span class="titulo-archivo">Foto: </span>
+              <p class="titulo-archivo" [innerHTML]="displayFileName"></p>
+              <input type="file" name="" (change)="onFileChanged($event)" #fileInput class="archivo"
+                style="display: none;" accept="image/png, image/gif, image/jpeg" />
+            </div>
+            <span style="font-weight:bold;color:green;" *ngIf="progress > 0 && progress < 100">
+              {{progress}}%
+            </span>
+            <span style="font-weight:bold;color:green;" *ngIf="message">
+              {{message}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="300">
+        <mat-card class="profile-sidebar mb-16 pb-0">
+          <div class="propic text-center">
+            <img [src]="imageURL" alt="" width="300px" height="300px">
+          </div>
+        </mat-card>
+      </div>
+      <div fxFlex="50" class="pt-16 pr-16">
+        <mat-slide-toggle [formControl]="itemForm.controls['active']">Activo</mat-slide-toggle>
+      </div>
+      <mat-divider></mat-divider>
+      <div fxFlex="100" class="filter__buttons mt-16">
+        <!-- <button mat-button class="dark-blue-400 dark-blue-400-fg mr-4"
+          [disabled]="itemForm.invalid">Guardar</button> -->
+          <button mat-button class="mr-4" color="primary"
+          [disabled]="itemForm.invalid">Guardar</button>
+        <span fxFlex></span>
+        
+        <button mat-button class="ml-4" color="danger" type="button"
+          (click)="dialogRef.close(false)">Cancel</button>
+        <!-- <button mat-button class="dark-blue-100 dark-blue-100-fg ml-4" type="button"
+          (click)="dialogRef.close(false)">Cancel</button> -->
+      </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-dialog-content>

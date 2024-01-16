@@ -1,0 +1,86 @@
+<mat-card-title class="">
+  <div class="card-title-text">{{data.title}}</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-dialog-content>
+  <mat-card-content>
+    <form [formGroup]="itemForm" (ngSubmit)="submit()">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="50"  class="pr-16">
+          <mat-form-field class="full-width" appearance="fill">
+            <mat-label>Título</mat-label>
+            <input
+            matInput
+            name="title"
+            type="text"
+            [formControl]="itemForm.controls['title']"
+            placeholder="Título"
+            maxlength="70" 
+            required>
+            <mat-error *ngIf="itemForm.controls['title'].invalid">{{getErrorMessage(1)}}</mat-error>
+          </mat-form-field>
+        </div>
+        <div fxFlex="50"  class="pt-16 pr-16">
+          <mat-slide-toggle [formControl]="itemForm.controls['active']">Activo</mat-slide-toggle>
+        </div>
+        <div fxFlex="100"  class="pr-16" style="padding-top: 20px;">
+          
+          Descripción:
+            
+              <mat-card-content class="p-0">
+                <quill-editor [modules]="editorOptions" 
+                theme="snow"  
+                [formControl]="itemForm.controls['description']"></quill-editor>
+              </mat-card-content>
+        </div>
+
+        
+
+        <div  class="pr-16 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+          <div>
+            <div class="row mt-2 mb-2">
+              <div class="row">
+                <div class="col-md-6 col-sm-12 div-btn-file">
+                  <button mat-raised-button class="btn-grupofe mt-16 margin-right-10" (click)="fileInput.click()"
+                    type="button">
+                    <mat-icon>file_upload</mat-icon>
+                    Cargar foto
+                  </button>
+                </div>
+                <div class="col-md-6 col-sm-12 div-btn-file">
+                  <button mat-raised-button class="btn-grupofe mt-16 mr-4" (click)="deletefile();"
+                    type="button">
+                    <mat-icon>delete</mat-icon>
+                    Borrar foto
+                  </button>
+                </div>
+              </div>
+            </div>
+            <span style="font-size: 10px;">Tamaño recomendado de 32 x 32 píxeles </span>
+            <div class="row mt-16 mb-2">
+              <div class="col-md-6 col-sm-6 col-lg-12">
+                <span class="titulo-archivo">Foto: </span>
+                <p class="titulo-archivo" [innerHTML]="displayFileName"></p>
+                <input type="file" name="" (change)="capturarFile($event)" #fileInput class="archivo"
+                  style="display: none;" accept="image/png, image/gif, image/jpeg" />
+              </div>
+            </div>
+          </div>
+        </div>
+      <div fxFlex="100" fxFlex.gt-md="50" fxFlex.gt-sm="50" >
+        <mat-card class="profile-sidebar mb-16 pb-0">
+          <div class="propic text-center">
+            <img [src]="imagenPrevia" alt="" style="width:40px !important;height:40px !important; border-radius: 0 !important;">
+          </div>
+        </mat-card>
+      </div>
+      
+      <div fxFlex="100" class="filter__buttons mt-16">
+        <button mat-button color="primary" class="dark-blue-400 dark-blue-400-fg mr-4" [disabled]="itemForm.invalid">Guardar</button>
+        <span fxFlex></span>
+        <button mat-button color="danger" class="dark-blue-100 dark-blue-100-fg ml-4" type="button" (click)="dialogRef.close(false)">Cancel</button>
+      </div>
+    </div>
+    </form>
+  </mat-card-content>
+</mat-dialog-content>

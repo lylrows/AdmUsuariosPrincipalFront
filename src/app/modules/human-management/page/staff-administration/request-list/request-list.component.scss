@@ -1,0 +1,80 @@
+@import '../../../../../../assets/styles/scss/variables';
+
+.collaborator {
+    display: flex;
+    gap: 15px;
+    text-align: center;
+    margin: 10px 0;
+    h1 {
+        font-size: 20px;
+        color: black;
+    }
+    strong {
+        text-align: center;
+        color: $base-color;
+        font-weight: 600;
+        font-size: 20px;
+    }
+}
+
+
+.mat-icon {
+    height: 0px !important;
+    position: relative;
+    float: right;
+    cursor: pointer;
+    top: 2px;
+    color: rgba(0, 0, 0, 0.54);
+}
+.mat-date-range-input-inner:disabled,
+.mat-date-range-input-inner[disabled] {
+    color: #000 !important;
+}
+.material-icons {
+    line-height: 0 !important;
+}
+
+.filter__inputs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 0px;
+}
+
+// @media screen and (max-width: 960px) {
+      
+//     .inputs {
+//       display: flex;
+//       flex-direction: column;
+//       gap: 5px;
+  
+//       mat-form-field {
+//         width: 100%;
+//       }
+//     }
+
+// }
+
+// .inputs {
+//     display: flex;
+//     gap: 20px;
+  
+//     mat-form-field {
+//       width: 100%;
+//     }
+//   }
+
+
+.flex-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  @media (max-width: 960px) {
+    .flex-container {
+      flex-direction: column;
+    }
+
+    .has_label_on_mobile.opcion {
+        margin-top: 25px;
+    }
+  }

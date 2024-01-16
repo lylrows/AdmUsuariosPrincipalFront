@@ -1,0 +1,368 @@
+<div class="content">
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="header">
+            <h1>SOLICITUD DE {{title | uppercase}}</h1>
+        </div>
+        <hr>
+        <div class="personal">
+            <h1 class="title">1. DATOS PERSONALES: </h1>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Código del Empleado: </label>
+                    <span> {{ codeEmployee }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">DNI N*: </label>
+                    <span> {{dni }} </span>
+                </div>
+
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label>Nombres y Apellidos: </label>
+                    <span> {{fullname }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Fecha de Ingreso: </label>
+                    <span> {{ dateAdmission }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">Área: </label>
+                    <span> {{ area }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Cargo: </label>
+                    <span> {{ charge }} </span>
+                </div>
+            </div>
+        </div>
+        <div class="motivo">
+            <h1 class="title">2. INFORMACION DE LA CAPACITACION: </h1>
+            <div class="motivo__amount">
+                <label style="font-weight: bold;">Evento: (curso / seminario) </label>
+                <mat-form-field class="full-width">
+                    <input type="text" [readonly]="isEdit" formControlName="sname" matInput
+                        placeholder="Ingresar Nombre">
+                    <mat-error *ngIf="
+                    form.controls.sname.touched &&
+                    form.controls.sname.invalid
+                                          ">
+                        <span *ngIf="form.controls.sname.errors.required">Nombre es
+                            <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="form.controls.sname.errors.pattern">Solo debe ingresar <strong>letras</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <label style="font-weight: bold;">Organizador: </label>
+                <mat-form-field class="full-width">
+                    <input type="text" [readonly]="isEdit" formControlName="sorganizer" matInput
+                        placeholder="Ingresar organizador">
+                    <mat-error *ngIf="
+                    form.controls.sorganizer.touched &&
+                    form.controls.sorganizer.invalid
+                                          ">
+                        <span *ngIf="form.controls.sorganizer.errors.required">Organizador es
+                            <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="form.controls.sorganizer.errors.pattern">Solo debe ingresar <strong>letras</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <mat-form-field class="full-width">
+                    <mat-label style="font-weight: bold;">Fecha Inicio</mat-label>
+                    <input formControlName="ddateinit" readonly matInput (dateChange)="validDateStart()"
+                        [matDatepicker]="pickeremision">
+                    <mat-datepicker-toggle matSuffix [for]="pickeremision" [disabled]="isEdit"></mat-datepicker-toggle>
+                    <mat-datepicker #pickeremision></mat-datepicker>
+                    <mat-error *ngIf="
+                    form.controls.ddateinit.touched &&
+                    form.controls.ddateinit.invalid
+                                          ">
+                        <span *ngIf="form.controls.ddateinit.errors.required">Fecha Inicio es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <mat-form-field class="full-width">
+                    <mat-label style="font-weight: bold;">Fecha Fin</mat-label>
+                    <input formControlName="ddateend" readonly matInput (dateChange)="validDateEnd()"
+                        [matDatepicker]="pickerfin">
+                    <mat-datepicker-toggle matSuffix [for]="pickerfin" [disabled]="isEdit"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerfin></mat-datepicker>
+                    <mat-error *ngIf="
+                    form.controls.ddateend.touched &&
+                    form.controls.ddateend.invalid
+                                          ">
+                        <span *ngIf="form.controls.ddateend.errors.required">Fecha Fin es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <label style="font-weight: bold;">Horario: </label>
+                <mat-form-field class="full-width">
+                    <input type="text" [readonly]="isEdit" formControlName="schedule" matInput
+                        placeholder="Ingresar horario">
+                    <mat-error *ngIf="
+                    form.controls.schedule.touched &&
+                    form.controls.schedule.invalid
+                                          ">
+                        <span *ngIf="form.controls.schedule.errors.required">horario es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <label style="font-weight: bold;">Lugar: </label>
+                <mat-form-field class="full-width">
+                    <input type="text" [readonly]="isEdit" formControlName="splace" matInput
+                        placeholder="Ingresar lugar">
+                    <mat-error *ngIf="
+                    form.controls.splace.touched &&
+                    form.controls.splace.invalid
+                                          ">
+                        <span *ngIf="form.controls.splace.errors.required">Lugar es
+                            <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="form.controls.splace.errors.pattern">Solo debe ingresar <strong>letras</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Costo Evento: </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="ncostevent" matInput
+                        placeholder="Ingresar Costo evento">
+                    <mat-error *ngIf="
+                    form.controls.ncostevent.touched &&
+                    form.controls.ncostevent.invalid
+                                          ">
+                        <span *ngIf="form.controls.ncostevent.errors.required">Costo evento es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Costo Pasajes: </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="ncostpassage" matInput
+                        placeholder="Ingresar Costo pasaje">
+                    <mat-error *ngIf="
+                    form.controls.ncostpassage.touched &&
+                    form.controls.ncostpassage.invalid
+                                          ">
+                        <span *ngIf="form.controls.ncostpassage.errors.required">Costo pasaje es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Costo Alojamiento: </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="ncostaccommodation" matInput
+                        placeholder="Ingresar Costo alojamiento">
+                    <mat-error *ngIf="
+                    form.controls.ncostaccommodation.touched &&
+                    form.controls.ncostaccommodation.invalid
+                                          ">
+                        <span *ngIf="form.controls.ncostaccommodation.errors.required">Costo alojamiento es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Costo Alimentacion: </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="ncostfeeding" matInput
+                        placeholder="Ingresar Costo alimentacion">
+                    <mat-error *ngIf="
+                    form.controls.ncostfeeding.touched &&
+                    form.controls.ncostfeeding.invalid
+                                          ">
+                        <span *ngIf="form.controls.ncostfeeding.errors.required">Costo alimentacion es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Otro Costo: </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="nothercost" matInput
+                        placeholder="Ingresar horario">
+                    <mat-error *ngIf="
+                    form.controls.nothercost.touched &&
+                    form.controls.nothercost.invalid
+                                          ">
+                        <span *ngIf="form.controls.nothercost.errors.required">otro costo es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Objetivo del evento:</label>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <textarea formControlName="starget" matInput
+                        placeholder="Ingresar objetivos"></textarea>
+                    <mat-error *ngIf="
+                form.controls.starget.touched &&
+                form.controls.starget.invalid
+                                      ">
+                        <span *ngIf="form.controls.starget.errors.required">Objetivo es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Beneficios para el empleado y la compañia :</label>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <textarea formControlName="sbenefits" matInput
+                        placeholder="Ingresar Beneficios"></textarea>
+                    <mat-error *ngIf="
+                form.controls.sbenefits.touched &&
+                form.controls.sbenefits.invalid
+                                      ">
+                        <span *ngIf="form.controls.sbenefits.errors.required">Beneficios es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Presupuesto anual aprobado para la gerencia: </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="nannualbudget" matInput
+                        placeholder="Ingresar presupuesto">
+                    <mat-error *ngIf="
+                    form.controls.nannualbudget.touched &&
+                    form.controls.nannualbudget.invalid
+                                          ">
+                        <span *ngIf="form.controls.nannualbudget.errors.required">presupuesto es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Presupuesto consumido a la fecha: </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="nbudget" matInput
+                        placeholder="Ingresar presupuesto">
+                    <mat-error *ngIf="
+                    form.controls.nbudget.touched &&
+                    form.controls.nbudget.invalid
+                                          ">
+                        <span *ngIf="form.controls.nbudget.errors.required">presupuesto consumido es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Saldo Disponible : </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="nsteppedout" matInput
+                        placeholder="Ingresar saldo">
+                    <mat-error *ngIf="
+                    form.controls.nsteppedout.touched &&
+                    form.controls.nsteppedout.invalid
+                                          ">
+                        <span *ngIf="form.controls.nsteppedout.errors.required">saldo disponible es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Inversion Solicitada : </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="ninvestment" matInput
+                        placeholder="Ingresar inversion">
+                    <mat-error *ngIf="
+                    form.controls.ninvestment.touched &&
+                    form.controls.ninvestment.invalid
+                                          ">
+                        <span *ngIf="form.controls.ninvestment.errors.required">inversion es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="motivo__amount" *ngIf="isEdit && permitEdit">
+                <label style="font-weight: bold;">Nuevo saldo : </label>
+                <mat-form-field class="full-width">
+                    <input type="number" formControlName="nnewbalance" matInput
+                        placeholder="Ingresar nuevo saldo">
+                    <mat-error *ngIf="
+                    form.controls.nnewbalance.touched &&
+                    form.controls.nnewbalance.invalid
+                                          ">
+                        <span *ngIf="form.controls.nnewbalance.errors.required">nuevo saldo es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+              
+        </div>
+
+        <div *ngIf="isEdit" class="motivo">
+            <h1 class="title">HISTORIAL DE SOLICITUD: </h1>
+            <app-staff-request-approver style="width: 50%;text-align: center;"></app-staff-request-approver>
+        </div>
+        <div class="motivo" *ngIf="isAceept || StatusRejected">
+            <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+            <div class="motivo__amount">
+              <label class="size-large" style="font-weight: bold;">Comentario: </label>
+              <mat-form-field class="size-input">
+                <mat-label>Comentario</mat-label>
+                <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation"  [readonly]="StatusRejected"></textarea>          
+              </mat-form-field>
+            </div> 
+        </div>
+        <div class="footer">
+            <button *ngIf="!isEdit " mat-raised-button color="primary"
+                type="submit">Guardar</button>
+                <button *ngIf="permitEdit" mat-raised-button color="primary"
+                type="button" (click)="edit()">Editar</button>
+            <button *ngIf="isEdit && isAceept" mat-raised-button color="primary"
+                type="button" (click)="accept()">Aprobar</button>
+            <button *ngIf="isEdit && isAceept" type="button" mat-raised-button
+                style="background-color: #f44336; color: white;" (click)="reject()"> Rechazar</button>
+            <button type="button" color="warn" mat-raised-button (click)="cancel()">Cancelar</button>
+        </div>
+    </form>
+
+</div>

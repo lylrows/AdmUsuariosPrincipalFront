@@ -1,0 +1,235 @@
+<div class="filter">
+  <div class="filter__inputs">
+    <mat-form-field appearance="fill">
+      <mat-label>Empresa</mat-label>
+      <mat-select [(ngModel)]="userFilter.idCompany" (selectionChange)="changeEmpresa($event)">
+        <mat-option [value]="0">Mostrar Todos</mat-option>
+        <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Área</mat-label>
+      <mat-select [(ngModel)]="userFilter.idArea">
+        <mat-option [value]="0">Mostrar Todos</mat-option>
+        <mat-option *ngFor="let item of areas" [value]="item.id">{{item.nameArea}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre Cargo</mat-label>
+      <input
+      matInput
+      maxlength="70"
+      (keypress)="lettersOnly($event)" 
+      [(ngModel)]="userFilter.chargeName"
+      name="Nombre Cargo"
+      placeholder="Nombre Cargo">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Nombre de Usuario</mat-label>
+      <input
+      matInput
+      maxlength="70"       
+      [(ngModel)]="userFilter.userName"
+      name="Nombre de Usuario"
+      placeholder="Nombre de Usuario">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Situación</mat-label>
+      <mat-select [(ngModel)]="userFilter.nsituation">
+        <mat-option [value]="-1">Mostrar Todos</mat-option>
+        <mat-option [value]="0">Desbloqueados</mat-option>
+        <mat-option [value]="1">Bloqueados</mat-option>
+        
+      </mat-select>
+    </mat-form-field>
+    
+  </div>
+  <div class="filter__buttons">
+    <button mat-raised-button color="primary" (click)="load()">Buscar</button>
+    <button mat-raised-button color="warn" (click)="openPopUp({}, true)">Agregar</button>
+
+  </div>
+</div>
+
+
+<!--<div fxLayout="row wrap">
+  <div fxFlex="60" style="margin-left: 10px;">
+    <div fxLayout="row wrap">
+      <div fxFlex="27">
+        <mat-form-field class="full-width">
+          <mat-label>Empresa</mat-label>
+          <mat-select [(ngModel)]="userFilter.idCompany" (selectionChange)="changeEmpresa($event)">
+            <mat-option [value]="0">Mostrar Todos</mat-option>
+            <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="3">
+
+      </div>
+      <div fxFlex="27">
+        <mat-form-field class="full-width">
+          <mat-label>Área</mat-label>
+          <mat-select [(ngModel)]="userFilter.idArea">
+            <mat-option [value]="0">Mostrar Todos</mat-option>
+            <mat-option *ngFor="let item of areas" [value]="item.id">{{item.nameArea}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="3">
+
+      </div>
+      <div fxFlex="27">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          maxlength="70"
+          (keypress)="lettersOnly($event)" 
+          [(ngModel)]="userFilter.chargeName"
+          name="Nombre Cargo"
+          placeholder="Nombre Cargo">
+        </mat-form-field>
+      </div>
+      <div fxFlex="27">
+        <mat-form-field class="full-width">
+          <input
+          matInput
+          maxlength="70"
+          (keypress)="lettersOnly($event)" 
+          [(ngModel)]="userFilter.userName"
+          name="Nombre de Usuario"
+          placeholder="Nombre de Usuario">
+        </mat-form-field>
+      </div>
+      <div fxFlex="10" style="padding-left: 40px;">
+      </div>
+    </div>
+  </div>
+  <div fxFlex="40">
+  </div>
+</div>
+  <div fxLayout="row wrap">
+    <div fxFlex="50">
+      <button style="margin-left: 15px;" mat-raised-button class="mb-8 dark-blue-400 dark-blue-400-fg" color="primary" (click)="Filtrar()">Buscar</button>
+    </div>
+    <div fxFlex="50" style="display: flex; justify-content: end;">
+      <button style="margin-right: 20px;" mat-raised-button class="mb-8 dark-blue-400 dark-blue-400-fg" color="primary" (click)="openPopUp({}, true)">Agregar</button>
+    </div>
+  </div>-->
+
+  <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+    <mat-card-content class="p-0">
+      <table mat-table [dataSource]="contactDataSource" matSort class="w-100">
+        <ng-container matColumnDef="option" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Opción: ">
+                <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Desplegar"
+                    matTooltipPosition="right" mat-stroked-button color="accent">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" xPosition="after">
+                    <button *ngIf="row.sstate != 1" mat-menu-item  (click)="openPopUp(row)">
+                      <mat-icon color="accent">edit</mat-icon>
+                        <span>Editar</span>
+                    </button>
+                    <button *ngIf="row.sstate != 1" mat-menu-item  (click)="openPopUpResetPassword(row)">
+                      <mat-icon color="accent">block</mat-icon>
+                      <span>Resetear Contraseña</span>
+                  </button>
+                    <button *ngIf="row.sstate != 1" mat-menu-item  (click)="deleteItem(row)">
+                        <mat-icon color="accent">block</mat-icon>
+                        <span>Desbloquear</span>
+                    </button>
+                </mat-menu>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="userName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre de Usuario : ">
+                {{ row.userName }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Completo</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre Completo : ">
+                {{ row.fullName | titlecase }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="nameCompany">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Empresa : ">
+              {{ row.nameCompany | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="nameArea">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Área</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Área : ">
+              {{ row.nameArea | titlecase }}
+          </td>
+      </ng-container>
+        <ng-container matColumnDef="nameCharge">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cargo</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="nameCharge : ">
+              {{ row.nameCharge | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="profile">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Perfil</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="profile : ">
+              {{ row.profile | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+              <mat-chip mat-sm-chip selected [class]="row.active == true ?  'dark-blue-400 dark-blue-400-fg' :  'dark-blue-100'">{{row.active ? 'Activo' : 'Inactivo'}}</mat-chip>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="blocked">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Situación </th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Situación  : ">
+            <mat-chip mat-sm-chip selected [class]="row.blocked == true ?  'dark-blue-400 dark-blue-400-fg' :  'dark-blue-100'">{{row.blocked ? 'Bloqueado' : 'Desbloqueado'}}</mat-chip>
+          </td>
+      </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ 'make-gris': !row.state }">
+        </tr>
+
+        <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="9">
+                No se encontro Usuarios 
+            </td>
+        </tr>
+    </table>
+    <!-- <mat-paginator #paginator [length]="userFilter.pagination.totalItems" [pageIndex]="currentPage" [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
+    </mat-paginator> -->
+
+
+    
+    <div style="display: flex;
+    justify-content: center;
+    align-items: center;">
+      
+      <!-- <span>Regresar</span> -->
+      <mat-paginator
+      style-paginator
+      showFirstLastButtons
+      [showTotalPages]="3"
+      (changedPageNumber)="changedPageNumber($event)"
+      #paginator
+      [pageIndex]="currentPage"
+      [length]="userFilter.pagination.totalItems"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="pageSizeOptions"
+      (page)="changedPageSize($event)">
+      </mat-paginator>
+      <!-- <span style="padding-left: 15px;">Avanzar</span> -->
+    </div>
+
+
+
+
+    </mat-card-content>
+  </mat-card>
+  

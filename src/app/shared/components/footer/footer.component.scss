@@ -1,0 +1,12 @@
+@import '../../../../assets/styles/scss/variables';
+
+.main-footer > div {
+    min-height: 50px;
+    color: $text-secondary-color;
+}
+.image-footer{
+    margin-left: 10px;
+}
+.gray-footer{
+ background-color: $secondary-color !important;
+}

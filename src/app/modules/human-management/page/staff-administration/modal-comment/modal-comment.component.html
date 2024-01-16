@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="header">
+        <h1>
+            <strong *ngIf="!lectura">Ingrese motivo</strong>
+            <strong *ngIf="lectura">Motivo</strong>
+        </h1>
+        <hr style="width: 100%;">
+    </div>
+
+    <div class="combos">
+        <!-- <label class="size-large" style="font-weight: bold;">Cbservación: </label> -->
+        <mat-form-field class="size-input" appearance="fill" fxFlex="100">
+            <mat-label>Motivo</mat-label>
+            <!-- <textarea matInput name="Suport" maxlength="1000" placeholder="Motivo" [formControl]="observacion"> -->
+            <textarea matInput name="Suport" maxlength="1000" style="height: 100px;" placeholder="Motivo" [formControl]="observacion" [readonly]="lectura"></textarea>
+            <mat-error *ngIf="observacion.touched && observacion.invalid && !lectura">
+                <span *ngIf="observacion.errors.required">Motivo es <strong>requerido</strong></span>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+    <div class="footer">
+        <button mat-raised-button color="primary" (click)="accept()" [disabled]="observacion.invalid" *ngIf="!lectura">Aceptar</button>
+        <button mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+    </div>
+</div>

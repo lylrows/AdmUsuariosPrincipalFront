@@ -1,0 +1,253 @@
+<div>
+  <div class="header">
+    <div class="header__title">
+      <button routerLink="/humanmanagement/bell" mat-icon-button>
+        <mat-icon>keyboard_backspace</mat-icon>
+      </button>
+      <h1>{{ campaign?.nameCampaign }}</h1>
+    </div>
+    <div class="header__group">
+      <div class="header__group__label">
+        <strong>Fecha Inicio: </strong>
+        <h3>{{ campaign?.startDate }}</h3>
+      </div>
+      <div class="header__group__label">
+        <strong>Fecha Fin: </strong>
+        <h3>{{ campaign?.endDate }}</h3>
+      </div>
+      <div class="header__group__label">
+        <strong>Cantidad de empleados: </strong>
+        <h3>{{ campaign?.cantidadColaboradores }}</h3>
+      </div>
+      <div class="header__group__label">
+        <strong>Estado: </strong>
+        <h3>{{ campaign?.statusName }}</h3>
+      </div>
+    </div>
+  </div>
+
+  
+  <div style="margin-left:15px ;">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field class="w-100"appearance="fill">
+          <mat-label>Mostrar por</mat-label>
+          <mat-select (selectionChange)="filterEmployee($event)" [formControl]="inputFiler">
+            <mat-option *ngFor="let item of listFilter" [value]="item.code">{{item.name}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field  class="w-100"appearance="fill">
+            <mat-label>Empresa</mat-label>
+            <mat-select (selectionChange)="changeEmpresa()" [formControl]="bussineFC">
+                <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxFlex="50" class="pr-16">
+        <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Gerencia</mat-label>
+            <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC"
+              (selectionChange)="changeGerencia()">
+              <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div fxFlex="50" class="pr-16">
+        <mat-form-field class="w-100" appearance="fill" >
+            <mat-label>Área</mat-label>
+            <mat-select [disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()">
+                <!-- <mat-option *ngFor="let item of areas" [value]="item.id">{{item.nameArea}}</mat-option> -->
+                <mat-option *ngFor="let item of areas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+                
+            </mat-select>
+        </mat-form-field>
+    </div>
+    <div fxFlex="50" class="pr-16">
+        <mat-form-field class="w-100" appearance="fill" >
+            <mat-label>SubÁrea</mat-label>
+            <mat-select [disabled]="disabledSubArea" [formControl]="subAreaFC" (selectionChange)="changeSubArea()">
+              <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+    </div>
+    <div fxFlex="25" class="pr-16">
+      <mat-form-field class="w-100"appearance="fill">
+        <mat-label>Codigo :</mat-label>
+
+        <input [formControl]="searchCode" type="text" placeholder="Escribir codigo" matInput>
+      </mat-form-field>
+    </div>
+    <div fxFlex="25" class="pr-16">
+      <mat-form-field class="w-100"appearance="fill">
+        <mat-label>Nombre :</mat-label>
+        <input [formControl]="searchName" type="text" placeholder="Escribir nombre" matInput>
+      </mat-form-field>
+    </div>
+    </div>
+  </div>
+  <div class="filter">
+    <!-- <div class="filter__inputs">
+      <mat-form-field class="showfor" appearance="fill">
+        <mat-label>Mostrar por</mat-label>
+        <mat-select (selectionChange)="filterEmployee($event)" [formControl]="inputFiler">
+          <mat-option *ngFor="let item of listFilter" [value]="item.code">{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Codigo :</mat-label>
+
+        <input [formControl]="searchCode" type="text" placeholder="Escribir codigo" matInput>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Nombre :</mat-label>
+        <input [formControl]="searchName" type="text" placeholder="Escribir nombre" matInput>
+      </mat-form-field>
+
+    </div> -->
+    <div class="filter__buttons">
+      <div *ngIf="isDisponible" class="filter__buttons">
+        <button mat-raised-button color="primary" (click)="searchFn()">Buscar</button>
+        <button mat-raised-button color="warn" (click)="asign()">Asignar</button>
+        <button mat-raised-button color="accent" (click)="resetFilter()">Limpiar</button>
+        
+      </div>
+
+      <div *ngIf="!isDisponible" class="filter__buttons">
+        <button mat-raised-button color="primary" (click)="searchFn()">Buscar</button>
+        <button mat-raised-button color="warn" (click)="deleteAsing()">Eliminar Asignacion</button>
+        <button mat-raised-button color="accent" (click)="resetFilter()">Limpiar</button>
+      
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="form-filter">
+    <mat-form-field class="showfor">
+      <mat-label>Mostrar por</mat-label>
+      <mat-select (selectionChange)="filterEmployee($event)" [formControl]="inputFiler">
+        <mat-option *ngFor="let item of listFilter" [value]="item.code">{{item.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Codigo :</mat-label>
+      <input [formControl]="searchCode" type="text" placeholder="Escribir codigo" matInput >
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Nombre :</mat-label>
+      <input [formControl]="searchName" type="text" placeholder="Escribir nombre" matInput >
+    </mat-form-field>
+  </div> -->
+
+  <!-- <div *ngIf="isDisponible" class="buttons">
+    <button (click)="searchFn()" mat-raised-button class="dark-blue-400 dark-blue-400-fg">
+      Buscar
+    </button>
+    <button (click)="asign()" color="primary" mat-raised-button>Asignar</button>
+  </div> -->
+  <!-- <div *ngIf="isDisponible" class="filter__buttons">
+    <button mat-raised-button color="primary" (click)="searchFn()" >Buscar</button>
+    <button mat-raised-button color="warn" (click)="asign()" >Asignar</button>
+  </div> -->
+
+  <!-- <div *ngIf="!isDisponible" class="buttons">
+    <button (click)="searchFn()"  mat-raised-button class="dark-blue-400 dark-blue-400-fg">
+      Buscar
+    </button>
+    <button (click)="deleteAsing()" color="warn" mat-raised-button>Eliminar Asignacion</button>
+  </div> -->
+  <!-- <div *ngIf="!isDisponible" class="filter__buttons">
+    <button mat-raised-button color="primary" (click)="searchFn()" >Buscar</button>
+    <button mat-raised-button color="warn" (click)="deleteAsing()" >Eliminar Asignacion</button>
+  </div> -->
+
+
+  <br>
+  <div style="padding-left: 12px;">
+    <h2 *ngIf="isDisponible">Empleados disponibles para asignar</h2>
+    <h2 *ngIf="!isDisponible">Empleados Asignados</h2>
+    <hr>
+  </div>
+
+  <mat-card class="p-0">
+    <mat-card-content class="p-0">
+      <table mat-table [dataSource]="employeeDT" matSort class="w-100">
+        <ng-container matColumnDef="check" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="">
+            <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+              [checked]="selection.isSelected(row)">
+            </mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Codigo : ">
+            {{ row.codEmployee }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre : ">
+            {{ row.fullName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="company">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Empresa : ">
+            {{ row.companyName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="area">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Área</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Area : ">
+            {{ row.areaName }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Posición</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Posicion : ">
+            {{ row.positionName | titlecase }}
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" [ngClass]="{ 'make-gris': !row.state }"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center" colspan="6">
+            No se encontro Empleados
+          </td>
+        </tr>
+      </table>
+    </mat-card-content>
+
+    <!-- <mat-paginator
+      (page)="pageChanged($event)"
+      aria-label="Select page"
+      [length]="form.controls.totalItems"
+      [pageSizeOptions]="[10, 15, 20]"
+      [pageIndex]="currentPage"
+      [pageSize]="pageSize"
+    ></mat-paginator> -->
+
+
+    <div style="display: flex;
+    justify-content: center;
+    align-items: center;">
+
+      <!-- <span>Regresar</span> -->
+      <mat-paginator style-paginator showFirstLastButtons [showTotalPages]="3"
+        (changedPageNumber)="changedPageNumber($event)" #paginator [pageIndex]="currentPage"
+        [length]="employeAsignFilter.pagination.totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+        (page)="changedPageSize($event)">
+      </mat-paginator>
+      <!-- <span style="padding-left: 15px;">Avanzar</span> -->
+      <!-- [length]="documentFilter.pagination.totalItems" -->
+    </div>
+
+
+  </mat-card>
+</div>

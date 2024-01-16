@@ -1,0 +1,347 @@
+<p-table [value]="evaluationRating" dataKey="id" editMode="row" responsiveLayout="scroll" class="tableNormal">
+    <ng-template pTemplate="header">
+        <!-- <tr>
+            <th rowspan="2" style="width:10rem">Postulante</th>
+            <th colspan="2" *ngIf="evaluador === 'rrhh' || evaluador === 'jefe'">Calificación RRHH</th>
+            <th colspan="2" *ngIf="evaluador === 'cliente' || evaluador === 'jefe'">Calificación Cliente</th>
+            <th colspan="2" *ngIf="evaluador === 'jefe'">Calificación Gerente</th>
+            <th style="width:8rem"></th>
+        </tr> -->
+        <tr>
+            <th style="width:8rem"></th>   
+            <th>
+                <table>
+                    <tr>
+                        <th style="width: 20%;">Tipo de Evaluación</th>
+                        <th style="width: 40%;">Fortalezas</th>
+                        <th style="width: 50%;">Oportunidades</th>
+                    </tr>
+                </table>
+            </th>        
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-evaluation let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="evaluation">
+            <!-- BUTTONS -->
+            <td *ngIf="evaluador === 'rrhh'">
+                <button
+                    *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" pInitEditableRow title="Editar"
+                    (click)="onRowEditInit(evaluation)" class="editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+
+            </td> 
+            <td *ngIf="evaluador === 'cliente'">
+                <p style="height: 200px;"></p>
+                <button
+                        *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                        pButton pRipple type="button" pInitEditableRow title="Editar"
+                        (click)="onRowEditInit(evaluation)" class="editar"
+                        [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1">
+                        <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>    
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                        (click)="onRowEditSave(evaluation)" title="Guardar"
+                        class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                        (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                        class="p-button-rounded p-button-text p-button-danger"></button>
+
+            </td>
+            <td *ngIf="evaluador === 'jefe'">
+                <p style="height:400px;"></p>
+                <button
+                    *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" pInitEditableRow title="Editar"
+                    (click)="onRowEditInit(evaluation)" class="editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>    
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+
+            </td> 
+            <td>
+                <!-- {{evaluation.fullNamePostulant}} -->
+                <table style="margin-top: 15px; margin-bottom: 8px;">
+                    <tr *ngIf="evaluador === 'rrhh' || evaluador === 'jefe' || evaluador === 'cliente'" >
+                        <td style="width: 20%;">Calificación RRHH</td>
+                        <td style="text-align: center; width: 40%;">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingrrhhstrengths == null ? 0 :evaluation.sRatingrrhhstrengths.length}} / 1000)</label><br>
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingrrhhstrengths" maxlength="1000" 
+                                        [disabled]="evaluador != 'rrhh'"
+                                        ></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingrrhhstrengths == null ? 0 :evaluation.sRatingrrhhstrengths.length}} / 1000)</label><br>
+                                    <textarea disabled pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingrrhhstrengths" maxlength="1000"></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td style="text-align: center; width: 40%;">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingrrhhopportunities == null ? 0 :evaluation.sRatingrrhhopportunities.length}} / 1000)</label><br>
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingrrhhopportunities" maxlength="1000" 
+                                        [disabled]="evaluador != 'rrhh'"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingrrhhopportunities == null ? 0 :evaluation.sRatingrrhhopportunities.length}} / 1000)</label><br>
+                                    <textarea disabled pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingrrhhopportunities" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                    </tr>
+                    <tr *ngIf="evaluador === 'cliente' || evaluador === 'jefe'">
+                        <td style="width: 20%;">Calificación Cliente</td>
+                        <td style="text-align: center; width: 40%;">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingclientstrengths == null ? 0 :evaluation.sRatingclientstrengths.length}} / 1000)</label><br>
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingclientstrengths" maxlength="1000" 
+                                        [disabled]="evaluador != 'cliente'"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingclientstrengths == null ? 0 :evaluation.sRatingclientstrengths.length}} / 1000)</label><br>
+                                    <textarea disabled pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingclientstrengths" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td style="text-align: center; width: 40%;">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingclientopportunities == null ? 0 :evaluation.sRatingclientopportunities.length}} / 1000)</label><br>
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingclientopportunities" maxlength="1000" 
+                                        [disabled]="evaluador != 'cliente'"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingclientopportunities == null ? 0 :evaluation.sRatingclientopportunities.length}} / 1000)</label><br>
+                                    <textarea pInputTextarea disabled name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingclientopportunities" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                    </tr>
+                    <tr *ngIf="evaluador === 'jefe'">
+                        <td style="width: 20%;">Calificación Gerente</td>
+                        <td style="text-align: center; width: 40%;">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingjefestrengths == null ? 0 :evaluation.sRatingjefestrengths.length}} / 1000)</label><br>
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10" maxlength="1000" 
+                                        [(ngModel)]="evaluation.sRatingjefestrengths"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingjefestrengths == null ? 0 :evaluation.sRatingjefestrengths.length}} / 1000)</label><br>
+                                    <textarea pInputTextarea disabled name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingjefestrengths" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td style="text-align: center; width: 40%;">
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingjefeopportunities == null ? 0 :evaluation.sRatingjefeopportunities.length}} / 1000)</label><br>
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10" maxlength="1000" 
+                                        [(ngModel)]="evaluation.sRatingjefeopportunities"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    <label for="inputEmail4" class="form-label" style="padding-right: 135px;">Contador ({{evaluation.sRatingjefeopportunities == null ? 0 :evaluation.sRatingjefeopportunities.length}} / 1000)</label><br>
+                                    <textarea disabled pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingjefeopportunities" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                    </tr>
+                </table> 
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<p-table [value]="evaluationRating" dataKey="id" editMode="row" class="tableResponsive">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:8rem"></th>   
+            <th style="width: 20%;">Tipo de Evaluación</th>
+            <th style="width: 40%;">Fortalezas</th>
+            <th style="width: 50%;">Oportunidades</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-evaluation let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="evaluation">
+            <td *ngIf="evaluador === 'rrhh'" class="cellResponsive center-botones">
+                <button
+                    *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" pInitEditableRow title="Editar"
+                    (click)="onRowEditInit(evaluation)" class="editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+
+            </td> 
+            <td *ngIf="evaluador === 'cliente'" class="cellResponsive center-botones">
+                <button
+                        *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                        pButton pRipple type="button" pInitEditableRow title="Editar"
+                        (click)="onRowEditInit(evaluation)" class="editar"
+                        [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1">
+                        <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>    
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                        (click)="onRowEditSave(evaluation)" title="Guardar"
+                        class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                        (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                        class="p-button-rounded p-button-text p-button-danger"></button>
+
+            </td>
+            <td *ngIf="evaluador === 'jefe'" class="cellResponsive center-botones">
+                <button
+                    *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" pInitEditableRow title="Editar"
+                    (click)="onRowEditInit(evaluation)" class="editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>    
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+
+            </td> 
+            <ng-container *ngIf="evaluador === 'rrhh' || evaluador === 'jefe' || evaluador === 'cliente'">
+                <td class="cellResponsive"><span class="p-column-title" style="font-weight: bold;">Evaluación</span> <p>Calificación RRHH</p></td>
+                        <td class="cellResponsive">
+                            <span class="p-column-title" style="font-weight: bold;">Fortalezas</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingrrhhstrengths" maxlength="1000" 
+                                        [disabled]="evaluador != 'rrhh'"
+                                        ></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    
+                                    <textarea disabled pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingrrhhstrengths" maxlength="1000"></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td class="cellResponsive">
+                            <span class="p-column-title" style="font-weight: bold; padding-right: 5px;">Oportunidades</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingrrhhopportunities" maxlength="1000" 
+                                        [disabled]="evaluador != 'rrhh'"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    
+                                    <textarea disabled pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingrrhhopportunities" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+            </ng-container>
+            <ng-container *ngIf="evaluador === 'cliente' || evaluador === 'jefe'">
+                <td class="cellResponsive"><span class="p-column-title" style="font-weight: bold;">Evaluación</span><p>Calificación Cliente</p></td>
+                        <td class="cellResponsive">
+                            <span class="p-column-title" style="font-weight: bold;">Fortalezas</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingclientstrengths" maxlength="1000" 
+                                        [disabled]="evaluador != 'cliente'"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    
+                                    <textarea disabled pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingclientstrengths" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td class="cellResponsive">
+                            <span class="p-column-title" style="font-weight: bold; padding-right: 5px;">Oportunidades</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingclientopportunities" maxlength="1000" 
+                                        [disabled]="evaluador != 'cliente'"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    
+                                    <textarea pInputTextarea disabled name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingclientopportunities" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+            </ng-container>
+            <ng-container *ngIf="evaluador === 'jefe'">
+                <td class="cellResponsive"><span class="p-column-title" style="font-weight: bold;">Evaluación</span><p>Calificación Gerente</p></td>
+                        <td class="cellResponsive">
+                            <span class="p-column-title" style="font-weight: bold;">Fortalezas</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10" maxlength="1000" 
+                                        [(ngModel)]="evaluation.sRatingjefestrengths"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                   
+                                    <textarea pInputTextarea disabled name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingjefestrengths" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+                        <td class="cellResponsive">
+                            <span class="p-column-title" style="font-weight: bold; padding-right: 5px;">Oportunidades</span>
+                            <p-cellEditor>
+                                <ng-template pTemplate="input">
+                                    
+                                    <textarea pInputTextarea name="" id="" cols="25" rows="10" maxlength="1000" 
+                                        [(ngModel)]="evaluation.sRatingjefeopportunities"></textarea>
+                                </ng-template>
+                                <ng-template pTemplate="output">
+                                    
+                                    <textarea disabled pInputTextarea name="" id="" cols="25" rows="10"
+                                        [(ngModel)]="evaluation.sRatingjefeopportunities" maxlength="1000" ></textarea>
+                                </ng-template>
+                            </p-cellEditor>
+                        </td>
+            </ng-container>
+        </tr>
+    </ng-template>
+</p-table>

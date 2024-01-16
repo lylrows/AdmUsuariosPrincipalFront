@@ -1,0 +1,49 @@
+.header {
+    h1 {
+        text-align: center;
+        color: #4f66a8;
+        font-weight: 600;
+    }
+}
+
+.text {
+    display: flex;
+    justify-content: center;
+    text-align: justify;
+    margin-top: 10px;
+    p {
+        font-size: 16px;
+    }
+}
+
+.list {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    gap: 10px;
+}
+
+.list-group {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    align-items: center;
+    border: 1px solid #4f66a8;
+    padding: 8px;
+    border-radius: 2px;
+    max-height: 100px;
+    h1 {
+        font-size: 16px;
+        font-weight: 600;
+        color: #4f66a8;
+    }
+}
+
+.buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}

@@ -1,0 +1,118 @@
+<div class="content">
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="header">
+            <h1>SOLICITUD DE {{title | uppercase}}</h1>
+        </div>
+        <hr>
+        <div class="personal">
+            <h1 class="title">1. DATOS PERSONALES: </h1>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Código del Empleado: </label>
+                    <span> {{ codeEmployee }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">DNI N*: </label>
+                    <span> {{dni }} </span>
+                </div>
+               
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label >Nombres y Apellidos: </label>
+                    <span> {{fullname }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Fecha de Ingreso: </label>
+                    <span> {{ dateAdmission }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">Área: </label>
+                    <span> {{ area }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label class="size-large">Cargo: </label>
+                    <span> {{ charge }} </span>
+                </div>
+            </div>
+        </div>
+        <div class="motivo">
+            <h1 class="title">2. SOLICITUD DE ADELANTO DE REMUNERACIÓN: </h1>
+            <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Monto Solicitado: </label>
+                <mat-form-field  class="size-input">
+                    <input type="number" [readonly]="isEdit" formControlName="namount" matInput
+                        placeholder="Ingresar monto">
+                    <mat-error *ngIf="
+                    form.controls.namount.touched &&
+                    form.controls.namount.invalid
+                                          ">
+                        <span *ngIf="form.controls.namount.errors.required">Monto es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <h1 class="title">3. MOTIVO DEL ADELANTO: </h1>
+            <div class="motivo__type">
+                <div class="motivo__type-group">
+                    <label class="size-large" style="font-weight: bold;">Motivo del adelanto: </label>
+                    <mat-radio-group formControlName="nreason">
+                        <mat-radio-button [disabled]="isEdit" value='1' class="radio-boton">Salud</mat-radio-button>
+                        <mat-radio-button [disabled]="isEdit" value='2' class="radio-boton">Estudios</mat-radio-button>
+                        <mat-radio-button [disabled]="isEdit" value='3' class="radio-boton">Otros</mat-radio-button>
+                    </mat-radio-group> 
+                </div>
+                <div class="motivo__amount" style="margin: 20px 0px;">
+                  <label class="size-large" style="font-weight: bold; align-items: flex-start; align-self: flex-start">Términos y Condiciones: </label>
+                  <div style="max-width: 450px; text-align: justify;">
+                    <mat-checkbox [disabled]="isEdit" [checked]="selectedTerms" (change)="showOptions($event)" style="position: relative">
+                        El solicitante autoriza expresamente a la empresa a descontar el valor del adelanto generado de su respectiva remuneración. Asimismo, en caso de culminación de la relación laboral del solicitante con la empresa, el solicitante autoriza a la empresa a descontar el integro del saldo pendiente de pago de sus beneficios sociales que, a la fecha de cese se encuentren pendientes de pago o que se devenguen con posterioridad.
+                    </mat-checkbox>
+                  </div>
+                </div>
+                <div class="motivo__type-solicitud">
+                    <label class="size-large" style="font-weight: bold;">Comentario :</label>
+                    <mat-form-field class="example-full-width" class="size-input" appearance="fill">
+                        <textarea   [readonly]="isEdit" formControlName="sdetailreason" matInput
+                            placeholder="Escribir comentario"></textarea>
+                        <mat-error *ngIf="
+                    form.controls.sdetailreason.touched &&
+                    form.controls.sdetailreason.invalid
+                                          ">
+                            <span *ngIf="form.controls.sdetailreason.errors.required">Comentario es
+                                <strong>requerido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="isEdit" class="motivo">
+            <h1 class="title">HISTORIAL DE SOLICITUD: </h1> 
+            <app-staff-request-approver  style="width: 50%;text-align: center;"></app-staff-request-approver>
+        </div>
+        <div class="motivo" *ngIf="isAceept || StatusRejected">
+            <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+            <div class="motivo__amount">
+              <label class="size-large" style="font-weight: bold;">Comentario: </label>
+              <mat-form-field class="size-input">
+                <mat-label>Comentario</mat-label>
+                <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation" [readonly]="StatusRejected"></textarea>          
+              </mat-form-field>
+            </div> 
+          </div>
+        <div class="footer">
+            <button *ngIf="isEdit && isAceept " mat-raised-button style="background-color: #cddcea;color:#343a67;"
+                type="button" (click)="accept()">Aprobar</button>
+            <button *ngIf="isEdit && isAceept" type="button" mat-raised-button style="background-color: #f44336; color: white;" (click)="reject()"> Rechazar</button>
+            <button *ngIf="!isEdit" mat-raised-button color="primary" type="submit">Guardar</button>
+            <button type="button" mat-raised-button (click)="cancel()" color="warn">Cancelar</button>
+        </div>
+    </form>
+</div>

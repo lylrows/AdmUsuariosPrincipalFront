@@ -1,0 +1,15 @@
+@media only screen and (max-device-width: 480px) {
+    .card-title-text{ margin-bottom: 4px !important;}
+    .filter__buttons{ 
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+        max-height: none !important;
+    }
+    .mat-focus-indicator{
+        line-height: 15px !important;
+        padding: 15px 25px !important;
+        margin-left: 0px !important;
+    }
+    
+  }

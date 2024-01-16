@@ -1,0 +1,215 @@
+<div class="content">
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="header">
+            <h1>SOLICITUD DE {{title | uppercase}}</h1>
+        </div>
+        <hr>
+        <div class="personal">
+            <h1 class="title">1. DATOS PERSONALES: </h1>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Código del Empleado: </label>
+                    <span> {{ codeEmployee }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">DNI N*: </label>
+                    <span> {{dni }} </span>
+                </div>
+
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label>Nombres y Apellidos: </label>
+                    <span> {{fullname }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Fecha de Ingreso: </label>
+                    <span> {{ dateAdmission }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">Área: </label>
+                    <span> {{ area }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Cargo: </label>
+                    <span> {{ charge }} </span>
+                </div> 
+            </div>
+        </div>
+        <div class="motivo">
+            <h1 class="title">2. INFORMACION DE LA CAPACITACION: </h1>
+            <div class="motivo__amount">
+                <label style="font-weight: bold;">Nombre de Capacitación: </label>
+                <mat-form-field class="full-width">
+                    <input type="text" [readonly]="isEdit && !permiteEditarRRHH" formControlName="sname" matInput
+                        placeholder="Ingresar Nombre">
+                    <mat-error *ngIf="
+                    form.controls.sname.touched &&
+                    form.controls.sname.invalid 
+                                          ">
+                        <span *ngIf="form.controls.sname.errors.required">Nombre de Capacitación es
+                            <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="form.controls.sname.errors.pattern">Solo debe ingresar <strong>letras</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <mat-form-field class="full-width">
+                    <mat-label style="font-weight: bold;">Fecha Inicio</mat-label>
+                    <input formControlName="ddateinit" readonly matInput (dateChange)="validDateStart()"
+                        [matDatepicker]="pickeremision">
+                    <mat-datepicker-toggle matSuffix [for]="pickeremision" [disabled]="isEdit && !permiteEditarRRHH"></mat-datepicker-toggle>
+                    <mat-datepicker #pickeremision></mat-datepicker>
+                    <mat-error *ngIf="
+                    form.controls.ddateinit.touched &&
+                    form.controls.ddateinit.invalid
+                                          ">
+                        <span *ngIf="form.controls.ddateinit.errors.required">Fecha Inicio es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <mat-form-field class="full-width">
+                    <mat-label style="font-weight: bold;">Fecha Fin</mat-label>
+                    <input formControlName="ddateend" readonly matInput (dateChange)="validDateEnd()"
+                        [matDatepicker]="pickerfin">
+                    <mat-datepicker-toggle matSuffix [for]="pickerfin" [disabled]="isEdit && !permiteEditarRRHH"></mat-datepicker-toggle>
+                    <mat-datepicker #pickerfin></mat-datepicker>
+                    <mat-error *ngIf="
+                    form.controls.ddateend.touched &&
+                    form.controls.ddateend.invalid
+                                          ">
+                        <span *ngIf="form.controls.ddateend.errors.required">Fecha Fin es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <label style="font-weight: bold;">Centro de Formación: </label>
+                <mat-form-field class="full-width">
+                    <input type="text" [readonly]="isEdit && !permiteEditarRRHH" formControlName="splace" matInput
+                        placeholder="Ingresar Centro de Formación">
+                    <mat-error *ngIf="
+                    form.controls.splace.touched &&
+                    form.controls.splace.invalid
+                                          ">
+                        <span *ngIf="form.controls.splace.errors.required">Centro de Formación es
+                            <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="form.controls.splace.errors.pattern">Solo debe ingresar <strong>letras</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <label style="font-weight: bold;">Objetivo :</label>
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <textarea [readonly]="isEdit && !permiteEditarRRHH" formControlName="starget" matInput
+                        placeholder="Ingresar objetivos"></textarea>
+                    <mat-error *ngIf="
+                form.controls.starget.touched &&
+                form.controls.starget.invalid
+                                      ">
+                        <span *ngIf="form.controls.starget.errors.required">Objetivo es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <label style="font-weight: bold;">Costo: </label>
+                <mat-form-field class="full-width">
+                    <input type="number" [readonly]="isEdit && !permiteEditarRRHH" formControlName="ncost" matInput
+                        placeholder="Ingresar Costo">
+                    <mat-error *ngIf="
+                    form.controls.ncost.touched &&
+                    form.controls.ncost.invalid
+                                          ">
+                        <span *ngIf="form.controls.ncost.errors.required">Costo es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__type">
+                <label class="tamaño"  style="font-weight: bold;">Clasificación: </label>
+                <mat-radio-group style="align-self: center;" formControlName="ntype">
+                    <mat-radio-button [disabled]="isEdit && !permiteEditarRRHH" value='988'>Organizacional</mat-radio-button>
+                    <mat-radio-button [disabled]="isEdit && !permiteEditarRRHH" value='989'>Especifica</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="motivo__type">
+                <label class="tamaño"  style="font-weight: bold;">Tipo de Capacitación: </label>
+                <mat-radio-group style="align-self: center;" formControlName="ntypemodality">
+                    <mat-radio-button [disabled]="isEdit && !permiteEditarRRHH" value='981'>Interna</mat-radio-button>
+                    <mat-radio-button [disabled]="isEdit && !permiteEditarRRHH" value='982'>Externa</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="motivo__type">
+                <label class="tamaño"  style="font-weight: bold;">Porcentaje a asumir por la capaticación: </label>
+                <mat-radio-group style="align-self: center;" formControlName="spercentage">
+                    <mat-radio-button [disabled]="isEdit && !permiteEditarRRHH" value='100'>100 %</mat-radio-button> 
+                    <mat-radio-button [disabled]="isEdit && !permiteEditarRRHH" value='50'>50 %</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="motivo__type">
+                <label class="tamaño"  style="font-weight: bold;">Convenio de Otorgamiento por Asignación: </label>
+                <mat-radio-group style="align-self: center;" formControlName="sagreement">
+                    <mat-radio-button [disabled]="isEdit && !permiteEditarRRHH" value='SI'>SI</mat-radio-button>
+                    <mat-radio-button [disabled]="isEdit && !permiteEditarRRHH" value='NO'>NO</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="motivo__type" style="margin-top: 20px;">
+                <label class="tamaño" style="font-weight: bold;align-self: center;">Periodo de Pertenecia en Meses: </label>
+                <mat-form-field class="full-width">
+                    <input type="text" [readonly]="isEdit && !permiteEditarRRHH" formControlName="nperiod" matInput
+                        placeholder="Ingresar Periodo">
+                    <mat-error *ngIf="
+                    form.controls.nperiod.touched &&
+                    form.controls.nperiod.invalid
+                                          ">
+                        <span *ngIf="form.controls.nperiod.errors.required">Periodo es
+                            <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="form.controls.nperiod.errors.pattern">Solo debe ingresar <strong>numeros</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div *ngIf="isEdit" class="motivo">
+            <h1 class="title">HISTORIAL DE SOLICITUD: </h1>
+            <app-staff-request-approver style="width: 50%;text-align: center;"></app-staff-request-approver>
+        </div>
+        <div class="motivo" *ngIf="isEdit">
+            <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+            <div class="motivo__amount">
+              <label class="size-large" style="font-weight: bold;">Comentario: </label>
+              <mat-form-field class="size-input">
+                <mat-label>Comentario</mat-label>
+                <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation" [readonly]="!isEdit || StatusRejected"></textarea>          
+              </mat-form-field>
+            </div> 
+          </div>
+        <div class="footer">
+            <button *ngIf="!isEdit || permiteEditarRRHH" mat-raised-button color="primary"
+                type="submit">Guardar</button>
+            <button *ngIf="isEdit && isAceept" mat-raised-button color="primary"
+                type="button" (click)="accept()">Aceptar</button>
+            <button *ngIf="isEdit && isAceept" type="button" mat-raised-button
+                style="background-color: #f44336; color: white;" (click)="reject()"> Rechazar</button>
+            <button type="button" mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+        </div>
+    </form>
+
+</div>

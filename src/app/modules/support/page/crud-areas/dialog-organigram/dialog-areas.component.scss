@@ -1,0 +1,39 @@
+button{
+    width: 100%;
+}
+.titulo-archivo{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: Ellipsis;
+}
+.btn-grupofe{
+    background-color: #fdb930;
+    color: #ffffff;
+  }
+
+  input.ng-invalid {
+    caret-color: #ff3d57 !important;
+  }
+
+  .mat-button-disabled {
+      cursor: not-allowed;
+  }
+
+  @media only screen and (max-device-width: 480px) {
+    .mat-dialog-title {
+        font: 400 24px/3px "Nunito" !important;
+    }
+    .filter__buttons{ 
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+        max-height: none !important;
+    }
+    .mat-focus-indicator{
+        line-height: 15px !important;
+        padding: 15px 25px !important;
+        margin-left: 0px !important;
+    }
+  }

@@ -1,0 +1,233 @@
+<div class="container">
+    <div class="header">
+        <h1>Datos de Bienestar Social</h1>
+        <hr style="width: 100%;">
+    </div>
+
+    <div class="combos" *ngIf="showCombo">
+        <mat-form-field appearance="fill" class="w-100">
+            <mat-label>Sección</mat-label>
+            <mat-select (selectionChange)="changeSeccion($event)">
+                <mat-option *ngFor="let item of seccions" [value]="item.code">{{
+                    item.name
+                    }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <ng-container *ngIf="showEsposa">
+        <div class="civil">
+            <div class="group-input">
+                <mat-form-field appearance="fill" class="full-width" fxFlex="50">
+                    <mat-label>Apellido Paterno de la Esposa/Conviviente <strong
+                            class="obligatory">*</strong></mat-label>
+                    <input type="text" placeholder="Ingresar apellido paterno" matInput
+                        [formControl]="inputesposalastname">
+                    <mat-error *ngIf="inputesposalastname.touched && inputesposalastname.invalid">
+                        <span *ngIf="inputesposalastname.errors.required">
+                            Apellido paterno es <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="inputesposalastname.invalid">Apellido paterno es <strong>inválido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field appearance="fill" class="full-width" fxFlex="50">
+                    <mat-label>Apellido Materno de la Esposa/Conviviente <strong
+                            class="obligatory">*</strong></mat-label>
+                    <input type="text" placeholder="Ingresar apellido materno" matInput
+                        [formControl]="inputesposamotherlastname">
+                    <mat-error *ngIf="inputesposamotherlastname.touched && inputesposamotherlastname.invalid">
+                        <span *ngIf="inputesposamotherlastname.errors.required">
+                            Apellido materno es <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="inputesposamotherlastname.invalid">Apellido materno es <strong>inválido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="group-input">
+                <mat-form-field appearance="fill" class="full-width" fxFlex="100">
+                    <mat-label>Nombre de la Esposa/Conviviente <strong class="obligatory">*</strong></mat-label>
+                    <input type="text" placeholder="Ingresar Licencia" matInput [formControl]="inputesposaname">
+                    <mat-error *ngIf="inputesposaname.touched && inputesposaname.invalid">
+                        <span *ngIf="inputesposaname.errors.required">Nombre de la Esposa/Conviviente es <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="inputesposaname.invalid">Nombre de la Esposa/Conviviente es <strong>inválido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="group-input">
+                <mat-form-field appearance="fill" class="full-width" fxFlex="50">
+                    <mat-label>Fecha de compromiso <strong class="obligatory">*</strong></mat-label>
+                    <input [formControl]="inputdate" matInput [matDatepicker]="picker" readonly />
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-error *ngIf="inputdate.touched &&inputdate.invalid">
+                        <span *ngIf="inputdate.errors.required">Fecha de compromiso es <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="group-input">
+                <input type="file" class="file-input" fxFlex="33" (change)="onFileSelected($event)" #fileUpload>
+
+                <div class="file-upload" style="display: flex">
+
+                    {{fileName || "Ningun archivo cargado"}}
+
+                    <button style="margin-left: 5px;" mat-mini-fab class="upload-btn" (click)="fileUpload.click()">
+                        <mat-icon style="color: #000;">attach_file</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+
+
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="showHijos">
+        <div class="add__phone" style="margin-bottom: 10px;">
+            <button mat-raised-button color="primary" *ngIf="!isNewHijos" (click)="addaddress()">Agregar Hijos</button>
+        </div>
+
+
+        <form [formGroup]="form" *ngIf="isNewHijos">
+            <div class="inptus__address">
+                <div class="inptus__address__group flex-container">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Nombres <strong class="obligatory">*</strong>
+                        </mat-label>
+                        <input type="text" matInput placeholder="Ingrese nombre" formControlName="name">
+                        <mat-error *ngIf="form.controls.name.touched && form.controls.name.invalid">
+                            <span *ngIf="form.controls.name.errors.required">Nombre es <strong>requerido</strong>
+                            </span>
+                            <span *ngIf="form.controls.name.invalid">Nombre es <strong>inválido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Apellido Paterno <strong class="obligatory">*</strong></mat-label>
+                        <input formControlName="inputLastnameSon" type="text" matInput
+                            placeholder="Ingresar Apellido Paterno">
+                        <mat-error *ngIf="form.controls.inputLastnameSon.touched && form.controls.inputLastnameSon.invalid">
+                            <span *ngIf="form.controls.inputLastnameSon.errors.required">Apellido paterno es <strong>requerido</strong>
+                            </span>
+                            <span *ngIf="form.controls.inputLastnameSon.invalid">Apellido paterno es <strong>inválido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Apellido Materno <strong class="obligatory">*</strong></mat-label>
+                        <input formControlName="smotherslastname" type="text" matInput
+                            placeholder="Ingresar Apellido Materno">
+                        <mat-error *ngIf="form.controls.smotherslastname.touched && form.controls.smotherslastname.invalid">
+                            <span *ngIf="form.controls.smotherslastname.errors.required">Apellido materno es <strong>requerido</strong>
+                            </span>
+                            <span *ngIf="form.controls.smotherslastname.invalid">Apellido materno es <strong>inválido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+
+                </div>
+                <div class="inptus__address__group">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Fecha de Nacimiento <strong class="obligatory">*</strong></mat-label>
+                        <input formControlName="fecha" matInput [matDatepicker]="pickerscurrent" readonly [max]="maxDate" />
+                        <mat-datepicker-toggle matSuffix [for]="pickerscurrent"></mat-datepicker-toggle>
+                        <mat-datepicker #pickerscurrent></mat-datepicker>
+                        <mat-error *ngIf="form.controls.fecha.touched && form.controls.fecha.invalid">
+                            <span *ngIf="form.controls.fecha.errors.required">Fecha de nacimiento es <strong>requerido</strong>
+                            </span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="inptus__address__group">
+                    <input type="file" class="file-input" fxFlex="33" (change)="onFileSelected($event)" #fileUpload>
+                    <div class="file-upload" style="display: flex">
+                        {{fileName || "Ningun archivo cargado"}}
+                        <button style="margin-left: 5px;" mat-mini-fab class="upload-btn" (click)="fileUpload.click()">
+                            <mat-icon style="color: #000;">attach_file</mat-icon>
+                        </button>
+                    </div>
+                </div>
+                <div class="inptus__address__button" style="margin-top:10px;">
+                    <button mat-raised-button color="primary" *ngIf="isNewHijos"
+                        (click)="saveAddress()">Guardar</button>
+                    <button mat-raised-button color="warn" *ngIf="isNewHijos"
+                        (click)="cancelAddress()">Cancelar</button>
+                </div>
+
+            </div>
+        </form>
+        <div>
+            <table mat-table [dataSource]="hijosDT" matSort class="w-100">
+                <ng-container matColumnDef="option" sticky>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Opción: ">
+                        <button mat-button (click)="editadress(row)">
+                            <mat-icon color="accent">touch_app</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Completo</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre Completo : ">
+                        {{ row.sfullname }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="lastname">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido Paterno</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Apellido Paterno : ">
+                        {{ row.slastname }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="smotherslastname">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Apellido Materno</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Apellido Materno : ">
+                        {{ row.smotherslastname }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="ddateofbirth">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha de Nacimiento</th>
+                    <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha de Nacimiento : ">
+                        {{ row.ddateofbirth | date:'dd/MM/YYYY' }}
+                    </td>
+                </ng-container>
+
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell text-center" colspan="5">
+                        No se encontraron datos
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" style="display: none;"></mat-paginator>
+    </ng-container>
+    <!-- 
+    <div  *ngIf="!showCombo">
+        <input type="file" class="file-input"
+       (change)="onFileSelected($event)" #fileUpload>
+
+        <div class="file-upload">
+
+        {{fileName || "Ningun archivo cargado"}}
+
+            <button style="margin-left: 5px;" mat-mini-fab   class="upload-btn"
+            (click)="fileUpload.click()">
+                <mat-icon style="color: #000;">attach_file</mat-icon>
+            </button>
+        </div>
+    </div> -->
+
+    <div class="footer">
+        <button *ngIf="showEsposa" (click)="saveEsposa()" mat-raised-button color="primary">Guardar</button>
+        <button mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+    </div>
+</div>

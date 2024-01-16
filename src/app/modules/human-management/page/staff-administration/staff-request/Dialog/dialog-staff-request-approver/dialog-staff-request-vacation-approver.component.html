@@ -1,0 +1,207 @@
+<div class="content">
+  <form [formGroup]="itemForm">
+    <div class="header">
+      <h1>SOLICITUD DE {{data.title | uppercase}}</h1>
+    </div>
+    <hr>
+
+    <div class="personal">
+      <h1 class="title">1. DATOS PERSONALES: </h1>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Código del Empleado: </label>
+          <span> {{ codeEmployee }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">DNI N*: </label>
+          <span> {{dni }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label>Nombres y Apellidos: </label>
+          <span> {{ fullname }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Fecha de Ingreso: </label>
+          <span> {{ dateAdmission }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">Área: </label>
+          <span> {{ area }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label class="size-large">Cargo: </label>
+          <span> {{charge }} </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">2. SOLICITUD DE ADELANTO DE VACACIONES: </h1> 
+      <h4>Días de Vacaciones Disponibles: {{ diasVacaciones }} </h4>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Inicio de vacaciones: </label>
+        <mat-form-field class="size-input">
+          <input readonly matInput [matDatepicker]="pickerStartVacationVisual" name="StartVacation"
+            [formControl]="itemForm.controls['startVacation']" placeholder="Inicio de Vacaciones">
+          <mat-datepicker-toggle matSuffix [for]="pickerStartVacationVisual" [disabled]="true"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStartVacationVisual></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Fin de vacaciones: </label>
+        <mat-form-field class="size-input">
+          <input readonly matInput name="EndVacation" [matDatepicker]="pickerEndVacation"
+            [formControl]="itemForm.controls['endVacation']" placeholder="Fin de Vacaciones">
+
+          <mat-datepicker-toggle matSuffix [for]="pickerEndVacation" disabled></mat-datepicker-toggle>
+          <mat-datepicker #pickerEndVacation></mat-datepicker>
+          <mat-error *ngIf="
+          itemForm.controls.endVacation.touched &&
+          itemForm.controls.endVacation.invalid
+                                ">
+            <span *ngIf="itemForm.controls.endVacation.errors.required">El Inicio de vacaciones es
+              <strong>requerido</strong>
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+
+      <div class="motivo__mix">
+        <div class="motivo__mix-group">
+          <label class="size-large" style="font-weight: bold;">Días Calendario: </label>
+          <mat-form-field style="width: 90%;text-align: center;">
+            <input matInput name="NumberCalendarDays" [formControl]="itemForm.controls['numberCalendarDays']"
+              placeholder="N° de Días Calendario" readonly>
+          </mat-form-field>
+        </div>
+        <div class="motivo__mix-group">
+          <label class="size-large" style="font-weight: bold;">Días Hábiles: </label>
+          <mat-form-field style="width: 90%;text-align: center;">
+            <input matInput name="NumberBusinessDays" [formControl]="itemForm.controls['numberBusinessDays']"
+              placeholder="N° de Días Hábiles" readonly>
+          </mat-form-field>
+        </div>
+        <!-- <div class="motivo__mix-group">
+          <label class="size-large" style="font-weight: bold;">Periodo Vacacional: </label>
+          <mat-form-field style="width: 90%;text-align: center;">
+            <input matInput name="VacationPeriod" [formControl]="itemForm.controls['vacationPeriod']"
+              placeholder="Periodo Vacacional">
+            <mat-error *ngIf="
+              itemForm.controls.vacationPeriod.touched &&
+              itemForm.controls.vacationPeriod.invalid
+                                    ">
+              <span *ngIf="itemForm.controls.vacationPeriod.errors.required">Periodo es
+                <strong>requerido</strong>
+              </span>
+              <span *ngIf="itemForm.controls.vacationPeriod.errors.pattern">Solo se debe
+                de
+                ingresar <strong>letras</strong>
+              </span>
+            </mat-error>
+          </mat-form-field>
+        </div> -->
+      </div>
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">HISTORIAL DE SOLICITUD: </h1>
+      <app-staff-request-approver style="width: 50%;text-align: center;"></app-staff-request-approver>
+    </div>
+    <div class="motivo">
+      <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Comentario: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Comentario</mat-label>
+          <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation" [readonly]="readOnlyView"></textarea>          
+        </mat-form-field>
+      </div> 
+    </div>
+    <div class="footer">
+      <button *ngIf="hasAccessToApprover" mat-raised-button
+        style="background-color: #cddcea;color:#343a67;" type="button" (click)="approveRequest()">
+        Aprobar</button>
+      <button *ngIf="hasAccessToApprover" mat-raised-button
+        style="background-color: #f44336; color: white;" type="button" (click)="rejectRequest()">
+        Rechazar</button>
+      <button mat-raised-button color="primary" type="button"
+        (click)="dialogRef.close(false)">Cancelar</button>
+    </div>
+
+  </form>
+</div>
+
+
+<!--<mat-card-title class="">
+  <div class="card-title-text">{{data.title}}</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-card-content class="height-auto">
+  <form [formGroup]="itemForm">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+       
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput [matDatepicker]="pickerStartVacation" maxlength="10" name="StartVacation"
+            [formControl]="itemForm.controls['startVacation']" placeholder="Inicio de Vacaciones" readonly>
+
+          <mat-datepicker-toggle matSuffix [for]="pickerStartVacation" [disabled]="true"></mat-datepicker-toggle>
+          <mat-datepicker #pickerStartVacation></mat-datepicker>
+
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput maxlength="10" name="EndVacation" [matDatepicker]="pickerEndVacation"
+            [formControl]="itemForm.controls['endVacation']" placeholder="Fin de Vacaciones" readonly>
+          <mat-datepicker-toggle matSuffix [for]="pickerEndVacation" [disabled]="true"></mat-datepicker-toggle>
+          <mat-datepicker #pickerEndVacation></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="20" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput name="NumberCalendarDays" [formControl]="itemForm.controls['numberCalendarDays']"
+            placeholder="N° de Días Calendario" readonly>
+        </mat-form-field>
+      </div>
+      <div fxFlex="20" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput name="NumberBusinessDays" [formControl]="itemForm.controls['numberBusinessDays']"
+            placeholder="N° de Días Hábiles" readonly>
+        </mat-form-field>
+      </div>
+      <div fxFlex="60" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput name="VacationPeriod" [formControl]="itemForm.controls['vacationPeriod']"
+            placeholder="Periodo Vacacional" readonly>
+        </mat-form-field>
+      </div>
+      <mat-divider></mat-divider>
+      <app-staff-request-approver style="width: 95%;"></app-staff-request-approver>
+
+      <div fxFlex="80" class="mt-16" *ngIf="hasAccessToApprover">
+        <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+          class="dark-blue-400 dark-blue-400-fg mr-4" type="button" (click)="approveRequest()">
+          Aprobar</button>
+        <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+          class="dark-blue-400 dark-blue-400-fg mr-4" type="button" (click)="rejectRequest()">
+          Rechazar</button>
+        <span fxFlex></span>
+      </div>
+      <div fxFlex="20" class="mt-16">
+        <button mat-button class="dark-blue-100 dark-blue-100-fg ml-4" type="button"
+          (click)="dialogRef.close(false)">Cancel</button>
+      </div>
+    </div>
+  </form>
+</mat-card-content>-->

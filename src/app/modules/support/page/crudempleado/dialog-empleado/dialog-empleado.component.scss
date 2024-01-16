@@ -1,0 +1,129 @@
+.tabs__buttons {
+    display: flex;
+    justify-content: space-between;
+    &-rigth {
+        float: right;
+    }
+}
+
+.rigth {
+  float: right;
+}
+
+table {
+  width: 100%;
+}
+
+.add__phone {
+  display: flex;
+  margin-bottom: 10px;
+}
+
+.input_phone {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+  mat-form-field {
+    width: 30%;
+  }
+  &__button {
+    display: flex; 
+    gap: 10px;
+    justify-content: end;
+  }
+}
+
+.inptus__address {
+  display: flex;
+  flex-direction: column;
+  mat-form-field {
+    width: 90%;
+  }
+  &__group {
+    display: flex;
+    gap: 10px
+  }
+  &__button {
+    display: flex; 
+    gap: 10px;
+    justify-content: end;
+  }
+}
+
+.group__buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btnrigth {
+  margin: 18px;
+  background-color: #343a67 ;
+  color: white;
+  &:disabled {
+    cursor: no-drop;
+    background-color:  #818ff7;
+  }
+}
+
+.btnaction {
+  background-color: #343a67 ;
+  color: white;
+}
+
+.mat-expanded {
+  border-top-color: #ff8a48;
+  border-top-width: 0.5px;
+  border-top-style: solid;
+}
+
+.mat-card-content {
+    height: auto;
+}
+
+.obligatory {
+  color: red;
+}
+
+
+
+@media screen and (max-width: 960px) {
+  :host ::ng-deep .mat-horizontal-content-container {
+    padding:1px !important;
+  }
+
+  .input_phone {
+    display: flex;
+    flex-direction: column;
+    mat-form-field {
+      width: 90%;
+    }
+  }
+}
+
+.mat-expanded .mat-expansion-panel-header {
+  margin-bottom: 0px;
+}
+
+::-webkit-scrollbar {
+    width: 2px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 0px;
+    border-radius: 0px;
+    background: #343a67
+    /* -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+      box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5); */
+  }
+  
+  ::-webkit-scrollbar-thumb:window-inactive {
+    background: #343a67
+  }
+ 

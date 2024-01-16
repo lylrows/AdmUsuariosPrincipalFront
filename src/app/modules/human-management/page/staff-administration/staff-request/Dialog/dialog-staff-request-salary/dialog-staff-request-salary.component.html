@@ -1,0 +1,251 @@
+<div class="content">
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="header">
+            <h1>SOLICITUD DE {{title | uppercase}}</h1>
+        </div>
+        <hr>
+        <div class="personal">
+            <h1 class="title">1. DATOS PERSONALES: </h1>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Código del Empleado: </label>
+                    <span> {{ codeEmployee }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">DNI N*: </label>
+                    <span> {{dni }} </span>
+                </div>
+               
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label >Nombres y Apellidos: </label>
+                    <span> {{fullname }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Fecha de Ingreso: </label>
+                    <span> {{ dateAdmission }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">Área: </label>
+                    <span> {{ area }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label class="size-large">Cargo: </label>
+                    <span> {{ charge }} </span>
+                </div> 
+            </div>
+        </div> 
+        <div class="motivo">
+            <h1 class="title">2. DATOS DE LA NUEVA CUENTA: </h1>
+            
+            <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Banco Sueldo Origen: </label>
+                <mat-form-field class="size-input">
+                    <!-- <label>Banco</label> -->
+                    <!-- <mat-select [disabled]="isEdit" formControlName="sbank"> -->
+                    <mat-select [disabled]="true" formControlName="sbank">
+                        <mat-option *ngFor="let item of listbank" [value]="item.code">{{item.description}}</mat-option>
+                      </mat-select>
+                    <!-- <mat-error *ngIf="
+                    form.controls.sbank.touched &&
+                    form.controls.sbank.invalid
+                                          ">
+                        <span *ngIf="form.controls.sbank.errors.required">Banco es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error> -->
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Cuenta Sueldo Origen: </label>
+                <mat-form-field class="size-input">
+                    <!-- <input type="text" [readonly]="isEdit" formControlName="saccountnumber" matInput placeholder="Ingresar numero de cuenta"> -->
+                    <input type="text" [readonly]="true" formControlName="saccountnumber" matInput placeholder="Ingresar numero de cuenta">
+                    <!-- <mat-error *ngIf="
+                    form.controls.saccountnumber.touched &&
+                    form.controls.saccountnumber.invalid
+                                          ">
+                        <span *ngIf="form.controls.saccountnumber.errors.required">Número de cuenta es 
+                            <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="form.controls.saccountnumber.errors.pattern">Número de cuenta solo es permitido 
+                            <strong>número</strong>
+                        </span>
+                        <span *ngIf="form.controls.saccountnumber.errors.minlength && !form.controls.saccountnumber.errors.pattern">Minimo son 10 <strong>numeros</strong>
+                        </span>
+                        <span *ngIf="form.controls.saccountnumber.errors.maxlength && !form.controls.saccountnumber.errors.pattern">Maximo son 18 <strong>numeros</strong>
+                        </span>
+                    </mat-error> -->
+                </mat-form-field>
+            </div>
+            <!-- <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Cuenta Interbancaria Interbancaria Origen: </label>
+                <mat-form-field class="size-input">
+                    <input type="text" [readonly]="true" formControlName="saccountccinumber" matInput placeholder="Ingresar numero de cuenta interbancaria">
+                     <mat-error *ngIf="
+                    form.controls.saccountccinumber.touched &&
+                    form.controls.saccountccinumber.invalid
+                                          ">
+                        <span *ngIf="form.controls.saccountccinumber.errors.minlength && !form.controls.saccountccinumber.errors.pattern">Minimo son 20 <strong>numeros</strong>
+                        </span>
+                        <span *ngIf="form.controls.saccountccinumber.errors.maxlength && !form.controls.saccountccinumber.errors.pattern">Maximo son 20 <strong>numeros</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div> -->
+            <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Moneda Origen: </label>
+                <mat-form-field class="input-periodo">
+                  <mat-select [disabled]="true" formControlName="scurrency" >
+                    <mat-option *ngFor="let item of listCurrency" [value]="item.sshort_value" >{{item.sdescription_value}}</mat-option>
+                  </mat-select>
+                  <!-- <mat-error *ngIf="
+                  form.controls.scurrency.touched &&
+                  form.controls.scurrency.invalid
+                                        ">
+                      <span *ngIf="form.controls.scurrency.errors.required">Moneda es
+                          <strong>requerida</strong>
+                      </span>
+                  </mat-error> -->
+                </mat-form-field>
+              </div>
+            <hr>
+              <div class="motivo__amount">
+                <label class="size-large" style="font-weight: bold;">Fecha de Solicitud: </label>
+                <mat-form-field  class="size-input">
+                    <input formControlName="ddatechange" matInput [matDatepicker]="pickerregister" readonly (dateChange)="validDate()" />
+                    <mat-datepicker-toggle matSuffix [for]="pickerregister"></mat-datepicker-toggle>
+                    <mat-datepicker [disabled]="isEdit" #pickerregister></mat-datepicker>
+                    <mat-error *ngIf="
+                    form.controls.ddatechange.touched &&
+                    form.controls.ddatechange.invalid
+                                          ">
+                        <span *ngIf="form.controls.ddatechange.errors.required">Fecha es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+              <div class="motivo__amount">
+                  <label class="size-large" style="font-weight: bold;">Moneda Destino: </label>
+                  <mat-form-field class="input-periodo">
+                    <mat-select [disabled]="isEdit" formControlName="sdestincurrency" >
+                      <mat-option *ngFor="let item of listDestinCurrency" [value]="item.sshort_value" >{{item.sdescription_value}}</mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="
+                    form.controls.sdestincurrency.touched &&
+                    form.controls.sdestincurrency.invalid
+                                          ">
+                        <span *ngIf="form.controls.sdestincurrency.errors.required">Moneda es
+                            <strong>requerida</strong>
+                        </span>
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              <div class="motivo__amount">
+                  <label class="size-large" style="font-weight: bold;">Banco Destino: </label>
+                  <mat-form-field class="size-input">
+                      <!-- <label>Banco</label> -->
+                      <mat-select [disabled]="isEdit" formControlName="sbankdestin"  (selectionChange)="changeBanco()">
+                          <mat-option *ngFor="let item of listbankDestin" [value]="item.code">{{item.description}}</mat-option>
+                        </mat-select>
+                      <mat-error *ngIf="
+                      form.controls.sbankdestin.touched &&
+                      form.controls.sbankdestin.invalid
+                                            ">
+                          <span *ngIf="form.controls.sbankdestin.errors.required">Banco es
+                              <strong>requerido</strong>
+                          </span>
+                      </mat-error>
+                      <div class="mat-form-field-subscript-wrapper ng-tns-c77-32" style="margin-top: 15px;" ng-reflect-ng-switch="error" *ngIf="showMessageCaja">
+                        <div class="ng-tns-c77-32 ng-trigger ng-trigger-transitionMessages ng-star-inserted" style="opacity: 1; transform: translateY(0%);">
+                          <mat-error _ngcontent-utq-c542="" aria-atomic="true" class="mat-error ng-tns-c77-32" aria-live="polite" id="mat-error-0">
+                        <!-- <small _ngcontent-utq-c542="" class="form-error-msg ng-star-inserted">En el caso desea trasladarse a una caja, debe realizar el tramite de manera presencial, en las oficinas de Recursos Humanos. </small> -->
+                        <small _ngcontent-utq-c542="" class="form-error-msg ng-star-inserted">En el caso desea trasladarse a un Banco diferente de BBVA,BCP,SCOTIABANK e IBK, debe realizar el tramite de manera presencial, en las oficinas de Recursos Humanos. </small>
+                    </mat-error></div></div>
+                  </mat-form-field>
+              </div>
+            <div class="adjunto" >
+                <mat-label class="size-large" style="font-weight: bold;align-self: center;">Adjuntar DNI:</mat-label>
+                    <input type="file" class="file-input"
+                   (change)="onFileSelected($event)" #fileUpload>
+            
+                    <div *ngIf="!isEdit" class="file-upload">
+            
+                    {{fileName || "Ningun archivo cargado"}}
+            
+                        <button type="button"  *ngIf="!isEdit" style="margin-left: 5px;" mat-mini-fab type="button"  class="upload-btn"
+                        (click)="fileUpload.click()">
+                            <mat-icon style="color: #536BB2;">attach_file</mat-icon>
+                        </button>
+                    </div>
+                    <div class="button_download" *ngIf="isEdit" >
+                        <!-- <p>{{ nameFile }}</p> -->
+                        <button style="margin-left: 5px;" mat-mini-fab (click)="ViewAdjunto()"  class="upload-btn"
+                        >
+                            <mat-icon style="color: #536BB2;">get_app</mat-icon>
+                        </button>
+                    </div>
+            </div>
+    
+            <div class="adjunto" >
+                <mat-label class="size-large" style="font-weight: bold; align-self: center;">Adjuntar Ficha de Autorización:</mat-label>
+                    <input type="file" class="file-input"
+                   (change)="onFileSelectedFicha($event)" #fileUploadFile>
+            
+                    <div *ngIf="!isEdit" class="file-upload">
+            
+                    {{fileNameFicha || "Ningun archivo cargado"}}
+            
+                        <button type="button"  *ngIf="!isEdit" style="margin-left: 5px;" mat-mini-fab type="button"  class="upload-btn"
+                        (click)="fileUploadFile.click()">
+                            <mat-icon style="color: #536BB2;">attach_file</mat-icon>
+                        </button>
+                    </div>
+                    <div class="button_download" *ngIf="isEdit" >
+                        <!-- <p>{{ nameFileFicha }}</p> -->
+                        <button style="margin-left: 5px;" mat-mini-fab (click)="ViewAdjuntoFicha()"  class="upload-btn"
+                        >
+                            <mat-icon style="color: #536BB2;">get_app</mat-icon>
+                        </button>
+                    </div>
+            </div>
+            <div *ngIf="!isEdit" class="motivo__button"> <br>
+                <button type="button" mat-raised-button color="primary" (click)="downloadFormato(4)" >Descargar Archivo de Autorización</button>
+            </div>
+        </div>
+
+         
+
+        <div *ngIf="isEdit" class="motivo">
+            <h1 class="title">HISTORIAL DE SOLICITUD: </h1>
+            <app-staff-request-approver style="width: 50%;text-align: center;"></app-staff-request-approver>
+        </div>
+        <div class="motivo" *ngIf="isAceept || StatusRejectedAccepted">
+            <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+            <div class="motivo__amount">
+              <label class="size-large" style="font-weight: bold;">Comentario: </label>
+              <mat-form-field class="size-input">
+                <mat-label>Comentario</mat-label>
+                <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation" [readonly]="StatusRejectedAccepted"></textarea>          
+              </mat-form-field>
+            </div> 
+        </div>
+
+        <div class="footer">
+            <button *ngIf="isEdit && isAceept" mat-raised-button color="primary"
+                type="button" (click)="accept()">Aprobar</button>
+            <button *ngIf="isEdit && isAceept" type="button" mat-raised-button
+                style="background-color: #f44336; color: white;" (click)="reject()"> Rechazar</button>
+            <button *ngIf="!isEdit" mat-raised-button color="primary"
+                type="submit">Guardar</button>
+            <button type="button" mat-raised-button color="warn" (click)="cancel()">Cancelar</button>
+        </div>
+    </form>
+
+</div>

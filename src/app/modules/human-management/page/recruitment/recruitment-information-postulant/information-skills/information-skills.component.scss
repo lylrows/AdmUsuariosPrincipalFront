@@ -1,0 +1,53 @@
+.content__tables {
+    display: flex; 
+    flex-direction: column;
+    gap: 3%;
+}
+
+.content_table_skills {
+ /*   flex: 500px;
+    flex-grow: 1;*/
+}
+
+.content_table_lang {
+    margin-top: 1%;
+    /*flex: 500px;
+    flex-grow: 1;*/
+}
+
+.addrow {
+    text-align: center !important;
+    background: #0c385b !important;
+    cursor: pointer;
+    color: #ffffff !important;
+}
+
+.mat-header-cell-x {
+    background-color: #8CACDA !important;
+    color: #F9F9F9 !important;
+    font-size: 14px;
+    font-weight: normal !important;
+    font-family: Nunito;
+}
+
+td {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.editar {
+  width: 30px;
+  height: 35px;
+  padding: 0px 0px 12px 0px !important;
+}
+    
+.editar svg {
+  width: 23px;
+  height: 23px;
+}
+
+@media screen and (max-width:480px) {
+    .tblResponsive{
+        width: 600px !important;
+    }
+}

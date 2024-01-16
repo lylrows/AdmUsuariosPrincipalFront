@@ -1,0 +1,202 @@
+<div style="margin-left:15px ;">
+  <div fxLayout="row wrap" fxLayout.lt-sm="column">
+    <div fxFlex="33" class="pr-16">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Ano</mat-label>
+        <input [(ngModel)]="selectedYear" [formControl]="dateForm" matInput [matDatepicker]="picker" />
+        <mat-datepicker-toggle matSuffix [for]="picker" ></mat-datepicker-toggle>
+        <mat-datepicker #picker startView="multi-year" (yearSelected)="chosenYearHandler($event, picker)">
+        </mat-datepicker>
+    </mat-form-field>
+    </div>
+    <div fxFlex="33" class="pr-16">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Campañas</mat-label>
+        <mat-select (selectionChange)="changeCampania()" [formControl]="campanaFC">
+            <mat-option *ngFor="let item of listcampaign" [value]="item.idCampaign">{{item.campaign | titlecase}} </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="33" class="pr-16"> 
+      <mat-form-field class="w-100" appearance="fill" >
+        <mat-label>Empresa</mat-label>
+        <mat-select [disabled]="disabledCompany" (selectionChange)="changeEmpresa()" [formControl]="bussineFC">
+          <mat-option *ngFor="let item of empresasSel" [value]="item.nid_company">{{item.sdescription}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="33" class="pr-16">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Gerencia</mat-label>
+        <mat-select [disabled]="disabledGerencia" [formControl]="gerenciaFC" (selectionChange)="changeGerencia()">
+            <mat-option *ngFor="let item of gerencias" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="33" class="pr-16">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Área</mat-label>
+        <mat-select [disabled]="disabledArea" [formControl]="areaFC" (selectionChange)="changeArea()">
+          <mat-option *ngFor="let item of areasSelFinal" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="33" class="pr-16">
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>SubÁrea</mat-label>
+        <mat-select [disabled]="disabledSubArea" [formControl]="subAreaFC">
+            <mat-option *ngFor="let item of subAreas" [value]="item.nid_area">{{item.snamearea}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+    </div>
+    <div fxFlex="33" class="pr-16">
+      <mat-form-field class="w-100" *ngIf="isGlobal" appearance="fill">
+        <mat-label>Colaborador</mat-label>
+        <mat-select [formControl]="colaboradorFC" multiple>
+            <!-- <mat-option *ngFor="let item of listemployee" [value]="item.id">{{item.name}}</mat-option> -->
+            <mat-option *ngFor="let item of listemployee" [value]="item.nid_person">{{item.sfullname}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div fxFlex="33" class="pr-16">
+      <mat-form-field class="w-100" appearance="fill" >
+        <mat-label>Etapas</mat-label>
+        <mat-select [formControl]="inputFiler" >
+            <!-- <mat-option *ngFor="let item of listnumberAction" [value]="item.code" >{{item.name}}</mat-option> -->
+            <mat-option *ngFor="let item of listnumberAction" [value]="item" >{{item.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+<div >
+  <div style="margin-left:15px;margin-right: 15px;">
+    <div class="filter__buttons">
+      <!-- <button mat-raised-button color="primary" (click)="load(true)">Buscar</button> -->
+      <button mat-raised-button color="primary" (click)="load()">Buscar</button>
+      <button mat-raised-button color="warn" (click)="resetFilter()" >Limpiar</button>
+  </div>
+
+</div>    
+     <!-- INICIO - LISTADO CON CARD listMyEvaluacion evaluationoDT.data listMyEvaluacion -->
+    
+        <div  mat-table class="content_card" *ngFor="let item of evaluationoDT.data" matSort>
+            <div class="content_body">
+              <div class="content_first" style="margin-left: 10px;">
+                <div class="flex justify-content-center font-bold" style="text-align: center;">{{item.evaluatedName}}</div>
+                <div class="flex justify-content-center font-bold" style="text-align: center;">{{item.identifEvaluated}}</div>
+                <div class="flex justify-content-center">
+                  <img *ngIf="item.imgEvaluated != null" style="width: 100px; margin-top: 2%; margin-bottom: 10px;" [src]="item.imgEvaluated" alt="">
+                  <img *ngIf="item.imgEvaluated == null || item.imgEvaluated == ''" style="width: 100px; margin-top: 2%; margin-bottom: 10px;" src="../../../../../assets/images/avatars/avatar.jpg" alt="">
+                  
+                </div>
+              </div>
+              <div class="content_second" style="margin-left: 10px;">
+                <div class="font-bold">
+                    Campaña
+                </div>
+                <div>
+                    {{item.campaign}}
+                </div>
+                <div style="margin-top: 7%;" class="font-bold">
+                    Cargo Evaluado
+                </div>
+                <div>
+                    {{item.chargeEvaluated}}
+                </div>
+              </div>
+              <div class="content_third" style="margin-left: 10px;">
+                <div class="font-bold">
+                  Evaluador
+                </div>
+                <div>
+                    {{item.evaluatorName}}
+                </div>
+                <div style="margin-top: 7%;" class="font-bold">
+                  Cargo Evaluador
+                </div>
+                <div *ngIf="item.chargeEvaluator != null">
+                  {{item.chargeEvaluator}}
+                </div>
+                <div *ngIf="item.chargeEvaluator == null">
+                  Sin Información
+                </div>
+              </div>
+              <div class="content_four" style="margin-left: 10px;">
+                <div class="font-bold">
+                  Etapa
+                </div>
+                <div>
+                  {{item.timePartDescription}}
+                </div>
+                <div class="font-bold" style="margin-top: 7%;">
+                  Sub Etapa
+                </div>
+                <div>
+                  {{item.numberActionName}}
+                </div>
+              </div>
+              <!-- <div class="content_five">
+                <div class="font-bold">
+                  Fecha Nacimiento
+                </div>
+                <div *ngIf="item.dbirthdate != null">
+                  {{ item.dbirthdate | date: 'dd/MM/YYYY'}}
+                </div>
+                <div *ngIf="item.dbirthdate == null">
+                  Sin Información
+                </div>
+                <div style="margin-top: 7%;" class="font-bold">
+                  Dirección
+                </div>
+                <div *ngIf="item.saddress != null">
+                  {{item.saddress}}
+                </div>
+                <div *ngIf="item.saddress == null">
+                  Sin Información
+                </div>
+              </div> -->
+            
+            </div>
+            <div class="content_buttons">
+                <div class="content_action">
+                    <button (click)="detail(item)" mat-raised-button class="dark-blue-400 dark-blue-400-fg" style="background-color: #fbfcff !important;border-style: solid;
+                        border-color: #ff8a48;">
+                        <mat-icon color="accent">remove_red_eye</mat-icon>
+                        <span style="color: #ff8a48;"> Ver Evaluación</span>
+                    </button>
+                    <button (click)="resume(item)" mat-raised-button class="dark-blue-400 dark-blue-400-fg" style="background-color: #fbfcff !important;border-style: solid;
+                        border-color: #ff8a48;">
+                        <mat-icon color="accent">assignment</mat-icon>
+                        <span style="color: #ff8a48;"> Ver Resumen</span>
+                    </button>
+                   
+                </div>
+                
+            </div>
+        </div>
+       
+        <div style="display: flex;
+        justify-content: center;
+        align-items: center;">
+         <!-- (changedPageNumber)="changedPageNumber($event,true)" -->
+            <mat-paginator
+            style-paginator
+            showFirstLastButtons
+            [showTotalPages]="3"
+           
+            (changedPageNumber)="changedPageNumber($event)"
+            #paginator
+            [pageIndex]="currentPage"
+            [length]="MyEvaluationFilter.pagination.totalItems"
+            [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions"
+            (page)="changedPageSize($event)">
+            </mat-paginator>
+        </div>
+   
+
+    <!-- FIN - LISTADO CON CARD -->
+
+
+</div>

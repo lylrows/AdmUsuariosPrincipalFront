@@ -1,0 +1,245 @@
+<!-- <p-table [value]="evaluationProficiency" dataKey="id" editMode="row" responsiveLayout="scroll"> -->
+<p-table [value]="evaluationProficiency" dataKey="id" editMode="row">
+    <ng-template pTemplate="header">
+        <tr>
+            <th style="width:8rem"></th>
+            <th>Postulante</th>
+            <th>Competencias</th>
+            <th>Expectativa</th>
+            <th *ngIf="evaluador === 'rrhh' || evaluador === 'cliente' || evaluador === 'jefe'">RRHH</th>
+            <th *ngIf="evaluador === 'cliente' || evaluador === 'jefe'">Cliente</th>
+            <th *ngIf="evaluador === 'jefe'">Gerente</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-evaluation let-editing="editing" let-ri="rowIndex">
+        <tr [pEditableRow]="evaluation" style="min-height: 200p !important;">
+            <td *ngIf="evaluador === 'rrhh'" class="botones center-botones" style="height: 45px !important;">
+                <button 
+                    *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" pInitEditableRow  title="Editar"
+                    (click)="onRowEditInit(evaluation)" class="editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+                <button *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" icon="pi pi-trash"
+                    (click)="onRowDeleteSave(evaluation)" title="Eliminar"
+                    class="p-button-rounded p-button-text p-button-danger mr-2"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1"></button>
+                    
+            </td>
+            <td *ngIf="evaluador === 'cliente'" class="botones center-botones" style="height: 45px !important;">
+                <button
+                    *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" pInitEditableRow title="Editar"
+                    (click)="onRowEditInit(evaluation)" class="editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger"></button>
+                <button *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" icon="pi pi-trash"
+                    (click)="onRowDeleteSave(evaluation)" title="Eliminar"
+                    class="p-button-rounded p-button-text p-button-danger mr-2"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesJefeArea.indexOf(nid_profile) == -1"></button>
+                    
+            </td>
+            <td *ngIf="evaluador === 'jefe'" class="botones center-botones" style="height: 45px !important;">
+                <button
+                    *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" pInitEditableRow title="Editar"
+                    (click)="onRowEditInit(evaluation)" class="editar"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1">
+                    <svg fill="orange" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M402.3 344.9l32-32c5-5 13.7-1.5 13.7 5.7V464c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V112c0-26.5 21.5-48 48-48h273.5c7.1 0 10.7 8.6 5.7 13.7l-32 32c-1.5 1.5-3.5 2.3-5.7 2.3H48v352h352V350.5c0-2.1.8-4.1 2.3-5.6zm156.6-201.8L296.3 405.7l-90.4 10c-26.2 2.9-48.5-19.2-45.6-45.6l10-90.4L432.9 17.1c22.9-22.9 59.9-22.9 82.7 0l43.2 43.2c22.9 22.9 22.9 60 .1 82.8zM460.1 174L402 115.9 216.2 301.8l-7.3 65.3 65.3-7.3L460.1 174zm64.8-79.7l-43.2-43.2c-4.1-4.1-10.8-4.1-14.8 0L436 82l58.1 58.1 30.9-30.9c4-4.2 4-10.8-.1-14.9z"/></svg>
+                </button>
+                <button *ngIf="editing" pButton pRipple type="button" pSaveEditableRow icon="pi pi-check"
+                    (click)="onRowEditSave(evaluation)" title="Guardar"
+                    class="p-button-rounded p-button-text p-button-success mr-2"></button>
+                <button *ngIf="editing" pButton pRipple type="button" pCancelEditableRow icon="pi pi-times"
+                    (click)="onRowEditCancel(evaluation, ri)" title="Cancelar"
+                    class="p-button-rounded p-button-text p-button-danger "></button>
+                <button *ngIf="!editing && person != undefined && person.stateEvaluation != 'Seleccionado' && person.stateEvaluation != 'Finalista'"
+                    pButton pRipple type="button" icon="pi pi-trash"
+                    (click)="onRowDeleteSave(evaluation)" title="Eliminar"
+                    class="p-button-rounded p-button-text p-button-danger mr-2"
+                    [disabled]="perfilesGerenteLiderRRHH.indexOf(nid_profile) == -1 && perfilesGerenteArea.indexOf(nid_profile) == -1"></button>
+                 
+            </td>
+            <td style="height: 45px !important;">
+                <span class="p-column-title" style="font-weight: bold;">Postulante</span>{{evaluation.fullNamePostulant}}
+            </td>
+            <td style="height: 45px !important;">
+                <span class="p-column-title" style="font-weight: bold;">Competencia</span>{{evaluation.proficiency}}
+            </td>
+            <td *ngIf="evaluador === 'rrhh'" pEditableColumn style="text-align: center; height: 45px !important;">
+                <span class="p-column-title" style="font-weight: bold;">Expectativa</span>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" onkeypress="return /[0-4, ]/i.test(event.key)" (keypress)="valideKey($event, evaluation.expectative)" maxlength="1" [(ngModel)]="evaluation.expectative">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        {{evaluation.expectative}}
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td *ngIf="evaluador != 'rrhh'" style="text-align: center; height: 45px !important;">
+                <span class="p-column-title" style="font-weight: bold;">Expectativa</span>{{evaluation.expectative}}
+            </td>
+            <td *ngIf="evaluador === 'rrhh'" style="text-align: center; height: 45px !important;">
+                <span class="p-column-title" style="font-weight: bold;">RRHH</span>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" onkeypress="return /[0-4, ]/i.test(event.key)" (keypress)="valideKey($event, evaluation.levelRRHH)"  maxlength="1" [(ngModel)]="evaluation.levelRRHH">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <div class="d-flex justify-content-center">
+                            <div class="p-2" style="padding-top: 3px;">{{evaluation.levelRRHH}}</div>
+                            <div class="p-2" style="margin-left: 10px;" *ngIf="evaluation.levelRRHH != null">
+                                <div *ngIf="evaluation.levelRRHH === evaluation.expectative"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                                <div [ngStyle]="{background: '#219653'}" id="circulo"></div>
+                            </div>
+                            <div *ngIf="evaluation.levelRRHH > evaluation.expectative"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                                <div [ngStyle]="{background: '#6366F1'}" id="circulo"></div>
+                            </div>
+                            <div *ngIf="evaluation.levelRRHH < evaluation.expectative"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                                <div [ngStyle]="{background: '#FF0000'}" id="circulo"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td *ngIf="evaluador != 'rrhh'" style="text-align: center; height: 45px !important;">
+                <span class="p-column-title" style="font-weight: bold;">RRHH</span>
+                <div class="d-flex justify-content-center">
+                    <div class="p-2" style="padding-top: 3px;">{{evaluation.levelRRHH}}</div>
+                    <div class="p-2" style="margin-left: 10px;" *ngIf="evaluation.levelRRHH != null">
+                        <div *ngIf="evaluation.levelRRHH === evaluation.expectative"
+                        style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                        <div [ngStyle]="{background: '#219653'}" id="circulo"></div>
+                    </div>
+                    <div *ngIf="evaluation.levelRRHH > evaluation.expectative"
+                        style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                        <div [ngStyle]="{background: '#6366F1'}" id="circulo"></div>
+                    </div>
+                    <div *ngIf="evaluation.levelRRHH < evaluation.expectative"
+                        style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                        <div [ngStyle]="{background: '#FF0000'}" id="circulo"></div>
+                    </div>
+                    </div>
+                </div>
+            </td>
+            <td *ngIf="evaluador === 'cliente'" style="text-align: center; height: 45px !important;">
+                <span class="p-column-title" style="font-weight: bold;">Cliente</span>
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" onkeypress="return /[0-4, ]/i.test(event.key)"  (keypress)="valideKey($event, evaluation.levelClient)"  maxlength="1" [(ngModel)]="evaluation.levelClient">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <div class="d-flex justify-content-center">
+                            <div class="p-2" style="padding-top: 3px;">{{evaluation.levelClient}}</div>
+                            <div class="p-2" style="margin-left: 10px;" *ngIf="evaluation.levelClient != null">
+                                <div *ngIf="evaluation.levelClient === evaluation.expectative"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                                <div [ngStyle]="{background: '#219653'}" id="circulo"></div>
+                            </div>
+                            <div *ngIf="evaluation.levelClient > evaluation.expectative"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                                <div [ngStyle]="{background: '#6366F1'}" id="circulo"></div>
+                            </div>
+                            <div *ngIf="evaluation.levelClient < evaluation.expectative"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                                <div [ngStyle]="{background: '#FF0000'}" id="circulo"></div>
+                            </div>
+                            </div>
+                        </div>                
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+            <td *ngIf="evaluador != 'cliente' && evaluador !== 'rrhh'" style="text-align: center; height: 45px !important;">
+                <span class="p-column-title" style="font-weight: bold;">Cliente</span>
+                <div class="d-flex justify-content-center">
+                    <div class="p-2" style="padding-top: 3px;">{{evaluation.levelClient}}</div>
+                    <div class="p-2" style="margin-left: 10px;" *ngIf="evaluation.levelClient != null">
+                        <div *ngIf="evaluation.levelClient === evaluation.expectative"
+                        style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                        <div [ngStyle]="{background: '#219653'}" id="circulo"></div>
+                    </div>
+                    <div *ngIf="evaluation.levelClient > evaluation.expectative"
+                        style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                        <div [ngStyle]="{background: '#6366F1'}" id="circulo"></div>
+                    </div>
+                    <div *ngIf="evaluation.levelClient < evaluation.expectative"
+                        style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                        <div [ngStyle]="{background: '#FF0000'}" id="circulo"></div>
+                    </div>
+                    </div>
+                </div>  
+            </td>
+            <td *ngIf="evaluador === 'jefe'" style="text-align: center; height: 45px !important;">   
+                <span class="p-column-title" style="font-weight: bold;">Gerente</span>             
+                <p-cellEditor>
+                    <ng-template pTemplate="input">
+                        <input pInputText type="number" onkeypress="return /[0-4, ]/i.test(event.key)" (keypress)="valideKey($event, evaluation.levelJefe)"  maxlength="1" [(ngModel)]="evaluation.levelJefe">
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                        <div class="d-flex justify-content-center">
+                            <div class="p-2" style="padding-top: 3px;">{{evaluation.levelJefe}}</div>
+                            <div class="p-2" style="margin-left: 10px;" *ngIf="evaluation.levelJefe != null">
+                                <div *ngIf="evaluation.levelJefe === evaluation.expectative"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                                <div [ngStyle]="{background: '#219653'}" id="circulo"></div>
+                            </div>
+                            <div *ngIf="evaluation.levelJefe > evaluation.expectative"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                                <div [ngStyle]="{background: '#6366F1'}" id="circulo"></div>
+                            </div>
+                            <div *ngIf="evaluation.levelJefe < evaluation.expectative"
+                                style="display: flex;justify-content: space-around;text-align: center;align-items: center;">
+                                <div [ngStyle]="{background: '#FF0000'}" id="circulo"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </ng-template>
+                </p-cellEditor>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+<div class="content_select">
+    <mat-form-field class="full-width">
+        <mat-label style="font-size: 14px;">Añadir competencias (opcional)</mat-label>
+        <mat-select style="font-size: 14px;" (selectionChange)="changeCompetencia($event)">
+            <mat-option style="font-size: 14px;" *ngFor="let item of listProficiency" [value]="item.code">
+                {{item.description}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>
+<div class="legend">
+    <small class="text-muted leyendapie" >
+        <span id="obj_circuloprimario" class="circulo2" style="background-color: #FF0000;">&nbsp;</span>Menor a
+        la
+        expectativa</small>
+    <small class="text-muted leyendapie" >
+        <span id="obj_circuloprimario" class="circulo2" style="background-color: #219653;">&nbsp;</span>Igual a
+        la
+        expectativa</small>
+    <small class="text-muted leyendapie" >
+        <span id="obj_circuloprimario" class="circulo2" style="background-color: #6366F1;">&nbsp;</span>Mayor a
+        la
+        expectativa</small>
+</div>

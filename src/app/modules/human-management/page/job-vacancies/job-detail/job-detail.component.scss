@@ -1,0 +1,148 @@
+.content {
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.content__wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+@media screen and (max-width:600px) {
+    .content__wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+  }
+
+.job-details-header {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 77px !important;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px !important;
+    background: #12369E;
+    border-radius: 6px;
+    height: 80px;
+    color: #FFFFFF;
+    border: 0px;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px !important;
+}
+
+.publish-job {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700 !important;
+    font-size: 12px !important;
+    line-height: 150% !important;
+    letter-spacing: 0.005em;
+    color: #3f3f3f;
+    padding-top: 10px;
+    padding-left: 20px;
+}
+.information {
+    background: #f6f9ff;
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 20px;
+    width: 300px;
+    // height: 422px;
+    height: fit-content;
+    position: sticky;
+
+    top: 300px;
+
+
+}
+
+.content__detail_job_1 {
+    flex-basis: 700px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 60px;
+    padding-left: 30px;
+}
+
+.content__detail_job_2 {
+    flex-basis: 300px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.content__company {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.content__title {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.content__date {
+    font-size: 14px;
+}
+
+.content__jobtype {
+    font-size: 14px;
+    margin-top: 2%;
+}
+
+.content__modality {
+    font-size: 14px;
+    margin-top: 2%;
+}
+
+.content__salary {
+    font-size: 14px;
+    margin-top: 2%;
+}
+
+.content__button {
+    margin-top: 2%;
+}
+
+.content__card{
+    flex-basis: 270px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background: #f6f9ff;
+    box-shadow: 0 0 15px #0000001a;
+    border-radius: 12px;    
+}
+
+.primeralista {
+    display: inline-block;
+    padding: 0px;
+    li {
+        list-style-type: none;
+        font-family: Roboto;
+        font-style: normal;
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 150%;
+        letter-spacing: 0.005em;
+        color: #3f3f3f;
+        margin-top: 15px;
+        .pi {
+            color: #ffad06;
+        }
+    }
+}
+
+.job-details-header {
+    margin-top: 15px !important;
+}

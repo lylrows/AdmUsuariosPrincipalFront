@@ -1,0 +1,28 @@
+.height-auto{
+    height: auto;
+}
+.height-auto::-webkit-scrollbar{
+    height: 3px !important;
+    width: 3px !important;
+}
+
+.card-title-text {
+    text-align: center;
+    color: #4f66a8;
+}
+
+@media screen and (max-width: 420px) {
+    th{
+        font-size: 12px;
+        max-width: 230px;
+    }    
+    td{
+        font-size: 12px;
+        max-width: 230px;
+    }
+    button{
+        span{
+            font-size: 11px;
+        }
+    }
+}

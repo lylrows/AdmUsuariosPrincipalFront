@@ -1,0 +1,181 @@
+.header {
+    h1 {
+        text-align: center;
+        color: #4f66a8;
+        font-weight: 600;
+    }
+}
+
+.adjunto {
+    display: flex;
+    gap: 10px;
+    width: 90%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.file-input {
+    display: none;
+  }
+
+.personal {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #4f66a8;
+    border-radius: 10px;
+    .title {
+        color: #4f66a8;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    &__group {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+        margin-bottom: 10px;
+        &-input {
+            display: flex;
+            gap: 10px;
+            width: 50%;
+            label {
+                font-weight: 600;
+                text-align: start;
+            }
+            span {
+                text-align: start;
+            }
+        }
+        &-name {
+            display: flex;
+            width: 90%;
+            gap: 10px;
+            label {
+                font-weight: 600;
+                text-align: start;
+                width: 150px;
+            }
+            span {
+                text-align: start;
+            }
+        }
+    }
+}
+
+.size-large {
+    width: 150px;
+}
+
+.size-short {
+    width: 50px;
+}
+
+.size-input {
+    width: 75%;
+}
+
+.footer {
+    margin-top: 20px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 10px;
+    button {
+        background-color: #4f66a8;
+        color: #ffffff;
+    }
+}
+
+.motivo {
+    margin-top: 15px;
+    padding: 10px;
+    border: 1px solid #4f66a8;
+    border-radius: 10px;
+    .title {
+        color: #4f66a8;
+        font-size: 18px;
+        font-weight: 600;
+    }
+    &__button {
+        display: flex;
+        gap:10px;
+    }
+
+    &__amount {
+        display: flex;
+        margin-bottom: 10px;
+        label {
+            width: 160px;
+            justify-content: center;
+            text-align: start;
+            align-self: center;
+        }
+    }
+    &__type {
+        display: flex;
+        flex-direction: column;
+        &-group {
+            mat-radio-group {
+                margin-right: 6px;
+            }
+        }
+        &-solicitud {
+            display: flex;
+            gap: 10px;
+            label {
+                align-self: center;
+            }
+        }
+    }
+}
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+
+  @media screen and (max-width: 960px) {
+    .personal {
+        &__group {
+            display: flex;
+            flex-direction: column;
+            &-input {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+            }
+            &-name {
+                display: flex;
+                flex-direction: column;
+            }
+        }
+    }
+
+    .size-input {
+        width: 100%;
+    }
+
+    .motivo {
+        &__button {
+            display: flex;
+            flex-direction: column;
+            gap: 10px
+        }
+        &__amount {
+            display: flex;
+            flex-direction: column;
+            mat-form-field {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 420px) {
+    .footer{
+        display: grid !important;
+        grid-template-columns: repeat(1, 1fr);
+        grid-gap: 8px;
+    }
+    h1{
+        font-size: 18px !important;
+    }
+}

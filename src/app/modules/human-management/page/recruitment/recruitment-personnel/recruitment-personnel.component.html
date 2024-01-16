@@ -1,0 +1,497 @@
+<div class="content">
+  
+
+  <div class="filter__buttons" style="display: flex; justify-content: space-between; " *ngIf="permiss != undefined" >
+    <h2 class="title">{{ title }}</h2>
+    <div class="divbtnNuevo" >
+      <!-- <button mat-raised-button *ngIf="permiss.boolNew"  class="transp lateral-padding" style="height: 45px;" color="warn" (click)="showModalAdd('Nueva Solicitud', null, true)" >
+        <i class="tiny material-icons " style="font-size: 1rem;color: #4F66A8;opacity:1;">add_circle</i>
+        Personal nuevo
+      </button> -->
+      <button mat-raised-button *ngIf="permiss.boolNew" class="lateral-padding" style="height: 45px;" color="warn" (click)="showModalAdd('Nueva Solicitud', null, true)">
+        <i class="tiny material-icons " style="font-size: 1rem;color: F9F9F9;opacity:1;">add_circle</i>
+        Solicitar Personal nuevo 
+      </button> 
+      <!-- <button mat-raised-button *ngIf="permiss.boolNew" class="lateral-padding" style="height: 45px;" color="warn">
+        <i class="tiny material-icons " style="font-size: 1rem;color: F9F9F9;opacity:1;">add_circle</i>
+        Personal reemplazo
+      </button> -->
+    </div>
+  </div>
+  <div class="row divbtnNuevo2">
+    <button mat-raised-button *ngIf="permiss.boolNew" class="lateral-padding" style="height: 45px;" color="warn" (click)="showModalAdd('Nueva Solicitud', null, true)">
+      <i class="tiny material-icons " style="font-size: 1rem;color: F9F9F9;opacity:1;">add_circle</i>
+      Solicitar Personal nuevo 
+    </button>
+  </div>
+
+  <h3 style="font-weight: 700;font-size: 16px;color: #333333;">Resumen de solicitudes</h3>
+
+  <div class="card" style="width: 100%;">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column" class="rowcard">
+      <div fxFlex="33" class="pr-16">
+        <mat-card class="content__card" *ngIf="permiss != undefined">
+          <p style="color: #219653" class="card__text">
+            <span class="card__number" style="color: #219653">{{solAprobada}}</span>
+            <span>&nbsp;&nbsp;Aprobados</span>
+          </p>
+        </mat-card>
+      </div>
+      <div fxFlex="33" class="pr-16">
+        <mat-card class="content__card">
+          <p class="card__text"style="color: #DE9310">
+            <span class="card__number" style="color: #DE9310">{{solPendiente}}</span>
+            <span>&nbsp;&nbsp;Pendientes</span>
+          </p>    
+        </mat-card>
+      </div>
+      <div fxFlex="33" class="pr-16">
+        <mat-card class="content__card" style="width: fit-content;">
+        <p class="card__text"style="color: #EB5757">
+          <span class="card__number" style="color: #EB5757">{{solRechazada}}</span>
+          <span>&nbsp;&nbsp;Rechazadas</span>
+        </p>       
+      </mat-card>
+    </div>
+    </div>
+  </div>
+
+  <!--INICIO TABS-->
+  <mat-tab-group (selectedTabChange)="filter($event.index)" [selectedIndex]="indexTab">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span style="width: 160px;">Ver todo</span><!--1-->
+        <!--<a class="width100" (click)="filter(1)" >Ver todo</a>-->
+        <!--<button class="transp2" (click)="filter(1)" style="border: transparent;width: 160px;padding-left: 0%;padding-right: 0%;">boton</button>-->
+      </ng-template>
+    </mat-tab>
+    <mat-tab >
+      <ng-template mat-tab-label>
+        <span style="width: 160px;">Solicitudes pendientes</span><!--2-->
+      </ng-template>
+    </mat-tab>
+    <mat-tab >
+      <ng-template mat-tab-label >
+        <span style="width: 160px;">Solicitudes aprobadas</span><!--3-->
+      </ng-template>
+    </mat-tab>
+    <mat-tab >
+      <ng-template mat-tab-label>
+        <span style="width: 160px;">Solicitudes rechazadas</span><!--4-->
+      </ng-template>
+    </mat-tab>
+    <mat-tab >
+      <ng-template mat-tab-label>
+        <span style="width: 160px;">Solicitudes borrador</span><!--5-->
+      </ng-template>
+    </mat-tab>
+    <!-- <mat-tab >
+      <ng-template mat-tab-label>
+        <span style="width: 160px;" (click)="filter(6)">Solicitudes registradas</span>
+      </ng-template>
+    </mat-tab> -->
+  </mat-tab-group>
+  <!--FIN TABS-->
+
+
+
+
+
+
+
+
+
+  <section class="content__table">
+    <div>
+      <div class="content__button">
+        
+
+        <div style="margin-top: 15px;width: 100%;" class="mat-form-search pr-16" >
+
+            <!-- <mat-label>Búsqueda:</mat-label> -->
+            <mat-form-field class="mat-form-search" appearance="fill" class="field-search">
+            <i class="tiny material-icons " style="font-size: 1.5rem;color: #4F66A8;opacity: 0.7;">search</i>
+            <input matInput class="mat-form-search"  placeholder="Ingresa una búsqueda " [(ngModel)]="busqueda" >
+            </mat-form-field>
+        </div>
+
+      </div>
+
+      <div fxLayout="row wrap" fxLayout.lt-sm="column" style="padding-top: 15px;">
+        <div fxFlex="33" class="pr-16" style="padding-bottom: 10px;">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Desde: </mat-label>
+              <input matInput [matDatepicker]="pickerStartDate"name="StartDate" readonly placeholder="Fecha inicial" [ngModel] ="sinceDate | date:'yyyy-MM-dd'" (ngModelChange)='sinceDate=$event'>
+              <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
+              <mat-datepicker #pickerStartDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div fxFlex="33" class="pr-16" style="padding-bottom: 10px;">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Hasta: </mat-label>
+            <input matInput [matDatepicker]="pickerEndDate"name="EndDate"  readonly placeholder="Fecha final" [ngModel] ="toDate | date:'yyyy-MM-dd'" (ngModelChange)='toDate=$event'>
+            <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEndDate></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div fxFlex="33" class="pr-16" style="padding-bottom: 10px;">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Empresa</mat-label>
+            <mat-select (selectionChange)="changeEmpresa()" [(ngModel)]="empresaSel">
+                <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        </div>
+        <div fxFlex="33" class="pr-16" style="padding-bottom: 10px;">
+          <mat-form-field class="w-100" appearance="fill">
+            <mat-label>Área</mat-label>
+            <mat-select [disabled]="disabledArea" [(ngModel)]="areaSel">
+                <mat-option *ngFor="let item of areas" [value]="item.id">{{item.nameArea}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div fxFlex="33" class="pr-16" style="padding-bottom: 10px;">
+          <button mat-raised-button (click)="filter(0)" *ngIf="permiss.boolNew" color="primary" style="height: 52.06px;width: 100%;">
+            Filtrar
+          </button>
+        </div>
+      </div>
+      <!-- <div class="content__button"style="display: flex;justify-content: space-between; " >
+
+
+            <mat-form-field class="input-filtro-cargo" appearance="fill">
+              <mat-label>Desde: </mat-label>
+              <input matInput [matDatepicker]="pickerStartDate"name="StartDate" readonly placeholder="Fecha inicial" [ngModel] ="sinceDate | date:'yyyy-MM-dd'" (ngModelChange)='sinceDate=$event'>
+              <mat-datepicker-toggle matSuffix [for]="pickerStartDate"></mat-datepicker-toggle>
+              <mat-datepicker #pickerStartDate></mat-datepicker>
+            </mat-form-field>
+
+            <mat-form-field class="input-filtro-cargo" appearance="fill">
+              <mat-label>Hasta: </mat-label>
+              <input matInput [matDatepicker]="pickerEndDate"name="EndDate"  readonly placeholder="Fecha final" [ngModel] ="toDate | date:'yyyy-MM-dd'" (ngModelChange)='toDate=$event'>
+              <mat-datepicker-toggle matSuffix [for]="pickerEndDate"></mat-datepicker-toggle>
+              <mat-datepicker #pickerEndDate></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="input-filtro-cargo" appearance="fill">
+              <mat-label>Empresa</mat-label>
+              <mat-select (selectionChange)="changeEmpresa()" [(ngModel)]="empresaSel">
+                  <mat-option *ngFor="let item of empresas" [value]="item.id">{{item.descripcion}}</mat-option>
+              </mat-select>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Área</mat-label>
+            <mat-select [disabled]="disabledArea" [(ngModel)]="areaSel">
+                <mat-option *ngFor="let item of areas" [value]="item.id">{{item.nameArea}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div  style="width: 12%;">
+            <button mat-raised-button (click)="filter(0)" *ngIf="permiss.boolNew" color="primary" style="height: 52.06px;width: 100%;">
+              Filtrar
+          </button>
+          </div>
+      </div> -->
+
+      <div class="content__table-table" style="margin-top:20px"  *ngIf="!mostrarBorrador">
+        <table
+          mat-table
+          [dataSource]="recruitmentDT"
+          matSort
+          class="w-100 mat-elevation-z8"
+          style="box-shadow:none ;"
+        >
+          <ng-container matColumnDef="nro" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Nro. : "
+            >
+              {{ row.id }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="fecha">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Fecha : "
+            >
+              {{ row.dateRegister | date: "dd/MM/YYYY" }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="empresa">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Empresa : "
+            >
+              {{ row.nameCompany | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="solicitante">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Solicitante
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Solicitante : "
+            >
+              {{ row.nameApplicant | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="puesto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Puesto</th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Puesto : "
+            >
+              {{ row.positionApplicant | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="puestoSolicitante">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Puesto Solicitante
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Tipo de Solicitud : "
+            >
+              {{ row.employment | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dias">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Días p/ revisión
+            </th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Días p/ revisión : "
+            >
+              hace {{ row.pendingDays }} dia
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Estado : "
+            >
+              <div class="table-state" 
+                [ngClass]="{'color-pendiente' : row.state == '2', 'color-aprobado' : row.state == '3', 'color-rechazado' : row.state == '4'}">
+                <div>{{ row.stateDescription }}</div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="permiss != undefined"   matColumnDef="solicitud">
+            <th [hidden]="!permiss.boolView" mat-header-cell *matHeaderCellDef mat-sort-header>Solicitud</th>
+            <td [hidden]="!permiss.boolView"
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Solicitud : "
+            >
+              <a class="solicitud-class" (click)="getDetailPath(row.id)">Ver solicitud</a>&nbsp;&nbsp;
+              <a *ngIf="permiteEditarEspecial" class="solicitud-class" (click)="EditarDuplicar(row, false)">Editar</a>
+            </td>
+          </ng-container>
+          <ng-container *ngIf="permisoDuplicado" matColumnDef="duplicar">
+            <th [hidden]="!permiss.boolClone"  mat-header-cell *matHeaderCellDef mat-sort-header>Duplicar</th>
+            <td  [hidden]="!permiss.boolClone"
+              mat-cell
+              *matCellDef="let row"
+              class="has_label_on_mobile"
+              data-label="Duplicar : "
+              
+            >
+              <img 
+               (click)="EditarDuplicar(row, true)"
+                style="cursor: pointer;"
+                width="25px"
+                height="25px"
+                src="../../../../../../assets/images/duplicar.png"
+                alt=""
+              />
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="publicado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td
+              mat-cell
+              *matCellDef="let row"
+              title="Publicado" 
+              class="has_label_on_mobile">
+              <svg *ngIf="row.jobCounter != 0" id="Capa_1" style="height: 20px !important; width: 20px;" fill="#536BB2" enable-background="new 0 0 512 512" height="512" viewBox="0 0 512 512" width="512" xmlns="http://www.w3.org/2000/svg"><g><path d="m162.457 434.408c-23.427 23.444-61.433 23.444-84.861 0-23.075-23.059-23.443-60.249-1.088-83.757l126.465-126.465c-39.112-10.458-82.481-.832-113.748 28.904l-56.231 56.231c-44.711 47.015-43.975 121.395 2.176 167.514 46.855 46.887 122.867 46.887 169.722 0l51.846-51.846c31.425-31.404 41.785-75.905 31.086-115.947z"/><path d="m476.835 35.17c-46.119-46.151-120.499-46.887-167.514-2.176l-56.231 56.231c-29.735 31.268-39.361 74.637-28.904 113.748l126.465-126.465c23.508-22.355 60.697-21.987 83.757 1.088 23.444 23.428 23.443 61.433 0 84.861l-125.367 125.367c40.042 10.699 84.543.34 115.947-31.086l51.846-51.846c46.888-46.855 46.888-122.867.001-169.722z"/><path d="m164.774 347.228c11.714 11.722 30.717 11.722 42.43 0l140.023-140.023c11.722-11.714 11.722-30.717 0-42.43-11.53-11.538-30.125-11.722-41.878-.544l-141.12 141.12c-11.177 11.752-10.993 30.347.545 41.877z"/></g></svg>
+            </td>
+          </ng-container>
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="11">
+              No se encontró solicitudes
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions" (page)="pageChanged($event)" aria-label="Select page">
+            </mat-paginator>  
+      </div>
+
+        
+      
+    </div>
+  </section>
+
+  <section class="content__borrador" *ngIf="mostrarBorrador">
+    <table mat-table
+      [dataSource]="borradorDT"
+      class="w-100"
+      style="background-color: #EFEFEF;"
+    >
+    <ng-container matColumnDef="nro" sticky>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Nro.</th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="has_label_on_mobile"
+        data-label="Nro. : "
+      >
+        {{ row.id }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="fecha">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha</th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="has_label_on_mobile"
+        data-label="Fecha : "
+      >
+        {{ row.dateRegister | date: "dd/MM/YYYY" }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="empresa">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Empresa</th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="has_label_on_mobile"
+        data-label="Empresa : "
+      >
+        {{ row.nameCompany | titlecase }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="solicitante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Solicitante
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="has_label_on_mobile"
+        data-label="Solicitante : "
+      >
+        {{ row.nameApplicant | titlecase }}
+      </td>
+    </ng-container>    
+    <ng-container matColumnDef="tipoSolicitud">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Tipo de Solicitud
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="has_label_on_mobile"
+        data-label="Tipo de Solicitud : "
+      >
+        {{ row.typeRequest | titlecase }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="puestoSolicitante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        Puesto Solicitante
+      </th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="has_label_on_mobile"
+        data-label="Tipo de Solicitud : "
+      >
+        {{ row.employment | titlecase }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="solicitud">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Editar Solicitud</th>
+      <td
+        mat-cell
+        *matCellDef="let row"
+        class="has_label_on_mobile"
+        data-label="Solicitud : "
+      >&nbsp;&nbsp;&nbsp;
+        <img 
+        (click)="EditarDuplicar(row, false)"
+        style="cursor: pointer"
+        width="25px"
+        height="25px"
+        src="../../../../../../assets/images/svg-icons/edit_app.svg"
+        alt=""
+      />
+      </td>
+    </ng-container>
+    <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumnsBorrador; sticky: true"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsBorrador"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="9">
+              No se encontró Borradores
+            </td>
+          </tr>
+    </table>
+    <div style="display: flex;
+        justify-content: center;
+        align-items: center;">
+        <mat-paginator
+          style-paginator
+          showFirstLastButtons
+          [showTotalPages]="3"
+          #paginator
+          [pageIndex]="currentPage"
+          [length]="totalRows"
+          [pageSize]="10"
+          [pageSizeOptions]="[10, 15, 20]"
+          (page)="pageChanged($event)">
+        </mat-paginator>      
+        </div>    
+  </section>
+</div>
+
+<!--
+  <mat-paginator
+        (page)="pageChanged($event)"
+        aria-label="Select page"
+        [length]="formFilter.controls.totalItems"
+        [pageSizeOptions]="[10, 15, 20]"
+        [pageIndex]="currentPage"
+        [pageSize]="pageSize"
+      ></mat-paginator>
+-->

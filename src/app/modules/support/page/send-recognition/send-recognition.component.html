@@ -1,0 +1,109 @@
+<mat-card-title class="">
+  <div class="card-title-text">Enviar Reconocimiento</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-dialog-content>
+  <mat-card-content class="height-auto">
+    <form [formGroup]="itemForm" (ngSubmit)="submit()">
+      <div fxLayout="row wrap" fxLayout.lt-sm="column">
+        <div fxFlex="100" class="pr-16 pt-16">
+          <mat-form-field class="example-full-width" appearance="fill" style="width: 100%;">
+            <mat-label>Seleccionar Empleado: </mat-label>
+            <mat-select [formControl]="itemForm.controls['nid_person']" (selectionChange)="changeEmployee($event)">
+              <input matInput (keyup)="onKeyFind($event.target.value)" style="padding-left: 16px; height: 42px; width: 90%;">
+              <!-- <mat-option value="">-- SELECCIONE --</mat-option> -->
+              <mat-option *ngFor="let emp of employeesSelected" [value]="emp.nid_person">
+                {{emp.nid_person }} | {{emp.snames }} {{emp.ssurnames }}
+              </mat-option>
+            </mat-select>
+            <small
+              *ngIf="itemForm.controls['nid_person'].hasError('required') && itemForm.controls['nid_person'].touched"
+              class="form-error-msg"> El campo Empleado es obligatorio. </small>
+          </mat-form-field>
+
+        </div>
+        <div fxFlex="50" class="pr-16 pt-16">
+          <mat-form-field class="full-width">
+            <input matInput [formControl]="itemForm.controls['stitle']" placeholder="Título" maxlength="50">
+          </mat-form-field>
+          <small *ngIf="itemForm.controls['stitle'].hasError('required') && itemForm.controls['stitle'].touched"
+            class="form-error-msg"> El campo Título es obligatorio.</small>
+          <small *ngIf="itemForm.controls['stitle'].hasError('maxlength') && itemForm.controls['stitle'].touched"
+            class="form-error-msg"> El campo Título no puede contener mas de
+            {{itemForm.controls['stitle'].errors.maxlength.requiredLength}} caracteres </small>
+        </div>
+        <div fxFlex="50" class="pr-16 pt-16">
+          <!-- <mat-form-field class="full-width">
+          <mat-label>Seleccionar Ícono: </mat-label>
+            <mat-select [formControl]="itemForm.controls['sicon']" >
+          
+              <mat-option value="sentiment_dissatisfied" class="yellow-icon" color="primary"><mat-icon >sentiment_dissatisfied</mat-icon>Insatisfecho</mat-option>
+              <mat-option value="sentiment_neutral" class="yellow-icon"><mat-icon >sentiment_neutral</mat-icon>Neutral</mat-option>
+              <mat-option value="sentiment_satisfied" class="yellow-icon"><mat-icon >sentiment_satisfied</mat-icon>Satisfecho</mat-option>
+              <mat-option value="sentiment_very_dissatisfied" class="yellow-icon"><mat-icon >sentiment_very_dissatisfied</mat-icon>Muy insatisfecho</mat-option>
+              <mat-option value="sentiment_very_satisfied" class="yellow-icon"><mat-icon >sentiment_very_satisfied</mat-icon>Muy satisfecho</mat-option>
+              
+            </mat-select>
+            <small *ngIf="itemForm.controls['sicon'].hasError('required') && itemForm.controls['sicon'].touched"
+            class="form-error-msg"> El campo Ícono es obligatorio.</small>
+          </mat-form-field> -->
+
+          <mat-radio-group aria-label="Select an option" formControlName="sicon" class="example-radio-group">
+            <mat-radio-button value="sentiment_dissatisfied" class="example-radio-button"><mat-icon >sentiment_dissatisfied</mat-icon> Insatisfecho </mat-radio-button>
+            <mat-radio-button value="sentiment_neutral" class="example-radio-button"><mat-icon >sentiment_neutral</mat-icon>Neutral</mat-radio-button>
+            <mat-radio-button value="sentiment_satisfied" class="example-radio-button"><mat-icon >sentiment_satisfied</mat-icon>Satisfecho</mat-radio-button>
+            <mat-radio-button value="sentiment_very_dissatisfied" class="example-radio-button"><mat-icon >sentiment_very_dissatisfied</mat-icon>Muy insatisfecho</mat-radio-button>
+            <mat-radio-button value="sentiment_very_satisfied" class="example-radio-button"><mat-icon >sentiment_very_satisfied</mat-icon>Muy satisfecho</mat-radio-button>
+            
+            
+          </mat-radio-group>
+          <small *ngIf="itemForm.controls['sicon'].hasError('required') && itemForm.controls['sicon'].touched"
+            class="form-error-msg"> El campo Ícono es obligatorio.</small>
+
+        </div>
+        <div fxFlex="100" class="pr-16 pt-16">
+          <mat-form-field class="full-width">
+            <textarea matInput [formControl]="itemForm.controls['sdescription']" placeholder="Descripción"
+              maxlength="200"></textarea>
+          </mat-form-field>
+          <small
+            *ngIf="itemForm.controls['sdescription'].hasError('required') && itemForm.controls['sdescription'].touched"
+            class="form-error-msg"> El campo Descripción es obligatorio.</small>
+
+        </div>
+
+
+        <!--   
+         
+          <div fxFlex="50" class="pr-16 pt-16">
+            <mat-form-field class="full-width">
+                <input type="text" name="" id="">
+            </mat-form-field>
+          </div>
+          <div fxFlex="50" class="pr-16">
+            <mat-form-field class="full-width">
+                <input type="text" name="" id="">
+              <mat-icon matSuffix>phone</mat-icon>
+            </mat-form-field>
+          </div>
+          <div fxFlex="50" class="pr-16">
+            <mat-form-field class="full-width">
+                <input type="text" name="" id="">
+            </mat-form-field>
+            
+          </div>
+  -->
+
+
+        <mat-divider></mat-divider>
+        <div fxFlex="100" class="mt-16">
+          <button mat-raised-button class="dark-blue-400 dark-blue-400-fg mr-4"
+            [disabled]="itemForm.invalid">Guardar</button>
+          <span fxFlex></span>
+          <button mat-button class="dark-blue-100 dark-blue-100-fg ml-4" type="button"
+            (click)="dialogRef.close(false)">Cancel</button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-dialog-content>

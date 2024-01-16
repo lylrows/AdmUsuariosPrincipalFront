@@ -1,0 +1,92 @@
+<div class="content">
+    <div class="header">
+        <h1>Detalle de Colaboradores</h1>
+        <hr style="width: 100%;">
+    </div>
+    <!-- 
+    <div class="list">
+        <div *ngFor="let item of categories" class="list_group">
+            <img (click)="showrequest(item.nid_category_request)"
+                [src]="item.simage" alt="">
+            <h1>{{ item.sname }}</h1>
+        </div>
+    </div> -->
+
+
+
+    <section class="example-container mat-elevation-z8" tabindex="0">
+
+        <table mat-table [dataSource]="list" matSort class="w-100">
+            <ng-container matColumnDef="fotoUrl">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Foto</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile"
+                    data-label="Nombre deñ Tipo de Solicitud : ">
+                    <span class="toolbar-avatar md mr-16">
+                        <!-- <img [src]="row.fotoUrl" alt=""> -->
+                        <img [src]="row.fotoUrl==null?'./assets/images/avatars/avatar.jpg':row.fotoUrl" alt="">
+                    </span>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="dni">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">DNI</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="NombreCompleto : ">
+                    {{ row.dni | titlecase }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="nombreCompleto">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Nombres completos</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombres completos : ">
+                    {{ row.nombreCompleto | titlecase }}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cargo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Cargo</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Cargo : ">
+                    {{ row.cargo | titlecase }}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="objetivoPorc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Objetivos</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Objetivo : ">
+                    {{ getRound(row.objetivoPorc) }} %
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="competenciaPorc">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Competencias</th>
+                <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Competencia : ">
+                    {{ getRound(row.competenciaPorc) }} %
+                </td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="compania">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Empresa</th>
+              <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Empresa : ">
+                  {{ row.compania | titlecase }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="area">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="title-center">Area</th>
+              <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Area : ">
+                  {{ row.area | titlecase }}
+              </td>
+            </ng-container> -->
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell text-center" colspan="10">
+                    No se encontró resultados
+                </td>
+            </tr>
+        </table>
+
+    </section>
+
+
+
+    <div style="display: flex; justify-content: center;margin-top: 20px;">
+        <button mat-raised-button color="primary" (click)="dialogRef.close(false)">Cerrar</button>
+    </div>
+
+</div>

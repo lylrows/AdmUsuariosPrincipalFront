@@ -1,0 +1,80 @@
+<div class="content">
+    <div class="divMain">  
+        <div class="content__evaluation">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">1. Indica sus principales logros (mínimo 3):</h4>
+            <mat-form-field class="example-full-width" style="width:100%">
+                <mat-label>Logros</mat-label>
+                <textarea [(ngModel)]="logros.comments" matInput placeholder="Ingrese los logros..."></textarea>
+            </mat-form-field>
+            <div style="width: 100%;">
+                <button
+                    *ngIf="person != undefined && person.stateEvaluation != 'Finalista' && person.stateEvaluation != 'Seleccionado'"
+                    (click)="updateLogros()" mat-raised-button color="primary">Grabar</button>
+            </div>
+        </div>
+        <div class="content__evaluation">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">2. Evaluación de Competencias Actuales: 
+                <mat-icon (click)="openModal()" color="white" title="Ver Definiciones" style="font-size: 16pt; cursor: pointer;">library_books</mat-icon>
+            </h4>
+            <app-evaluation-proficiency-present [person]="person" [evaluador]="evaluador"
+                [evaluationProficiency]="evaluationProficiencyPresent"
+                (updateevaluation)="updateproficiencypresent.emit(true)"></app-evaluation-proficiency-present>
+        </div>
+
+        <div class="content__evaluation">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">3. Evaluación de Competencias Futuras: 
+                <mat-icon (click)="openModal()" color="white" title="Ver Definiciones" style="font-size: 16pt; cursor: pointer;">library_books</mat-icon>
+            </h4>
+            <app-evaluation-proficiency-future [person]="person" [evaluador]="evaluador"
+                [evaluationProficiency]="evaluationProficiencyFuture"
+                (updateevaluation)="updateproficiencyfuture.emit(true)"></app-evaluation-proficiency-future>
+        </div>
+
+        <div class="content__evaluation">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">3. Evaluación de Fortalezas:</h4>
+            <app-evalution-fortalezas [person]="person" [evaluador]="evaluador" [evaluationRating]="evaluationRating"
+                (updateevaluation)="updatefortalezas.emit(true)"></app-evalution-fortalezas>
+        </div>
+
+        <div class="content__notas">
+            <h4 style="background-color: #8CACDA; color: #f9f9f9; padding: 5px">4. Comentarios:</h4>
+            <div class="message"
+                style="background: #f1f1f1 !important; display: flex; text-align: center; padding: 8px 16px;">
+                <h2 class="item_message font-message">Usuario</h2>
+                <h2 class="item_message font-message">Comentario</h2>
+                <h2 class="item_date font-message">Fecha de registro</h2>
+            </div>
+            <div class="content-messages">
+                <div class="message" *ngFor="let item of notas">
+                    <span class="item_user">{{item.autor}}</span>
+                    <span class="item_message">{{item.descripcion}}</span>
+                    <span class="item_date">{{item.dateRegister | date:'dd/MM/YYYY hh:mm'}}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content_comentarios">
+            <h4 *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - cuarta fase'">Ingresar comentario:
+            </h4>
+            <textarea [(ngModel)]="notes.descripcion" name="" id="" cols="30" rows="5"></textarea>
+            <div class="button-enviar">
+                <button
+                    *ngIf="person != undefined && person.stateEvaluation != 'Finalista' && person.stateEvaluation != 'Seleccionado'"
+                    (click)="createNotes()" mat-raised-button color="primary">Grabar
+                    comentario</button>
+            </div>
+        </div>
+        <div class="content_buttons">            
+            <button *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - cuarta fase'"
+                (click)="aprovedEvaluation()" mat-raised-button color="primary">Aprobar y Continuar
+            </button>
+            <button *ngIf="person != undefined && person.stateEvaluation == 'Evaluación - cuarta fase'"
+                (click)="rejectEvaluation()" mat-raised-button color="primary">Terminar reclutamiento
+            </button>
+            <button *ngIf="person != undefined"
+            (click)="getDetailPath(person.idEvaluation)" mat-button
+            color="warn">Cancelar</button>
+        </div>
+    </div>
+
+</div>

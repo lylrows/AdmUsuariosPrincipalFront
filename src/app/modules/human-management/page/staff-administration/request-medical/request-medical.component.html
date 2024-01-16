@@ -1,0 +1,762 @@
+<!-- <div class="content"> -->
+<!-- <h2 class="title">Solicitudes de Descanso Médico</h2>
+  <hr style="width: 100%;"> -->
+
+<div class="filter">
+  <div class="filter__inputs">
+    <mat-form-field class="full-width">
+      <mat-label>Tipo de Solicitud</mat-label>
+      <mat-select [formControl]="ntype">
+        <mat-option *ngFor="let item of typerequest" [value]="item.nid_mastertable">{{item.sdescription_value}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput readonly [formControl]="ddateinit" [matDatepicker]="pickerStartVacation" name="InitialIssueDate"
+        placeholder="Fecha Inicial">
+      <mat-datepicker-toggle matSuffix [for]="pickerStartVacation"></mat-datepicker-toggle>
+      <mat-datepicker #pickerStartVacation></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field>
+      <input matInput readonly [formControl]="ddateend" [matDatepicker]="pickerfinalIssueDate" name="finalIssueDate"
+        placeholder="Fecha fin">
+      <mat-datepicker-toggle matSuffix [for]="pickerfinalIssueDate"></mat-datepicker-toggle>
+      <mat-datepicker #pickerfinalIssueDate></mat-datepicker>
+    </mat-form-field>
+
+  </div>
+  <div class="filter__buttons">
+    <button mat-raised-button color="primary" (click)="filter()">Buscar</button>
+    <button mat-raised-button color="warn" (click)="newrequest()">Agregar</button>
+    <button mat-raised-button color="accent" type="button" (click)="resetFilter()">Limpiar</button>
+    <button *ngIf="!showgrilla" mat-raised-button color="primary" (click)="showreport()" type="button">Reportes</button>
+  </div>
+</div>
+
+<div>
+  <mat-card *ngIf="!showgrilla">
+    <div class="content__table__button">
+      <button class="active" #selecteddocument (click)="filteroption(1)">Etapa 1: Evaluación</button>
+      <button #selectedregister (click)="filteroption(2)">
+        Etapa 2: Registro VIVA
+      </button>
+      <button #selectedcit (click)="filteroption(3)">
+        Etapa 3: Evaluación VIVA
+      </button>
+      <button #selectedmonto (click)="filteroption(4)">
+        Etapa 4: Recupero VIVA
+      </button>
+      <button #selectedfinish (click)="filteroption(5)">
+        Solicitudes Finalizadas
+      </button>
+    </div>
+    <div class="content__table-table">
+      <div *ngIf="showone">
+        <table mat-table [dataSource]="documentDT" matSort class="w-100">
+          <ng-container matColumnDef="type" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo.</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo. : ">
+              {{ row.stype }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="collabator">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Empleado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Empleado : ">
+              {{ row.sfullname | titlecase }}
+            </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="dregister">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Registro</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha Registro : ">
+              {{ row.dregisterdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container> -->
+          <ng-container matColumnDef="typedm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Tipo de Descanso
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo de descanso : ">
+              {{ row.stypedm | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="origindm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen Descanso</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Origen Descanso : ">
+              {{ row.soriginmedical | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateinit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha inicio
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha inicio : ">
+              {{ row.ddateinitdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateend">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha fin
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha fin: ">
+              {{ row.ddateenddm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="semaforo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Semáforo
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Semaforo : ">
+
+              <div class="circule-cont" *ngIf="row.nstatedocument === 1">
+                <div [ngStyle]="{background: row.scolordocument}" id="circulo"></div>
+                <label> {{ row.ndaysdocument }} días</label>
+              </div>
+              <div *ngIf="row.nstatedocument === 2">
+                Validado
+              </div>
+              <div *ngIf="row.nstatedocument === 3">
+                Rechazado
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+              <div
+                *ngIf="row.nstate === 2 || row.nstate === 5 || row.nstate === 6 || row.nstate === 7 || row.nstate === 8"
+                class="acept">
+                {{ row.sstate }}
+              </div>
+              <div *ngIf="row.nstate === 1 || row.nstate === 4" class="pendiente">
+                <div> {{ row.sstate }}</div>
+              </div>
+              <div *ngIf="row.nstate === 3" class="reject">
+                <div> {{ row.sstate }}</div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="view">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Ver Solicitud</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;"
+              data-label="Ver Solicitud : ">
+              <a class="solicitud-class" (click)="getDetailPath(row.nid_medical)">
+                <mat-icon color="accent">visibility</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="10">
+              No se encontró registros
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginatordocument aria-label="Select page" [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+      </div>
+      <div *ngIf="showtwo">
+        <table mat-table [dataSource]="vivaDT" sortviva class="w-100">
+          <ng-container matColumnDef="type" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo.</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo. : ">
+              {{ row.stype }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="collabator">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Empleado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Empleado : ">
+              {{ row.sfullname | titlecase }}
+            </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="dregister">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Registro</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha Registro : ">
+              {{ row.dregisterdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container> -->
+          <ng-container matColumnDef="typedm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Tipo de Descanso
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo de descanso : ">
+              {{ row.stypedm | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="origindm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen Descanso</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Origen Descanso : ">
+              {{ row.soriginmedical | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateinit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha inicio
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha inicio : ">
+              {{ row.ddateinitdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateend">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha fin
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha fin: ">
+              {{ row.ddateenddm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="snumberviva">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Registro en VIVA
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;"
+              data-label="Registro en VIVA: ">
+              {{ row.bregisterviva ? 'SI': 'NO' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="soperationnumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              N* de operacion
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;"
+              data-label="N* de operacion: ">
+              {{ row.soperationnumber }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="semaforo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Semáforo
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Semaforo : ">
+
+              <div *ngIf="row.bregisterviva === null || row.bregisterviva == false">
+                <div *ngIf="row.ndaysregisterviva === null">
+                  {{ row.ndaysregisterviva }}
+                </div>
+                <div class="circule-cont" *ngIf="row.ndaysregisterviva != null">
+                  <div [ngStyle]="{background: row.scolorregisterviva}" id="circulo"></div>
+                  <label> {{ row.ndaysregisterviva }} días</label>
+                </div>
+
+              </div>
+              <div *ngIf="row.bregisterviva">
+                Registrado
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+              <div class="table-state">
+                <div
+                  *ngIf="row.nstate === 2 || row.nstate === 5 || row.nstate === 6 || row.nstate === 7 || row.nstate === 8"
+                  class="acept">
+                  {{ row.sstate }}
+                </div>
+                <div *ngIf="row.nstate === 1 || row.nstate === 4" class="pendiente">
+                  <div> {{ row.sstate }}</div>
+                </div>
+                <div *ngIf="row.nstate === 3" class="reject">
+                  <div> {{ row.sstate }}</div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="view">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Ver Solicitud</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;"
+              data-label="Ver Solicitud : ">
+              <a class="solicitud-class" (click)="getDetailPath(row.nid_medical)">
+                <mat-icon color="accent">visibility</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsViva; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsViva"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="11">
+              No se encontró registros
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginatorviva aria-label="Select page" [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+      </div>
+      <div *ngIf="showtree">
+        <table mat-table [dataSource]="citDT" sortviva class="w-100">
+          <ng-container matColumnDef="type" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo.</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo. : ">
+              {{ row.stype }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="collabator">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Empleado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Empleado : ">
+              {{ row.sfullname | titlecase }}
+            </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="dregister">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Registro</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha Registro : ">
+              {{ row.dregisterdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container> -->
+          <ng-container matColumnDef="typedm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Tipo de Descanso
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo de descanso : ">
+              {{ row.stypedm | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="origindm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen Descanso</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Origen Descanso : ">
+              {{ row.soriginmedical | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateinit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha inicio
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha inicio : ">
+              {{ row.ddateinitdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateend">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha fin
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha fin: ">
+              {{ row.ddateenddm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="snumberCIT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Codigo CITT
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Codigo CIT: ">
+              {{ row.snumberCIT }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="semaforo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Semáforo
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Semaforo : ">
+
+              <div *ngIf="row.snumberCIT === null">
+                <div *ngIf="row.ndaysCIT === null">
+                  {{ row.ndaysCIT }}
+                </div>
+                <div class="circule-cont" *ngIf="row.ndaysCIT != null">
+                  <div [ngStyle]="{background: row.scolorCIT}" id="circulo"></div>
+                  <label> {{ row.ndaysCIT }} días</label>
+                </div>
+              </div>
+              <div *ngIf="row.snumberCIT">
+                Registrado
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+              <div class="table-state">
+                <div
+                  *ngIf="row.nstate === 2 || row.nstate === 5 || row.nstate === 6 || row.nstate === 7 || row.nstate === 8"
+                  class="acept">
+                  {{ row.sstate }}
+                </div>
+                <div *ngIf="row.nstate === 1 || row.nstate === 4" class="pendiente">
+                  <div> {{ row.sstate }}</div>
+                </div>
+                <div *ngIf="row.nstate === 3" class="reject">
+                  <div> {{ row.sstate }}</div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="view">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Ver Solicitud</th>
+            <td style="text-align: center;" mat-cell *matCellDef="let row" class="has_label_on_mobile"
+              data-label="Ver Solicitud : ">
+              <a class="solicitud-class" (click)="getDetailPath(row.nid_medical)">
+                <mat-icon color="accent">visibility</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsCIT; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsCIT"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="10">
+              No se encontró registros
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginatorcit aria-label="Select page" [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+      </div>
+      <div *ngIf="showfor">
+        <table mat-table [dataSource]="amountDT" sortviva class="w-100">
+          <ng-container matColumnDef="type" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo.</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo. : ">
+              {{ row.stype }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="collabator">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Empleado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Empleado : ">
+              {{ row.sfullname | titlecase }}
+            </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="dregister">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Registro</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha Registro : ">
+              {{ row.dregisterdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container> -->
+          <ng-container matColumnDef="typedm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Tipo de Descanso
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo de descanso : ">
+              {{ row.stypedm | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="origindm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen Descanso</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Origen Descanso : ">
+              {{ row.soriginmedical | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateinit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha inicio
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha inicio : ">
+              {{ row.ddateinitdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateend">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha fin
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha fin: ">
+              {{ row.ddateenddm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="namount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Monto
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Monto: ">
+              {{ row.namount }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="semaforo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Semáforo
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Semáforo : ">
+
+              <div *ngIf="row.namount === null">
+                <div *ngIf="row.ndaysAmount === null">
+                  {{ row.ndaysAmount }}
+                </div>
+                <div class="circule-cont" *ngIf="row.ndaysAmount != null">
+                  <div [ngStyle]="{background: row.scolorAmount}" id="circulo"></div>
+                  <label> {{ row.ndaysAmount }} días</label>
+                </div>
+              </div>
+              <div *ngIf="row.namount">
+                Registrado
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+              <div class="table-state">
+                <div
+                  *ngIf="row.nstate === 2 || row.nstate === 5 || row.nstate === 6 || row.nstate === 7 || row.nstate === 8"
+                  class="acept">
+                  {{ row.sstate }}
+                </div>
+                <div *ngIf="row.nstate === 1 || row.nstate === 4" class="pendiente">
+                  <div> {{ row.sstate }}</div>
+                </div>
+                <div *ngIf="row.nstate === 3" class="reject">
+                  <div> {{ row.sstate }}</div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="view">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Ver Solicitud</th>
+            <td style="text-align: center;" mat-cell *matCellDef="let row" class="has_label_on_mobile"
+              data-label="Ver Solicitud : ">
+              <a class="solicitud-class" (click)="getDetailPath(row.nid_medical)">
+                <mat-icon color="accent">visibility</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsAmount; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsAmount"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="10">
+              No se encontró registros
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginatoramount aria-label="Select page" [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+      </div>
+
+      <div *ngIf="showquinto">
+        <table mat-table [dataSource]="finishDT" sortviva class="w-100">
+          <ng-container matColumnDef="type" sticky>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo.</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo. : ">
+              {{ row.stype }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="collabator">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Empleado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Empleado : ">
+              {{ row.sfullname | titlecase }}
+            </td>
+          </ng-container>
+          <!-- <ng-container matColumnDef="dregister">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Registro</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha Registro : ">
+              {{ row.dregisterdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container> -->
+          <ng-container matColumnDef="typedm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Tipo de Descanso
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo de descanso : ">
+              {{ row.stypedm | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="origindm">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen Descanso</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Origen Descanso : ">
+              {{ row.soriginmedical | titlecase }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateinit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha inicio
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha inicio : ">
+              {{ row.ddateinitdm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="dateend">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Fecha fin
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha fin: ">
+              {{ row.ddateenddm | date:'dd/MM/yyyy' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="snumberviva">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Registro en VIVA
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;"
+              data-label="Registro en VIVA: ">
+              {{ row.bregisterviva ? 'SI': 'NO' }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="snumberCIT">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Codigo CITT
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Codigo CIT: ">
+              {{ row.snumberCIT }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="namount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Monto
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Monto: ">
+              {{ row.namount }}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="semaforo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              Semáforo
+            </th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Semáforo : ">
+
+              <div *ngIf="row.namount === null">
+                <div *ngIf="row.ndaysAmount === null">
+                  {{ row.ndaysAmount }}
+                </div>
+                <div class="circule-cont" *ngIf="row.ndaysAmount != null">
+                  <label> {{ row.ndaysAmount }} días</label>
+                  <div [ngStyle]="{background: row.scolorAmount}" id="circulo"></div>
+                </div>
+              </div>
+              <div *ngIf="row.namount">
+                Registrado
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="state">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Estado</th>
+            <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;"
+              data-label="Estado : ">
+              <div class="table-state">
+                <div
+                  *ngIf="row.nstate === 2 || row.nstate === 5 || row.nstate === 6 || row.nstate === 7 || row.nstate === 8"
+                  class="acept">
+                  {{ row.sstate }}
+                </div>
+                <div *ngIf="row.nstate === 1 || row.nstate === 4" class="pendiente">
+                  <div> {{ row.sstate }}</div>
+                </div>
+                <div *ngIf="row.nstate === 3" class="reject">
+                  <div> {{ row.sstate }}</div>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="view">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Ver Solicitud</th>
+            <td style="text-align: center;" mat-cell *matCellDef="let row" class="has_label_on_mobile"
+              data-label="Ver Solicitud : ">
+              <a class="solicitud-class" (click)="getDetailPath(row.nid_medical)">
+                <mat-icon color="accent">visibility</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsfinish; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsfinish"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell text-center" colspan="11">
+              No se encontró registros
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginatorfinish aria-label="Select page" [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+      </div>
+    </div>
+  </mat-card>
+
+
+  <mat-card *ngIf="showgrilla" class="p-0">
+    <mat-card-content class="p-0">
+      <table mat-table [dataSource]="gridDT" sortviva class="w-100">
+        <ng-container matColumnDef="type" sticky>
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo.</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo. : ">
+            {{ row.stype }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="collabator">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Empleado</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Empleado : ">
+            {{ row.sfullname | titlecase }}
+          </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="dregister">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Registro</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha Registro : ">
+            {{ row.dregisterdm | date:'dd/MM/yyyy' }}
+          </td>
+        </ng-container> -->
+        <ng-container matColumnDef="typedm">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Tipo de Descanso
+          </th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Tipo de descanso : ">
+            {{ row.stypedm | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="origindm">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Origen Descanso</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Origen Descanso : ">
+            {{ row.soriginmedical | titlecase }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="dateinit">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Fecha inicio
+          </th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha inicio : ">
+            {{ row.ddateinitdm | date:'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="dateend">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Fecha fin
+          </th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Fecha fin: ">
+            {{ row.ddateenddm | date:'dd/MM/yyyy' }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Estado</th>
+          <td mat-cell *matCellDef="let row" class="has_label_on_mobile" style="text-align: center;"
+            data-label="Estado : ">
+            <div class="table-state">
+              <div *ngIf="row.nstate === 0" class="pendiente">
+                <div> {{ row.sstate }}</div>
+              </div>
+              <div
+                *ngIf="row.nstate === 2 || row.nstate === 5 || row.nstate === 6 || row.nstate === 7 || row.nstate === 8"
+                class="acept">
+                {{ row.sstate }}
+              </div>
+              <div *ngIf="row.nstate === 1 || row.nstate === 4" class="pendiente">
+                <div> {{ row.sstate }}</div>
+              </div>
+              <div *ngIf="row.nstate === 3" class="reject">
+                <div> {{ row.sstate }}</div>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="view">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;">Ver Solicitud</th>
+          <td style="text-align: center;" mat-cell *matCellDef="let row" class="has_label_on_mobile"
+            data-label="Ver Solicitud : ">
+            <a class="solicitud-class" (click)="getDetailPath(row.nid_medical)">
+              <mat-icon color="accent">visibility</mat-icon>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumnsgrid; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumnsgrid"></tr>
+
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell text-center" colspan="8">
+            No se encontró Resultados
+          </td>
+        </tr>
+      </table>
+    </mat-card-content>
+    <mat-paginator #paginatorgrid aria-label="Select page" [pageSizeOptions]="[10, 15, 20]"></mat-paginator>
+  </mat-card>
+
+</div>
+<!-- </div> -->

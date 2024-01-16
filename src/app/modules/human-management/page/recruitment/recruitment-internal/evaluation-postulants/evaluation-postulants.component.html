@@ -1,0 +1,807 @@
+<div class="content">
+  <div class="content__title">
+    <h1>
+      <button routerLink="/humanmanagement/recruitment" mat-icon-button>
+        <mat-icon>keyboard_backspace</mat-icon>
+      </button>  
+      <span style="align-self: center;"> Evaluación de postulantes</span> 
+    </h1>
+  </div>
+  <div class="content__header">
+    <div class="item_header">
+      <label>Nro de Requerimiento:</label><span>{{dto.codRequerimiento}}</span>
+    </div>
+    <div class="item_header">
+      <label>Puesto requerido:</label> <span>{{dto.positionRequired}}</span>
+    </div>
+    <div class="item_header">
+      <label>Evaluación:</label><span>{{dto.state}}</span>
+    </div>
+  </div>
+  <div class="content__header">
+    
+    <mat-form-field style="flex-basis: 200px;" class="form-input-work example-full-width">
+      <mat-label>Id Proceso Multitest:</mat-label>
+      <input (keypress)="valideKey($event)" type="number" [(ngModel)]="proceso" matInput>
+    </mat-form-field>
+    <span>
+      <div class="filter__buttons" >
+            <button *ngIf="flowDT.data.length > 0"
+                mat-raised-button color="primary" 
+                (click)="updateProcesoEvaluacion()" >
+                Grabar Id 
+                Proceso Multitest
+            </button>
+            <button mat-raised-button color="warn" 
+                (click)="generateInforme()">
+                Generar 
+                Reporte Integrado
+            </button>
+            <button *ngIf="flowDT.data.length > 0"
+                mat-raised-button color="accent" 
+                (click)="exportar()">
+                Exportar
+            </button>
+            <a id="afile" name="afile" style="display: none;"></a>
+      </div>
+    </span>
+    <div class="content__table">
+    <table mat-table [dataSource]="flowDT" class="w-100 mat-elevation-z8" 
+            style="box-shadow: none;">
+      <ng-container matColumnDef="action" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Opción</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Opción: ">
+          <button mat-icon-button [matMenuTriggerFor]="menu" matTooltip="Desplegar" matTooltipPosition="right"
+            mat-stroked-button color="accent">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu" xPosition="after">
+            <button *ngIf="row.descripcionState == 'Preseleccionado' && isRHHProfile" (click)="updateEvaluation(row)" mat-menu-item>
+              <mat-icon color="accent">touch_app</mat-icon>
+              <span>Iniciar Evaluación</span>   
+            </button>
+            <button *ngIf="row.descripcionState == 'Finalista' && showSelectPosition && isRHHProfile" (click)="selectedPosition(row)" mat-menu-item>
+              <mat-icon color="accent">touch_app</mat-icon>
+              <span>Seleccionar al puesto</span>
+            </button>
+            <button (click)="generateReportPostulant(row.id,row.fullNamePostulant)" *ngIf="row.descripcionState != 'Preseleccionado'"
+              mat-menu-item>
+              <mat-icon color="accent">playlist_add</mat-icon>
+              <span>Generar Reporte</span>
+            </button>
+            <button (click)="getDetailPath(row.id)"
+              routerLinkActive="router-link-active" *ngIf="row.descripcionState != 'Preseleccionado'" mat-menu-item>
+              <mat-icon color="accent">playlist_add</mat-icon>
+              <span>Ver Evaluación</span>
+            </button>
+            <button *ngIf="row.descripcionState == 'Seleccionado' && isRHHProfile" mat-menu-item (click)="openFilePostulant(row)" >
+              <mat-icon color="accent">touch_app</mat-icon>
+              <span>Ficha del Postulante</span>
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="fullNamePostulant">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre del postulante</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nombre del postulante. : ">
+          {{ row.fullNamePostulant }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="emailPostulant">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Correo de contacto</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Correo de contacto. : ">
+          {{ row.emailPostulant }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="phoneNumberPostulant">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          Nro. de contacto
+        </th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Nro: de contacto : ">
+          {{ row.phoneNumberPostulant }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="descripcionState">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Estado</th>
+        <td mat-cell *matCellDef="let row" class="has_label_on_mobile" data-label="Estado : ">
+          <p-tag *ngIf="row.descripcionState != 'Seleccionado'" severity="danger" [value]="row.descripcionState">
+          </p-tag>
+          <p-tag *ngIf="row.descripcionState == 'Seleccionado'" severity="success" [value]="row.descripcionState">
+          </p-tag>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell text-center" colspan="5">
+          No se encontró postulantes
+        </td>
+      </tr>
+    </table>
+  </div>
+</div>
+
+
+
+<div style="overflow: hidden; height: 0;">
+  <div id="reporteindividual">
+    <div style="margin-left: 4%; margin-right: 4%;">
+      <div style="width: 100%; margin-bottom: 2%; display: flex; justify-content: center">
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 190.9 115.3" style="width: 10% !important; enable-background:new 0 0 190.9 115.3;"
+          xml:space="preserve">
+          <style type="text/css">
+            .st0 {
+              fill: #575756;
+            }
+  
+            .st1 {
+              fill: #4E6695;
+            }
+  
+            .st2 {
+              fill: #C5D1DF;
+            }
+  
+            .st3 {
+              fill: #88A1CB;
+            }
+  
+            .st4 {
+              fill: #6F7C9B;
+            }
+          </style>
+          <g id="XMLID_20_">
+            <path id="XMLID_96_" class="st0" d="M132.7,82.9L132.7,82.9c-2.4-2.4-5.4-3.7-8.9-3.7c-3.4,0-6.4,1.2-8.9,3.7
+         c-2.4,2.4-3.7,5.4-3.7,8.9c0,3.4,1.2,6.4,3.7,8.9c2.4,2.4,5.4,3.7,8.9,3.7c3.4,0,6.4-1.2,8.9-3.7c2.4-2.4,3.7-5.4,3.7-8.9
+         C136.4,88.4,135.2,85.4,132.7,82.9z M123.9,100.6c-2.4,0-4.5-0.8-6.2-2.6c-1.7-1.7-2.6-3.8-2.6-6.2c0-2.4,0.8-4.5,2.6-6.2
+         c1.7-1.7,3.8-2.6,6.2-2.6c2.4,0,4.5,0.8,6.2,2.6c1.7,1.7,2.6,3.8,2.6,6.2c0,2.4-0.8,4.5-2.6,6.2
+         C128.4,99.7,126.3,100.6,123.9,100.6z" />
+            <path id="XMLID_88_" class="st0" d="M95.9,79.7c-3.1,0-6,1.3-8.2,3.4l0-2c0,0,0,0,0,0c0-1-0.8-1.8-1.8-1.8c-1,0-1.8,0.8-1.8,1.8
+         l0,0v32.4c0,1.1,0.7,1.8,1.8,1.8c0.5,0,0.9-0.2,1.3-0.5c0.3-0.4,0.5-0.8,0.5-1.3l0-12.4c2.1,2.1,5.2,3.3,8.2,3.3
+         c6.7,0,11.8-5.8,11.8-12.4C107.7,85.4,102.7,79.7,95.9,79.7z M95.9,100.7c-4.6,0-8.2-4.1-8.2-8.6c0-4.6,3.4-8.6,8.2-8.7
+         c4.7,0,8.1,3.9,8.1,8.6C104,96.4,100.6,100.6,95.9,100.7z" />
+            <path id="XMLID_85_" class="st0" d="M48.1,79.3C48.1,79.3,48.1,79.3,48.1,79.3h-2.7h-1.2c-2.9,0.2-5.3,1.7-6.5,3.6l0-1.8h0
+         c0-1-0.8-1.8-1.8-1.8c-1,0-1.8,0.8-1.8,1.8l0,0l0,21.4c0,0,0,0,0,0c0,1,0.8,1.8,1.8,1.8c1,0,1.8-0.8,1.8-1.8c0,0,0,0,0,0
+         c0,0,0,0,0,0l0-10.8c0-0.1,0-0.2,0-0.2c0-0.1,0-0.2,0-0.2c0-4.3,3.3-7.9,7.6-8.3c0,0,0,0,0,0c0,0,0,0,0.3,0c0.1,0,0.2,0,0.4,0
+         c0,0,0,0,0,0c0,0,0,0,0,0c0.6,0,1.7,0,1.9,0c0,0,0,0,0,0c1,0,1.8-0.8,1.8-1.8C49.9,80.1,49.1,79.3,48.1,79.3z" />
+            <path id="XMLID_65_" class="st1" d="M190.9,86.9c0.1-0.5,0-1-0.3-1.4c-2-3.4-5.7-5.4-9.7-5.4c-6.6,0-11.7,5.6-11.7,12.1
+         c0,6.4,4.9,12.2,11.6,12.2c3.8,0,7.3-1.9,9.5-5.1c0.3-0.5,0.5-0.9,0.3-1.4c-0.3-0.9-1.1-1.4-2.1-1.4c-0.5,0.1-0.9,0.3-1.2,0.8
+         c-1.5,2.1-3.9,3.4-6.5,3.4c-2.4,0-4.5-1.1-5.9-2.7l15.1-9.9C190.5,87.7,190.8,87.4,190.9,86.9z M173.2,94.7
+         c-0.2-0.8-0.4-1.7-0.4-2.6c0-4.4,3.4-8.5,8.1-8.5c2.1,0,3.9,0.8,5.5,2.3L173.2,94.7z" />
+            <path id="XMLID_59_" class="st0" d="M28.1,87.3c-0.4-0.3-0.8-0.5-1.3-0.5l-10.7,0c-0.5,0-0.9,0.2-1.3,0.5c-0.3,0.4-0.5,0.8-0.5,1.3
+         c0,0.5,0.2,0.9,0.5,1.3c0.3,0.4,0.8,0.5,1.3,0.5h7.2c0,0,0.7,0,1.3,0.5c0.6,0.6,0.5,1.4,0.5,1.4v4.4c0,0,0,0.5-0.2,0.8
+         c-0.2,0.3-0.4,0.5-0.6,0.6c-1,0.8-2.2,1.4-3.4,1.8c-1.5,0.5-3.1,0.8-4.7,0.8c-1.8,0-3.4-0.4-5-1c-1.5-0.7-2.9-1.6-4-2.8
+         c-1.1-1.2-2-2.6-2.7-4.1c-0.6-1.5-1-3.2-1-4.9c0-1.8,0.3-3.5,1-5.1c0.7-1.6,1.6-2.9,2.8-4.1c1.2-1.1,2.5-2.1,4.1-2.7
+         c1.5-0.7,3.2-1,4.9-1c1.6,0,3.3,0.3,4.9,1c1.6,0.6,3,1.6,4.3,2.8c0.4,0.4,0.8,0.5,1.2,0.5c0.2,0,0.5-0.1,0.7-0.1
+         c0.2-0.1,0.4-0.2,0.6-0.4c0.2-0.2,0.3-0.3,0.4-0.6c0.1-0.2,0.2-0.4,0.2-0.7c0-0.4-0.2-0.9-0.5-1.3c-1.6-1.6-3.5-2.9-5.4-3.7
+         c-2-0.8-4.1-1.2-6.3-1.2c-1.5,0-3,0.2-4.4,0.6c-1.4,0.4-2.7,1-3.9,1.7c-1.2,0.7-2.3,1.6-3.3,2.6c-1,1-1.8,2.1-2.5,3.3
+         c-0.7,1.2-1.2,2.5-1.6,3.9C0.2,85,0,86.4,0,87.9c0,1.5,0.2,3,0.6,4.3C1,93.7,1.5,95,2.2,96.2c0.7,1.2,1.6,2.3,2.5,3.3
+         c1,1,2.1,1.9,3.3,2.6c1.2,0.7,2.5,1.3,3.9,1.7c1.4,0.4,2.8,0.6,4.3,0.6c2.1,0,4.2-0.4,6.2-1.1c2-0.7,3.9-2,5.7-3.6
+         c0.2-0.2,0.3-0.4,0.5-0.6c0.1-0.2,0.2-0.5,0.2-0.8v-9.6C28.7,88.1,28.5,87.7,28.1,87.3z" />
+            <path id="XMLID_56_" class="st0" d="M78.6,81.1c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8c0,0,0,0,0,0l0,0l0,11c0,4.4-3.4,8.5-8,8.5
+         c-3.2,0-6.2-2.1-7.3-5.1c-0.4-1-0.7-2.1-0.7-3.3l0-11.1c0,0,0,0,0,0c0-1-0.8-1.8-1.8-1.8c-1,0-1.8,0.8-1.8,1.8v11.2
+         c0,6.3,5.1,12.1,11.6,12c6.6,0,11.6-5.6,11.6-12.2L78.6,81.1L78.6,81.1L78.6,81.1z" />
+            <path id="XMLID_35_" class="st1" d="M169.2,70.4h-10.5c-3.6,0-6.8,3-6.8,6.8v25.3v0v0v0.1h0c0.1,1,0.8,1.7,1.8,1.7
+         c1,0,1.8-0.8,1.8-1.8c0,0,0-10.6,0-11.4c0-0.9,0.6-1.8,1.8-1.8c0,0,0,0,0.1,0v0l6.4,0v0c1,0,1.8-0.8,1.8-1.8c0-1-0.8-1.8-1.8-1.8
+         h-6.4c-0.1,0-0.1,0-0.1,0c-0.8,0-1.8-0.7-1.8-1.8c0-0.5,0-6.4,0-6.4c0-2,1.6-3.5,3.5-3.5l10.2,0v0c1,0,1.8-0.8,1.8-1.8
+         C171,71.2,170.2,70.4,169.2,70.4z" />
+            <path id="XMLID_34_" class="st2" d="M98.2,46.4c2.6-1,4.7-2.8,6.1-5c0.7-1.1,1.1-2.3,1.4-3.5c0.3-1.2,0.4-2.4,0.3-3.6
+         c-0.1-1.2-0.5-2.3-1.1-3.3c-0.2-0.5-0.5-1-0.8-1.5c-0.1-0.2-0.3-0.5-0.4-0.7c-0.2-0.2-0.3-0.5-0.4-0.7c-0.1-0.3-0.3-0.5-0.5-0.7
+         c-0.1-0.3-0.3-0.5-0.5-0.7c-0.3-0.5-0.7-1-1.1-1.4c-0.8-1-1.8-1.9-2.9-3l0,0c-0.1-0.1-0.1-0.3,0-0.4c0,0,0.1-0.1,0.1-0.1
+         c1.6-0.4,3.3-0.2,4.8,0.4c0.8,0.3,1.5,0.7,2.2,1.1c0.4,0.2,0.7,0.5,1,0.8l0.5,0.4c0.2,0.1,0.3,0.3,0.5,0.4c1.2,1.2,2,2.8,2.4,4.5
+         c0.4,1.7,0.4,3.4,0.3,5c-0.1,1.6-0.5,3.2-1.2,4.7c-0.7,1.5-1.6,2.8-2.7,3.9c-2.2,2.2-5.1,3.6-8,3.9c-0.1,0-0.3-0.1-0.3-0.2
+         C98.1,46.6,98.1,46.4,98.2,46.4z" />
+            <path id="XMLID_33_" class="st2" d="M92.4,22.3c-2.5,1.1-4.6,2.9-5.9,5.1c-0.7,1.1-1.1,2.2-1.4,3.4c-0.3,1.2-0.4,2.4-0.2,3.5
+         c0.1,1.2,0.5,2.3,1.1,3.3c0.1,0.2,0.2,0.5,0.4,0.7c0.1,0.2,0.2,0.5,0.4,0.7c0.1,0.2,0.3,0.5,0.4,0.7c0.1,0.2,0.3,0.5,0.4,0.7
+         l0.1,0.2l0.1,0.2l0.2,0.4l0.2,0.4l0.2,0.4c0.3,0.5,0.7,1,1.1,1.4c0.8,1,1.7,1.9,2.9,3l0,0c0.1,0.1,0.1,0.3,0,0.4
+         c0,0-0.1,0.1-0.1,0.1c-1.6,0.4-3.2,0.2-4.8-0.4c-0.8-0.3-1.5-0.7-2.2-1.1c-0.2-0.1-0.3-0.2-0.5-0.4l-0.5-0.4l-0.5-0.4l-0.2-0.2
+         l-0.2-0.2c-1.2-1.2-2-2.8-2.4-4.4c-0.4-1.6-0.4-3.3-0.3-4.9c0.1-1.6,0.5-3.2,1.1-4.7c0.6-1.5,1.5-2.8,2.6-3.9c2.1-2.2,5-3.7,7.8-4
+         c0.1,0,0.3,0.1,0.3,0.2C92.5,22.2,92.5,22.3,92.4,22.3z" />
+            <path id="XMLID_32_" class="st3" d="M108.8,16.6c-4.5-2.9-9.8-4-14.8-3.4c-2.5,0.3-4.9,1.1-7.1,2.2c-2.2,1.1-4.2,2.6-5.8,4.4
+         c-1.6,1.8-2.9,3.9-3.7,6.1c-0.8,2.2-1.4,4.5-1.7,6.8c-0.3,2.3-0.3,4.8,0,7.2c0.3,2.5,1,4.9,2,7.5l0,0c0.1,0.1,0,0.3-0.2,0.4
+         c-0.1,0-0.2,0-0.3,0c-2.2-1.7-4-4.1-5.1-6.8c-1.2-2.7-1.7-5.7-1.7-8.6c0.1-3,0.8-6,2.2-8.6c1.4-2.6,3.3-5,5.4-6.9
+         c2.1-2,4.6-3.6,7.3-4.6c2.7-1.1,5.5-1.6,8.4-1.7c2.8,0,5.6,0.4,8.2,1.4c0.6,0.3,1.3,0.5,1.9,0.8c0.6,0.3,1.2,0.6,1.8,1l1.7,1.1
+         l1.6,1.3c0.1,0.1,0.1,0.3,0,0.4C109.1,16.6,108.9,16.7,108.8,16.6L108.8,16.6z" />
+            <path id="XMLID_31_" class="st3" d="M81.8,51.8l1.7,1l1.8,0.9l1.9,0.7l1.9,0.5c2.6,0.6,5.2,0.7,7.7,0.4c2.5-0.3,5-1.1,7.2-2.2
+         c2.2-1.1,4.2-2.7,5.9-4.5c1.7-1.8,2.9-4,3.7-6.3c0.8-2.3,1.4-4.6,1.7-7c0.3-2.4,0.2-4.9-0.2-7.3c-0.4-2.5-1.2-5-2.3-7.5l0,0
+         c-0.1-0.1,0-0.3,0.1-0.4c0.1,0,0.2,0,0.3,0c2.3,1.7,4.1,4.1,5.4,6.8c1.2,2.7,1.9,5.7,1.9,8.7c0,3-0.8,6.1-2.1,8.8
+         c-1.4,2.7-3.3,5.1-5.5,7.1c-2.2,2-4.7,3.6-7.4,4.7c-2.7,1.1-5.6,1.6-8.5,1.7c-2.9,0-5.7-0.5-8.4-1.5c-0.6-0.3-1.3-0.5-1.9-0.8
+         c-0.6-0.3-1.2-0.7-1.8-1l-1.7-1.2l-1.6-1.3c-0.1-0.1-0.1-0.3,0-0.4C81.5,51.8,81.7,51.7,81.8,51.8L81.8,51.8z" />
+            <path id="XMLID_28_" class="st4" d="M119.7,54.4c1.2-1.6,2.2-3.2,3-4.9c0.9-1.7,1.6-3.5,2.1-5.3c1.1-3.7,1.4-7.5,1.1-11.2
+         c-0.3-3.7-1.3-7.4-2.9-10.7c-1.6-3.3-3.8-6.3-6.5-8.8c-2.7-2.5-5.8-4.4-9.2-5.7c-3.4-1.3-6.9-2.1-10.4-2.4C93.2,4.9,89.6,5.1,86,6
+         c-3.6,0.8-7.1,2.2-10.6,4.1c-0.1,0.1-0.3,0-0.4-0.1c-0.1-0.1,0-0.2,0-0.3c2.6-3.1,6-5.6,9.8-7.2c3.8-1.7,8-2.5,12.3-2.5
+         c2.1,0,4.2,0.3,6.3,0.8c1,0.2,2,0.6,3,0.9c1,0.4,2,0.8,2.9,1.2c3.8,1.9,7.2,4.5,10.1,7.5c2.9,3,5.1,6.6,6.7,10.4
+         c1.5,3.8,2.3,7.9,2.4,12c0.1,8.1-3,16.2-8.4,22c-0.1,0.1-0.3,0.1-0.4,0C119.6,54.7,119.6,54.5,119.7,54.4z" />
+            <path id="XMLID_25_" class="st4" d="M71.2,14.2c-1.2,1.6-2.2,3.2-3,4.9c-0.9,1.7-1.6,3.5-2.1,5.3c-1.1,3.7-1.4,7.5-1.1,11.2
+         c0.3,3.7,1.3,7.4,3,10.7c1.6,3.3,3.8,6.3,6.5,8.8c2.7,2.5,5.8,4.4,9.2,5.7c3.3,1.3,6.8,2.1,10.4,2.4c3.6,0.3,7.2,0.1,10.8-0.7
+         c3.6-0.8,7.1-2.2,10.6-4.1c0.1-0.1,0.3,0,0.4,0.1c0.1,0.1,0,0.2,0,0.3c-2.6,3.1-6,5.6-9.8,7.2c-3.8,1.7-8,2.5-12.3,2.5
+         c-2.1,0-4.2-0.3-6.3-0.8c-1-0.2-2-0.6-3-0.9c-1-0.4-2-0.8-2.9-1.2c-3.8-1.9-7.2-4.5-10-7.5c-2.9-3-5.1-6.6-6.7-10.4
+         c-1.5-3.8-2.3-7.9-2.4-12c-0.1-8.1,3-16.2,8.4-22c0.1-0.1,0.3-0.1,0.4,0C71.3,14,71.3,14.1,71.2,14.2z" />
+          </g>
+        </svg>
+      </div>
+      <div
+        style="width: 100%; background-color:#004e7d; color: #fff; height: 70px; font-weight: bold; display:flex; justify-content:center; align-items:center">
+        <h2 style="text-align: center;">REPORTE DE EVALUACIÓN DE CANDIDATO INTERNO</h2>
+      </div>
+      <br><br>
+      <div style="width: 100%;">
+        <div style="margin-left: 1.5%;">
+          <span>Cargo postulado: </span><span>{{reportDto.positionApplicant}}</span>
+        </div>
+        <br>
+        <br>
+        <div style="width: 100%; background-color:#16266d; color: #fff; padding: 10px; font-weight: bold;">
+          I. Datos Personales
+        </div>
+        <br>
+        <div style="width: 100%;padding-left: 10%;padding-right: 10%;">
+          <table
+            style="border-style:solid; border-width:1px; height: 180px; align-items:center; width:100%;font-size: 18px;margin:10px">
+            <tbody>
+              <tr>
+                <td>
+                  <table style="border-style:solid; border-width:0px; height: 180px; align-items:center; width:45%; padding:20px;font-size: 18px;float: left;">
+                    <tbody>
+                      <tr>
+                        <td>Apellidos y nombres:</td>
+                        <td>{{reportDto.infoPerson.sfirstname}} {{reportDto.infoPerson.slastname}}</td>
+                      </tr>
+                      <tr>
+                        <td>Edad:</td>
+                        <td>{{reportDto.infoPerson.sage}}</td>
+                      </tr>
+                      <tr>
+                        <td>Dirección:</td>
+                        <td>{{reportDto.infoPerson.saddress}}</td>
+                      </tr>
+                      <tr>
+                        <td>Estado Civil:</td>
+                        <td>{{reportDto.infoPerson.scivil_status}}</td>
+                      </tr>
+                      <tr>
+                        <td>Carrera:</td>
+                        <td>{{scarreer}}</td>
+                      </tr>
+                      <tr>
+                        <td>Estado:</td>
+                        <td>{{grado}}</td>
+                      </tr>
+                    <tbody>
+                  </table>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+        <br>
+        <div style="width: 100%; background-color:#16266d; color: #fff; padding: 10px; font-weight: bold;">
+          II. Resultados de Evaluación por Competencias Actuales
+        </div>
+        <br>
+        <table style="border-collapse: collapse; width: 100%">
+          <thead style="background-color: #064eac; color: #fff">
+            <tr>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:37%">Competencia
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Expectativa
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Talento Humano
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Cliente</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of reportDto.infoEvaluationProficiencyActually">
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.proficiency}}</td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.expectative}}</td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.levelRRHH}}
+                <i class="material-icons" style="color: red;" *ngIf="item.expectative>item.levelRRHH">brightness_1</i>
+                <i class="material-icons" style="color: green;" *ngIf="item.expectative==item.levelRRHH">brightness_1</i>
+                <i class="material-icons" style="color: blue;" *ngIf="item.levelRRHH>item.expectative">brightness_1</i>
+              </td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.levelJefe}}
+                <i class="material-icons" style="color: red;" *ngIf="item.expectative>item.levelJefe">brightness_1</i>
+                <i class="material-icons" style="color: green;" *ngIf="item.expectative==item.levelJefe">brightness_1</i>
+                <i class="material-icons" style="color: blue;" *ngIf="item.levelJefe>item.expectative">brightness_1</i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <div style="width: 100%; background-color:#16266d; color: #fff; padding: 10px; font-weight: bold;">
+          III. Resultados de Evaluación por Competencias Futuras
+        </div>
+        <br>
+        <table style="border-collapse: collapse; width: 100%">
+          <thead style="background-color: #064eac; color: #fff">
+            <tr>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:37%">Competencia
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Expectativa
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Talento Humano
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Cliente</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of reportDto.infoEvaluationProficiencyFuture">
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.proficiency}}</td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.expectative}}</td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.levelRRHH}}
+                <i class="material-icons" style="color: red;" *ngIf="item.expectative>item.levelRRHH">brightness_1</i>
+                <i class="material-icons" style="color: green;" *ngIf="item.expectative==item.levelRRHH">brightness_1</i>
+                <i class="material-icons" style="color: blue;" *ngIf="item.levelRRHH>item.expectative">brightness_1</i>
+              </td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.levelJefe}}
+                <i class="material-icons" style="color: red;" *ngIf="item.expectative>item.levelJefe">brightness_1</i>
+                <i class="material-icons" style="color: green;" *ngIf="item.expectative==item.levelJefe">brightness_1</i>
+                <i class="material-icons" style="color: blue;" *ngIf="item.levelJefe>item.expectative">brightness_1</i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <div style="width: 100%; background-color:#16266d; color: #fff; padding: 10px;font-weight: bold;">
+          IV. Resultados de Evaluación a Nivel Cognitivo
+        </div>
+        <div style="width: 100%;margin-top: 10px;margin-bottom: 10px;">
+          <div style="width: 70%;float: left !important;margin-bottom: 20px;">
+              <div echarts [options]="_chartOptionObj" id="echartobjcontainer" style="height:300px;"  [autoResize]="true">
+              </div>
+          </div>
+          <div style="width: 25%;float: right;vertical-align: middle;">
+            <table style="border-collapse: collapse; width: 100%; margin: 0 auto;font-size: 12px;margin-top: 30px;">
+              <thead style="background-color: #f3db8b;">
+                <tr>
+                  <th colspan="2"
+                    style="background-color: #f3db8b;border:solid; border-width:1px; padding:5px; width:20%">
+                    Leyenda</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Inferior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">1</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Promedio Inferior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">2</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Promedio</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">3</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Promedio Superior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">4</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Superior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">5</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Muy Superior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">6</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <table style="border-collapse: collapse; width: 100%; font-size: 14px;margin-bottom: 10px;">
+            <thead style="background-color: #064eac; color: #fff; font-size: 16px;">
+              <tr>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">
+                  Inteligencia General</th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">
+                  Aptitud Verbal</th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">
+                  Aptitud Numérica</th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">
+                  Aptitud Espacial</th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">
+                  Aptitud Abstracta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>
+                  {{reportDto.infoEvaluationMultitest.scoreIntelligence}}</td>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>
+                  {{reportDto.infoEvaluationMultitest.scoreAptitudVerbal}}</td>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>
+                  {{reportDto.infoEvaluationMultitest.scoreAptitudNumerica}}</td>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>
+                  {{reportDto.infoEvaluationMultitest.scoreAptitudEspacial}}</td>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>
+                  {{reportDto.infoEvaluationMultitest.scoreAptitudAbstracta}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br><br><br><br><br><br>
+        <div style="width: 100%; background-color:#16266d; color: #fff; padding: 10px;clear: both; font-weight: bold;">
+          V. Resultados de Fortalezas y Oportunidades
+        </div>
+        <br>
+        <table style="border-collapse: collapse; width: 100%">
+          <thead style="background-color: #064eac; color: #fff">
+            <tr>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:50%" colspan="2">
+                Calificación RRHH</th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:50%" colspan="2">
+                Calificación Cliente</th>
+            </tr>
+            <tr>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">Fortalezas
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">Oportunidades
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">Fortalezas
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">Oportunidades
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of reportDto.infoEvaluationRating">
+              <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.sRatingrrhhstrengths}}
+              </td>
+              <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.sRatingrrhhopportunities}}
+              </td>
+              <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.sRatingjefestrengths}}
+              </td>
+              <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.sRatingjefeopportunities}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <div class="content__notas">
+          <div
+          style="width: 100%; background-color:#16266d; color: #fff; padding: 10px;clear: both; font-weight: bold;">
+            VI. Comentarios
+          </div>
+          <table style="border-collapse: collapse; width: 100%; font-size: 14px;margin-top: 10px; margin-bottom: 10px;">
+            <thead style="background-color: #064eac; color: #fff; font-size: 16px;">
+              <tr>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:37%">
+                  Usuario
+                </th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">
+                  Comentario
+                </th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">
+                  Fecha de registro
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of notes">
+                <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.autor}}</td>
+                <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.descripcion}}</td>
+                <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.dateRegister | date:'dd/MM/YYYY HH:MM'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div style="overflow: hidden; height: 0;">
+  <div id="reporteIntegrado">
+    <div style="margin-left: 4%; margin-right: 4%;">
+      <div style="width: 100%; margin-bottom: 2%; display: flex; justify-content: center">
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+          x="0px" y="0px" viewBox="0 0 190.9 115.3" style="width: 10% !important; enable-background:new 0 0 190.9 115.3;"
+          xml:space="preserve">
+          <style type="text/css">
+            .st0 {
+              fill: #575756;
+            }
+  
+            .st1 {
+              fill: #4E6695;
+            }
+  
+            .st2 {
+              fill: #C5D1DF;
+            }
+  
+            .st3 {
+              fill: #88A1CB;
+            }
+  
+            .st4 {
+              fill: #6F7C9B;
+            }
+          </style>
+          <g id="XMLID_20_">
+            <path id="XMLID_96_" class="st0" d="M132.7,82.9L132.7,82.9c-2.4-2.4-5.4-3.7-8.9-3.7c-3.4,0-6.4,1.2-8.9,3.7
+         c-2.4,2.4-3.7,5.4-3.7,8.9c0,3.4,1.2,6.4,3.7,8.9c2.4,2.4,5.4,3.7,8.9,3.7c3.4,0,6.4-1.2,8.9-3.7c2.4-2.4,3.7-5.4,3.7-8.9
+         C136.4,88.4,135.2,85.4,132.7,82.9z M123.9,100.6c-2.4,0-4.5-0.8-6.2-2.6c-1.7-1.7-2.6-3.8-2.6-6.2c0-2.4,0.8-4.5,2.6-6.2
+         c1.7-1.7,3.8-2.6,6.2-2.6c2.4,0,4.5,0.8,6.2,2.6c1.7,1.7,2.6,3.8,2.6,6.2c0,2.4-0.8,4.5-2.6,6.2
+         C128.4,99.7,126.3,100.6,123.9,100.6z" />
+            <path id="XMLID_88_" class="st0" d="M95.9,79.7c-3.1,0-6,1.3-8.2,3.4l0-2c0,0,0,0,0,0c0-1-0.8-1.8-1.8-1.8c-1,0-1.8,0.8-1.8,1.8
+         l0,0v32.4c0,1.1,0.7,1.8,1.8,1.8c0.5,0,0.9-0.2,1.3-0.5c0.3-0.4,0.5-0.8,0.5-1.3l0-12.4c2.1,2.1,5.2,3.3,8.2,3.3
+         c6.7,0,11.8-5.8,11.8-12.4C107.7,85.4,102.7,79.7,95.9,79.7z M95.9,100.7c-4.6,0-8.2-4.1-8.2-8.6c0-4.6,3.4-8.6,8.2-8.7
+         c4.7,0,8.1,3.9,8.1,8.6C104,96.4,100.6,100.6,95.9,100.7z" />
+            <path id="XMLID_85_" class="st0" d="M48.1,79.3C48.1,79.3,48.1,79.3,48.1,79.3h-2.7h-1.2c-2.9,0.2-5.3,1.7-6.5,3.6l0-1.8h0
+         c0-1-0.8-1.8-1.8-1.8c-1,0-1.8,0.8-1.8,1.8l0,0l0,21.4c0,0,0,0,0,0c0,1,0.8,1.8,1.8,1.8c1,0,1.8-0.8,1.8-1.8c0,0,0,0,0,0
+         c0,0,0,0,0,0l0-10.8c0-0.1,0-0.2,0-0.2c0-0.1,0-0.2,0-0.2c0-4.3,3.3-7.9,7.6-8.3c0,0,0,0,0,0c0,0,0,0,0.3,0c0.1,0,0.2,0,0.4,0
+         c0,0,0,0,0,0c0,0,0,0,0,0c0.6,0,1.7,0,1.9,0c0,0,0,0,0,0c1,0,1.8-0.8,1.8-1.8C49.9,80.1,49.1,79.3,48.1,79.3z" />
+            <path id="XMLID_65_" class="st1" d="M190.9,86.9c0.1-0.5,0-1-0.3-1.4c-2-3.4-5.7-5.4-9.7-5.4c-6.6,0-11.7,5.6-11.7,12.1
+         c0,6.4,4.9,12.2,11.6,12.2c3.8,0,7.3-1.9,9.5-5.1c0.3-0.5,0.5-0.9,0.3-1.4c-0.3-0.9-1.1-1.4-2.1-1.4c-0.5,0.1-0.9,0.3-1.2,0.8
+         c-1.5,2.1-3.9,3.4-6.5,3.4c-2.4,0-4.5-1.1-5.9-2.7l15.1-9.9C190.5,87.7,190.8,87.4,190.9,86.9z M173.2,94.7
+         c-0.2-0.8-0.4-1.7-0.4-2.6c0-4.4,3.4-8.5,8.1-8.5c2.1,0,3.9,0.8,5.5,2.3L173.2,94.7z" />
+            <path id="XMLID_59_" class="st0" d="M28.1,87.3c-0.4-0.3-0.8-0.5-1.3-0.5l-10.7,0c-0.5,0-0.9,0.2-1.3,0.5c-0.3,0.4-0.5,0.8-0.5,1.3
+         c0,0.5,0.2,0.9,0.5,1.3c0.3,0.4,0.8,0.5,1.3,0.5h7.2c0,0,0.7,0,1.3,0.5c0.6,0.6,0.5,1.4,0.5,1.4v4.4c0,0,0,0.5-0.2,0.8
+         c-0.2,0.3-0.4,0.5-0.6,0.6c-1,0.8-2.2,1.4-3.4,1.8c-1.5,0.5-3.1,0.8-4.7,0.8c-1.8,0-3.4-0.4-5-1c-1.5-0.7-2.9-1.6-4-2.8
+         c-1.1-1.2-2-2.6-2.7-4.1c-0.6-1.5-1-3.2-1-4.9c0-1.8,0.3-3.5,1-5.1c0.7-1.6,1.6-2.9,2.8-4.1c1.2-1.1,2.5-2.1,4.1-2.7
+         c1.5-0.7,3.2-1,4.9-1c1.6,0,3.3,0.3,4.9,1c1.6,0.6,3,1.6,4.3,2.8c0.4,0.4,0.8,0.5,1.2,0.5c0.2,0,0.5-0.1,0.7-0.1
+         c0.2-0.1,0.4-0.2,0.6-0.4c0.2-0.2,0.3-0.3,0.4-0.6c0.1-0.2,0.2-0.4,0.2-0.7c0-0.4-0.2-0.9-0.5-1.3c-1.6-1.6-3.5-2.9-5.4-3.7
+         c-2-0.8-4.1-1.2-6.3-1.2c-1.5,0-3,0.2-4.4,0.6c-1.4,0.4-2.7,1-3.9,1.7c-1.2,0.7-2.3,1.6-3.3,2.6c-1,1-1.8,2.1-2.5,3.3
+         c-0.7,1.2-1.2,2.5-1.6,3.9C0.2,85,0,86.4,0,87.9c0,1.5,0.2,3,0.6,4.3C1,93.7,1.5,95,2.2,96.2c0.7,1.2,1.6,2.3,2.5,3.3
+         c1,1,2.1,1.9,3.3,2.6c1.2,0.7,2.5,1.3,3.9,1.7c1.4,0.4,2.8,0.6,4.3,0.6c2.1,0,4.2-0.4,6.2-1.1c2-0.7,3.9-2,5.7-3.6
+         c0.2-0.2,0.3-0.4,0.5-0.6c0.1-0.2,0.2-0.5,0.2-0.8v-9.6C28.7,88.1,28.5,87.7,28.1,87.3z" />
+            <path id="XMLID_56_" class="st0" d="M78.6,81.1c0-1-0.8-1.8-1.8-1.8s-1.8,0.8-1.8,1.8c0,0,0,0,0,0l0,0l0,11c0,4.4-3.4,8.5-8,8.5
+         c-3.2,0-6.2-2.1-7.3-5.1c-0.4-1-0.7-2.1-0.7-3.3l0-11.1c0,0,0,0,0,0c0-1-0.8-1.8-1.8-1.8c-1,0-1.8,0.8-1.8,1.8v11.2
+         c0,6.3,5.1,12.1,11.6,12c6.6,0,11.6-5.6,11.6-12.2L78.6,81.1L78.6,81.1L78.6,81.1z" />
+            <path id="XMLID_35_" class="st1" d="M169.2,70.4h-10.5c-3.6,0-6.8,3-6.8,6.8v25.3v0v0v0.1h0c0.1,1,0.8,1.7,1.8,1.7
+         c1,0,1.8-0.8,1.8-1.8c0,0,0-10.6,0-11.4c0-0.9,0.6-1.8,1.8-1.8c0,0,0,0,0.1,0v0l6.4,0v0c1,0,1.8-0.8,1.8-1.8c0-1-0.8-1.8-1.8-1.8
+         h-6.4c-0.1,0-0.1,0-0.1,0c-0.8,0-1.8-0.7-1.8-1.8c0-0.5,0-6.4,0-6.4c0-2,1.6-3.5,3.5-3.5l10.2,0v0c1,0,1.8-0.8,1.8-1.8
+         C171,71.2,170.2,70.4,169.2,70.4z" />
+            <path id="XMLID_34_" class="st2" d="M98.2,46.4c2.6-1,4.7-2.8,6.1-5c0.7-1.1,1.1-2.3,1.4-3.5c0.3-1.2,0.4-2.4,0.3-3.6
+         c-0.1-1.2-0.5-2.3-1.1-3.3c-0.2-0.5-0.5-1-0.8-1.5c-0.1-0.2-0.3-0.5-0.4-0.7c-0.2-0.2-0.3-0.5-0.4-0.7c-0.1-0.3-0.3-0.5-0.5-0.7
+         c-0.1-0.3-0.3-0.5-0.5-0.7c-0.3-0.5-0.7-1-1.1-1.4c-0.8-1-1.8-1.9-2.9-3l0,0c-0.1-0.1-0.1-0.3,0-0.4c0,0,0.1-0.1,0.1-0.1
+         c1.6-0.4,3.3-0.2,4.8,0.4c0.8,0.3,1.5,0.7,2.2,1.1c0.4,0.2,0.7,0.5,1,0.8l0.5,0.4c0.2,0.1,0.3,0.3,0.5,0.4c1.2,1.2,2,2.8,2.4,4.5
+         c0.4,1.7,0.4,3.4,0.3,5c-0.1,1.6-0.5,3.2-1.2,4.7c-0.7,1.5-1.6,2.8-2.7,3.9c-2.2,2.2-5.1,3.6-8,3.9c-0.1,0-0.3-0.1-0.3-0.2
+         C98.1,46.6,98.1,46.4,98.2,46.4z" />
+            <path id="XMLID_33_" class="st2" d="M92.4,22.3c-2.5,1.1-4.6,2.9-5.9,5.1c-0.7,1.1-1.1,2.2-1.4,3.4c-0.3,1.2-0.4,2.4-0.2,3.5
+         c0.1,1.2,0.5,2.3,1.1,3.3c0.1,0.2,0.2,0.5,0.4,0.7c0.1,0.2,0.2,0.5,0.4,0.7c0.1,0.2,0.3,0.5,0.4,0.7c0.1,0.2,0.3,0.5,0.4,0.7
+         l0.1,0.2l0.1,0.2l0.2,0.4l0.2,0.4l0.2,0.4c0.3,0.5,0.7,1,1.1,1.4c0.8,1,1.7,1.9,2.9,3l0,0c0.1,0.1,0.1,0.3,0,0.4
+         c0,0-0.1,0.1-0.1,0.1c-1.6,0.4-3.2,0.2-4.8-0.4c-0.8-0.3-1.5-0.7-2.2-1.1c-0.2-0.1-0.3-0.2-0.5-0.4l-0.5-0.4l-0.5-0.4l-0.2-0.2
+         l-0.2-0.2c-1.2-1.2-2-2.8-2.4-4.4c-0.4-1.6-0.4-3.3-0.3-4.9c0.1-1.6,0.5-3.2,1.1-4.7c0.6-1.5,1.5-2.8,2.6-3.9c2.1-2.2,5-3.7,7.8-4
+         c0.1,0,0.3,0.1,0.3,0.2C92.5,22.2,92.5,22.3,92.4,22.3z" />
+            <path id="XMLID_32_" class="st3" d="M108.8,16.6c-4.5-2.9-9.8-4-14.8-3.4c-2.5,0.3-4.9,1.1-7.1,2.2c-2.2,1.1-4.2,2.6-5.8,4.4
+         c-1.6,1.8-2.9,3.9-3.7,6.1c-0.8,2.2-1.4,4.5-1.7,6.8c-0.3,2.3-0.3,4.8,0,7.2c0.3,2.5,1,4.9,2,7.5l0,0c0.1,0.1,0,0.3-0.2,0.4
+         c-0.1,0-0.2,0-0.3,0c-2.2-1.7-4-4.1-5.1-6.8c-1.2-2.7-1.7-5.7-1.7-8.6c0.1-3,0.8-6,2.2-8.6c1.4-2.6,3.3-5,5.4-6.9
+         c2.1-2,4.6-3.6,7.3-4.6c2.7-1.1,5.5-1.6,8.4-1.7c2.8,0,5.6,0.4,8.2,1.4c0.6,0.3,1.3,0.5,1.9,0.8c0.6,0.3,1.2,0.6,1.8,1l1.7,1.1
+         l1.6,1.3c0.1,0.1,0.1,0.3,0,0.4C109.1,16.6,108.9,16.7,108.8,16.6L108.8,16.6z" />
+            <path id="XMLID_31_" class="st3" d="M81.8,51.8l1.7,1l1.8,0.9l1.9,0.7l1.9,0.5c2.6,0.6,5.2,0.7,7.7,0.4c2.5-0.3,5-1.1,7.2-2.2
+         c2.2-1.1,4.2-2.7,5.9-4.5c1.7-1.8,2.9-4,3.7-6.3c0.8-2.3,1.4-4.6,1.7-7c0.3-2.4,0.2-4.9-0.2-7.3c-0.4-2.5-1.2-5-2.3-7.5l0,0
+         c-0.1-0.1,0-0.3,0.1-0.4c0.1,0,0.2,0,0.3,0c2.3,1.7,4.1,4.1,5.4,6.8c1.2,2.7,1.9,5.7,1.9,8.7c0,3-0.8,6.1-2.1,8.8
+         c-1.4,2.7-3.3,5.1-5.5,7.1c-2.2,2-4.7,3.6-7.4,4.7c-2.7,1.1-5.6,1.6-8.5,1.7c-2.9,0-5.7-0.5-8.4-1.5c-0.6-0.3-1.3-0.5-1.9-0.8
+         c-0.6-0.3-1.2-0.7-1.8-1l-1.7-1.2l-1.6-1.3c-0.1-0.1-0.1-0.3,0-0.4C81.5,51.8,81.7,51.7,81.8,51.8L81.8,51.8z" />
+            <path id="XMLID_28_" class="st4" d="M119.7,54.4c1.2-1.6,2.2-3.2,3-4.9c0.9-1.7,1.6-3.5,2.1-5.3c1.1-3.7,1.4-7.5,1.1-11.2
+         c-0.3-3.7-1.3-7.4-2.9-10.7c-1.6-3.3-3.8-6.3-6.5-8.8c-2.7-2.5-5.8-4.4-9.2-5.7c-3.4-1.3-6.9-2.1-10.4-2.4C93.2,4.9,89.6,5.1,86,6
+         c-3.6,0.8-7.1,2.2-10.6,4.1c-0.1,0.1-0.3,0-0.4-0.1c-0.1-0.1,0-0.2,0-0.3c2.6-3.1,6-5.6,9.8-7.2c3.8-1.7,8-2.5,12.3-2.5
+         c2.1,0,4.2,0.3,6.3,0.8c1,0.2,2,0.6,3,0.9c1,0.4,2,0.8,2.9,1.2c3.8,1.9,7.2,4.5,10.1,7.5c2.9,3,5.1,6.6,6.7,10.4
+         c1.5,3.8,2.3,7.9,2.4,12c0.1,8.1-3,16.2-8.4,22c-0.1,0.1-0.3,0.1-0.4,0C119.6,54.7,119.6,54.5,119.7,54.4z" />
+            <path id="XMLID_25_" class="st4" d="M71.2,14.2c-1.2,1.6-2.2,3.2-3,4.9c-0.9,1.7-1.6,3.5-2.1,5.3c-1.1,3.7-1.4,7.5-1.1,11.2
+         c0.3,3.7,1.3,7.4,3,10.7c1.6,3.3,3.8,6.3,6.5,8.8c2.7,2.5,5.8,4.4,9.2,5.7c3.3,1.3,6.8,2.1,10.4,2.4c3.6,0.3,7.2,0.1,10.8-0.7
+         c3.6-0.8,7.1-2.2,10.6-4.1c0.1-0.1,0.3,0,0.4,0.1c0.1,0.1,0,0.2,0,0.3c-2.6,3.1-6,5.6-9.8,7.2c-3.8,1.7-8,2.5-12.3,2.5
+         c-2.1,0-4.2-0.3-6.3-0.8c-1-0.2-2-0.6-3-0.9c-1-0.4-2-0.8-2.9-1.2c-3.8-1.9-7.2-4.5-10-7.5c-2.9-3-5.1-6.6-6.7-10.4
+         c-1.5-3.8-2.3-7.9-2.4-12c-0.1-8.1,3-16.2,8.4-22c0.1-0.1,0.3-0.1,0.4,0C71.3,14,71.3,14.1,71.2,14.2z" />
+          </g>
+        </svg>
+      </div>
+      <div
+        style="width: 100%; background-color:#004e7d; color: #fff; height: 70px; font-weight: bold; display:flex; justify-content:center; align-items:center">
+        <h2 style="text-align: center;">REPORTE DE EVALUACIÓN INTEGRAL DE CANDIDATOS</h2>
+      </div>
+      <br><br>
+      <div style="width: 100%;">
+        <div style="margin-left: 1.5%;">
+          <span>Cargo postulado: </span><span>{{reportIntegradoDto.positionApplicant}}</span>
+        </div>
+        <br><br>
+        <div style="width: 100%; background-color:#16266d; color: #fff; padding: 10px; font-weight: bold;">
+          I. Resultados de evaluación por competencias
+        </div>
+        <br>
+        <table style="border-collapse: collapse; width: 100%">
+          <thead style="background-color: #064eac; color: #fff">
+            <tr>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:37%">Competencia
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Expectativa
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Candidatos</th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Talento Humano
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Cliente</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of reportIntegradoDto.infoEvaluationProficiency">
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.proficiency}}</td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.expectative}}</td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.fullNamePostulant}}
+              </td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.levelRRHH}}
+                <i class="material-icons" style="color: red;" *ngIf="item.expectative>item.levelRRHH">brightness_1</i>
+                <i class="material-icons" style="color: green;" *ngIf="item.expectative==item.levelRRHH">brightness_1</i>
+                <i class="material-icons" style="color: blue;" *ngIf="item.levelRRHH>item.expectative">brightness_1</i>
+              </td>
+              <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.levelJefe}}
+                <i class="material-icons" style="color: red;" *ngIf="item.expectative>item.levelJefe">brightness_1</i>
+                <i class="material-icons" style="color: green;" *ngIf="item.expectative==item.levelJefe">brightness_1</i>
+                <i class="material-icons" style="color: blue;" *ngIf="item.levelJefe>item.expectative">brightness_1</i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <div style="width: 100%; background-color:#16266d; color: #fff; padding: 10px;font-weight: bold;">
+          II. Resultados de Evaluación a Nivel Cognitivo
+        </div>
+        <div style="width: 100%;margin-top: 10px;margin-bottom: 10px;">
+          <div style="width: 70%;float: left !important;margin-bottom: 20px;">
+            <div echarts [options]="_chartOptionObjDataSet" id="echartobjcontainer" style="height:350px;"  [autoResize]="true">
+              </div>
+          </div>
+          <div style="width: 25%;float: right;vertical-align: middle;">
+            <table style="border-collapse: collapse; width: 100%; margin: 0 auto;font-size: 12px;margin-top: 30px;">
+              <thead style="background-color: #f3db8b;">
+                <tr>
+                  <th colspan="2"
+                    style="background-color: #f3db8b;border:solid; border-width:1px; padding:5px; width:20%">
+                    Leyenda</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Inferior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">1</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Promedio Inferior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">2</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Promedio</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">3</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Promedio Superior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">4</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Superior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">5</td>
+                </tr>
+                <tr>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">Muy Superior</td>
+                  <td style="border:solid; border-width:1px; text-align:center;padding:5px;">6</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div>
+          <table style="border-collapse: collapse; width: 100%">
+            <thead style="background-color: #064eac; color: #fff">
+              <tr>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Candidatos
+                </th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">
+                  Inteligencia
+                  General</th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Aptitud
+                  Verbal</th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Aptitud
+                  Numérica</th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Aptitud
+                  Espacial</th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">Aptitud
+                  Abstracta</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of reportIntegradoDto.infoEvaluationMultitest">
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.postulant}}</td>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.scoreIntelligence}}
+                </td>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.scoreAptitudVerbal}}
+                </td>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.scoreAptitudNumerica}}
+                </td>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.scoreAptitudEspacial}}
+                </td>
+                <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>
+                  {{item.scoreAptitudAbstracta}}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <div
+          style="width: 100%; background-color:#16266d; color: #fff; padding: 10px;clear: both; font-weight: bold;">
+          III. Resultados de Fortalezas y Oportunidades
+        </div>
+        <br>
+        <table style="border-collapse: collapse; width: 100%">
+          <thead style="background-color: #064eac; color: #fff">
+            <tr>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%"></th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:40%" colspan="2">
+                Calificación RRHH</th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:40%" colspan="2">
+                Calificación Cliente</th>
+            </tr>
+            <tr>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">Candidatos</th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">Fortalezas
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">Oportunidades
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">Fortalezas
+              </th>
+              <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:20%">Oportunidades
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of reportIntegradoDto.infoEvaluationRating">
+              <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.fullNamePostulant}}
+              </td>
+              <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.sRatingrrhhstrengths}}
+              </td>
+              <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.sRatingrrhhopportunities}}
+              </td>
+              <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.sRatingjefestrengths}}
+              </td>
+              <td style='border:solid; border-width:1px; text-align:center;padding:5px;'>{{item.sRatingjefeopportunities}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="content__notas">
+          <div
+          style="width: 100%; background-color:#16266d; color: #fff; padding: 10px;clear: both; font-weight: bold;">
+            IV. Comentarios
+          </div>
+          <table style="border-collapse: collapse; width: 100%; font-size: 14px;margin-top: 10px; margin-bottom: 10px;">
+            <thead style="background-color: #064eac; color: #fff; font-size: 16px;">
+              <tr>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:37%">
+                  Candidatos
+                </th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:37%">
+                  Usuario
+                </th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">
+                  Comentario
+                </th>
+                <th style="background-color: #064eac;border:solid; border-width:1px; padding:5px; width:15%">
+                  Fecha de registro
+                </th>
+              </tr>
+            </thead>
+            <tbody >
+              <tr *ngFor="let item of notes">
+                <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.postulantName}}</td>
+                <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.autor}}</td>
+                <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.descripcion}}</td>
+                <td style="border: solid; border-width:1px; text-align:center; padding: 5px;">{{item.dateRegister | date:'dd/MM/YYYY HH:MM'}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        
+      </div>
+    </div>
+  </div>
+</div>

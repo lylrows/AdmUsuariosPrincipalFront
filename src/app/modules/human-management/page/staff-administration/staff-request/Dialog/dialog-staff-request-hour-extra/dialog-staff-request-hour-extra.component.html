@@ -1,0 +1,153 @@
+<div class="content">
+    <form [formGroup]="form" (ngSubmit)="save()">
+        <div class="header">
+            <h1>SOLICITUD DE {{title | uppercase}}</h1>
+        </div>
+        <hr>
+        <div class="personal">
+            <h1 class="title">1. DATOS PERSONALES: </h1>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Código del Empleado: </label>
+                    <span> {{ codeEmployee }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">DNI N*: </label>
+                    <span> {{dni }} </span>
+                </div>
+               
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label >Nombres y Apellidos: </label>
+                    <span> {{fullname }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-input">
+                    <label class="size-large">Fecha de Ingreso: </label>
+                    <span> {{ dateAdmission }} </span>
+                </div>
+                <div class="personal__group-input">
+                    <label class="size-short">Área: </label>
+                    <span> {{ area }} </span>
+                </div>
+            </div>
+            <div class="personal__group">
+                <div class="personal__group-name">
+                    <label class="size-large">Cargo: </label>
+                    <span> {{ charge }} </span>
+                </div>
+            </div>
+        </div>
+        <div class="motivo">
+            <h1 class="title">2. DATOS: </h1>
+            <div class="motivo__amount">
+                <mat-form-field class="full-width">
+                    <mat-label style="font-weight: bold;">Sustento</mat-label>
+                    <textarea [readonly]="isEdit" formControlName="support" matInput></textarea>
+                    <mat-error *ngIf="
+                    form.controls.support.touched &&
+                    form.controls.support.invalid
+                                          ">
+                        <span *ngIf="form.controls.support.errors.required">Sustento es
+                            <strong>requerido</strong>
+                        </span>
+                        <span *ngIf="form.controls.support.errors.pattern">Solo se debe
+                            de
+                            ingresar <strong>letras</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <mat-form-field class="full-width">
+                    <mat-label style="font-weight: bold;">Fecha</mat-label>
+                    <input formControlName="dday" readonly matInput (dateChange)="validDateActual()"
+                        [matDatepicker]="pickeremision">
+                    <mat-datepicker-toggle matSuffix [for]="pickeremision" [disabled]="isEdit"></mat-datepicker-toggle>
+                    <mat-datepicker #pickeremision></mat-datepicker>
+                    <mat-error *ngIf="
+                    form.controls.dday.touched &&
+                    form.controls.dday.invalid
+                                          ">
+                        <span *ngIf="form.controls.dday.errors.required">Fecha es
+                            <strong>requerido</strong>
+                        </span>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="motivo__amount">
+                <div fxFlex="50"  class="pr-16">
+                    <mat-form-field class="full-width">
+                      <input
+                      matInput
+                      type="time"
+                      name="shourinit"
+                      [formControl]="form.controls['shourinit']"
+                      placeholder="Hora de Inicio">
+                    </mat-form-field>
+                    <small 
+                    *ngIf="form.controls['shourinit'].hasError('required') && form.controls['shourinit'].touched" 
+                    class="form-error-msg"> La Hora de inicio es obligatorio </small>
+                  </div>
+          
+                  <div fxFlex="50"  class="pr-16">
+                      <mat-form-field class="full-width">
+                        <input
+                        matInput
+                        type="time"
+                        name="shourfinish"
+                        [formControl]="form.controls['shourfinish']"
+                    
+                        (change)="validTime()"
+                        placeholder="Hora de Fin">
+                      </mat-form-field>
+                      <small 
+                      *ngIf="form.controls['shourfinish'].hasError('required') && form.controls['shourfinish'].touched" 
+                      class="form-error-msg"> La Hora fin es obligatorio </small>
+                    </div>
+
+            </div>
+
+            <div class="adjunto">
+                <mat-label style="font-weight: bold; align-self: center;">Adjuntar Foto:</mat-label>
+                <input type="file" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+    
+                <div *ngIf="!isEdit" class="file-upload">
+    
+                    {{fileName || "Ningun archivo cargado"}}
+    
+                    <button *ngIf="!isEdit" style="margin-left: 5px;" mat-mini-fab type="button" class="upload-btn"
+                        (click)="fileUpload.click()">
+                        <mat-icon style="color: white;">attach_file</mat-icon>
+                    </button>
+                </div>
+                <div class="button_download" *ngIf="isEdit" >
+                    <p>{{ nameFile }}</p>
+                    <button style="margin-left: 10px;" mat-mini-fab (click)="ViewAdjunto()"  class="upload-btn"
+                    >
+                        <mat-icon style="color: white;">get_app</mat-icon>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+       
+
+        
+
+        <app-staff-request-approver *ngIf="isEdit" style="width: 95%;"></app-staff-request-approver>
+
+        <div class="footer">
+            <button type="button" mat-raised-button (click)="cancel()">Cancelar</button>
+            <button *ngIf="!isEdit" mat-raised-button class="dark-blue-400 dark-blue-400-fg"
+                type="submit">Guardar</button>
+            <button *ngIf="isEdit && isAceept" mat-raised-button style="background-color: #cddcea;color:#343a67;"
+                type="button" (click)="accept()">Aceptar</button>
+            <button *ngIf="isEdit && isAceept" type="button" mat-raised-button
+                style="background-color: #f44336; color: white;" (click)="reject()"> Rechazar</button>
+        </div>
+    </form>
+
+</div>

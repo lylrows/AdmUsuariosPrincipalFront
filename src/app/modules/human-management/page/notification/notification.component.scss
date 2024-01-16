@@ -1,0 +1,10 @@
+.star {
+    color: rgb(255, 166, 0);
+}
+
+@media screen and (max-width: 480px) {
+    .mat-expansion-panel-header {
+        height: 100px !important;
+        padding: 0 10px !important;
+    }
+}

@@ -1,0 +1,276 @@
+<div class="content">
+  <form [formGroup]="itemForm">
+    <div class="header">
+      <h1>SOLICITUD DE {{data.title | uppercase}}</h1>
+    </div>
+    <hr>
+
+    <div class="personal">
+      <h1 class="title">1. DATOS PERSONALES: </h1>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Código del Empleado: </label>
+          <span> {{ codeEmployee }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">DNI N*: </label>
+          <span> {{dni }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label>Nombres y Apellidos: </label>
+          <span> {{ fullname }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-input">
+          <label class="size-large">Fecha de Ingreso: </label>
+          <span> {{ dateAdmission }} </span>
+        </div>
+        <div class="personal__group-input">
+          <label class="size-short">Área: </label>
+          <span> {{ area }} </span>
+        </div>
+      </div>
+      <div class="personal__group">
+        <div class="personal__group-name">
+          <label class="size-large">Cargo: </label>
+          <span> {{charge }} </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">2. DATOS DE LA SOLICITUD: </h1>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Tipo de Permiso: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Tipo de Permiso</mat-label>
+          <input matInput name="Suport" [formControl]="itemForm.controls['typePermitName']"
+            placeholder="Tipo de Permiso" readonly>
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Sustento de Permiso: </label>
+        <mat-form-field class="size-input">
+          <input matInput maxlength="250" name="Suport" [formControl]="itemForm.controls['support']"
+            placeholder="Sustento de Permiso" readonly>
+          <mat-error *ngIf="
+          itemForm.controls.support.touched &&
+          itemForm.controls.support.invalid
+                                          ">
+            <span *ngIf="itemForm.controls.support.errors.required">Sustento es
+              <strong>requerido</strong>
+            </span>
+            <span *ngIf="itemForm.controls.support.errors.pattern">Solo se debe
+              de
+              ingresar <strong>letras</strong>
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Fecha del Permiso: </label>
+        <mat-form-field class="size-input">
+          <input readonly matInput [matDatepicker]="pickerPermitDate" maxlength="10" name="StartVacation"
+            [formControl]="itemForm.controls['permitDate']" placeholder="Fecha del Permiso">
+          <mat-datepicker-toggle matSuffix [for]="pickerPermitDate" disabled></mat-datepicker-toggle>
+          <mat-datepicker #pickerPermitDate></mat-datepicker>
+          <mat-error *ngIf="
+          itemForm.controls.permitDate.touched &&
+          itemForm.controls.permitDate.invalid
+                                ">
+            <span *ngIf="itemForm.controls.permitDate.errors.required">La fecha de permiso es
+              <strong>requerido</strong>
+            </span>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Hora de inicio: </label>
+        <mat-form-field class="size-input">
+          <input readonly matInput name="startTime" [formControl]="itemForm.controls['startTime']"
+            placeholder="Hora de Inicio">
+          <!-- <mat-error *ngIf="
+            itemForm.controls.startTime.touched &&
+            itemForm.controls.startTime.invalid
+                                  ">
+            <span *ngIf="itemForm.controls.startTime.errors.required">La hora de inicio es
+              <strong>requerido</strong>
+            </span>
+          </mat-error> -->
+        </mat-form-field>
+      </div>
+
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Hora fin: </label>
+        <mat-form-field class="size-input">
+          <input matInput name="endTime" [formControl]="itemForm.controls['endTime']" placeholder="Hora Fin"
+            readonly>
+          <!-- <mat-error *ngIf="
+            itemForm.controls.endTime.touched &&
+            itemForm.controls.endTime.invalid
+                                  ">
+            <span *ngIf="itemForm.controls.endTime.errors.required">La hora fin es
+              <strong>requerido</strong>
+            </span>
+          </mat-error> -->
+        </mat-form-field>
+      </div>
+
+      <div class="adjunto">
+        <mat-label class="size-large" style="font-weight: bold;align-self: center;">Adjuntar Archivo:</mat-label>
+        <div class="button_download">
+          <!-- <p>{{ nameFile }}</p> -->
+          <button style="margin-left: 5px;" mat-mini-fab (click)="ViewAdjunto()" class="upload-btn">
+            <mat-icon style="color: #536BB2;">get_app</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="motivo">
+      <h1 class="title">HISTORIAL DE SOLICITUD: </h1>
+      <app-staff-request-approver style="width: 50%;text-align: center;"></app-staff-request-approver>
+    </div>
+    <div class="motivo">
+      <h1 class="title">COMENTARIO DE EVALUACIÓN: </h1>
+      <div class="motivo__amount">
+        <label class="size-large" style="font-weight: bold;">Comentario: </label>
+        <mat-form-field class="size-input">
+          <mat-label>Comentario</mat-label>
+          <textarea maxlength="2000" matInput placeholder="" formControlName="commentEvaluation" [readonly]="readOnlyView"></textarea>          
+        </mat-form-field>
+      </div> 
+    </div>
+    <div class="footer">
+      <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+        style="background-color: #cddcea;color:#343a67;" type="button" (click)="approveRequest()">
+        Aprobar</button>
+      <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+        style="background-color: #f44336; color: white;" type="button" (click)="rejectRequest()">
+        Rechazar</button>
+      <button mat-raised-button color="primary" type="button"
+        (click)="dialogRef.close(false)">Cancelar</button>
+    </div>
+
+
+  </form>
+</div>
+
+<!--<mat-card-title class="">
+  <div class="card-title-text">{{data.title}}</div>
+  <mat-divider></mat-divider>
+</mat-card-title>
+<mat-card-content class="height-auto">
+  <form [formGroup]="itemForm">
+    <div fxLayout="row wrap" fxLayout.lt-sm="column">
+      <div fxFlex="33" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput name="LastName" [formControl]="itemForm.controls['lastName']" placeholder="Apellido Paterno"
+            readonly>
+        </mat-form-field>
+      </div>
+      <div fxFlex="33" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput name="MotherLastName" [formControl]="itemForm.controls['motherLastName']"
+            placeholder="Apellido Materno" readonly>
+        </mat-form-field>
+      </div>
+      <div fxFlex="34" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput name="Names" [formControl]="itemForm.controls['names']" placeholder="Nombres" readonly>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="33" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput maxlength="10" name="DateEssuie" [formControl]="itemForm.controls['dateAdmission']"
+            placeholder="Fecha de Ingreso" readonly>
+        </mat-form-field>
+      </div>
+      <div fxFlex="33" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput name="Charge" [formControl]="itemForm.controls['charge']" placeholder="Cargo" readonly>
+        </mat-form-field>
+      </div>
+      <div fxFlex="34" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput name="Area" [formControl]="itemForm.controls['area']" placeholder="Area" readonly>
+        </mat-form-field>
+      </div>
+      <mat-divider></mat-divider>
+
+      <div fxFlex="100" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput name="Suport" [formControl]="itemForm.controls['typePermitName']"
+            placeholder="Tipo de Permiso" readonly>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="100" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput maxlength="250" name="Suport" [formControl]="itemForm.controls['support']"
+            placeholder="Sustento de Permiso" readonly>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="33" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput [matDatepicker]="pickerPermitDate" maxlength="10" name="StartVacation"
+            [formControl]="itemForm.controls['permitDate']" placeholder="Fecha del Permiso" readonly>
+
+          <mat-datepicker-toggle matSuffix [for]="pickerPermitDate"></mat-datepicker-toggle>
+          <mat-datepicker #pickerPermitDate></mat-datepicker>
+
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="33" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput maxlength="10" name="startTime" [formControl]="itemForm.controls['startTime']"
+            placeholder="Hora de Inicio" readonly>
+        </mat-form-field>
+      </div>
+
+      <div fxFlex="34" class="pr-16">
+        <mat-form-field class="full-width">
+          <input matInput maxlength="10" name="endTime" [formControl]="itemForm.controls['endTime']"
+            placeholder="Hora de Fin" readonly>
+        </mat-form-field>
+      </div>
+
+      <mat-divider></mat-divider>
+
+      <div class="adjunto">
+        <mat-label class="size-large" style="font-weight: bold;align-self: center;">Descargar documentos:</mat-label>
+        <div class="button_download">
+          <p>{{ nameFile }}</p>
+          <button style="margin-left: 5px;" mat-mini-fab (click)="ViewAdjunto()" class="upload-btn">
+            <mat-icon style="color: white;">get_app</mat-icon>
+          </button>
+        </div>
+      </div>
+
+      <app-staff-request-approver style="width: 95%;"></app-staff-request-approver>
+
+      <div fxFlex="80" class="mt-16" *ngIf="hasAccessToApprover">
+        <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+          class="dark-blue-400 dark-blue-400-fg mr-4" type="button" (click)="approveRequest()">
+          Aprobar</button>
+        <button *ngIf="!readOnlyView && !isAceeptOrRejected" mat-raised-button
+          class="dark-blue-400 dark-blue-400-fg mr-4" type="button" (click)="rejectRequest()">
+          Rechazar</button>
+        <span fxFlex></span>
+      </div>
+      <div fxFlex="20" class="mt-16">
+        <button mat-button class="dark-blue-100 dark-blue-100-fg ml-4" type="button"
+          (click)="dialogRef.close(false)">Cancel</button>
+      </div>
+    </div>
+  </form>
+</mat-card-content>-->
